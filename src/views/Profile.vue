@@ -1,0 +1,22 @@
+<template>
+  <div>
+    <h1>{{ message }}</h1>
+    <p>THIS IS THE PROFILE RESULT VIEW</p>
+  </div>
+</template>
+
+<script lang="ts">
+
+export default ({
+  name: 'Profile',
+  data() {
+    return {
+      message: 'PROFILE RESULT',
+    }
+  },
+})
+</script>
+
+<style>
+/* Add your CSS styling here */
+</style>

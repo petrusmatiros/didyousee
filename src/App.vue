@@ -1,30 +1,91 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <nav id="nav">
+    <router-link to="/" class="nav-link">Home</router-link>
+    <router-link to="/result" class="nav-link">Result</router-link>
+    <router-link to="/profile" class="nav-link" id="profile">Profile</router-link>
+  </nav>
+  <router-view/>
+  <footer id="footer">
+  <h3>© 2023 didyousee</h3>
+  </footer>
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'App',
+  data() {
+    return {
+      // message: 'Hello world!',
+    }
+  },
+})
+</script>
+
+<style>
+
+#nav {
+  position: sticky;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  background-color: #222;
+  color: white;
+  padding: 10px;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+#profile {
+  margin-left: auto;
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+#footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #222;
+  color: white;
+  padding: 10px;
+  margin-top:20px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: white;
+  margin-right: 20px;
+  font-weight: bold;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background-color: #222;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
 }
 </style>

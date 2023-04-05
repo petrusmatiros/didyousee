@@ -7,4 +7,7 @@ export default defineConfig({
   optimizeDeps: {
     include: ['auth-js'],
   },
+  
 })
+
+
