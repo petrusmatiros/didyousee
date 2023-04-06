@@ -17,7 +17,3 @@ export default ({
   },
 })
 </script>
-
-<style>
-/* Add your CSS styling here */
-</style>

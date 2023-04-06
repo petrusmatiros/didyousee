@@ -1,15 +1,11 @@
 <template>
   <div class="homepage">
     <h1>did you see...?</h1>
-    <p>{{ quote }}</p>
+    <p>{{ trivia }}</p>
     <div class="search-bar">
+      <i class="material-symbols-outlined">search</i>
       <input type="text" placeholder="Search">
-      <button class="dropbtn">Filter</button>
-      <div class="dropdown-content">
-        <a href="#">Action</a>
-        <a href="#">Comedy</a>
-        <a href="#">Drama</a>
-      </div>
+      <i class="material-symbols-outlined">filter_alt</i>
     </div>
     <div class="movie-list">
       <movie-card v-for="(movie, index) in movies" :key="index" :movie="movie" />
@@ -28,7 +24,7 @@ export default defineComponent({
   },
   data() {
     return {
-      quote: "Did you know: In 2012, The Matrix was selected by the U.S. Library of Congress for preservation in the National Film Registry archives for being culturally historically or aesthetically significant",
+      trivia: "Did you know: In 2012, The Matrix was selected by the U.S. Library of Congress for preservation in the National Film Registry archives for being culturally historically or aesthetically significant",
       movies: [
         {
           title: "Avengers: Endgame",
