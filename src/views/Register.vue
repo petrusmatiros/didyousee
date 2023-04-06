@@ -1,8 +1,8 @@
 <template>
-  <div class="credentials-container">
+  <div class="credentials-container flex-col flex-center">
     <h1 class="credentials-title">Register</h1>
     <p class="credentials-subtitle">Your search for greatness awaits...</p>
-    <form class="credentials-form">
+    <form class="credentials-form flex-col flex-center-start">
       <label for="username">Username</label>
       <input type="text" id="username" name="credentials" required v-model="username" />
       <label for="mail">Mail</label>
@@ -11,7 +11,7 @@
       <input type="text" id="password" name="credentials" required v-model="password" />
       <label for="mail">Confirm password</label>
       <input type="text" id="confirm_password" name="credentials" required v-model="confirm_password" />
-      <div class="credentials-button-container">
+      <div class="credentials-button-container flex-col flex-center">
       <button class="credentials-submit-button" @click="handleCreateAccount">Create account</button>
       <p class="credentials-link"><router-link to="/login">Already have an account?</router-link>
       </p>

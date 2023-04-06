@@ -1,5 +1,5 @@
 <template>
-  <nav id="nav">
+  <nav class="flex-row flex-center" id="nav">
     <router-link to="/" class="nav-link" id="logo"><strong>didyousee</strong></router-link>
     <router-link to="/" class="nav-link">Home</router-link>
     <router-link to="/" class="nav-link">Watchlist</router-link>
@@ -9,7 +9,7 @@
     <router-link to="/profile" class="nav-link" id="profile">Profile</router-link>
   </nav>
   <router-view/>
-  <footer id="footer">
+  <footer class="flex-row flex-center" id="footer">
   <h3>© 2023 didyousee</h3>
   </footer>
 </template>

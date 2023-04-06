@@ -1,7 +1,7 @@
 <template>
     <div class="movie-card" @click="handleClickACB">
       <img :src="movie.poster" alt="Movie Poster" class="movie-poster">
-      <h2>{{ movie.title }}</h2>
+      <h2 class="flex-row">{{ movie.title }}</h2>
     </div>
   </template>
   

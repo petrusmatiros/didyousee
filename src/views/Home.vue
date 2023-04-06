@@ -1,15 +1,15 @@
 <template>
-  <div class="homepage">
-    <div class="intro-container">
+  <div class="homepage flex-col flex-center">
+    <div class="intro-container flex-col flex-center">
       <h1>did you see...?</h1>
       <p>{{ trivia }}</p>
     </div>
-    <div class="search-bar">
+    <div class="searchBar flex-row flex-center" :class="{ 'searchBar--focused': inputFocused }">
       <i class="material-symbols-outlined" @click="searchClickACB">search</i>
-      <input type="text" placeholder="Search" name="searchBar">
+      <input type="text" placeholder="Search for a movie" name="inputSearchBar" @focus="onInputFocus" @blur="onInputBlur">
       <i class="material-symbols-outlined" @click="filterClickACB">filter_alt</i>
     </div>
-    <div class="movie-list">
+    <div class="movie-list flex-row">
       <movie-card v-for="(movie, index) in movies" :key="index" :movie="movie" />
     </div>
   </div>
@@ -30,10 +30,25 @@ export default defineComponent({
     },
     filterClickACB() {
       console.log("Clicked filter!");
+    },
+    onInputFocus() {
+      this.inputFocused = true;
+      const searchBar = document.querySelector('.searchBar');
+      if (searchBar) {
+        searchBar.classList.add('searchBar--focused');
+      }
+    },
+    onInputBlur() {
+      this.inputFocused = false; // set the inputFocused flag to false
+      const searchBar = document.querySelector('.searchBar');
+      if (searchBar) {
+        searchBar.classList.remove('searchBar--focused');
+      }
     }
   },
   data() {
     return {
+      inputFocused: false,
       trivia: "Did you know: In 2012, The Matrix was selected by the U.S. Library of Congress for preservation in the National Film Registry archives for being culturally historically or aesthetically significant",
       movies: [
         {

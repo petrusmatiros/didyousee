@@ -1,22 +1,22 @@
 <template>
-  <div class="result">
-    <div class="main-info">
-      <div class="content">
+  <div class="result flex-col">
+    <div class="main-info flex-col">
+      <div class="content flex-row">
         <img alt="poster"
           src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQA_-tL18_rj9zEcjN6n41NEaJm-kRNF9UeOtvksZ4z_OW6jRA9">
-        <div class="content-info">
+        <div class="content-info flex-col flex-start">
           <h1>{{ title }}</h1>
           <p>{{ overview }}</p>
         </div>
       </div>
-      <div class="list-buttons">
+      <div class="list-buttons flex-row flex-center">
         <button><i class="material-symbols-outlined">favorite</i></button>
         <button><i class="material-symbols-outlined">bookmark</i></button>
         <button><i class="material-symbols-outlined">task_alt</i></button>
         <button><i class="material-symbols-outlined">block</i></button>
       </div>
     </div>
-    <div class="detailed-info">
+    <div class="detailed-info flex-col">
       <div v-for="(value, key) in display" :key="key">
         <h1 v-if="value">{{ key }}:</h1> <p v-if="value">{{ value }}</p>
       </div>

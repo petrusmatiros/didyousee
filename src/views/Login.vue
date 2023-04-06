@@ -1,13 +1,13 @@
 <template>
-  <div class="credentials-container">
+  <div class="credentials-container flex-col flex-center">
     <h1 class="credentials-title">Login</h1>
     <p class="credentials-subtitle">Welcome back!</p>
-    <form class="credentials-form">
+    <form class="credentials-form flex-col flex-center-start">
       <label for="username">Username</label>
       <input type="text" id="username" name="credentials" required v-model="username" />
       <label for="password">Password</label>
       <input type="password" id="password" name="credentials" required v-model="password" />
-      <div class="credentials-button-container">
+      <div class="credentials-button-container flex-col flex-center">
         <button class="credentials-submit-button" @click="handleLogin">Login</button>
         <p class="credentials-link"><router-link to="/register">Register a new account?</router-link>
         </p>

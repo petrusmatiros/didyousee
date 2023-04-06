@@ -1,39 +1,175 @@
+:root {
+  /* For cards etc */
+  --main: hsl(0, 0%, 14%);
+  --main-hover: hsl(0, 0%, 12%);
+  --main-active: hsl(0, 0%, 10%);
+  /* BG, FG and nav + footer */
+  --bg: hsl(0, 0%, 24%);
+  --bg-light: hsl(0, 0%, 28%);
+  --bg-lighter: hsl(0, 0%, 33%);
+  --fg: hsl(0, 0%, 100%);
+  --black: hsl(0, 0%, 0%);
+  /* Accent colors */
+  --accent: hsl(216, 100%, 74%);
+  --accent-hover: hsl(216, 100%, 70%);
+  --accent-active: hsl(216, 100%, 65%);
+  --accent-logo: hsl(216, 100%, 82%);
+  --accent-logo-shadow: hsla(216, 100%, 82%, 0.5);
+  /* Shadows */
+  --shadow: hsla(0, 0%, 0%, 0.3);
+  --box-shadow: 0 0.125rem 0.5rem var(--shadow);
+  /* Border radius */
+  --border-radius: 0.25rem;
+  /* Font sizes */
+  --font-small: 0.75rem;
+  --font-small-2: 0.8rem;
+  --font-small-3: 0.9rem;
+  --font-medium: 1rem;
+  --font-large: 1.25rem;
+  --font-large-2: 1.5rem;
+  --font-large-3: 2rem;
+  --font-huge: 3rem;
+  /* Font weights */
+  --font-weight-thin: 100;
+  --font-weight-thin-2: 200;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-medium-2: 600;
+  --font-weight-bold: 700;
+  --font-weight-bold-2: 800;
+  --font-weight-black: 900;
+  /* Padding */
+  --padding-small: 0.25rem;
+  --padding-medium: 0.5rem;
+  --padding-medium-2: 0.75rem;
+  --padding-large: 1rem;
+  --padding-large-2: 1.25rem;
+  --padding-large-3: 1.5rem;
+  --padding-huge: 2rem;
+  /* Margin */
+  --margin-small: 0.25rem;
+  --margin-medium: 0.5rem;
+  --margin-medium-2: 0.75rem;
+  --margin-large: 1rem;
+  --margin-large-2: 1.25rem;
+  --margin-large-3: 1.5rem;
+  --margin-large-2: 2rem;
+  /* Input */
+  --input: hsl(0, 0%, 10%);
+  --input-text: hsl(0, 0%, 18%);
+  --input-focus: hsl(0, 0%, 16%);
+}
+
 body {
   min-height: 100% !important;
   height: 100% !important;
   margin: 0;
   box-sizing: border-box;
   font-family: "Inter", sans-serif;
-  color: hsl(0, 0%, 100%);
-  background-color: hsl(0, 0%, 24%);
+  color: var(--fg);
+  background-color: var(--bg);
 }
 
+/* ============= Modular classes ============  */
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+.flex-start {
+  justify-content: start;
+  align-items: start;
+}
+.flex-center-start {
+  justify-content: center;
+  align-items: start;
+}
+/* ============= Modular classes ============  */
+
 a {
-  color: hsl(216, 100%, 74%);
-  transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  color: var(--accent);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 a:hover {
-  color: hsl(216, 100%, 70%);
+  color: var(--accent-hover);
 }
+
 a:active {
-  color: hsl(216, 100%, 65%);
+  color: var(--accent-active);
 }
 
-#app {
-  min-height: 100% !important;
-  height: 100% !important;
+/*  ================== Nav ================== */
+#nav {
+  position: sticky;
+  background-color: var(--bg-light);
+  color: var(--fg);
+  padding: var(--padding-large);
 }
-
 #logo {
-  font-weight: bold;
-  font-size: 1.3rem;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-large-2);
+}
+.nav-link {
+  text-decoration: none;
+  color: var(--fg);
+  margin-right: var(--margin-large-2);
+  font-weight: var(--font-weight-bold);
+}
+#profile {
+  margin: 0 0 0 auto;
+}
+/*  ================== Nav END ================== */
+
+/*  ================== Footer END ================== */
+#footer {
+  background-color: var(--bg-light);
+  color: var(--fg);
+  padding: var(--padding-large);
+  margin-top: var(--margin-large-2);
+}
+/*  ================== Footer END ================== */
+
+/*  ================== Home page ================== */
+.homepage {
+  margin-top: var(--margin-large-2);
+  gap: 1rem;
+}
+
+.intro-container {
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+.intro-container h1 {
+  font-size: var(--font-huge);
+  font-weight: var(--font-weight-black);
+  margin: 0;
+  padding: var(--padding-large);
+  color: var(--accent-logo);
+  text-shadow: 0 0 0.75rem var(--accent-logo-shadow),
+    0 0 0.75rem var(--accent-logo-shadow), 0 0 0.75rem var(--accent-logo-shadow),
+    0 0 0.75rem var(--accent-logo-shadow); /* Glowing effect */
+}
+
+.intro-container p {
+  margin: 0;
+  padding: var(--padding-large);
+  word-wrap: break-word;
 }
 
 .movie-list {
-  display: flex;
   justify-content: center;
-  flex-direction: row;
   flex-wrap: wrap;
   gap: 1rem;
 }
@@ -41,180 +177,113 @@ a:active {
 .movie-card {
   cursor: pointer;
   user-select: none;
-  width: 170px;
-  border-radius: 0.25rem;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
-  background-color: hsl(0, 0%, 14%);
-  padding: 1rem;
-  transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  width: 11rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  background-color: var(--main);
+  padding: var(--padding-large);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .movie-card:hover {
-  background-color: hsl(0, 0%, 12%);
+  background-color: var(--main-hover);
   transform: scale(1.05);
 }
 
 .movie-card:active {
-  background-color: hsl(0, 0%, 10%);
+  background-color: var(--main-active);
   transform: scale(0.99);
 }
 
 .movie-card h2 {
   user-select: text;
-  display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1rem;
-  font-weight: 900;
+  font-size: var(--font-medium);
+  font-weight: var(--font-weight-black);
   text-align: center;
   margin: 0;
-  padding: 1rem 0 1rem 0;
-  color: hsl(0, 0%, 100%);
+  padding: var(--padding-large) 0 var(--padding-large) 0;
+  color: var(--fg);
   vertical-align: middle;
 }
 
 .movie-poster {
   width: 100%;
-  border-radius: 0.25rem;
+  border-radius: var(--border-radius);
 }
+/*  ================== Home page END ================== */
 
-.homepage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
-  gap:1rem;
-}
-.intro-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+/*  ================== SearchBar END ================== */
+.searchBar {
+  width: 25rem;
+  padding: var(--padding-medium);
+  margin-bottom: var(--margin-large-2);
+  border-radius: var(--border-radius);
+  background-color: var(--input);
+  box-shadow: var(--box-shadow);
   gap: 0.5rem;
-}
-.intro-container h1 {
-  font-size: 3rem;
-  font-weight: 900;
-  margin:0;
-  padding:1rem;
-  color: hsl(216,100%,82%);
-  text-shadow: 0 0 12px hsla(216,100%,82%,50%), 0 0 12px hsla(216,100%,82%,50%), 0 0 12px hsla(216,100%,82%,50%),
-    0 0 12px hsla(216,100%,82%,50%); /* Glowing effect */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.intro-container p {
-  margin:0;
-  padding:1rem;
-  word-wrap: break-word;
-}
-
-
-
-.search-bar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 45rem;
-  padding: 0.5rem;
-  margin-bottom: 2rem;
-  border-radius: 0.25rem;
-  background-color: hsl(0, 0%, 100%);
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
-  gap: 0.5rem;
+.searchBar--focused {
+  width: 50rem;
 }
 
 .material-symbols-outlined {
   user-select: none;
-  cursor:pointer;
-  padding: 0.25rem;
-  color: #000000;
+  cursor: pointer;
+  padding: var(--padding-small);
+  color: var(--fg);
   font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 48;
 }
 
-input[name="searchBar"] {
+input[name="inputSearchBar"] {
+  caret-color: var(--fg);
   width: 100%;
-  padding: 0.75rem;
+  padding: var(--padding-medium-2);
   border: none;
-  border-radius: 0.25rem;
-  font-size: 16px;
+  border-radius: var(--border-radius);
+  font-size: var(--font-medium);
   margin: 0;
+  background-color: var(--input-text);
+  color: var(--fg);
 }
-input[name="searchBar"]:focus {
+input[name="inputSearchBar"]:focus {
   outline: none;
-  background-color: hsl(0, 0%, 95%);
+  background-color: var(--input-focus);
 }
+/*  ================== SearchBar END ================== */
 
-#nav {
-  position: sticky;
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  background-color: #474747;
-  color: white;
-  padding: 10px;
-}
-
-#profile {
-  margin: 0 0 0 auto;
-}
-
-#footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #474747;
-  color: white;
-  padding: 10px;
-  margin-top: 20px;
-}
-
-.nav-link {
-  text-decoration: none;
-  color: white;
-  margin-right: 20px;
-  font-weight: bold;
-}
-
-/*  ========= Result ========= */
+/*  ================== Result ================== */
 .result {
-  display: flex;
-  flex-direction: column;
   gap: 1rem;
-  margin: 1rem;
+  margin: var(--margin-large);
 }
 
 .main-info {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
+  padding: var(--padding-large);
   gap: 1rem;
-  background-color: hsl(0, 0%, 14%);
-  border-radius: 0.25rem;
+  background-color: var(--main);
+  border-radius: var(--border-radius);
 }
 
 .content {
-  display: flex;
-  flex-direction: row;
-  border-radius: 0.25rem;
-  background-color: hsl(0, 0%, 14%);
-  border-radius: 0.25rem;
+  border-radius: var(--border-radius);
+  background-color: var(--main);
+  border-radius: var(--border-radius);
   gap: 1rem;
 }
 .content img {
   user-select: none;
-  width: 170px;
-  border-radius: 0.25rem;
+  width: 11rem;
+  border-radius: var(--border-radius);
 }
 
 .content-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: start;
-  background-color: hsl(0, 0%, 33%);
-  border-radius: 0.25rem;
-  padding: 1rem;
+  background-color: var(--bg-lighter);
+  border-radius: var(--border-radius);
+  padding: var(--padding-large);
   width: 100%;
   gap: 1rem;
 }
@@ -228,108 +297,90 @@ input[name="searchBar"]:focus {
 }
 
 .list-buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
   gap: 1rem;
 }
 
 .list-buttons button {
   cursor: pointer;
   user-select: none;
-  padding: 1rem;
-  border-radius: 0.25rem;
-  font-size: 1rem;
-  font-weight: 500;
+  padding: var(--padding-large);
+  border-radius: var(--border-radius);
+  font-size: var(--font-medium);
+  font-weight: var(--font-weight-medium);
   width: 100%;
   border: none;
-  background-color: hsl(0, 0%, 33%);
+  background-color: var(--bg-lighter);
 }
 
 .list-buttons button i {
   user-select: none;
-  color: hsl(0, 0%, 100%);
+  color: var(--fg);
 }
 
 .detailed-info {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
+  padding: var(--padding-large);
   gap: 1rem;
-  background-color: hsl(0, 0%, 33%);
-  border-radius: 0.25rem;
-  height: 500px;
+  background-color: var(--bg-lighter);
+  border-radius: var(--border-radius);
+  height: 32rem;
 }
 
 .detailed-info h1 {
-  font-size: 1rem;
+  font-size: var(--font-medium);
   margin: 0;
 }
 
 .detailed-info p {
-  font-size: 0.8rem;
+  font-size: var(--font-small-2);
   margin: 0;
 }
+/*  ================== Result ================== */
 
-/* credentials page ----------------------------------- start */
+/*  ================== Credentials ================== */
 .credentials-container {
-  background-color: hsl(0, 0%, 24%);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .credentials-button-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   width: 100%;
 }
 
 .credentials-title {
-  color: #fff;
-  font-size: 36px;
-  margin-bottom: 0px;
+  color: var(--fg);
+  font-size: var(--font-large-3);
+  margin-bottom: 0;
 }
 
 .credentials-subtitle {
-  color: #fff;
-  font-size: 18px;
-  margin-bottom: 30px;
+  color: var(--fg);
+  font-size: var(--font-medium);
+  margin-bottom: var(--margin-large-2);
 }
 
 .credentials-form {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  justify-content: center;
 }
 
 label {
-  color: #fff;
-  margin-bottom: 5px;
+  color: var(--fg);
+  margin-bottom: var(--margin-medium);
 }
 
 input[name="credentials"] {
-  margin-bottom: 15px;
-  padding: 10px;
-  width: 250px;
-  border-radius: 0.25rem;
+  margin-bottom: var(--margin-large);
+  padding: var(--padding-large);
+  width: 16rem;
+  border-radius: var(--border-radius);
   outline: none;
 }
 
 .credentials-submit-button {
-  background-color: #fff;
-  color: #000;
-  padding: 10px 20px;
+  background-color: var(--fg);
+  color: var(--black);
+  padding: var(--padding-large) var(--padding-large-2);
   cursor: pointer;
-  margin-bottom: 15px;
+  margin-bottom: var(--margin-large);
 }
 
 .credentials-link {
-  color: #fff;
+  color: var(--fg);
 }
-/* credentials page ----------------------------------- end */
+/*  ================== Credentials END ================== */
