@@ -45,7 +45,7 @@ We plan to implement the following:
 - Recommend movies/series
 ## Files 
 ### File structure
-```
+```css
 .
 ├── README.md
 ├── index.html
