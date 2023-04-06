@@ -6,6 +6,7 @@
 </template>
 
 <script lang="ts">
+import './../style.css'
 
 export default ({
   name: 'Profile',
