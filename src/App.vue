@@ -5,7 +5,7 @@
     <router-link to="/" class="nav-link">Watchlist</router-link>
     <router-link to="/" class="nav-link">Seen</router-link>
     <router-link to="/" class="nav-link">Liked</router-link>
-    <router-link to="/" class="nav-link">Blacklist</router-link>
+    <router-link to="/" class="nav-link">Disliked</router-link>
     <router-link to="/profile" class="nav-link" id="profile">Profile</router-link>
   </nav>
   <router-view/>
