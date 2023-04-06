@@ -1,7 +1,7 @@
 <template>
-    <div class="movie-card" @click="handleClick">
+    <div class="movie-card" @click="handleClickACB">
       <img :src="movie.poster" alt="Movie Poster" class="movie-poster">
-      <h2 class="content-title">{{ movie.title }}</h2>
+      <h2>{{ movie.title }}</h2>
     </div>
   </template>
   
@@ -17,9 +17,11 @@
       }
     },
     methods: {
-    handleClick() {
+    handleClickACB() {
       // Handle click event for the movie card
       console.log("Clicked movie:", this.movie);
+      // Navigate to the result page with movie information as a parameter
+      this.$router.push({ name: 'Result', query: { id: JSON.stringify(this.movie.title) } });
     }
   }
   });

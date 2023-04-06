@@ -1,11 +1,13 @@
 <template>
   <div class="homepage">
-    <h1>did you see...?</h1>
-    <p>{{ trivia }}</p>
+    <div class="intro-container">
+      <h1>did you see...?</h1>
+      <p>{{ trivia }}</p>
+    </div>
     <div class="search-bar">
-      <i class="material-symbols-outlined">search</i>
-      <input type="text" placeholder="Search">
-      <i class="material-symbols-outlined">filter_alt</i>
+      <i class="material-symbols-outlined" @click="searchClickACB">search</i>
+      <input type="text" placeholder="Search" name="searchBar">
+      <i class="material-symbols-outlined" @click="filterClickACB">filter_alt</i>
     </div>
     <div class="movie-list">
       <movie-card v-for="(movie, index) in movies" :key="index" :movie="movie" />
@@ -21,6 +23,14 @@ import MovieCard from '../components/MovieCard.vue'
 export default defineComponent({
   components: {
     MovieCard
+  },
+  methods: {
+    searchClickACB() {
+      console.log("Clicked search!");
+    },
+    filterClickACB() {
+      console.log("Clicked filter!");
+    }
   },
   data() {
     return {
@@ -57,7 +67,39 @@ export default defineComponent({
         {
           title: "Joker",
           poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuTcvL4wc0fbBjm1h5CRiFEZ2TnNKtu8KtoPSxTsj6mkedHeWl"
-        }
+        },
+        {
+          title: "Joker",
+          poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuTcvL4wc0fbBjm1h5CRiFEZ2TnNKtu8KtoPSxTsj6mkedHeWl"
+        },
+        {
+          title: "Joker",
+          poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuTcvL4wc0fbBjm1h5CRiFEZ2TnNKtu8KtoPSxTsj6mkedHeWl"
+        },
+        {
+          title: "Joker",
+          poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuTcvL4wc0fbBjm1h5CRiFEZ2TnNKtu8KtoPSxTsj6mkedHeWl"
+        },
+        {
+          title: "Joker",
+          poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuTcvL4wc0fbBjm1h5CRiFEZ2TnNKtu8KtoPSxTsj6mkedHeWl"
+        },
+        {
+          title: "Joker",
+          poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuTcvL4wc0fbBjm1h5CRiFEZ2TnNKtu8KtoPSxTsj6mkedHeWl"
+        },
+        {
+          title: "Joker",
+          poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuTcvL4wc0fbBjm1h5CRiFEZ2TnNKtu8KtoPSxTsj6mkedHeWl"
+        },
+        {
+          title: "Joker",
+          poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuTcvL4wc0fbBjm1h5CRiFEZ2TnNKtu8KtoPSxTsj6mkedHeWl"
+        },
+        {
+          title: "Joker",
+          poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuTcvL4wc0fbBjm1h5CRiFEZ2TnNKtu8KtoPSxTsj6mkedHeWl"
+        },
       ]
     };
   }

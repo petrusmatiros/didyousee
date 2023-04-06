@@ -1,7 +1,11 @@
 <template>
   <nav id="nav">
+    <router-link to="/" class="nav-link" id="logo"><strong>didyousee</strong></router-link>
     <router-link to="/" class="nav-link">Home</router-link>
-    <router-link to="/result" class="nav-link">Result</router-link>
+    <router-link to="/" class="nav-link">Watchlist</router-link>
+    <router-link to="/" class="nav-link">Seen</router-link>
+    <router-link to="/" class="nav-link">Liked</router-link>
+    <router-link to="/" class="nav-link">Blacklist</router-link>
     <router-link to="/profile" class="nav-link" id="profile">Profile</router-link>
   </nav>
   <router-view/>

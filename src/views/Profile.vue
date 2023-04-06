@@ -6,10 +6,20 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from 'vue'
 import './../style.css'
 
-export default ({
+export default defineComponent({
   name: 'Profile',
+  mounted() {
+    // TODO: Ändra till token! Auth!
+    const isValidCookie = 0;
+
+    if (!isValidCookie) {
+      // Omdirigera till inloggningssidan
+      this.$router.push('/login');
+    }
+  },
   data() {
     return {
       message: 'PROFILE RESULT',
