@@ -1,4 +1,4 @@
-# didyousee
+# didyousee <img src="src/assets/didyousee.svg" alt="didyousee logo. an owl holding a binocular, looking for the next movie/series" width=32 style="vertical-align:middle">
 
 ## Table of Contents
   - [Website URL](#website-url)

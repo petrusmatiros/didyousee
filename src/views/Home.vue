@@ -1,6 +1,7 @@
 <template>
   <div class="homepage flex-col flex-center">
     <div class="intro-container flex-col flex-center">
+      <img src="../assets/didyousee.svg" alt="didyousee logo. an owl holding a binocular, looking for the next movie/series" decoding="sync" fetchpriority="high"/>
       <h1>did you see...?</h1>
       <p>{{ trivia }}</p>
     </div>
