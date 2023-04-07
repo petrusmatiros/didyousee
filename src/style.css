@@ -57,8 +57,8 @@
   --margin-large-2: 2rem;
   /* Input */
   --input: hsl(0, 0%, 10%);
-  --input-text: hsl(0, 0%, 18%);
-  --input-focus: hsl(0, 0%, 16%);
+  --input-text: hsl(0, 0%, 8%);
+  --input-focus: hsl(0, 0%, 6%);
 }
 
 body {
@@ -383,22 +383,28 @@ label {
 }
 
 input[name="credentials"] {
+  caret-color: var(--fg);
+  color: var(--fg);
   margin-bottom: var(--margin-large);
   padding: var(--padding-large);
   width: 16rem;
   border-radius: var(--border-radius);
   outline: none;
+  border: none;
+  background-color: var(--input);
+}
+input[name="credentials"]:hover {
+  background-color: var(--input-text);
 }
 
 .credentials-submit-button {
-  background-color: var(--fg);
-  color: var(--black);
+  background-color: var(--main);
+  outline: none;
+  border: none;
+  color: var(--fg);
   padding: var(--padding-large) var(--padding-large-2);
   cursor: pointer;
   margin-bottom: var(--margin-large);
-}
-
-.credentials-link {
-  color: var(--fg);
+  border-radius: var(--border-radius);
 }
 /*  ================== Credentials END ================== */
