@@ -22,7 +22,7 @@
   --border-radius: 0.25rem;
   /* Font sizes */
   --font-small: 0.75rem;
-  --font-small-2: 0.8rem;
+  --font-small-2: 0.875rem;
   --font-small-3: 0.9rem;
   --font-medium: 1rem;
   --font-large: 1.25rem;
@@ -62,16 +62,25 @@
 }
 
 body {
+  text-rendering: optimizeLegibility;
+  text-size-adjust: 100%;
+  font-family: "Inter", sans-serif;
+  -webkit-text-size-adjust: 100%;
+  color-scheme: dark;
   /* Remove blue highlight on mobile devices */
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
-  min-height: 100% !important;
-  height: 100% !important;
+  min-height: 100vh !important;
+  height: 100vh !important;
   margin: 0;
   box-sizing: border-box;
-  font-family: "Inter", sans-serif;
   color: var(--fg);
   background-color: var(--bg);
+}
+
+#app {
+  min-height: 100vh !important;
+  height: 100vh !important;
 }
 
 /* ============= Modular classes ============  */
@@ -126,8 +135,7 @@ a:active {
 #logo {
   font-weight: var(--font-weight-bold);
   font-size: var(--font-large-2);
-  width: 2rem;
-  display: flex;
+  width: 3rem;
 }
 .nav-link {
   text-decoration: none;
@@ -147,10 +155,20 @@ a:active {
   color: var(--fg);
   padding: var(--padding-large);
   margin-top: var(--margin-large-2);
-  align-items: end !important;
+}
+
+.footer-top {
+}
+
+.footer-bottom {
 }
 #footer div {
+  width: 100%;
   gap: 1rem;
+}
+
+#logo-footer {
+  width: 3rem !important;
 }
 
 #footer p {
@@ -159,7 +177,7 @@ a:active {
 }
 
 #footer img {
-  width: 5rem;
+  width: 4rem;
 }
 /*  ================== Footer END ================== */
 
@@ -365,8 +383,8 @@ input[name="inputSearchBar"]:focus {
 .info-container {
   width: 100%;
   align-items: stretch !important;
-  min-height:fit-content;
-    /* Uncomment the row below for debugging */
+  min-height: fit-content;
+  /* Uncomment the row below for debugging */
   /* background-color: var(--bg); */
   gap: 1rem;
   border-radius: var(--border-radius);
@@ -400,6 +418,8 @@ input[name="inputSearchBar"]:focus {
 
 /*  ================== Credentials ================== */
 .credentials-container {
+  min-height: 100vh !important;
+  height: 100vh !important;
 }
 
 .credentials-button-container {
