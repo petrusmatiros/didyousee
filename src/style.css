@@ -294,7 +294,7 @@ input[name="inputSearchBar"]:focus {
 }
 .content img {
   user-select: none;
-  width: 11rem;
+  width: 17rem;
   border-radius: var(--border-radius);
 }
 
@@ -337,10 +337,10 @@ input[name="inputSearchBar"]:focus {
 
 .detailed-info {
   padding: var(--padding-large);
-  gap: 1rem;
   background-color: var(--bg-lighter);
   border-radius: var(--border-radius);
-  height: 32rem;
+  height: fit-content;
+  gap: 1rem;
 }
 
 .detailed-info h1 {
@@ -351,6 +351,41 @@ input[name="inputSearchBar"]:focus {
 .detailed-info p {
   font-size: var(--font-small-2);
   margin: 0;
+}
+
+.info-container {
+  width: 100%;
+  align-items: stretch !important;
+  min-height:fit-content;
+    /* Uncomment the row below for debugging */
+  /* background-color: var(--bg); */
+  gap: 1rem;
+  border-radius: var(--border-radius);
+}
+
+.info-card {
+  width: 100%;
+  background-color: var(--main);
+  padding: var(--padding-huge);
+  border-radius: var(--border-radius);
+  gap: 0.5rem;
+}
+
+.width-15 {
+  width: 15rem !important;
+}
+.width-25 {
+  width: 25rem !important;
+}
+.width-35 {
+  width: 35rem !important;
+}
+.width-45 {
+  width: 45rem !important;
+}
+
+.info-card p {
+  flex-grow: 1;
 }
 /*  ================== Result ================== */
 
