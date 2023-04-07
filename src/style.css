@@ -1,12 +1,12 @@
 :root {
   /* For cards etc */
-  --main: hsl(0, 0%, 14%);
-  --main-hover: hsl(0, 0%, 12%);
-  --main-active: hsl(0, 0%, 10%);
+  --main: hsl(230, 4%, 14%);
+  --main-hover: hsl(230, 4%, 12%);
+  --main-active: hsl(230, 4%, 10%);
   /* BG, FG and nav + footer */
-  --bg: hsl(0, 0%, 24%);
-  --bg-light: hsl(0, 0%, 28%);
-  --bg-lighter: hsl(0, 0%, 33%);
+  --bg: hsl(230, 4%, 24%);
+  --bg-light: hsl(230, 4%, 28%);
+  --bg-lighter: hsl(230, 4%, 33%);
   --fg: hsl(0, 0%, 100%);
   --black: hsl(0, 0%, 0%);
   /* Accent colors */
