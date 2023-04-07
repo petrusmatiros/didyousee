@@ -9,8 +9,12 @@
     <router-link to="/profile" class="nav-link" id="profile">Profile</router-link>
   </nav>
   <router-view/>
-  <footer class="flex-row flex-center" id="footer">
-  <h3>© 2023 didyousee</h3>
+  <footer class="flex-row flex-seperate" id="footer">
+  <p>Copyright © 2023 didyousee. All rights reserved</p>
+  <div class="flex-row">
+    <p>This product uses the TMDb API but is not endorsed or certified by TMDb.</p>
+    <img src="./assets/tmdb_alt_short_blue.svg">
+  </div>
   </footer>
 </template>
 

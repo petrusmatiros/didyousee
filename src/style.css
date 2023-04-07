@@ -94,6 +94,10 @@ body {
   justify-content: center;
   align-items: start;
 }
+.flex-seperate {
+  justify-content: space-between;
+  align-items: center;
+}
 /* ============= Modular classes ============  */
 
 a {
@@ -133,10 +137,24 @@ a:active {
 
 /*  ================== Footer END ================== */
 #footer {
+  height: 7rem;
   background-color: var(--bg-light);
   color: var(--fg);
   padding: var(--padding-large);
   margin-top: var(--margin-large-2);
+  align-items: end !important;
+}
+#footer div {
+  gap: 1rem;
+}
+
+#footer p {
+  margin: 0;
+  font-size: var(--font-small);
+}
+
+#footer img {
+  width: 5rem;
 }
 /*  ================== Footer END ================== */
 
