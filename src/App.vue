@@ -1,21 +1,25 @@
 <template>
   <nav class="flex-row flex-center" id="nav">
-    <router-link to="/" class="nav-link flex-row" id="logo"><img src="./assets/didyousee.svg" alt="didyousee logo. an owl holding a binocular, looking for the next movie/series" decoding="sync" fetchpriority="high"/></router-link>
-    <router-link to="/" class="nav-link">Watchlist</router-link>
-    <router-link to="/" class="nav-link">Seen</router-link>
-    <router-link to="/" class="nav-link">Liked</router-link>
-    <router-link to="/" class="nav-link">Disliked</router-link>
-    <router-link to="/profile" class="nav-link" id="profile">Profile</router-link>
+    <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="./assets/didyousee.svg" alt="didyousee logo. an owl holding a binocular, looking for the next movie/series" decoding="sync" fetchpriority="high"/></RouterLink>
+    <RouterLink to="/" class="nav-link">Watchlist</RouterLink>
+    <RouterLink to="/" class="nav-link">Seen</RouterLink>
+    <RouterLink to="/" class="nav-link">Liked</RouterLink>
+    <RouterLink to="/" class="nav-link">Disliked</RouterLink>
+    <RouterLink to="/profile" class="nav-link" id="profile">Profile</RouterLink>
   </nav>
-  <router-view/>
+  <RouterView class="router-view" v-slot="{ Component }">
+    <Transition name="page-opacity" mode="out-in">
+      <component :is="Component"/>
+    </Transition>
+  </RouterView>
   <footer class="flex-col flex-seperate" id="footer">
     <div class="footer-top flex-row flex-center">
-      <router-link to="/" class="nav-link flex-row" id="logo"><img src="./assets/didyousee.svg" alt="didyousee logo. an owl holding a binocular, looking for the next movie/series" decoding="sync" fetchpriority="high"/></router-link>
-      <router-link to="/" class="nav-link">Watchlist</router-link>
-      <router-link to="/" class="nav-link">Seen</router-link>
-      <router-link to="/" class="nav-link">Liked</router-link>
-      <router-link to="/" class="nav-link">Disliked</router-link>
-      <router-link to="/profile" class="nav-link"> Profile</router-link>
+      <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="./assets/didyousee.svg" alt="didyousee logo. an owl holding a binocular, looking for the next movie/series" decoding="sync" fetchpriority="high"/></RouterLink>
+      <RouterLink to="/" class="nav-link">Watchlist</RouterLink>
+      <RouterLink to="/" class="nav-link">Seen</RouterLink>
+      <RouterLink to="/" class="nav-link">Liked</RouterLink>
+      <RouterLink to="/" class="nav-link">Disliked</RouterLink>
+      <RouterLink to="/profile" class="nav-link"> Profile</RouterLink>
     </div>
     <div class="footer-bottom flex-row flex-center">
 
@@ -32,6 +36,7 @@
 
 <script lang="ts">
 import './style.css'
+import { RouterView, RouterLink } from 'vue-router';
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -43,3 +48,15 @@ export default defineComponent({
   },
 })
 </script>
+
+<style>
+.page-opacity-enter-active,
+.page-opacity-leave-active {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.page-opacity-enter-from,
+.page-opacity-leave-to {
+  opacity: 0;
+}
+</style>

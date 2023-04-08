@@ -131,6 +131,7 @@ a:active {
   background-color: var(--bg-light);
   color: var(--fg);
   padding: var(--padding-large);
+  min-height: 2.5rem;
 }
 #logo {
   font-weight: var(--font-weight-bold);
