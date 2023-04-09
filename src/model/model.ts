@@ -1,0 +1,1 @@
+import tmdbApi from "./apiConfig";
