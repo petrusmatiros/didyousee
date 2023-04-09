@@ -20,6 +20,7 @@
 import { defineComponent } from 'vue'
 import './../style.css'
 import MovieCard from '../components/MovieCard.vue'
+import model from "../model/model"
 
 export default defineComponent({
   components: {
@@ -28,9 +29,11 @@ export default defineComponent({
   methods: {
     searchClickACB() {
       console.log("Clicked search!");
+      console.log(model);
     },
     filterClickACB() {
       console.log("Clicked filter!");
+      console.log(model.searchMovie(new URLSearchParams({"query": "Matrix"})));
     },
     onInputFocus() {
       this.inputFocused = true;
