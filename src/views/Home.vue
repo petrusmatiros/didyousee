@@ -33,6 +33,7 @@ export default defineComponent({
     },
     filterClickACB() {
       console.log("Clicked filter!");
+      console.log(model.searchMovie(new URLSearchParams({"query": "Matrix"})));
     },
     onInputFocus() {
       this.inputFocused = true;
