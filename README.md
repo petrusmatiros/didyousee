@@ -39,7 +39,7 @@ Currently, we've implemented the following:
 - Firebase hosting and deployment
 ## Planning (what we still plan to do)
 We plan to implement the following:
-- User authentication via Auth.js/Auth0
+- User authentication via Auth.js/Auth0/Firebase
 - Implement MVC architecture and use observers
 - Search functionality, with filters
 - More intuitive layout
