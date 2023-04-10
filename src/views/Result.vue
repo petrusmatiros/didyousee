@@ -29,7 +29,7 @@
                   :key="index"
                   :language="language"
                 >
-                  {{ language.name }}
+                  {{ language.english_name }}
                 </button>
               </div>
             </div>
@@ -105,7 +105,7 @@
   <!-- <div class="similar-list-container flex-center flex-col">
     <p>Similar Movies</p>
     <div class="similar-list flex-row flex-center">
-      <movie-card @click=""
+      <movie-card
         v-for="(movie, index) in movies"
         :key="index"
         :movie="movie"
@@ -159,7 +159,7 @@ export default defineComponent({
       const movie: any | undefined = await getSimilarMedia(id);
       if (movie) {
         console.log("dataSimilarMediaMounted", movie);
-        this.movies = movie;
+        this.movies = movie.data.results.splice(0, 8);
       }
     },
     //TODO!
