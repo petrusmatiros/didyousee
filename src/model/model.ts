@@ -24,19 +24,47 @@ function wrap(query : string, params : URLSearchParams) {
 - Director, writer (tror det tas från credits)
 - Budget, revenue
  */
+interface movie {
+    id: number
+    title: string
+    overview: string
+    rating: number
+    popularity: number
+    orig_lang: any
+    img: Promise<any>
+    // genres: any
+    // cast: any
+    // reviews: any
+    // budget: number
+    // revenue: number
+}
+
+function movieFromQuery(input : any) {
+    return {
+        id: input.id,
+        title: input.title,
+        overview: input.overview,
+        rating: input.vote_average,
+        popularity: input.popularity,
+        orig_lang: input.original_language,
+        img_path: image(input.poster_path),
+        // genre_ids: input.genre_ids,
+
+    }
+}
+
 interface model {
-    movies: any
+    movies: Promise<[movie]>
     searchMovie: (query: URLSearchParams) => any
 }
 
 let model : model = {
-    movies: null,
+// TODO fetch data lazily
+    movies: wrap("/discover/movie", new URLSearchParams()).then(data => data.data.results.map(movieFromQuery)),
     searchMovie: function (query) {
         return wrap("/search/movie", query);
     },
 }
 
-// TODO fetch data lazily
-wrap("/discover/movie", new URLSearchParams()).then(data => model.movies = data.data);
-
-export default model;
+export type {movie};
+export {model};

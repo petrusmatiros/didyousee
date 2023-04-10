@@ -20,7 +20,7 @@
 import { defineComponent } from 'vue'
 import './../style.css'
 import MovieCard from '../components/MovieCard.vue'
-import model from "../model/model"
+import {model, movie} from "../model/model"
 
 export default defineComponent({
   components: {
