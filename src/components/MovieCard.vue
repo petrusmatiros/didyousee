@@ -1,11 +1,11 @@
 <template>
-    <div class="movie-card" @click="handleClickACB">
-      <img :src="movie.poster" alt="Movie Poster" class="movie-poster">
-      <h2 class="flex-row">{{ movie.title }}</h2>
-    </div>
-  </template>
+  <div class="movie-card" @click="handleClickACB">
+    <img :src="movie.img_path" alt="Movie Poster" class="movie-poster">
+    <h2 class="flex-row">{{ movie.title }}</h2>
+  </div>
+</template>
   
-  <script lang="ts">
+<script lang="ts">
   import './../style.css'
   import { defineComponent } from 'vue'
   
@@ -25,4 +25,4 @@
     }
   }
   });
-  </script>
+</script>
