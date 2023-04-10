@@ -20,20 +20,29 @@
 import { defineComponent } from 'vue'
 import './../style.css'
 import MovieCard from '../components/MovieCard.vue'
-import model from "../model/model"
+import { model, searchMovie, movie } from "../model/model"
 
 export default defineComponent({
   components: {
     MovieCard
   },
+  data() {
+    let movies : movie[] = [];
+    return {
+      inputFocused: false,
+      trivia: "Did you know: In 2012, The Matrix was selected by the U.S. Library of Congress for preservation in the National Film Registry archives for being culturally historically or aesthetically significant",
+      movies: movies,
+    };
+  },
   methods: {
     searchClickACB() {
       console.log("Clicked search!");
       console.log(model);
+      model.movies.then(movies => this.movies = movies);
     },
     filterClickACB() {
       console.log("Clicked filter!");
-      console.log(model.searchMovie(new URLSearchParams({"query": "Matrix"})));
+      console.log(searchMovie(new URLSearchParams({"query": "Matrix"})));
     },
     onInputFocus() {
       this.inputFocused = true;
@@ -50,77 +59,5 @@ export default defineComponent({
       }
     }
   },
-  data() {
-    return {
-      inputFocused: false,
-      trivia: "Did you know: In 2012, The Matrix was selected by the U.S. Library of Congress for preservation in the National Film Registry archives for being culturally historically or aesthetically significant",
-      movies: [
-        {
-          title: "Avengers: Endgame",
-          poster: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQA_-tL18_rj9zEcjN6n41NEaJm-kRNF9UeOtvksZ4z_OW6jRA9"
-        },
-        {
-          title: "Black Panther",
-          poster: "https://lumiere-a.akamaihd.net/v1/images/p_blackpanther_19754_4ac13f07.jpeg?region=0%2C0%2C540%2C810"
-        },
-        {
-          title: "Black Panther",
-          poster: "https://lumiere-a.akamaihd.net/v1/images/p_blackpanther_19754_4ac13f07.jpeg?region=0%2C0%2C540%2C810"
-        },
-        {
-          title: "Joker",
-          poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuTcvL4wc0fbBjm1h5CRiFEZ2TnNKtu8KtoPSxTsj6mkedHeWl"
-        },
-        {
-          title: "Black Panther",
-          poster: "https://lumiere-a.akamaihd.net/v1/images/p_blackpanther_19754_4ac13f07.jpeg?region=0%2C0%2C540%2C810"
-        },
-        {
-          title: "Avengers: Endgame",
-          poster: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQA_-tL18_rj9zEcjN6n41NEaJm-kRNF9UeOtvksZ4z_OW6jRA9"
-        },
-        {
-          title: "Black Panther",
-          poster: "https://lumiere-a.akamaihd.net/v1/images/p_blackpanther_19754_4ac13f07.jpeg?region=0%2C0%2C540%2C810"
-        },
-        {
-          title: "Joker",
-          poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuTcvL4wc0fbBjm1h5CRiFEZ2TnNKtu8KtoPSxTsj6mkedHeWl"
-        },
-        {
-          title: "Joker",
-          poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuTcvL4wc0fbBjm1h5CRiFEZ2TnNKtu8KtoPSxTsj6mkedHeWl"
-        },
-        {
-          title: "Joker",
-          poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuTcvL4wc0fbBjm1h5CRiFEZ2TnNKtu8KtoPSxTsj6mkedHeWl"
-        },
-        {
-          title: "Joker",
-          poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuTcvL4wc0fbBjm1h5CRiFEZ2TnNKtu8KtoPSxTsj6mkedHeWl"
-        },
-        {
-          title: "Joker",
-          poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuTcvL4wc0fbBjm1h5CRiFEZ2TnNKtu8KtoPSxTsj6mkedHeWl"
-        },
-        {
-          title: "Joker",
-          poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuTcvL4wc0fbBjm1h5CRiFEZ2TnNKtu8KtoPSxTsj6mkedHeWl"
-        },
-        {
-          title: "Joker",
-          poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuTcvL4wc0fbBjm1h5CRiFEZ2TnNKtu8KtoPSxTsj6mkedHeWl"
-        },
-        {
-          title: "Joker",
-          poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuTcvL4wc0fbBjm1h5CRiFEZ2TnNKtu8KtoPSxTsj6mkedHeWl"
-        },
-        {
-          title: "Joker",
-          poster: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuTcvL4wc0fbBjm1h5CRiFEZ2TnNKtu8KtoPSxTsj6mkedHeWl"
-        },
-      ]
-    };
-  }
 });
 </script>
