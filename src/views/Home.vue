@@ -50,31 +50,19 @@
 import { defineComponent } from 'vue'
 import './../style.css'
 import MovieCard from '../components/MovieCard.vue'
-import { model, searchMovie, movie } from "../model/model"
+import { model, searchMovie, getTrending, getMedia, getSimilarMedia} from "../model/model"
 
 
 export default defineComponent({
   components: {
     MovieCard,
   },
-  mounted() {
-    model
-      .getTrending("movie", "day")
-      .then((response: any) => {
-        console.log("dataMounted", response.data.results);
-        this.updateData(response);
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
-  },
-  data() {
-    let movies : movie[] = [];
-    return {
-      inputFocused: false,
-      trivia: "Did you know: In 2012, The Matrix was selected by the U.S. Library of Congress for preservation in the National Film Registry archives for being culturally historically or aesthetically significant",
-      movies: movies,
-    };
+  async mounted() {
+      const movie: any | undefined = await getTrending("movie","day");
+      if (movie) {
+        console.log("dataMediaMounted", movie);
+        this.updateData(movie);
+      }
   },
   methods: {
     //TODO:
@@ -93,17 +81,13 @@ export default defineComponent({
         // Call API based on the new currentPage value
       }
     },
-    searchClickACB(searchQuery: string) {
+    async searchClickACB(searchQuery: string) {
       console.log(`Clicked search!: ${searchQuery}`);
-      model
-        .searchMovie(new URLSearchParams({ query: searchQuery }))
-        .then((response: any) => {
-          console.log("dataSearch", response.data.results);
-          this.updateData(response);
-        })
-        .catch((error: any) => {
-          console.log(error);
-        });
+      const movie: any | undefined = await searchMovie(new URLSearchParams({ query: searchQuery }));
+      if (movie) {
+        console.log("dataSearchMedia", movie);
+        this.updateData(movie);
+      }
     },
     updateData(response: any) {
       this.movies = response.data.results;
@@ -115,7 +99,6 @@ export default defineComponent({
     },
     filterClickACB() {
       console.log("Clicked filter!");
-      console.log(model.searchMovie(new URLSearchParams({ query: "Matrix" })));
     },
     onInputFocus() {
       this.inputFocused = true;

@@ -54,38 +54,34 @@ function movieFromQuery(input : any) : movie {
 }
 
 interface model {
-    searchMovie: (query: URLSearchParams) => any
-    getTrending: (type:string, timeWindow:string) => any
-    getMedia: (id: string) => any
-    getSimilarMedia: (id: string) => any
     movies: Promise<[movie]>
 }
 
 // Everything that should persist
 let model : model = {
-    searchMovie: function (query) {
-        return wrap("/search/movie", query);
-    },
-    getTrending: function (type, timeWindow) {
-        return wrap(`/trending/${type}/${timeWindow}`, new URLSearchParams());
-    },
-    getMedia: function (id) {
-        return wrap(`/movie/${id}`, new URLSearchParams());
-    },
-    getSimilarMedia: function (id) {
-        return wrap(`/movie/${id}/similar`, new URLSearchParams());
-    },
 // TODO fetch data lazily
     movies: wrap("/discover/movie", new URLSearchParams()).then(data => data.data.results.map(movieFromQuery)),
 }
 
-function searchMovie(query : URLSearchParams) {
+async function getTrending(type : any, timeWindow : any) {
+    //return wrap(`/trending/${type}/${timeWindow}`, new URLSearchParams()).then(query => query.data.results);
+    return wrap(`/trending/${type}/${timeWindow}`, new URLSearchParams());
+}
+
+async function getMedia(id : String) {
+    //return wrap(`/movie/${id}`, new URLSearchParams()).then(movie => movieFromQuery(movie));
+    return wrap(`/movie/${id}`, new URLSearchParams());
+}
+
+async function getSimilarMedia(id : String) {
+    //return wrap(`/movie/${id}/similar`, new URLSearchParams()).then(query => query.data.results);
+    return wrap(`/movie/${id}/similar`, new URLSearchParams());
+}
+
+async function searchMovie(query : URLSearchParams) {
+    //return wrap("/search/movie", query).then(query => query.data);
     return wrap("/search/movie", query);
 }
 
-async function movieById(id : number) {
-    return model.movies.then(movies => movies.find(el => el.id === id));
-}
-
 export type {movie};
-export {model, searchMovie, movieById};
+export {model, searchMovie, getTrending, getMedia, getSimilarMedia};

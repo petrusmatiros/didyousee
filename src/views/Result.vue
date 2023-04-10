@@ -2,8 +2,7 @@
   <div class="result flex-col">
     <div class="main-info flex-col">
       <div class="content flex-row">
-
-        <img class="loading-skeleton" loading="lazy" :src="imagePath" />
+        <img class="loading-skeleton" loading="lazy" :src="poster" />
         <div class="content-info flex-col flex-start">
           <h1 class="content-info--title">{{ title }}</h1>
           <p class="content-info--overview">{{ overview }}</p>
@@ -106,7 +105,7 @@
   <!-- <div class="similar-list-container flex-center flex-col">
     <p>Similar Movies</p>
     <div class="similar-list flex-row flex-center">
-      <movie-card @click="setNewData"
+      <movie-card @click=""
         v-for="(movie, index) in movies"
         :key="index"
         :movie="movie"
@@ -120,71 +119,35 @@
 import { defineComponent } from "vue";
 import "./../style.css";
 import MovieCard from "../components/MovieCard.vue";
-import model from "../model/model";
+import {movie, model, searchMovie, getTrending, getMedia, getSimilarMedia} from "../model/model";
 
 export default defineComponent({
   name: "Result",
   components: {
     MovieCard,
   },
-  mounted() {
-    /*
-
-      async mounted() {
-    // Access the movie object from query parameters and parse it into an object
-    const movie : movie | undefined = await movieById(JSON.parse(this.$route.query.id as string));
-    if (movie) {
-      // const movieID = JSON.parse(movieParam as any);
-      console.log("Movie from query parameter:", movie);
-      this.id = movie.id;
-      this.title = movie.title;
-      this.overview = movie.overview;
-      this.img_path = movie.img_path;
-    }
-  },
-      */
+  async mounted() {
     const id = this.$route.query.id;
       if (id) {
-        const mediaID = JSON.parse(id as any);
+        const mediaID = JSON.parse(id as string);
         console.log("Media from query parameter:", mediaID);
         this.retrieveMediaData(mediaID);
-        this.retrieveSimilarMedia(mediaID);
+        // this.retrieveSimilarMedia(mediaID);
       }
-  },
-  computed: {
-    imagePath() {
-      if (this.poster) {
-        return this.poster;
-      } else {
-        return "";
-      }
-    },
   },
   methods: {
-    setNewData():void {
-      const id = this.$route.query.id;
-      if (id) {
-        const mediaID = JSON.parse(id as any);
-        console.log("Media from query parameter:", mediaID);
-        this.retrieveMediaData(mediaID);
-        this.retrieveSimilarMedia(mediaID);
+    async retrieveMediaData(id: string) {
+      const movie: any | undefined = await getMedia(id);
+      if (movie) {
+        console.log("dataMediaMounted", movie);
+        this.updateData(movie);
       }
     },
-    retrieveMediaData(id: string) {
-      model
-        .getMedia(id)
-        .then((response: any) => {
-          console.log("dataMediaMounted", response.data);
-          this.updateData(response);
-        })
-        .catch((error: any) => {
-          console.log(error);
-        });
-    },
     updateData(response: any) {
+      console.log("Response",response)
       this.title = response.data.title;
-      this.poster = `https://image.tmdb.org/t/p/w500/${
-        response.data.poster_path ?? ""
+      this.poster = `https://image.tmdb.org/t/p/w500${
+        response.data.poster_path
       }`;
       this.overview = response.data.overview;
       this.vote_average = response.data.vote_average;
@@ -192,16 +155,12 @@ export default defineComponent({
       this.languages = response.data.spoken_languages;
       this.genres = response.data.genres;
     },
-    retrieveSimilarMedia(id: string) {
-      model
-        .getSimilarMedia(id)
-        .then((response: any) => {
-          console.log("dataMediaSimilarMounted", response.data);
-          this.movies = response.data.results.splice(0, 8);
-        })
-        .catch((error: any) => {
-          console.log(error);
-        });
+    async retrieveSimilarMedia(id:string) {
+      const movie: any | undefined = await getSimilarMedia(id);
+      if (movie) {
+        console.log("dataSimilarMediaMounted", movie);
+        this.movies = movie;
+      }
     },
     //TODO!
     handleLikedACB() {
@@ -270,7 +229,6 @@ export default defineComponent({
         },
       ],
     };
-
   },
 });
 </script>
