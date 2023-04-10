@@ -130,7 +130,6 @@ export default defineComponent({
       if (id) {
         const mediaID = JSON.parse(id as any);
         console.log("Media from query parameter:", mediaID);
-        // Check if mediaID is different from previousMediaID
         this.retrieveMediaData(mediaID);
         this.retrieveSimilarMedia(mediaID);
       }
@@ -150,7 +149,6 @@ export default defineComponent({
       if (id) {
         const mediaID = JSON.parse(id as any);
         console.log("Media from query parameter:", mediaID);
-        // Check if mediaID is different from previousMediaID
         this.retrieveMediaData(mediaID);
         this.retrieveSimilarMedia(mediaID);
       }
