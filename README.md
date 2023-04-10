@@ -50,7 +50,6 @@ We plan to implement the following:
 ## Files 
 ### File structure
 ```css
-.
 ├── README.md
 ├── index.html
 ├── package-lock.json
@@ -71,11 +70,16 @@ We plan to implement the following:
 ├── src
 │   ├── App.vue
 │   ├── assets
-│   │   └── vue.svg
+│   │   ├── didyousee.svg
+│   │   ├── dummy.png
+│   │   └── tmdb_alt_short_blue.svg
 │   ├── components
 │   │   ├── Filter.vue
 │   │   └── MovieCard.vue
 │   ├── main.ts
+│   ├── model
+│   │   ├── apiConfig.ts
+│   │   └── model.ts
 │   ├── models
 │   ├── router
 │   │   └── index.ts
@@ -95,42 +99,54 @@ We plan to implement the following:
 └── vite.config.ts
 ```
 ### File descriptions
-| File                        | Description                                                                                               |
-|-----------------------------|-----------------------------------------------------------------------------------------------------------|
-| README.md                   | A markdown file containing information about the project.                                               |
-| index.html                  | The main HTML file for the application.                                                                   |
-| package-lock.json           | A file used by npm to lock dependencies to a specific version, ensuring consistency between installations. |
-| package.json                | A file containing metadata about the project, including its dependencies and scripts to run.            |
-| public/index.html           | The HTML file for the public directory, served as-is.                                                     |
-| public/images               | A directory containing images used in the application.                                                   |
-| public/index.css            | The CSS file for the main application page.                                                               |
-| public/vite.svg             | An SVG image used in the public directory.                                                                |
-| server/controllers          | A directory containing controllers for the server, organized by models and routes.                       |
-| server/controllers/models   | A directory containing controllers for the server, organized by models.                                  |
-| server/controllers/models/routes | A directory containing controllers for the server, organized by models and routes.                   |
-| server/firebase.ts          | A TypeScript file containing the Firebase configuration for the server.                                  |
-| server/index.ts             | The main TypeScript file for the server, including imports and server initialization.                    |
-| server/middleware           | A directory containing middleware for the server.                                                        |
-| server/server.ts            | The TypeScript file that sets up the server and its routes.                                               |
-| src/App.vue                 | The main Vue component for the application.                                                               |
-| src/assets/vue.svg          | An SVG image used in the application.                                                                     |
-| src/components/Filter.vue   | A Vue component for filtering movies/series.                                                                     |
-| src/components/MovieCard.vue | A Vue component for displaying individual movies/series.                                                        |
-| src/main.ts                 | The main TypeScript file for the application, including imports and Vue initialization.                  |
-| src/models                  | A directory containing TypeScript files defining the models used in the application.                      |
-| src/router/index.ts         | The TypeScript file defining the routes for the application.                                              |
-| src/style.css               | The CSS file for the main application page.                                                               |
-| src/types                   | A directory containing TypeScript files defining the types used in the application.                       |
-| src/utils/index.ts          | A TypeScript file containing utility functions used in the application.                                   |
-| src/views/Home.vue          | A Vue component for the home page of the application.                                                     |
-| src/views/Login.vue         | A Vue component for the login page of the application.                                                    |
-| src/views/Profile.vue       | A Vue component for the user profile page of the application.                                             |
-| src/views/Register.vue      | A Vue component for the registration page of the application.                                             |
-| src/views/Result.vue        | A Vue component for the search results page of the application.                                           |
-| src/vite-env.d.ts           | A TypeScript file defining the environment variables used in the application.                              |
-| tsconfig.json               | A configuration file for TypeScript that specifies how to compile the code.                               |
-| tsconfig.node.json          | A configuration file for TypeScript that specifies how to compile the server-side code.                   |
-| vite.config.ts              | A configuration file for Vite, the development server and build tool used for the application.            |
+| File Name | Description |
+| --------- | ----------- |
+| README.md | Readme file containing project information |
+| index.html | Main HTML file for the project |
+| package-lock.json | Automatically generated file for npm dependencies |
+| package.json | Contains project information and dependencies |
+| public/ | Folder containing public assets |
+| public/images/ | Folder containing images used in the project |
+| public/index.css | Main CSS file for the project |
+| public/index.html | HTML template for the project |
+| public/vite.svg | Vite logo |
+| server/ | Server-side code for the project |
+| server/controllers/ | Controllers for the server |
+| server/models/ | Models for the server |
+| server/routes/ | Routes for the server |
+| server/firebase.ts | Firebase configuration file |
+| server/index.ts | Main server file |
+| server/middleware/ | Middleware for the server |
+| src/ | Client-side code for the project |
+| src/App.vue | Main Vue component for the project |
+| src/assets/ | Folder containing assets used in the project |
+| src/assets/didyousee.svg | Logo for the project |
+| src/assets/dummy.png | Placeholder image |
+| src/assets/tmdb_alt_short_blue.svg | TMDB logo |
+| src/components/ | Vue components used in the project |
+| src/components/Filter.vue | Component for filtering movies/series |
+| src/components/MovieCard.vue | Component for displaying movie/series information |
+| src/main.ts | Main entry point for the Vue app |
+| src/model/ | Configuration files for API |
+| src/model/apiConfig.ts | API configuration file |
+| src/model/model.ts | Models for the project |
+| src/router/ | Vue router configuration |
+| src/router/index.ts | Vue router configuration file |
+| src/style.css | Main CSS file for the project |
+| src/types/ | Type definitions for the project |
+| src/utils/ | Utility functions for the project |
+| src/utils/index.ts | Utility functions file |
+| src/views/ | Vue views for the project |
+| src/views/Home.vue | Home page Vue component |
+| src/views/Login.vue | Login page Vue component |
+| src/views/Profile.vue | Profile page Vue component |
+| src/views/Register.vue | Register page Vue component |
+| src/views/Result.vue | Result page Vue component |
+| vite-env.d.ts | Typescript definition file for Vite |
+| tsconfig.json | Typescript configuration file for the project |
+| tsconfig.node.json | Typescript configuration file for Node.js |
+| vite.config.ts | Configuration file for Vite |
+
 
 
 ## Installation
