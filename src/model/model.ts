@@ -31,7 +31,7 @@ interface movie {
     rating: number
     popularity: number
     orig_lang: any
-    img: Promise<any>
+    img_path: string
     // genres: any
     // cast: any
     // reviews: any
@@ -39,7 +39,7 @@ interface movie {
     // revenue: number
 }
 
-function movieFromQuery(input : any) {
+function movieFromQuery(input : any) : movie {
     return {
         id: input.id,
         title: input.title,
@@ -55,16 +55,21 @@ function movieFromQuery(input : any) {
 
 interface model {
     movies: Promise<[movie]>
-    searchMovie: (query: URLSearchParams) => any
 }
 
+// Everything that should persist
 let model : model = {
 // TODO fetch data lazily
     movies: wrap("/discover/movie", new URLSearchParams()).then(data => data.data.results.map(movieFromQuery)),
-    searchMovie: function (query) {
-        return wrap("/search/movie", query);
-    },
+}
+
+function searchMovie(query : URLSearchParams) {
+    return wrap("/search/movie", query);
+}
+
+async function movieById(id : number) {
+    return model.movies.then(movies => movies.find(el => el.id === id));
 }
 
 export type {movie};
-export {model};
+export {model, searchMovie, movieById};

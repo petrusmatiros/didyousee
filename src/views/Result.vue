@@ -3,7 +3,7 @@
     <div class="main-info flex-col">
       <div class="content flex-row">
         <img alt="poster"
-          src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQA_-tL18_rj9zEcjN6n41NEaJm-kRNF9UeOtvksZ4z_OW6jRA9">
+          :src="img_path">
         <div class="content-info flex-col flex-start">
           <h1>{{ title }}</h1>
           <p>{{ overview }}</p>
@@ -58,17 +58,20 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import './../style.css'
+import { movie, movieById } from '../model/model'
 
 export default defineComponent({
   name: 'Result',
-  mounted() {
+  async mounted() {
     // Access the movie object from query parameters and parse it into an object
-    const movieParam = this.$route.query.id;
-    if (movieParam) {
-      // TODO: Ändra till MovieID när vi har API:n!
-      const movieID = JSON.parse(movieParam as any);
-      console.log("Movie from query parameter:", movieID);
-      this.title = movieID;
+    const movie : movie | undefined = await movieById(JSON.parse(this.$route.query.id as string));
+    if (movie) {
+      // const movieID = JSON.parse(movieParam as any);
+      console.log("Movie from query parameter:", movie);
+      this.id = movie.id;
+      this.title = movie.title;
+      this.overview = movie.overview;
+      this.img_path = movie.img_path;
     }
   },
   data() {
@@ -76,6 +79,7 @@ export default defineComponent({
       id: '',
       title: '',
       overview: 'A mean lord exiles fairytale creatures to the swamp of a grumpy ogre, who must go on a quest and rescue a princess for the lord in order to get his land back.',
+      img_path: '',
       display: {
         genres: 'Drama',    
         poster: '',

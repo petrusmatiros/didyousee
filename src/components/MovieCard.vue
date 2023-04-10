@@ -21,7 +21,7 @@
       // Handle click event for the movie card
       console.log("Clicked movie:", this.movie);
       // Navigate to the result page with movie information as a parameter
-      this.$router.push({ name: 'Result', query: { id: JSON.stringify(this.movie.title) } });
+      this.$router.push({ name: 'Result', query: { id: JSON.stringify(this.movie.id) } });
     }
   }
   });
