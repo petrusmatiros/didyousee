@@ -21,12 +21,24 @@ function wrap(query : string, params : URLSearchParams) {
 interface model {
     movies: any
     searchMovie: (query: URLSearchParams) => any
+    getTrending: (type:string, timeWindow:string) => any
+    getMedia: (id: string) => any
+    getSimilarMedia: (id: string) => any
 }
 
 let model : model = {
     movies: null,
     searchMovie: function (query) {
         return wrap("/search/movie", query);
+    },
+    getTrending: function (type, timeWindow) {
+        return wrap(`/trending/${type}/${timeWindow}`, new URLSearchParams());
+    },
+    getMedia: function (id) {
+        return wrap(`/movie/${id}`, new URLSearchParams());
+    },
+    getSimilarMedia: function (id) {
+        return wrap(`/movie/${id}/similar`, new URLSearchParams());
     },
 }
 

@@ -2,20 +2,56 @@
   <div class="result flex-col">
     <div class="main-info flex-col">
       <div class="content flex-row">
-        <img alt="poster"
-          src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQA_-tL18_rj9zEcjN6n41NEaJm-kRNF9UeOtvksZ4z_OW6jRA9">
+        <img class="loading-skeleton" loading="lazy" :src="imagePath" />
         <div class="content-info flex-col flex-start">
-          <h1>{{ title }}</h1>
-          <p>{{ overview }}</p>
+          <h1 class="content-info--title">{{ title }}</h1>
+          <p class="content-info--overview">{{ overview }}</p>
+          <div class="content-more-info flex-row flex-center-start">
+            <div class="content-more-info--primary flex-col flex-center-start">
+              <p>Rating: {{ vote_average }}</p>
+              <p>Release date: {{ release_date }}</p>
+            </div>
+            <div
+              class="content-more-info--secondary flex-col flex-center-start"
+            >
+              <div class="flex-row flex-center">
+                <button
+                  v-for="(genre, index) in genres"
+                  :key="index"
+                  :genre="genre"
+                >
+                  {{ genre.name }}
+                </button>
+              </div>
+              <div class="flex-row flex-center">
+                <button
+                  v-for="(language, index) in languages"
+                  :key="index"
+                  :language="language"
+                >
+                  {{ language.name }}
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="list-buttons flex-row flex-center">
-        <button><i class="material-symbols-outlined">favorite</i></button>
-        <button><i class="material-symbols-outlined">bookmark</i></button>
-        <button><i class="material-symbols-outlined">task_alt</i></button>
-        <button><i class="material-symbols-outlined">block</i></button>
+        <button @click="handleLikedACB">
+          <i class="material-symbols-outlined">favorite</i>
+        </button>
+        <button @click="handleWatchlistACB">
+          <i class="material-symbols-outlined">bookmark</i>
+        </button>
+        <button @click="handleSeenACB">
+          <i class="material-symbols-outlined">task_alt</i>
+        </button>
+        <button @click="handleDislikedACB">
+          <i class="material-symbols-outlined">block</i>
+        </button>
       </div>
     </div>
+
     <div class="detailed-info flex-col">
       <div class="info-container flex-row flex-center">
         <div class="info-card flex-col width-45">
@@ -24,7 +60,10 @@
         </div>
         <div class="info-card flex-col">
           <h1>Title</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In laoreet justo venenatis nunc dignissim maximus quis sed erat.</p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In laoreet
+            justo venenatis nunc dignissim maximus quis sed erat.
+          </p>
         </div>
       </div>
       <div class="info-container flex-row flex-center">
@@ -40,51 +79,182 @@
       <div class="info-container flex-row flex-center">
         <div class="info-card flex-col">
           <h1>Title</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In laoreet justo venenatis nunc dignissim maximus quis sed erat. Nullam ultrices sodales risus vel fringilla. Sed dictum sit amet ex eu commodo. Nulla vel ornare felis. Duis sed ante sed tellus tincidunt maximus. Proin malesuada sodales commodo. Fusce aliquam ullamcorper nisl, id finibus nulla. Quisque nec sem rutrum, commodo mi vitae, lobortis urna. Praesent et purus sit amet sapien tempus consequat a ac arcu. Nulla at hendrerit neque, vel elementum mauris. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce suscipit lectus eu facilisis condimentum. Cras vitae eros metus. Duis eu sodales dui, eget fringilla ligula</p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In laoreet
+            justo venenatis nunc dignissim maximus quis sed erat. Nullam
+            ultrices sodales risus vel fringilla. Sed dictum sit amet ex eu
+            commodo. Nulla vel ornare felis. Duis sed ante sed tellus tincidunt
+            maximus. Proin malesuada sodales commodo. Fusce aliquam ullamcorper
+            nisl, id finibus nulla. Quisque nec sem rutrum, commodo mi vitae,
+            lobortis urna. Praesent et purus sit amet sapien tempus consequat a
+            ac arcu. Nulla at hendrerit neque, vel elementum mauris.
+            Pellentesque habitant morbi tristique senectus et netus et malesuada
+            fames ac turpis egestas. Fusce suscipit lectus eu facilisis
+            condimentum. Cras vitae eros metus. Duis eu sodales dui, eget
+            fringilla ligula
+          </p>
         </div>
         <div class="info-card flex-col">
           <h1>Title</h1>
           <p>Information</p>
         </div>
       </div>
-      
-      <div v-for="(value, key) in display" :key="key">
-        <h1 v-if="value">{{ key }}:</h1> <p v-if="value">{{ value }}</p>
-      </div>
     </div>
   </div>
+
+  <!-- <div class="similar-list-container flex-center flex-col">
+    <p>Similar Movies</p>
+    <div class="similar-list flex-row flex-center">
+      <movie-card @click="setNewData"
+        v-for="(movie, index) in movies"
+        :key="index"
+        :movie="movie"
+      />
+    </div>
+  </div> -->
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import './../style.css'
+import { defineComponent } from "vue";
+import "./../style.css";
+import MovieCard from "../components/MovieCard.vue";
+import model from "../model/model";
 
 export default defineComponent({
-  name: 'Result',
+  name: "Result",
+  components: {
+    MovieCard,
+  },
   mounted() {
-    // Access the movie object from query parameters and parse it into an object
-    const movieParam = this.$route.query.id;
-    if (movieParam) {
-      // TODO: Ändra till MovieID när vi har API:n!
-      const movieID = JSON.parse(movieParam as any);
-      console.log("Movie from query parameter:", movieID);
-      this.title = movieID;
-    }
+    const id = this.$route.query.id;
+      if (id) {
+        const mediaID = JSON.parse(id as any);
+        console.log("Media from query parameter:", mediaID);
+        // Check if mediaID is different from previousMediaID
+        this.retrieveMediaData(mediaID);
+        this.retrieveSimilarMedia(mediaID);
+      }
+  },
+  computed: {
+    imagePath() {
+      if (this.poster) {
+        return this.poster;
+      } else {
+        return "";
+      }
+    },
+  },
+  methods: {
+    setNewData():void {
+      const id = this.$route.query.id;
+      if (id) {
+        const mediaID = JSON.parse(id as any);
+        console.log("Media from query parameter:", mediaID);
+        // Check if mediaID is different from previousMediaID
+        this.retrieveMediaData(mediaID);
+        this.retrieveSimilarMedia(mediaID);
+      }
+    },
+    retrieveMediaData(id: string) {
+      model
+        .getMedia(id)
+        .then((response: any) => {
+          console.log("dataMediaMounted", response.data);
+          this.updateData(response);
+        })
+        .catch((error: any) => {
+          console.log(error);
+        });
+    },
+    updateData(response: any) {
+      this.title = response.data.title;
+      this.poster = `https://image.tmdb.org/t/p/w500/${
+        response.data.poster_path ?? ""
+      }`;
+      this.overview = response.data.overview;
+      this.vote_average = response.data.vote_average;
+      this.release_date = response.data.release_date;
+      this.languages = response.data.spoken_languages;
+      this.genres = response.data.genres;
+    },
+    retrieveSimilarMedia(id: string) {
+      model
+        .getSimilarMedia(id)
+        .then((response: any) => {
+          console.log("dataMediaSimilarMounted", response.data);
+          this.movies = response.data.results.splice(0, 8);
+        })
+        .catch((error: any) => {
+          console.log(error);
+        });
+    },
+    //TODO!
+    handleLikedACB() {
+      // Handle click event for the "liked" button
+      console.log("Liked button clicked");
+      // Add your custom logic here
+    },
+    handleWatchlistACB() {
+      // Handle click event for the "watchlist" button
+      console.log("Watchlist button clicked");
+      // Add your custom logic here
+    },
+    handleSeenACB() {
+      // Handle click event for the "seen" button
+      console.log("Seen button clicked");
+      // Add your custom logic here
+    },
+    handleDislikedACB() {
+      // Handle click event for the "disliked" button
+      console.log("Disliked button clicked");
+      // Add your custom logic here
+    },
   },
   data() {
     return {
-      id: '',
-      title: '',
-      overview: 'A mean lord exiles fairytale creatures to the swamp of a grumpy ogre, who must go on a quest and rescue a princess for the lord in order to get his land back.',
-      display: {
-        genres: 'Drama',    
-        poster: '',
-        og_lang: 'English',
-        release_date: '2003',
-        popularity: '0.5',
-      }
-    }
-
+      id: "",
+      title: "",
+      overview: "",
+      poster: "",
+      genres: [],
+      vote_average: "",
+      release_date: "",
+      languages: [],
+      movies: [
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+      ],
+    };
   },
 });
 </script>
