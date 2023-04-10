@@ -7,10 +7,8 @@
     <RouterLink to="/" class="nav-link">Disliked</RouterLink>
     <RouterLink to="/profile" class="nav-link" id="profile">Profile</RouterLink>
   </nav>
-  <RouterView class="router-view" v-slot="{ Component }">
-    <Transition name="page-opacity" mode="out-in">
-      <component :is="Component"/>
-    </Transition>
+  <RouterView class="router-view">
+
   </RouterView>
   <footer class="flex-col flex-seperate" id="footer">
     <div class="footer-top flex-row flex-center">
