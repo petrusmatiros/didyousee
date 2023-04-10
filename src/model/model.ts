@@ -54,11 +54,27 @@ function movieFromQuery(input : any) : movie {
 }
 
 interface model {
+    searchMovie: (query: URLSearchParams) => any
+    getTrending: (type:string, timeWindow:string) => any
+    getMedia: (id: string) => any
+    getSimilarMedia: (id: string) => any
     movies: Promise<[movie]>
 }
 
 // Everything that should persist
 let model : model = {
+    searchMovie: function (query) {
+        return wrap("/search/movie", query);
+    },
+    getTrending: function (type, timeWindow) {
+        return wrap(`/trending/${type}/${timeWindow}`, new URLSearchParams());
+    },
+    getMedia: function (id) {
+        return wrap(`/movie/${id}`, new URLSearchParams());
+    },
+    getSimilarMedia: function (id) {
+        return wrap(`/movie/${id}/similar`, new URLSearchParams());
+    },
 // TODO fetch data lazily
     movies: wrap("/discover/movie", new URLSearchParams()).then(data => data.data.results.map(movieFromQuery)),
 }
