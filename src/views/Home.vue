@@ -46,10 +46,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import "./../style.css";
-import MovieCard from "../components/MovieCard.vue";
-import model from "../model/model";
+
+import { defineComponent } from 'vue'
+import './../style.css'
+import MovieCard from '../components/MovieCard.vue'
+import { model, searchMovie, movie } from "../model/model"
+
 
 export default defineComponent({
   components: {
@@ -65,6 +67,14 @@ export default defineComponent({
       .catch((error: any) => {
         console.log(error);
       });
+  },
+  data() {
+    let movies : movie[] = [];
+    return {
+      inputFocused: false,
+      trivia: "Did you know: In 2012, The Matrix was selected by the U.S. Library of Congress for preservation in the National Film Registry archives for being culturally historically or aesthetically significant",
+      movies: movies,
+    };
   },
   methods: {
     //TODO:
@@ -122,6 +132,7 @@ export default defineComponent({
       }
     },
   },
+
   data() {
     return {
       currentPage: 1,

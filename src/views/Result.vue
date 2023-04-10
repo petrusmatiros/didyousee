@@ -2,6 +2,7 @@
   <div class="result flex-col">
     <div class="main-info flex-col">
       <div class="content flex-row">
+
         <img class="loading-skeleton" loading="lazy" :src="imagePath" />
         <div class="content-info flex-col flex-start">
           <h1 class="content-info--title">{{ title }}</h1>
@@ -115,6 +116,7 @@
 </template>
 
 <script lang="ts">
+
 import { defineComponent } from "vue";
 import "./../style.css";
 import MovieCard from "../components/MovieCard.vue";
@@ -126,6 +128,21 @@ export default defineComponent({
     MovieCard,
   },
   mounted() {
+    /*
+
+      async mounted() {
+    // Access the movie object from query parameters and parse it into an object
+    const movie : movie | undefined = await movieById(JSON.parse(this.$route.query.id as string));
+    if (movie) {
+      // const movieID = JSON.parse(movieParam as any);
+      console.log("Movie from query parameter:", movie);
+      this.id = movie.id;
+      this.title = movie.title;
+      this.overview = movie.overview;
+      this.img_path = movie.img_path;
+    }
+  },
+      */
     const id = this.$route.query.id;
       if (id) {
         const mediaID = JSON.parse(id as any);
@@ -253,6 +270,7 @@ export default defineComponent({
         },
       ],
     };
+
   },
 });
 </script>

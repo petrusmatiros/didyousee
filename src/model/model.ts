@@ -1,4 +1,10 @@
-import tmdbApi from "./apiConfig";
+import {tmdbApi, } from "./apiConfig";
+
+function image(path : string) {
+    let params = new URLSearchParams({"api_key": import.meta.env.VITE_TMDB_API_KEY});
+    let res = "https://image.tmdb.org/" + "/t/p/w500" + path + "?" + params;
+    return res;
+}
 
 function wrap(query : string, params : URLSearchParams) {
     params.append("api_key", import.meta.env.VITE_TMDB_API_KEY);
@@ -18,16 +24,45 @@ function wrap(query : string, params : URLSearchParams) {
 - Director, writer (tror det tas från credits)
 - Budget, revenue
  */
+interface movie {
+    id: number
+    title: string
+    overview: string
+    rating: number
+    popularity: number
+    orig_lang: any
+    img_path: string
+    // genres: any
+    // cast: any
+    // reviews: any
+    // budget: number
+    // revenue: number
+}
+
+function movieFromQuery(input : any) : movie {
+    return {
+        id: input.id,
+        title: input.title,
+        overview: input.overview,
+        rating: input.vote_average,
+        popularity: input.popularity,
+        orig_lang: input.original_language,
+        img_path: image(input.poster_path),
+        // genre_ids: input.genre_ids,
+
+    }
+}
+
 interface model {
-    movies: any
     searchMovie: (query: URLSearchParams) => any
     getTrending: (type:string, timeWindow:string) => any
     getMedia: (id: string) => any
     getSimilarMedia: (id: string) => any
+    movies: Promise<[movie]>
 }
 
+// Everything that should persist
 let model : model = {
-    movies: null,
     searchMovie: function (query) {
         return wrap("/search/movie", query);
     },
@@ -40,9 +75,17 @@ let model : model = {
     getSimilarMedia: function (id) {
         return wrap(`/movie/${id}/similar`, new URLSearchParams());
     },
+// TODO fetch data lazily
+    movies: wrap("/discover/movie", new URLSearchParams()).then(data => data.data.results.map(movieFromQuery)),
 }
 
-// TODO fetch data lazily
-wrap("/discover/movie", new URLSearchParams()).then(data => model.movies = data.data);
+function searchMovie(query : URLSearchParams) {
+    return wrap("/search/movie", query);
+}
 
-export default model;
+async function movieById(id : number) {
+    return model.movies.then(movies => movies.find(el => el.id === id));
+}
+
+export type {movie};
+export {model, searchMovie, movieById};
