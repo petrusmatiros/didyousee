@@ -1,4 +1,10 @@
-import tmdbApi from "./apiConfig";
+import {tmdbApi, } from "./apiConfig";
+
+function image(path : string) {
+    let params = new URLSearchParams({"api_key": import.meta.env.VITE_TMDB_API_KEY});
+    let res = "https://image.tmdb.org/" + "/t/p/w500" + path + "?" + params;
+    return res;
+}
 
 function wrap(query : string, params : URLSearchParams) {
     params.append("api_key", import.meta.env.VITE_TMDB_API_KEY);
