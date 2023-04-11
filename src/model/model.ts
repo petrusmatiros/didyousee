@@ -1,6 +1,8 @@
 import {tmdbApi, } from "./apiConfig";
 
-function image(path : string) {
+function image(path : string | null) {
+    if(path === null)
+        return null;
     let params = new URLSearchParams({"api_key": import.meta.env.VITE_TMDB_API_KEY});
     let res = "https://image.tmdb.org/" + "/t/p/w500" + path + "?" + params;
     return res;
@@ -28,11 +30,13 @@ interface movie {
     id: number
     title: string
     overview: string
+
     rating: number
     popularity: number
-    spoken_languages: any
-    poster_path: string
     vote_average: number
+
+    spoken_languages: any
+    poster_path: string | null
     release_date: any
     genres: any
 }
@@ -42,14 +46,32 @@ function movieFromQuery(input : any) : movie {
         id: input.id,
         title: input.title,
         overview: input.overview,
-        rating: input.vote_average,
+
+        rating: input.vote_average.toFixed(2),
+        vote_average: input.vote_average.toFixed(2),
         popularity: input.popularity,
+
         spoken_languages: input.spoken_languages,
         poster_path: image(input.poster_path),
-        vote_average: input.vote_average,
         release_date: input.release_date,
         genres: input.genres,
 
+    }
+}
+
+interface listing<El> {
+    results: El[]
+    page: number
+    total_results: number
+    total_pages: number
+}
+
+function resultsFromQuery<el>(conversion : any, input : any) : listing<el> {
+    return {
+        results: input.results.map(conversion),
+        page: input.page,
+        total_results: input.total_results,
+        total_pages: input.total_pages,
     }
 }
 
@@ -63,24 +85,25 @@ let model : model = {
     movies: wrap("/discover/movie", new URLSearchParams()).then(data => data.data.results.map(movieFromQuery)),
 }
 
-async function getTrending(type : any, timeWindow : any) : Promise<any> {
-    //return wrap(`/trending/${type}/${timeWindow}`, new URLSearchParams()).then(query => query.data.results);
-    return wrap(`/trending/${type}/${timeWindow}`, new URLSearchParams());
+async function getTrending(type : any, timeWindow : any) : Promise<listing<movie>> {
+    return wrap(`/trending/${type}/${timeWindow}`, new URLSearchParams())
+        .then(query => resultsFromQuery(movieFromQuery, query.data));
 }
 
 async function getMedia(id : String) : Promise<movie> {
-    return wrap(`/movie/${id}`, new URLSearchParams()).then(query => movieFromQuery(query.data));
+    return wrap(`/movie/${id}`, new URLSearchParams())
+        .then(query => movieFromQuery(query.data));
 }
 
-async function getSimilarMedia(id : String) : Promise<any> {
-    //return wrap(`/movie/${id}/similar`, new URLSearchParams()).then(query => query.data.results);
-    return wrap(`/movie/${id}/similar`, new URLSearchParams());
+async function getSimilarMedia(id : String) : Promise<listing<movie>> {
+    return wrap("/movie/${id}/similar", new URLSearchParams())
+        .then(query => resultsFromQuery(movieFromQuery, query.data));
 }
 
-async function searchMovie(query : URLSearchParams) : Promise<any> {
-    //return wrap("/search/movie", query).then(query => query.data);
-    return wrap("/search/movie", query);
+async function searchMovie(query : URLSearchParams) : Promise<listing<movie>> {
+    return wrap("/search/movie", query)
+        .then(query => resultsFromQuery(movieFromQuery, query.data));
 }
 
-export type {movie};
+export type {movie, listing};
 export {model, searchMovie, getTrending, getMedia, getSimilarMedia};

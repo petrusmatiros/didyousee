@@ -50,6 +50,7 @@
 import { defineComponent } from 'vue'
 import './../style.css'
 import MovieCard from '../components/MovieCard.vue'
+import { movie, listing } from "../model/model"
 import { model, searchMovie, getTrending, getMedia, getSimilarMedia} from "../model/model"
 
 
@@ -58,11 +59,9 @@ export default defineComponent({
     MovieCard,
   },
   async mounted() {
-      const movie: any | undefined = await getTrending("movie","day");
-      if (movie) {
-        console.log("dataMediaMounted", movie);
-        this.updateData(movie);
-      }
+      const movie: listing<movie> = await getTrending("movie","day");
+      console.log("dataMediaMounted", movie);
+      this.updateData(movie);
   },
   methods: {
     //TODO:
@@ -82,17 +81,14 @@ export default defineComponent({
       }
     },
     async searchClickACB(searchQuery: string) {
-      console.log(`Clicked search!: ${searchQuery}`);
-      const movie: any | undefined = await searchMovie(new URLSearchParams({ query: searchQuery }));
-      if (movie) {
-        console.log("dataSearchMedia", movie);
-        this.updateData(movie);
-      }
+      const movie : listing<movie> = await searchMovie(new URLSearchParams({ query: searchQuery }));
+      console.log("dataSearchMedia with query: ${searchQuery}", movie);
+      this.updateData(movie);
     },
-    updateData(response: any) {
-      this.movies = response.data.results;
-      this.currentPage = response.data.page;
-      this.totalPages = response.data.total_pages;
+    updateData(results: listing<movie>) {
+      this.movies = results.results;
+      this.currentPage = results.page;
+      this.totalPages = results.total_pages;
     },
     searchEnterACB() {
       this.searchClickACB(this.searchString);
@@ -117,6 +113,56 @@ export default defineComponent({
   },
 
   data() {
+    const movies : movie[] | any[] = [
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+      ];
     return {
       currentPage: 1,
       totalPages: 1,
@@ -124,56 +170,7 @@ export default defineComponent({
       trivia:
         "Did you know: In 2012, The Matrix was selected by the U.S. Library of Congress for preservation in the National Film Registry archives for being culturally historically or aesthetically significant",
       searchString: "",
-      movies: [
-        {
-          title: "",
-          poster_path: "",
-        },
-        {
-          title: "",
-          poster_path: "",
-        },
-        {
-          title: "",
-          poster_path: "",
-        },
-        {
-          title: "",
-          poster_path: "",
-        },
-        {
-          title: "",
-          poster_path: "",
-        },
-        {
-          title: "",
-          poster_path: "",
-        },
-        {
-          title: "",
-          poster_path: "",
-        },
-        {
-          title: "",
-          poster_path: "",
-        },
-        {
-          title: "",
-          poster_path: "",
-        },
-        {
-          title: "",
-          poster_path: "",
-        },
-        {
-          title: "",
-          poster_path: "",
-        },
-        {
-          title: "",
-          poster_path: "",
-        },
-      ],
+      movies,
     };
   },
 });

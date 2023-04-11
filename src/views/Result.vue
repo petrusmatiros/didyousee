@@ -2,7 +2,7 @@
   <div class="result flex-col">
     <div class="main-info flex-col">
       <div class="content flex-row">
-        <img class="loading-skeleton" loading="lazy" :src="poster" />
+        <img class="loading-skeleton" loading="lazy" :src="poster_path" />
         <div class="content-info flex-col flex-start">
           <h1 class="content-info--title">{{ title }}</h1>
           <p class="content-info--overview">{{ overview }}</p>
@@ -119,7 +119,8 @@
 import { defineComponent } from "vue";
 import "./../style.css";
 import MovieCard from "../components/MovieCard.vue";
-import {movie, model, searchMovie, getTrending, getMedia, getSimilarMedia} from "../model/model";
+import {movie, listing } from "../model/model";
+import { model, searchMovie, getTrending, getMedia, getSimilarMedia} from "../model/model";
 
 export default defineComponent({
   name: "Result",
@@ -136,25 +137,26 @@ export default defineComponent({
   },
   methods: {
     async retrieveMediaData(id: string) {
-      const movie : movie | undefined = await getMedia(id);
+      const movie : movie = await getMedia(id);
+      console.log("retrieveMediaData", movie);
       if (movie) {
         this.updateData(movie);
       }
     },
     updateData(movie : movie) {
       this.title = movie.title;
-      this.poster = movie.poster_path;
+      this.poster_path = movie.poster_path as string;
       this.overview = movie.overview;
-      this.vote_average = movie.vote_average as string;
+      this.vote_average = movie.vote_average;
       this.release_date = movie.release_date;
       this.languages = movie.spoken_languages;
       this.genres = movie.genres;
     },
     async retrieveSimilarMedia(id:string) {
-      const movie: any | undefined = await getSimilarMedia(id);
-      if (movie) {
-        console.log("dataSimilarMediaMounted", movie);
-        this.movies = movie.data.results.splice(0, 8);
+      const movies: listing<movie> = await getSimilarMedia(id);
+      if (movies) {
+        console.log("dataSimilarMediaMounted", movies);
+        this.movies = movies.results.splice(0, 8);
       }
     },
     //TODO!
@@ -180,49 +182,50 @@ export default defineComponent({
     },
   },
   data() {
+    const movies : movie[] | any[] = [
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+        {
+          title: "",
+          poster_path: "",
+        },
+      ];
     return {
       id: "",
       title: "",
       overview: "",
-      poster: "",
+      poster_path: "",
       genres: [],
-      vote_average: "",
+      vote_average: 0,
       release_date: "",
       languages: [],
-      movies: [
-        {
-          title: "",
-          poster_path: "",
-        },
-        {
-          title: "",
-          poster_path: "",
-        },
-        {
-          title: "",
-          poster_path: "",
-        },
-        {
-          title: "",
-          poster_path: "",
-        },
-        {
-          title: "",
-          poster_path: "",
-        },
-        {
-          title: "",
-          poster_path: "",
-        },
-        {
-          title: "",
-          poster_path: "",
-        },
-        {
-          title: "",
-          poster_path: "",
-        },
-      ],
+      movies,
     };
   },
 });
