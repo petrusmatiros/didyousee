@@ -129,31 +129,26 @@ export default defineComponent({
   async mounted() {
     const id = this.$route.query.id;
       if (id) {
-        const mediaID = JSON.parse(id as string);
+        const mediaID : string = JSON.parse(id as string);
         console.log("Media from query parameter:", mediaID);
         this.retrieveMediaData(mediaID);
-        // this.retrieveSimilarMedia(mediaID);
       }
   },
   methods: {
     async retrieveMediaData(id: string) {
-      const movie: any | undefined = await getMedia(id);
+      const movie : movie | undefined = await getMedia(id);
       if (movie) {
-        console.log("dataMediaMounted", movie);
         this.updateData(movie);
       }
     },
-    updateData(response: any) {
-      console.log("Response",response)
-      this.title = response.data.title;
-      this.poster = `https://image.tmdb.org/t/p/w500${
-        response.data.poster_path
-      }`;
-      this.overview = response.data.overview;
-      this.vote_average = response.data.vote_average;
-      this.release_date = response.data.release_date;
-      this.languages = response.data.spoken_languages;
-      this.genres = response.data.genres;
+    updateData(movie : movie) {
+      this.title = movie.title;
+      this.poster = movie.poster_path;
+      this.overview = movie.overview;
+      this.vote_average = movie.vote_average as string;
+      this.release_date = movie.release_date;
+      this.languages = movie.spoken_languages;
+      this.genres = movie.genres;
     },
     async retrieveSimilarMedia(id:string) {
       const movie: any | undefined = await getSimilarMedia(id);
