@@ -10,11 +10,11 @@
   --fg: hsl(0, 0%, 100%);
   --black: hsl(0, 0%, 0%);
   /* Accent colors */
-  --accent: hsl(216, 100%, 74%);
-  --accent-hover: hsl(216, 100%, 70%);
-  --accent-active: hsl(216, 100%, 65%);
-  --accent-logo: hsl(216, 100%, 82%);
-  --accent-logo-shadow: hsla(216, 100%, 82%, 0.5);
+  --accent: hsl(39, 100%, 65%);
+  --accent-hover: hsl(39, 100%, 57%);
+  --accent-active: hsl(39, 100%, 47%);
+  --accent-logo: hsl(39, 100%, 50%);
+  --accent-logo-shadow: hsla(39, 100%, 46%, 0.3);
   /* Shadows */
   --shadow: hsla(0, 0%, 0%, 0.3);
   --box-shadow: 0 0.125rem 0.5rem var(--shadow);

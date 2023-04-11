@@ -190,10 +190,10 @@ export default defineComponent({
       title: "",
       overview: "",
       poster: "",
-      genres: [],
+      genres: [] as any[],
       vote_average: "",
       release_date: "",
-      languages: [],
+      languages: [] as any[],
       movies: [
         {
           title: "",
