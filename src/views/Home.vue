@@ -65,6 +65,23 @@ export default defineComponent({
     MovieCard,
     Filter,
   },
+  beforeRouteLeave(to, from, next) {
+    // Stores values
+    localStorage.setItem("userSearch", JSON.stringify(this.searchString));
+    localStorage.setItem("userPage", JSON.stringify(this.currentPage));
+    next();
+  },
+  created() {
+    // Reads saved values
+    const savedSearch = localStorage.getItem("userSearch");
+    const savedPage = localStorage.getItem("userPage");
+    if (savedSearch) {
+      this.searchString = JSON.parse(savedSearch);
+      if (savedPage) {
+        this.currentPage = parseInt(JSON.parse(savedPage));
+      }
+    }
+  },
   mounted() {
     this.getCorrectData();
   },
@@ -142,7 +159,7 @@ export default defineComponent({
       }, 500);
     },
     filterClickACB() {
-      console.log("Clicked filter!");
+      console.log("Filter!");
       this.searchFilter = !this.searchFilter;
     },
     onInputFocus() {
@@ -159,23 +176,6 @@ export default defineComponent({
         searchBar.classList.remove("searchBar--focused");
       }
     },
-  },
-  beforeRouteLeave(to, from, next) {
-    // Stores values
-    localStorage.setItem("userSearch", JSON.stringify(this.searchString));
-    localStorage.setItem("userPage", JSON.stringify(this.currentPage));
-    next();
-  },
-  created() {
-    // Reads saved values
-    const savedSearch = localStorage.getItem("userSearch");
-    const savedPage = localStorage.getItem("userPage");
-    if (savedSearch) {
-      this.searchString = JSON.parse(savedSearch);
-      if (savedPage) {
-        this.currentPage = parseInt(JSON.parse(savedPage));
-      }
-    }
   },
   data() {
     return {

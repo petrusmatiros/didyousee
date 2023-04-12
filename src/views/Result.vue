@@ -1,6 +1,7 @@
 <template>
   <div class="result flex-col">
     <div class="main-info flex-col">
+      <button @click="goBackACB()">BACK</button>
       <div class="content flex-row">
         <img class="loading-skeleton" loading="lazy" :src="poster" />
         <div class="content-info flex-col flex-start">
@@ -161,6 +162,10 @@ export default defineComponent({
         console.log("dataSimilarMediaMounted", movie);
         this.movies = movie.data.results.splice(0, 8);
       }
+    },
+    goBackACB() {
+      console.log("Back button clicked");
+      this.$router.go(-1); // Go back one step in Vue Router history
     },
     //TODO!
     handleLikedACB() {
