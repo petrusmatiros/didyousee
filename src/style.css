@@ -511,9 +511,26 @@ input[name="inputSearchBar"]:focus {
 /*  ================== Result ================== */
 
 /*  ================== Credentials ================== */
+.top {
+  margin-top: var(--margin-large-2);
+  gap: 1rem;
+}
+
 .credentials-container {
-  min-height: 100vh !important;
-  height: 100vh !important;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  
+}
+.credentials-container img {
+  width: 10rem;
+  height:8rem;
+}
+.credentials-container h1 {
+  font-size: var(--font-huge);
+  font-weight: var(--font-weight-black);
+  margin: 0;
+  padding: var(--padding-large);
 }
 
 .credentials-button-container {
