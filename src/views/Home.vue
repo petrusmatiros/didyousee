@@ -1,4 +1,5 @@
 <template>
+  <Filter v-if="searchFilter"/>
   <div class="homepage flex-col flex-center">
     <div class="intro-container flex-col flex-center">
       <img
@@ -14,8 +15,8 @@
       class="searchBar flex-row flex-center"
       :class="{ 'searchBar--focused': inputFocused }"
     >
-      <i class="material-symbols-outlined" @click="searchClickACB(searchString)"
-        >search</i
+      <i class="material-symbols-outlined" @click="filterClickACB"
+        >filter_alt</i
       >
       <input
         type="text"
@@ -27,12 +28,12 @@
         @keydown.enter="searchEnterACB"
         @input="onInputTyping"
       />
-      <i class="material-symbols-outlined" @click="filterClickACB"
-        >filter_alt</i
+      <i class="material-symbols-outlined" @click="searchClickACB(searchString)"
+        >search</i
       >
     </div>
     <div class="trending-list flex-row flex-center">
-      <movie-card
+      <MovieCard
         v-for="(movie, index) in movies"
         :key="index"
         :movie="movie"
@@ -54,6 +55,7 @@
 import { defineComponent } from "vue";
 import "./../style.css";
 import MovieCard from "../components/MovieCard.vue";
+import Filter from "../components/Filter.vue";
 import {
   model,
   searchMovie,
@@ -65,6 +67,7 @@ import {
 export default defineComponent({
   components: {
     MovieCard,
+    Filter,
   },
   async mounted() {
     const movie: any | undefined = await getTrending("movie", "day", "1");
@@ -138,6 +141,10 @@ export default defineComponent({
     },
     async searchClickACB(searchQuery: string) {
       this.currentPage = 1;
+      if (searchQuery.length <= 0) {
+        console.error("Search query is empty.");
+        return; 
+      }
       console.log(`Searching: ${searchQuery}`);
       const movie: any | undefined = await searchMovie(
         new URLSearchParams({ query: searchQuery })
@@ -165,6 +172,7 @@ export default defineComponent({
     },
     filterClickACB() {
       console.log("Clicked filter!");
+      this.searchFilter = !this.searchFilter;
     },
     onInputFocus() {
       this.inputFocused = true;
@@ -187,6 +195,7 @@ export default defineComponent({
       typingTimeout: null as ReturnType<typeof setTimeout> | null,
       currentPage: 1,
       totalPages: 1,
+      searchFilter: false,
       inputFocused: false,
       trivia:
         "Did you know: In 2012, The Matrix was selected by the U.S. Library of Congress for preservation in the National Film Registry archives for being culturally historically or aesthetically significant",
