@@ -25,6 +25,7 @@
         @blur="onInputBlur"
         v-model="searchString"
         @keydown.enter="searchEnterACB"
+        @input="onInputTyping"
       />
       <i class="material-symbols-outlined" @click="filterClickACB"
         >filter_alt</i
@@ -97,6 +98,14 @@ export default defineComponent({
     searchEnterACB() {
       this.searchClickACB(this.searchString);
     },
+    onInputTyping() {
+      if (this.typingTimeout) {
+        clearTimeout(this.typingTimeout);
+      }
+      this.typingTimeout = setTimeout(() => {
+        this.searchClickACB(this.searchString);
+      }, 500);
+    },
     filterClickACB() {
       console.log("Clicked filter!");
     },
@@ -118,6 +127,7 @@ export default defineComponent({
 
   data() {
     return {
+      typingTimeout: null as ReturnType<typeof setTimeout> | null,
       currentPage: 1,
       totalPages: 1,
       inputFocused: false,
