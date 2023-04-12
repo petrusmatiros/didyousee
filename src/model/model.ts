@@ -63,9 +63,9 @@ let model : model = {
     movies: wrap("/discover/movie", new URLSearchParams()).then(data => data.data.results.map(movieFromQuery)),
 }
 
-async function getTrending(type : any, timeWindow : any) {
+async function getTrending(type : any, timeWindow : any, page : any) {
     //return wrap(`/trending/${type}/${timeWindow}`, new URLSearchParams()).then(query => query.data.results);
-    return wrap(`/trending/${type}/${timeWindow}`, new URLSearchParams());
+    return wrap(`/trending/${type}/${timeWindow}`, new URLSearchParams({page}));
 }
 
 async function getMedia(id : String) {

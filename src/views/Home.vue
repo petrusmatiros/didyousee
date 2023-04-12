@@ -39,52 +39,109 @@
       />
     </div>
     <div class="page-buttons-container">
-      <button @click="goToPrevPageACB" :disabled="currentPage === 1">Prev</button>
+      <button @click="goToPrevPageACB" :disabled="currentPage === 1">
+        Prev
+      </button>
       <span>{{ currentPage }} / {{ totalPages }}</span>
-      <button @click="goToNextPageACB" :disabled="currentPage === totalPages">Next</button>
+      <button @click="goToNextPageACB" :disabled="currentPage === totalPages">
+        Next
+      </button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-
-import { defineComponent } from 'vue'
-import './../style.css'
-import MovieCard from '../components/MovieCard.vue'
-import { model, searchMovie, getTrending, getMedia, getSimilarMedia} from "../model/model"
-
+import { defineComponent } from "vue";
+import "./../style.css";
+import MovieCard from "../components/MovieCard.vue";
+import {
+  model,
+  searchMovie,
+  getTrending,
+  getMedia,
+  getSimilarMedia,
+} from "../model/model";
 
 export default defineComponent({
   components: {
     MovieCard,
   },
   async mounted() {
-      const movie: any | undefined = await getTrending("movie","day");
-      if (movie) {
-        console.log("dataMediaMounted", movie);
-        this.updateData(movie);
-      }
+    const movie: any | undefined = await getTrending("movie", "day", "1");
+    if (movie) {
+      console.log("dataMediaMounted", movie);
+      this.updateData(movie);
+    }
   },
   methods: {
-    //TODO:
-    goToPrevPageACB() {
+    async goToPrevPageACB() {
+      console.log(this.searchString);
       if (this.currentPage > 1) {
         this.currentPage--;
         console.log("prevPage", this.currentPage);
-        // Call API based on the new currentPage value
+
+        const params = new URLSearchParams();
+        params.append("query", this.searchString);
+        params.append("page", this.currentPage.toString());
+
+        if (this.searchString.length > 0) {
+          const movie: any | undefined = await searchMovie(
+            new URLSearchParams(params)
+          );
+          if (movie) {
+            console.log("dataSearchMedia", movie);
+            this.updateData(movie);
+          }
+        } else {
+          const movie: any | undefined = await getTrending(
+            "movie",
+            "day",
+            this.currentPage
+          );
+          if (movie) {
+            console.log("dataSearchMedia", movie);
+            this.updateData(movie);
+          }
+        }
       }
     },
-    //TODO:
-    goToNextPageACB() {
+    async goToNextPageACB() {
+      console.log(this.searchString);
       if (this.currentPage < this.totalPages) {
         this.currentPage++;
         console.log("nextPage", this.currentPage);
-        // Call API based on the new currentPage value
+
+        const params = new URLSearchParams();
+        params.append("query", this.searchString);
+        params.append("page", this.currentPage.toString());
+
+        if (this.searchString.length > 0) {
+          const movie: any | undefined = await searchMovie(
+            new URLSearchParams(params)
+          );
+          if (movie) {
+            console.log("dataSearchMedia", movie);
+            this.updateData(movie);
+          }
+        } else {
+          const movie: any | undefined = await getTrending(
+            "movie",
+            "day",
+            this.currentPage
+          );
+          if (movie) {
+            console.log("dataSearchMedia", movie);
+            this.updateData(movie);
+          }
+        }
       }
     },
     async searchClickACB(searchQuery: string) {
-      console.log(`Clicked search!: ${searchQuery}`);
-      const movie: any | undefined = await searchMovie(new URLSearchParams({ query: searchQuery }));
+      this.currentPage = 1;
+      console.log(`Searching: ${searchQuery}`);
+      const movie: any | undefined = await searchMovie(
+        new URLSearchParams({ query: searchQuery })
+      );
       if (movie) {
         console.log("dataSearchMedia", movie);
         this.updateData(movie);
