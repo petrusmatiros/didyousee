@@ -162,5 +162,5 @@ npm run build
 
 ## Developers
 - [Petrus Matiros](https://github.com/petrusmatiros)
-- [Max Olof Isralesson](https://github.com/Blezie)
+- Max Olof Isralesson [Blezie](https://github.com/Blezie) [maxisr](https://github.com/maxisr)
 - [Sebastian Thomas Willenbrink](https://github.com/Willenbrink)
