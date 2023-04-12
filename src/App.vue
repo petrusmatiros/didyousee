@@ -7,9 +7,7 @@
     <RouterLink to="/" class="nav-link">Disliked</RouterLink>
     <RouterLink to="/profile" class="nav-link" id="profile">Profile</RouterLink>
   </nav>
-  <RouterView class="router-view">
-
-  </RouterView>
+  <RouterView/>
   <footer class="flex-col flex-seperate" id="footer">
     <div class="footer-top flex-row flex-center">
       <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="./assets/didyousee.svg" alt="didyousee logo. an owl holding a binocular, looking for the next movie/series" decoding="sync" fetchpriority="high"/></RouterLink>

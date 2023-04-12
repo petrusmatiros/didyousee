@@ -1,5 +1,5 @@
 <template>
-  <Filter v-if="searchFilter"/>
+  <Filter v-if="searchFilter" />
   <div class="homepage flex-col flex-center">
     <div class="intro-container flex-col flex-center">
       <img
@@ -33,11 +33,7 @@
       >
     </div>
     <div class="trending-list flex-row flex-center">
-      <MovieCard
-        v-for="(movie, index) in movies"
-        :key="index"
-        :movie="movie"
-      />
+      <MovieCard v-for="(movie, index) in movies" :key="index" :movie="movie" />
     </div>
     <div class="page-buttons-container">
       <button @click="goToPrevPageACB" :disabled="currentPage === 1">
@@ -69,98 +65,73 @@ export default defineComponent({
     MovieCard,
     Filter,
   },
-  async mounted() {
-    const movie: any | undefined = await getTrending("movie", "day", "1");
-    if (movie) {
-      console.log("dataMediaMounted", movie);
-      this.updateData(movie);
-    }
+  mounted() {
+    this.getCorrectData();
   },
   methods: {
-    async goToPrevPageACB() {
+    getCorrectData() {
+      this.searchString.length > 0
+        ? this.getSearchMedia()
+        : this.getTrendingMedia();
+    },
+    async getTrendingMedia() {
+      const movie: any | undefined = await getTrending(
+        "movie",
+        "day",
+        this.currentPage
+      );
+      console.log("API Trending");
+      if (movie) {
+        this.updateData(movie);
+      }
+    },
+    async getSearchMedia() {
+      const params = new URLSearchParams();
+      params.append("query", this.searchString);
+      params.append("page", this.currentPage.toString());
+
+      const movie: any | undefined = await searchMovie(
+        new URLSearchParams(params)
+      );
+      console.log("API Search");
+      if (movie) {
+        this.updateData(movie);
+      }
+    },
+    goToPrevPageACB() {
       console.log(this.searchString);
       if (this.currentPage > 1) {
         this.currentPage--;
-        console.log("prevPage", this.currentPage);
-
-        const params = new URLSearchParams();
-        params.append("query", this.searchString);
-        params.append("page", this.currentPage.toString());
-
-        if (this.searchString.length > 0) {
-          const movie: any | undefined = await searchMovie(
-            new URLSearchParams(params)
-          );
-          if (movie) {
-            console.log("dataSearchMedia", movie);
-            this.updateData(movie);
-          }
-        } else {
-          const movie: any | undefined = await getTrending(
-            "movie",
-            "day",
-            this.currentPage
-          );
-          if (movie) {
-            console.log("dataSearchMedia", movie);
-            this.updateData(movie);
-          }
-        }
+        this.getCorrectData();
       }
     },
-    async goToNextPageACB() {
+    goToNextPageACB() {
       console.log(this.searchString);
       if (this.currentPage < this.totalPages) {
         this.currentPage++;
-        console.log("nextPage", this.currentPage);
-
-        const params = new URLSearchParams();
-        params.append("query", this.searchString);
-        params.append("page", this.currentPage.toString());
-
-        if (this.searchString.length > 0) {
-          const movie: any | undefined = await searchMovie(
-            new URLSearchParams(params)
-          );
-          if (movie) {
-            console.log("dataSearchMedia", movie);
-            this.updateData(movie);
-          }
-        } else {
-          const movie: any | undefined = await getTrending(
-            "movie",
-            "day",
-            this.currentPage
-          );
-          if (movie) {
-            console.log("dataSearchMedia", movie);
-            this.updateData(movie);
-          }
-        }
+        this.getCorrectData();
       }
     },
     async searchClickACB(searchQuery: string) {
+      if (this.typingTimeout) {
+        clearTimeout(this.typingTimeout);
+      }
       this.currentPage = 1;
       if (searchQuery.length <= 0) {
-        console.error("Search query is empty.");
-        return; 
+        this.searchString = "";
+        this.getTrendingMedia();
+        return;
       }
       console.log(`Searching: ${searchQuery}`);
-      const movie: any | undefined = await searchMovie(
-        new URLSearchParams({ query: searchQuery })
-      );
-      if (movie) {
-        console.log("dataSearchMedia", movie);
-        this.updateData(movie);
-      }
+      this.getSearchMedia();
+    },
+    searchEnterACB() {
+      this.searchClickACB(this.searchString);
     },
     updateData(response: any) {
       this.movies = response.data.results;
       this.currentPage = response.data.page;
       this.totalPages = response.data.total_pages;
-    },
-    searchEnterACB() {
-      this.searchClickACB(this.searchString);
     },
     onInputTyping() {
       if (this.typingTimeout) {
@@ -189,7 +160,23 @@ export default defineComponent({
       }
     },
   },
-
+  beforeRouteLeave(to, from, next) {
+    // Stores values
+    localStorage.setItem("userSearch", JSON.stringify(this.searchString));
+    localStorage.setItem("userPage", JSON.stringify(this.currentPage));
+    next();
+  },
+  created() {
+    // Reads saved values
+    const savedSearch = localStorage.getItem("userSearch");
+    const savedPage = localStorage.getItem("userPage");
+    if (savedSearch) {
+      this.searchString = JSON.parse(savedSearch);
+      if (savedPage) {
+        this.currentPage = parseInt(JSON.parse(savedPage));
+      }
+    }
+  },
   data() {
     return {
       typingTimeout: null as ReturnType<typeof setTimeout> | null,
