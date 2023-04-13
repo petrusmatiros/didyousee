@@ -36,11 +36,11 @@
       <MovieCard v-for="(movie, index) in movies" :key="index" :movie="movie" />
     </div>
     <div class="page-buttons-container">
-      <button @click="goToPrevPageACB" :disabled="currentPage === 1">
+      <button class="button" @click="goToPrevPageACB" :disabled="currentPage === 1">
         Prev
       </button>
       <span>{{ currentPage }} / {{ totalPages }}</span>
-      <button @click="goToNextPageACB" :disabled="currentPage === totalPages">
+      <button class="button" @click="goToNextPageACB" :disabled="currentPage === totalPages">
         Next
       </button>
     </div>

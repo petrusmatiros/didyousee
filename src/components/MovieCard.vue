@@ -1,5 +1,5 @@
 <template>
-  <div class="movie-card" @click="handleClickACB">
+  <div class="movie-card flex-col" @click="handleClickACB">
     <img
       :src="imagePath"
       loading="lazy"

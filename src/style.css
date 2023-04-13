@@ -99,6 +99,41 @@ body {
     font-size: var(--font-small);
     margin: 0;
   }
+  .searchBar {
+    width: 19rem !important;
+  }
+  .margin {
+    margin-left: var(--margin-large) !important;
+    margin-right: var(--margin-large)!important;
+    padding-left: var(--padding-small) !important;
+    padding-right: var(--padding-small)!important;
+  }
+  #nav {
+    padding: var(--padding-small) !important;
+  }
+  .nav-link-container {
+    margin: 0 var(--margin-large) 0 var(--margin-large) !important;
+  }
+  .trending-list {
+    gap: 0.5rem !important;
+  }
+  .movie-card {
+    width: 6rem !important;
+    max-width: 6rem !important;
+    padding: var(--padding-small) !important;
+  }
+  .movie-poster {
+    /* object-fit: contain; */
+    min-width: 5.875rem !important;
+    width: 5.875rem !important;
+    min-height: 8.5rem !important;
+    height: 8.5rem !important;
+  }
+  .movie-card h2 {
+    font-size: var(--font-small) !important;
+    padding: 0 !important;
+    vertical-align: middle;
+  }
 
 }
 
@@ -217,10 +252,17 @@ a:active {
 .nav-link {
   text-decoration: none;
   color: var(--fg);
-  margin-right: var(--margin-large-2);
   font-weight: var(--font-weight-regular);
 }
+.nav-link-margin-right {
+  margin-right: var(--margin-large-2);
+}
 #profile {
+  width: fit-content;
+  height: 2rem;
+  padding:  var(--padding-small) var(--padding-medium) var(--padding-small) var(--padding-medium);
+  border-radius: var(--border-radius);
+  background-color: var(--bg-lighter);
   margin: 0 0 0 auto;
 }
 /*  ================== Nav END ================== */
@@ -290,6 +332,7 @@ a:active {
 }
 
 .trending-list {
+  align-items: stretch !important;
   flex-wrap: wrap;
   gap: 1rem;
 }
@@ -297,14 +340,13 @@ a:active {
 .movie-card {
   cursor: pointer;
   user-select: none;
-  display: flex;
   justify-content: start;
-  align-items: stretch;
+  align-items: center;
   gap: 1rem;
-  flex-direction: column;
-  align-items: ce;
   width: 11rem;
-  height: 22rem;
+  max-width: 11rem;
+  height: auto;
+  flex-grow: 1;
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
   background-color: var(--main);
@@ -330,7 +372,6 @@ a:active {
   font-weight: var(--font-weight-regular);
   text-align: center;
   margin: 0;
-  padding: var(--padding-medium) 0 var(--padding-medium) 0;
   color: var(--fg);
   vertical-align: middle;
 }
@@ -368,11 +409,6 @@ a:active {
   flex-direction: row;
   gap: 1rem;
   margin-top: var(--margin-medium)
-}
-
-.page-buttons-container button {
-  font-size: var(--font-medium);
-  font-weight: var(--font-weight-bold);
 }
 /*  ================== Home page END ================== */
 
