@@ -80,6 +80,7 @@ body {
 
 h1,
 p {
+  font-size: var(--font-small);
   margin: 0;
 }
 
@@ -205,9 +206,6 @@ a:active {
 }
 
 .intro-container {
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
   max-width: 45rem;
 }
 
@@ -270,7 +268,7 @@ a:active {
   justify-content: center;
   align-items: center;
   font-size: var(--font-small-2);
-  font-weight: var(--font-weight-black);
+  font-weight: var(--font-weight-regular);
   text-align: center;
   margin: 0;
   padding: var(--padding-medium) 0 var(--padding-medium) 0;
