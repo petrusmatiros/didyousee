@@ -112,6 +112,22 @@ p {
   font-size: var(--font-medium);
 }
 
+.button {
+  cursor: pointer;
+  user-select: none;
+  padding: var(--padding-medium);
+  border-radius: var(--border-radius);
+  font-size: var(--font-medium);
+  font-weight: var(--font-weight-medium);
+  border: none;
+  background-color: var(--bg-lighter);
+}
+
+.back {
+  width: fit-content !important;
+}
+
+
 /* ============= Modular classes ============  */
 .flex-row {
   display: flex;

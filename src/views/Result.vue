@@ -1,7 +1,9 @@
 <template>
   <div class="result flex-col">
+    <button class="button back" @click="goBackACB()">
+      <i class="material-symbols-outlined">keyboard_backspace</i>
+    </button>
     <div class="main-info flex-col">
-      <button @click="goBackACB()">BACK</button>
       <div class="content flex-row">
         <img class="loading-skeleton" loading="lazy" :src="poster" />
         <div class="content-info flex-col flex-start">
