@@ -79,7 +79,32 @@ body {
   background-attachment: fixed;
 }
 
-h1,
+/* Desktop styles */
+@media only screen and (min-width: 1024px) {
+  /* Styles for screens larger than 1024px (Desktop) */
+}
+
+/* Tablet styles */
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  /* Styles for screens between 768px and 1023px (Tablet) */
+}
+
+/* Mobile styles */
+@media only screen and (max-width: 767px) {
+  /* Styles for screens smaller than 767px (Mobile) */
+  h1 {
+    margin: 0;
+  }
+  p {
+    font-size: var(--font-small);
+    margin: 0;
+  }
+
+}
+
+h1 {
+  margin: 0;
+}
 p {
   font-size: var(--font-small-2);
   margin: 0;
@@ -187,6 +212,7 @@ a:active {
 }
 #logo {
   width: 3rem;
+  height: 3rem;
 }
 .nav-link {
   text-decoration: none;
