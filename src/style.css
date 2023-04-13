@@ -1,12 +1,12 @@
 :root {
   /* For cards etc */
-  --main: hsl(230, 4%, 14%);
+  --main: hsl(230, 4%, 16%);
   --main-hover: hsl(230, 4%, 12%);
-  --main-active: hsl(230, 4%, 10%);
+  --main-active: hsl(230, 4%, 8%);
   /* BG, FG and nav + footer */
   --bg: hsl(230, 4%, 24%);
   --bg-light: hsl(230, 4%, 28%);
-  --bg-lighter: hsl(230, 4%, 33%);
+  --bg-lighter: hsl(230, 4%, 32%);
   --fg: hsl(0, 0%, 100%);
   --black: hsl(0, 0%, 0%);
   /* Accent colors */
@@ -15,6 +15,10 @@
   --accent-active: hsl(39, 100%, 47%);
   --accent-logo: hsl(39, 100%, 50%);
   --accent-logo-shadow: hsla(39, 100%, 46%, 0.3);
+  /* Input */
+  --input: hsl(0, 0%, 10%);
+  --input-text: hsl(0, 0%, 5%);
+  --input-focus: hsl(0, 0%, 3%);
   /* Shadows */
   --shadow: hsla(0, 0%, 0%, 0.3);
   --box-shadow: 0 0.125rem 0.5rem var(--shadow);
@@ -55,10 +59,6 @@
   --margin-large-2: 1.25rem;
   --margin-large-3: 1.5rem;
   --margin-large-2: 2rem;
-  /* Input */
-  --input: hsl(0, 0%, 10%);
-  --input-text: hsl(0, 0%, 8%);
-  --input-focus: hsl(0, 0%, 6%);
 }
 
 body {
@@ -86,6 +86,12 @@ p {
 #app {
   min-height: 100vh !important;
   height: 100vh !important;
+}
+.margin {
+  margin-left: var(--margin-large-3) !important;
+  margin-right: var(--margin-large-3)!important;
+  padding-left: var(--padding-large) !important;
+  padding-right: var(--padding-large)!important;
 }
 
 /* ============= Modular classes ============  */
@@ -141,16 +147,18 @@ a:active {
   padding: var(--padding-large);
   min-height: 2.5rem;
 }
+.nav-link-container {
+  width: 100%;
+  margin: 0 var(--margin-large-3) 0 var(--margin-large-3);
+}
 #logo {
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-large-2);
   width: 3rem;
 }
 .nav-link {
   text-decoration: none;
   color: var(--fg);
   margin-right: var(--margin-large-2);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-regular);
 }
 #profile {
   margin: 0 0 0 auto;
@@ -200,27 +208,28 @@ a:active {
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+  max-width: 45rem;
 }
 
 .intro-container img {
   width: 10rem;
-  height:8rem;
+  /* height:8rem; */
 }
 .intro-container h1 {
   font-size: var(--font-huge);
   font-weight: var(--font-weight-black);
   margin: 0;
-  padding: var(--padding-large);
   color: var(--accent-logo);
-  text-shadow: 0 0 0.75rem var(--accent-logo-shadow),
+  /* text-shadow: 0 0 0.75rem var(--accent-logo-shadow),
     0 0 0.75rem var(--accent-logo-shadow), 0 0 0.75rem var(--accent-logo-shadow),
-    0 0 0.75rem var(--accent-logo-shadow); /* Glowing effect */
+    0 0 0.75rem var(--accent-logo-shadow); */
 }
 
 .intro-container p {
   margin: 0;
   padding: var(--padding-large);
   word-wrap: break-word;
+  text-align: center;
 }
 
 .trending-list {
@@ -312,8 +321,8 @@ a:active {
 
 /*  ================== SearchBar END ================== */
 .searchBar {
-  width: 25rem;
-  padding: var(--padding-medium);
+  width: 45rem;
+  padding: var(--padding-medium-2);
   margin-bottom: var(--margin-large-2);
   border-radius: var(--border-radius);
   background-color: var(--input);

@@ -1,13 +1,15 @@
 <template>
   <nav class="flex-row flex-center" id="nav">
-    <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="./assets/didyousee.svg" alt="didyousee logo. an owl holding a binocular, looking for the next movie/series" decoding="sync" fetchpriority="high"/></RouterLink>
-    <RouterLink to="/" class="nav-link">Watchlist</RouterLink>
-    <RouterLink to="/" class="nav-link">Seen</RouterLink>
-    <RouterLink to="/" class="nav-link">Liked</RouterLink>
-    <RouterLink to="/" class="nav-link">Disliked</RouterLink>
-    <RouterLink to="/profile" class="nav-link" id="profile">Profile</RouterLink>
+    <div class="nav-link-container flex-row flex-center">
+      <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="./assets/didyousee.svg" alt="didyousee logo. an owl holding a binocular, looking for the next movie/series" decoding="sync" fetchpriority="high"/></RouterLink>
+      <RouterLink to="/" class="nav-link">Watchlist</RouterLink>
+      <RouterLink to="/" class="nav-link">Seen</RouterLink>
+      <RouterLink to="/" class="nav-link">Liked</RouterLink>
+      <RouterLink to="/" class="nav-link">Disliked</RouterLink>
+      <RouterLink to="/profile" class="nav-link" id="profile">Profile</RouterLink>
+    </div>
   </nav>
-  <RouterView/>
+  <RouterView class="margin"></RouterView>
   <footer class="flex-col flex-seperate" id="footer">
     <div class="footer-top flex-row flex-center">
       <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="./assets/didyousee.svg" alt="didyousee logo. an owl holding a binocular, looking for the next movie/series" decoding="sync" fetchpriority="high"/></RouterLink>

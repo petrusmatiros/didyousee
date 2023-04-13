@@ -8,7 +8,7 @@
         decoding="async"
         fetchpriority="high"
       />
-      <h1>did you see...?</h1>
+      <h1>Did  You See</h1>
       <p>{{ trivia }}</p>
     </div>
     <div
