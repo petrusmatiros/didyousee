@@ -81,7 +81,7 @@ body {
 
 h1,
 p {
-  font-size: var(--font-small);
+  font-size: var(--font-small-2);
   margin: 0;
 }
 
@@ -417,11 +417,13 @@ input[name="inputSearchBar"]:focus {
 }
 .content-info--title {
   font-weight:var(--font-weight-bold);
+  font-size: var(--font-large-2);
 
 }
 
 .content-info--overview {
   font-weight:var(--font-weight-medium);
+  font-size: var(--font-small-2);
 }
 
 .content-more-info {
