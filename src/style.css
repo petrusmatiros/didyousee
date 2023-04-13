@@ -96,6 +96,21 @@ p {
   padding-right: var(--padding-large)!important;
 }
 
+.error-404 {
+  gap: 1rem;
+}
+
+.error-404 h1 {
+  font-weight: var(--font-weight-black);
+  font-size: var(--font-large-3);
+
+}
+
+.error-404 p {
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-medium);
+}
+
 /* ============= Modular classes ============  */
 .flex-row {
   display: flex;
