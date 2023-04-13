@@ -21,11 +21,12 @@ export default defineComponent({
 <!-- Style ska bort sen och placeras i style.css -->
 <style scoped>
 .search-filter {
+  display: none;
   position: fixed;
   left: 0; 
   width: 33%; 
   height: 100%; 
-  background-color: red;
+  background-color: black;
 }
 
 h2 {

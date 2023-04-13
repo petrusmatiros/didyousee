@@ -75,7 +75,8 @@ body {
   margin: 0;
   box-sizing: border-box;
   color: var(--fg);
-  background-color: var(--bg);
+  background: linear-gradient(var(--main), var(--bg));
+  background-attachment: fixed;
 }
 
 h1,
