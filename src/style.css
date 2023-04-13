@@ -9,6 +9,7 @@
   --bg-lighter: hsl(230, 4%, 32%);
   --fg: hsl(0, 0%, 100%);
   --black: hsl(0, 0%, 0%);
+  --overlay: hsla(0, 0%, 0%, 0.5);
   /* Accent colors */
   --accent: hsl(39, 100%, 65%);
   --accent-hover: hsl(39, 100%, 57%);
@@ -155,7 +156,7 @@ p {
   padding-left: var(--padding-large) !important;
   padding-right: var(--padding-large)!important;
 }
-
+/* ============= Error page ============  */
 .error-404 {
   min-height: 100vh !important;
   gap: 1rem;
@@ -171,6 +172,7 @@ p {
   font-weight: var(--font-weight-medium);
   font-size: var(--font-medium);
 }
+/* ============= Error page END ============  */
 
 .button {
   cursor: pointer;
@@ -217,6 +219,39 @@ p {
 }
 .hidden {
   display:none;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--overlay);
+  backdrop-filter: blur(0.25rem);
+  z-index: 1;
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--bg-light);
+  border-radius: var(--border-radius);
+  padding: var(--padding-large);
+  z-index: 2;
+}
+.popup-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: var(--padding-small);
+  font-size: var(--font-large);
+  font-weight: var(--font-weight-regular);
+  color: var(--fg);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 /* ============= Modular classes ============  */
 
@@ -428,7 +463,7 @@ a:active {
   width: 50rem;
 }
 
-.material-symbols-outlined {
+.material-symbols-rounded {
   user-select: none;
   cursor: pointer;
   padding: var(--padding-small);

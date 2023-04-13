@@ -5,6 +5,7 @@
       <RouterLink to="/profile" class="nav-link flex-row flex-center" id="profile">Profile</RouterLink>
     </div>
   </nav>
+  
   <RouterView class="margin"></RouterView>
   <footer class="flex-col flex-seperate" id="footer">
     <div class="footer-top flex-row flex-center">

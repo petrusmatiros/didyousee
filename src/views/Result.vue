@@ -1,7 +1,7 @@
 <template>
   <div class="result flex-col">
     <button class="button back" @click="goBackACB()">
-      <i class="material-symbols-outlined">keyboard_backspace</i>
+      <span class="material-symbols-rounded">keyboard_backspace</span>
     </button>
     <div class="main-info flex-col">
       <div class="content flex-row">
@@ -41,16 +41,16 @@
       </div>
       <div class="list-buttons flex-row flex-center">
         <button @click="handleLikedACB">
-          <i class="material-symbols-outlined">favorite</i>
+          <span class="material-symbols-rounded">favorite</span>
         </button>
         <button @click="handleWatchlistACB">
-          <i class="material-symbols-outlined">bookmark</i>
+          <span class="material-symbols-rounded">bookmark</span>
         </button>
         <button @click="handleSeenACB">
-          <i class="material-symbols-outlined">task_alt</i>
+          <span class="material-symbols-rounded">task_alt</span>
         </button>
         <button @click="handleDislikedACB">
-          <i class="material-symbols-outlined">block</i>
+          <span class="material-symbols-rounded">block</span>
         </button>
       </div>
     </div>

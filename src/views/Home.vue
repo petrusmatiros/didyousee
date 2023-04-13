@@ -11,12 +11,21 @@
       <h1>Did  You See</h1>
       <p>{{ trivia }}</p>
     </div>
+    <!-- <div class="overlay"></div> -->
+    <!-- <div class="popup">
+      <div class="popup-close"><span class="material-symbols-rounded">close</span></div>
+      <h1>Seasons:</h1>
+      <p>Season 1</p>
+      <p>Season 2</p>
+      <p>Season 3</p>
+      <p>Season 4</p>
+    </div> -->
     <div
       class="searchBar flex-row flex-center"
       :class="{ 'searchBar--focused': inputFocused }"
     >
-      <i class="material-symbols-outlined" @click="filterClickACB"
-        >filter_alt</i
+      <span class="material-symbols-rounded" @click="filterClickACB"
+        >filter_alt</span
       >
       <input
         type="text"
@@ -28,8 +37,8 @@
         @keydown.enter="searchEnterACB"
         @input="onInputTyping"
       />
-      <i class="material-symbols-outlined" @click="searchClickACB(searchString)"
-        >search</i
+      <span class="material-symbols-rounded" @click="searchClickACB(searchString)"
+        >search</span
       >
     </div>
     <div class="trending-list flex-row flex-center">
@@ -39,7 +48,7 @@
       <button class="button" @click="goToPrevPageACB" :disabled="currentPage === 1">
         Prev
       </button>
-      <span>{{ currentPage }} / {{ totalPages }}</span>
+      <span >{{ currentPage }} / {{ totalPages }}</span>
       <button class="button" @click="goToNextPageACB" :disabled="currentPage === totalPages">
         Next
       </button>
