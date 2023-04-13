@@ -97,12 +97,13 @@ p {
 }
 
 .error-404 {
+  min-height: 100vh !important;
   gap: 1rem;
 }
 
 .error-404 h1 {
-  font-weight: var(--font-weight-black);
-  font-size: var(--font-large-3);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-huge);
 
 }
 

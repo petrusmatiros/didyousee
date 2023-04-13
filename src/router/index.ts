@@ -4,6 +4,7 @@ import Result from '../views/Result.vue'
 import Profile from '../views/Profile.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
+import PageNotFound from '../views/PageNotFound.vue'
 
 const routes = [
   {
@@ -31,6 +32,11 @@ const routes = [
     name: 'Register',
     component: Register,
   },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: PageNotFound,
+  }  
 ]
 
 const router = createRouter({
