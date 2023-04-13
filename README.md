@@ -3,7 +3,6 @@
 <h1 align="center">didyousee</h1>
 </p>
 
-
 ## Table of Contents
   - [Website URL](#website-url)
   - [Project description](#project-description)
