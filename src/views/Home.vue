@@ -20,27 +20,6 @@
       <p>Season 3</p>
       <p>Season 4</p>
     </div> -->
-    <div
-      class="searchBar flex-row flex-center"
-      :class="{ 'searchBar--focused': inputFocused }"
-    >
-      <span class="material-symbols-rounded" @click="filterClickACB"
-        >filter_alt</span
-      >
-      <input
-        type="text"
-        placeholder="Search for a movie"
-        name="inputSearchBar"
-        @focus="onInputFocus"
-        @blur="onInputBlur"
-        v-model="searchString"
-        @keydown.enter="searchEnterACB"
-        @input="onInputTyping"
-      />
-      <span class="material-symbols-rounded" @click="searchClickACB(searchString)"
-        >search</span
-      >
-    </div>
     <div class="trending-list flex-row flex-center">
       <MovieCard v-for="(movie, index) in movies" :key="index" :movie="movie" />
     </div>

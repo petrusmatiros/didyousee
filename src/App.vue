@@ -2,10 +2,13 @@
   <nav class="flex-row flex-center" id="nav">
     <div class="nav-link-container flex-row flex-center">
       <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="./assets/didyousee.svg" alt="didyousee logo. an owl holding a binocular, looking for the next movie/series" decoding="sync" fetchpriority="high"/></RouterLink>
-      <RouterLink to="/profile" class="nav-link flex-row flex-center" id="profile">Profile</RouterLink>
+      <div class="nav-link-right flex-row flex-center">
+        
+        <SearchBar></SearchBar>
+        <RouterLink to="/profile" class="nav-link flex-row flex-center" id="profile">Profile</RouterLink>
+      </div>
     </div>
   </nav>
-  
   <RouterView class="margin"></RouterView>
   <footer class="flex-col flex-seperate" id="footer">
     <div class="footer-top flex-row flex-center">
@@ -29,9 +32,13 @@
 import './style.css'
 import { RouterView, RouterLink } from 'vue-router';
 import { defineComponent } from 'vue'
+import SearchBar from "../src/components/SearchBar.vue";
 
 export default defineComponent({
   name: 'App',
+  components: {
+    SearchBar,
+  },
   data() {
     return {
       // message: 'Hello world!',
