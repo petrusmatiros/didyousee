@@ -28,7 +28,7 @@ function wrap(query : String, params : URLSearchParams) {
 interface Content {
     id: Number,
     overview: String,
-    rating: Number,
+    vote_average: Number,
     popularity: Number,
     release_date: String,
     spoken_languages: {
@@ -37,7 +37,7 @@ interface Content {
         name: String,
     }[],
     backdrop_path: String,
-    img_path: String
+    poster_path: String
     genres: {
         id: Number,
         name: String,
@@ -45,8 +45,17 @@ interface Content {
     budget: number
     revenue: number
     status: String,
-    // cast: any
-    // reviews: any
+    // credits: {
+    //     cast: any[],
+    //     crew: any[],
+    // }
+    // reviews: {
+    //     id: Number,
+    //     page: Number,
+    //     results: any[],
+    //     total_pages: Number,
+    //     total_results: Number,
+    // }
 }
 
 interface Movie extends Content {
@@ -80,9 +89,6 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
         budget: input.budget,
         revenue: input.revenue,
         status: input.status,
-        // cast: input.cast,
-        // reviews: input.reviews,
-
     }
     if ("title" in input) {
         return {
@@ -90,7 +96,6 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
             title: input.title,
             runtime: input.runtime,
             belongs_to_collection: input.belongs_to_collection,
-            
         }
     } else {
         return {
@@ -114,7 +119,7 @@ interface Model {
 // Everything that should persist
 let model : Model = {
 // TODO fetch data lazily
-    movies: wrap("/discover/movie", new URLSearchParams()).then(data => data.data.results.map(movieFromQuery)),
+    movies: wrap("/discover/movie", new URLSearchParams()).then(data => data.data.results.map(contentFromQuery)),
 }
 
 async function getTrending(type : any, timeWindow : any, page : any) {
