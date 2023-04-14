@@ -1,12 +1,12 @@
 import {tmdbApi, } from "./apiConfig";
 
-function image(path : String) {
+function image(path : string) {
     let params = new URLSearchParams({"api_key": import.meta.env.VITE_TMDB_API_KEY});
     let res = "https://image.tmdb.org/" + "/t/p/w500" + path + "?" + params;
     return res;
 }
 
-function wrap(query : String, params : URLSearchParams) {
+function wrap(query : string, params : URLSearchParams) {
     params.append("api_key", import.meta.env.VITE_TMDB_API_KEY);
     let res = tmdbApi.get(query + "?" + params);
     return res;
@@ -26,52 +26,52 @@ function wrap(query : String, params : URLSearchParams) {
  */
 
 interface Content {
-    id: Number,
-    overview: String,
-    vote_average: Number,
-    popularity: Number,
-    release_date: String,
+    id: number,
+    overview: string,
+    vote_average: number,
+    popularity: number,
+    release_date: string,
     spoken_languages: {
-        english_name: String,
-        iso_639_1: String,
-        name: String,
+        english_name: string,
+        iso_639_1: string,
+        name: string,
     }[],
-    backdrop_path: String,
-    poster_path: String
+    backdrop_path: string,
+    poster_path: string
     genres: {
-        id: Number,
-        name: String,
+        id: number,
+        name: string,
     }[],
     budget: number
     revenue: number
-    status: String,
+    status: string,
     // credits: {
     //     cast: any[],
     //     crew: any[],
     // }
     // reviews: {
-    //     id: Number,
-    //     page: Number,
+    //     id: number,
+    //     page: number,
     //     results: any[],
-    //     total_pages: Number,
-    //     total_results: Number,
+    //     total_pages: number,
+    //     total_results: number,
     // }
 }
 
 interface Movie extends Content {
-    title: String
-    runtime: Number,
+    title: string
+    runtime: number,
     belongs_to_collection: {},
 }
 
 interface Series extends Content {
-    name: String,
+    name: string,
     created_by: any[],
-    episode_run_time: Number[],
+    episode_run_time: number[],
     last_episode_to_air: {},
     next_episode_to_air: {},
-    number_of_episodes: Number,
-    number_of_seasons: Number,
+    number_of_episodes: number,
+    number_of_seasons: number,
     seasons: any[],
 }
 
@@ -122,17 +122,17 @@ let model : Model = {
     movies: wrap("/discover/movie", new URLSearchParams()).then(data => data.data.results.map(contentFromQuery)),
 }
 
-async function getTrending(type : any, timeWindow : any, page : any) {
+async function getTrending(type : string, timeWindow : string, page : string) {
     //return wrap(`/trending/${type}/${timeWindow}`, new URLSearchParams()).then(query => query.data.results);
     return wrap(`/trending/${type}/${timeWindow}`, new URLSearchParams({page}));
 }
 
-async function getMedia(id : String) {
+async function getMedia(id : string) {
     //return wrap(`/movie/${id}`, new URLSearchParams()).then(movie => movieFromQuery(movie));
     return wrap(`/movie/${id}`, new URLSearchParams());
 }
 
-async function getSimilarMedia(id : String) {
+async function getSimilarMedia(id : string) {
     //return wrap(`/movie/${id}/similar`, new URLSearchParams()).then(query => query.data.results);
     return wrap(`/movie/${id}/similar`, new URLSearchParams());
 }
