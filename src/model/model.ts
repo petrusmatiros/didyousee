@@ -1,12 +1,12 @@
 import {tmdbApi, } from "./apiConfig";
 
-function image(path : string) {
+function image(path : String) {
     let params = new URLSearchParams({"api_key": import.meta.env.VITE_TMDB_API_KEY});
     let res = "https://image.tmdb.org/" + "/t/p/w500" + path + "?" + params;
     return res;
 }
 
-function wrap(query : string, params : URLSearchParams) {
+function wrap(query : String, params : URLSearchParams) {
     params.append("api_key", import.meta.env.VITE_TMDB_API_KEY);
     let res = tmdbApi.get(query + "?" + params);
     return res;
@@ -24,41 +24,95 @@ function wrap(query : string, params : URLSearchParams) {
 - Director, writer (tror det tas från credits)
 - Budget, revenue
  */
-interface movie {
-    id: number
-    title: string
-    overview: string
-    rating: number
-    popularity: number
-    orig_lang: any
-    img_path: string
-    // genres: any
+
+interface Content {
+    id: Number,
+    overview: String,
+    rating: Number,
+    popularity: Number,
+    release_date: String,
+    spoken_languages: {
+        english_name: String,
+        iso_639_1: String,
+        name: String,
+    }[],
+    backdrop_path: String,
+    img_path: String
+    genres: {
+        id: Number,
+        name: String,
+    }[],
+    budget: number
+    revenue: number
+    status: String,
     // cast: any
     // reviews: any
-    // budget: number
-    // revenue: number
 }
 
-function movieFromQuery(input : any) : movie {
-    return {
+interface Movie extends Content {
+    title: String
+    runtime: Number,
+    belongs_to_collection: {},
+}
+
+interface Series extends Content {
+    name: String,
+    created_by: any[],
+    episode_run_time: Number[],
+    last_episode_to_air: {},
+    next_episode_to_air: {},
+    number_of_episodes: Number,
+    number_of_seasons: Number,
+    seasons: any[],
+}
+
+function contentFromQuery(input: Movie | Series): Movie | Series {
+    const content = {
         id: input.id,
-        title: input.title,
         overview: input.overview,
         rating: input.vote_average,
         popularity: input.popularity,
-        orig_lang: input.original_language,
+        release_date: input.release_date,
+        spoken_languages: input.spoken_languages,
+        backdrop_path: image(input.backdrop_path),
         img_path: image(input.poster_path),
-        // genre_ids: input.genre_ids,
+        genres: input.genres,
+        budget: input.budget,
+        revenue: input.revenue,
+        status: input.status,
+        // cast: input.cast,
+        // reviews: input.reviews,
 
+    }
+    if ("title" in input) {
+        return {
+            ...content,
+            title: input.title,
+            runtime: input.runtime,
+            belongs_to_collection: input.belongs_to_collection,
+            
+        }
+    } else {
+        return {
+            ...content,
+            name: input.name,
+            created_by: input.created_by,
+            episode_run_time: input.episode_run_time,
+            last_episode_to_air: input.last_episode_to_air,
+            next_episode_to_air: input.next_episode_to_air,
+            number_of_episodes: input.number_of_episodes,
+            number_of_seasons: input.number_of_seasons,
+            seasons: input.seasons,
+        }
     }
 }
 
-interface model {
-    movies: Promise<[movie]>
+interface Model {
+    movies: Promise<[Movie]>
 }
 
 // Everything that should persist
-let model : model = {
+let model : Model = {
 // TODO fetch data lazily
     movies: wrap("/discover/movie", new URLSearchParams()).then(data => data.data.results.map(movieFromQuery)),
 }
@@ -83,5 +137,5 @@ async function searchMovie(query : URLSearchParams) {
     return wrap("/search/movie", query);
 }
 
-export type {movie};
+export type {Movie};
 export {model, searchMovie, getTrending, getMedia, getSimilarMedia};
