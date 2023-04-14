@@ -25,7 +25,7 @@ import { defineComponent } from "vue";
 import "./../style.css";
 import {
   model,
-  searchMovie,
+  searchMedia,
 } from "../model/model";
 
 export default defineComponent({

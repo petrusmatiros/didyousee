@@ -122,7 +122,7 @@
 import { defineComponent } from "vue";
 import "./../style.css";
 import MovieCard from "../components/MovieCard.vue";
-import {movie, model, searchMovie, getTrending, getMedia, getSimilarMedia} from "../model/model";
+import {model, searchMedia, getTrending, getMedia, getSimilarMedia} from "../model/model";
 
 export default defineComponent({
   name: "Result",
@@ -140,7 +140,7 @@ export default defineComponent({
   },
   methods: {
     async retrieveMediaData(id: string) {
-      const movie: any | undefined = await getMedia(id);
+      const movie: any | undefined = await getMedia('movie', id);
       if (movie) {
         console.log("dataMediaMounted", movie);
         this.updateData(movie);
@@ -159,7 +159,7 @@ export default defineComponent({
       this.genres = response.data.genres;
     },
     async retrieveSimilarMedia(id:string) {
-      const movie: any | undefined = await getSimilarMedia(id);
+      const movie: any | undefined = await getSimilarMedia('movie', id);
       if (movie) {
         console.log("dataSimilarMediaMounted", movie);
         this.movies = movie.data.results.splice(0, 8);
