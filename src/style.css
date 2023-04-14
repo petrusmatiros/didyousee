@@ -1,9 +1,10 @@
 :root {
   /* For cards etc */
-  --main: hsl(230, 4%, 16%);
-  --main-hover: hsl(230, 4%, 12%);
-  --main-active: hsl(230, 4%, 8%);
+  --main: hsl(230, 4%, 14%);
+  --main-hover: hsl(230, 4%, 10%);
+  --main-active: hsl(230, 4%, 6%);
   /* BG, FG and nav + footer */
+  --bg-dark: hsl(230, 4%, 20%);
   --bg: hsl(230, 4%, 24%);
   --bg-light: hsl(230, 4%, 28%);
   --bg-lighter: hsl(230, 4%, 32%);
@@ -76,7 +77,7 @@ body {
   margin: 0;
   box-sizing: border-box;
   color: var(--fg);
-  background: linear-gradient(var(--main), var(--bg));
+  background: linear-gradient(var(--bg-dark), var(--bg));
   background-attachment: fixed;
 }
 
@@ -150,6 +151,7 @@ p {
   min-height: 100vh !important;
   height: 100vh !important;
 }
+
 .margin {
   margin-left: var(--margin-large-3) !important;
   margin-right: var(--margin-large-3)!important;
@@ -449,6 +451,12 @@ a:active {
   margin-top: var(--margin-medium)
 }
 /*  ================== Home page END ================== */
+
+/*  ================== Search Results END ================== */
+.search-results {
+  margin-top: var(--margin-large-2);
+}
+/*  ================== Search Results END ================== */
 
 /*  ================== SearchBar END ================== */
 .searchBar {

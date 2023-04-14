@@ -7,12 +7,13 @@
         >search</span
       >
       <input
+        id="searchBar"
         type="text"
+        v-model="searchString"
         placeholder="Search for a movie"
         name="inputSearchBar"
         @focus="onInputFocus"
         @blur="onInputBlur"
-        v-model="searchString"
         @keydown.enter="searchEnterACB"
         @input="onInputTyping"
       />
@@ -32,51 +33,41 @@ import {
 } from "../model/model";
 
 export default defineComponent({
-  beforeRouteLeave(to, from, next) {
-    // Stores values
-    localStorage.setItem("userSearch", JSON.stringify(this.searchString));
-    next();
-  },
-  created() {
-    // Reads saved values
-    const savedSearch = localStorage.getItem("userSearch");
-    if (savedSearch) {
-      this.searchString = JSON.parse(savedSearch);
-    }
-  },
   mounted() {
-    this.getSearchMedia()
+    // get query string from url
+    const urlParams = new URLSearchParams(window.location.search);
+    const q = urlParams.get('q');
+    if (q) {
+      this.searchString = q;
+    }
+    // get element with id searchBar and set it's input value to this.searchString
+    const searchBar = document.getElementById("searchBar");
+    if (searchBar) {
+      searchBar.setAttribute("value", this.searchString);
+    }
+    
   },
   methods: {
-    async getSearchMedia() {
-      const params = new URLSearchParams();
-      params.append("query", this.searchString);
-
-      const movie: any | undefined = await searchMedia(
-        'movie',
-        new URLSearchParams(params)
-      );
-      console.log("API Search");
-      if (movie) {
-        this.updateData(movie);
-      }
+    goToSearchResultsPage() {
+      this.$router.push({
+        name: "SearchResults",
+        query: { q: this.searchString },
+      });
     },
     async searchClickACB(searchQuery: string) {
       if (this.typingTimeout) {
         clearTimeout(this.typingTimeout);
       }
-      if (searchQuery.length <= 0) {
+      if (!searchQuery) {
         this.searchString = "";
         return;
       }
       console.log(`Searching: ${searchQuery}`);
-      this.getSearchMedia();
+      this.$emit('searchClickACB', this.searchString);
+      this.goToSearchResultsPage();
     },
     searchEnterACB() {
       this.searchClickACB(this.searchString);
-    },
-    updateData(response: any) {
-      this.movies = response.data.results;
     },
     onInputTyping() {
       if (this.typingTimeout) {
@@ -84,7 +75,7 @@ export default defineComponent({
       }
       this.typingTimeout = setTimeout(() => {
         this.searchClickACB(this.searchString);
-      }, 500);
+      }, 250);
     },
     onInputFocus() {
       this.inputFocused = true;

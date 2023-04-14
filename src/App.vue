@@ -4,12 +4,14 @@
       <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="./assets/didyousee.svg" alt="didyousee logo. an owl holding a binocular, looking for the next movie/series" decoding="sync" fetchpriority="high"/></RouterLink>
       <div class="nav-link-right flex-row flex-center">
         
-        <SearchBar></SearchBar>
+        <SearchBar @search="onSearchACB"></SearchBar>
         <RouterLink to="/profile" class="nav-link flex-row flex-center" id="profile">Profile</RouterLink>
       </div>
     </div>
   </nav>
-  <RouterView class="margin"></RouterView>
+  <div class="margin">
+    <RouterView></RouterView>
+  </div>
   <footer class="flex-col flex-seperate" id="footer">
     <div class="footer-top flex-row flex-center">
       <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="./assets/didyousee.svg" alt="didyousee logo. an owl holding a binocular, looking for the next movie/series" decoding="sync" fetchpriority="high"/></RouterLink>
@@ -38,6 +40,12 @@ export default defineComponent({
   name: 'App',
   components: {
     SearchBar,
+  },
+  methods: {
+    onSearchACB(query:string) {
+      console.log("Search query:", query)
+      this.$router.push({ path: '/', query: { q: query } });
+    },
   },
   data() {
     return {
