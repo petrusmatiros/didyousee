@@ -117,6 +117,7 @@ export default defineComponent({
       params.append("page", this.currentPage.toString());
 
       const movie: any | undefined = await searchMedia(
+        'movie',
         new URLSearchParams(params)
       );
       console.log("API Search");
