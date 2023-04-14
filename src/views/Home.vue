@@ -63,7 +63,7 @@ import MovieCard from "../components/MovieCard.vue";
 import Filter from "../components/Filter.vue";
 import {
   model,
-  searchMovie,
+  searchMedia,
   getTrending,
   getMedia,
   getSimilarMedia,
@@ -104,7 +104,7 @@ export default defineComponent({
       const movie: any | undefined = await getTrending(
         "movie",
         "day",
-        this.currentPage
+        this.currentPage.toString()
       );
       console.log("API Trending");
       if (movie) {
@@ -116,7 +116,7 @@ export default defineComponent({
       params.append("query", this.searchString);
       params.append("page", this.currentPage.toString());
 
-      const movie: any | undefined = await searchMovie(
+      const movie: any | undefined = await searchMedia(
         new URLSearchParams(params)
       );
       console.log("API Search");

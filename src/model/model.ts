@@ -114,12 +114,20 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
 
 interface Model {
     movies: Promise<[Movie]>
+    series: Promise<[Series]>
 }
+
+type MediaType = 'movie' | 'tv';
 
 // Everything that should persist
 let model : Model = {
 // TODO fetch data lazily
-    movies: wrap("/discover/movie", new URLSearchParams()).then(data => data.data.results.map(contentFromQuery)),
+    movies: getDiscover('movie').then(data => data.data.results.map(contentFromQuery)),
+    series: getDiscover('tv').then(data => data.data.results.map(contentFromQuery)),
+}
+
+async function getDiscover(media: MediaType) {
+    return wrap(`/discover/${media}`, new URLSearchParams());
 }
 
 async function getTrending(type : string, timeWindow : string, page : string) {
@@ -127,20 +135,21 @@ async function getTrending(type : string, timeWindow : string, page : string) {
     return wrap(`/trending/${type}/${timeWindow}`, new URLSearchParams({page}));
 }
 
-async function getMedia(id : string) {
+
+async function getMedia(media: MediaType, id : string) {
     //return wrap(`/movie/${id}`, new URLSearchParams()).then(movie => movieFromQuery(movie));
-    return wrap(`/movie/${id}`, new URLSearchParams());
+    return wrap(`/${media}/${id}`, new URLSearchParams());
 }
 
-async function getSimilarMedia(id : string) {
+async function getSimilarMedia(media: MediaType, id : string) {
     //return wrap(`/movie/${id}/similar`, new URLSearchParams()).then(query => query.data.results);
-    return wrap(`/movie/${id}/similar`, new URLSearchParams());
+    return wrap(`/${media}/${id}/similar`, new URLSearchParams());
 }
 
-async function searchMovie(query : URLSearchParams) {
+async function searchMedia(media: MediaType, query : URLSearchParams) {
     //return wrap("/search/movie", query).then(query => query.data);
-    return wrap("/search/movie", query);
+    return wrap(`/search/${media}`, query);
 }
 
 export type {Movie};
-export {model, searchMovie, getTrending, getMedia, getSimilarMedia};
+export {model, searchMedia, getTrending, getMedia, getSimilarMedia};
