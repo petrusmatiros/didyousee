@@ -24,6 +24,8 @@
   /* Shadows */
   --shadow: hsla(0, 0%, 0%, 0.3);
   --box-shadow: 0 0.125rem 0.5rem var(--shadow);
+  /* Cards and Poster */
+  --content-card-width: 15rem;
   /* Border radius */
   --border-radius: 0.25rem;
   /* Font sizes */
@@ -117,21 +119,10 @@ body {
     margin: 0 var(--margin-large) 0 var(--margin-large) !important;
   }
   .trending-list {
-    gap: 0.5rem !important;
+    /* gap: 0.5rem !important; */
   }
-  .movie-card {
-    width: 6rem !important;
-    max-width: 6rem !important;
-    padding: var(--padding-small) !important;
-  }
-  .movie-poster {
-    /* object-fit: contain; */
-    min-width: 5.875rem !important;
-    width: 5.875rem !important;
-    min-height: 8.5rem !important;
-    height: 8.5rem !important;
-  }
-  .movie-card h2 {
+
+  .content-card h2 {
     font-size: var(--font-small) !important;
     padding: 0 !important;
     vertical-align: middle;
@@ -359,6 +350,7 @@ a:active {
   font-weight: var(--font-weight-black);
   margin: 0;
   color: var(--accent-logo);
+  text-align: center;
   /* text-shadow: 0 0 0.75rem var(--accent-logo-shadow),
     0 0 0.75rem var(--accent-logo-shadow), 0 0 0.75rem var(--accent-logo-shadow),
     0 0 0.75rem var(--accent-logo-shadow); */
@@ -377,16 +369,14 @@ a:active {
   gap: 1rem;
 }
 
-.movie-card {
+.content-card {
   cursor: pointer;
   user-select: none;
   justify-content: start;
   align-items: center;
   gap: 1rem;
-  width: 11rem;
-  max-width: 11rem;
+  width: var(--content-card-width);
   height: auto;
-  flex-grow: 1;
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
   background-color: var(--main);
@@ -394,17 +384,17 @@ a:active {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.movie-card:hover {
+.content-card:hover {
   background-color: var(--main-hover);
   transform: scale(1.05);
 }
 
-.movie-card:active {
+.content-card:active {
   background-color: var(--main-active);
   transform: scale(0.99);
 }
 
-.movie-card h2 {
+.content-card h2 {
   user-select: text;
   justify-content: center;
   align-items: center;
@@ -416,10 +406,10 @@ a:active {
   vertical-align: middle;
 }
 .loading-skeleton {
-  min-width: 10.875rem;
-  width: 10.875rem;
-  min-height: 16.5rem;
-  height: 16.5rem;
+  min-width: fit-content;
+  width: fit-content;
+  min-height: auto;
+  height: auto;
   border-radius: var(--border-radius);
   background-color: var(--bg-lighter);
   animation: loading 0.7s infinite alternate ease-in-out;
@@ -433,12 +423,12 @@ a:active {
   }
 }
 
-.movie-poster {
-  /* object-fit: contain; */
-  min-width: 10.875rem;
-  width: 10.875rem;
-  min-height: 16.5rem;
-  height: 16.5rem;
+.content-poster {
+  min-width: var(--content-card-width);
+  width: var(--content-card-width);
+  min-height: auto;
+  height: auto;
+  aspect-ratio: 2/3;
   border-radius: var(--border-radius);
 }
 

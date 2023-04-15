@@ -1,11 +1,11 @@
 <template>
-  <div class="movie-card flex-col" @click="handleClickACB">
+  <div class="content-card flex-col" @click="handleClickACB">
     <img
       :src="imagePath"
       loading="lazy"
       decoding="async"
       fetchpriority="low"
-      class="movie-poster loading-skeleton"
+      class="content-poster loading-skeleton"
     />
     <h2 class="flex-row">{{ movie.title }}</h2>
   </div>

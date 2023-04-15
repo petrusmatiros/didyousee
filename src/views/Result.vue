@@ -108,7 +108,7 @@
   <!-- <div class="similar-list-container flex-center flex-col">
     <p>Similar Movies</p>
     <div class="similar-list flex-row flex-center">
-      <movie-card
+      <content-card
         v-for="(movie, index) in movies"
         :key="index"
         :movie="movie"

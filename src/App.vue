@@ -3,7 +3,6 @@
     <div class="nav-link-container flex-row flex-center">
       <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="./assets/didyousee.svg" alt="didyousee logo. an owl holding a binocular, looking for the next movie/series" decoding="sync" fetchpriority="high"/></RouterLink>
       <div class="nav-link-right flex-row flex-center">
-        
         <SearchBar @search="onSearchACB"></SearchBar>
         <RouterLink to="/profile" class="nav-link flex-row flex-center" id="profile">Profile</RouterLink>
       </div>
@@ -41,15 +40,23 @@ export default defineComponent({
   components: {
     SearchBar,
   },
+  created() {
+    this.searchQuery = this.$route.query.q as string || '';
+  },
+  computed: {
+    encodedQuery(): string {
+      return encodeURIComponent(this.searchQuery);
+    },
+  },
   methods: {
-    onSearchACB(query:string) {
-      console.log("Search query:", query)
-      this.$router.push({ path: '/', query: { q: query } });
+    onSearchACB(query: string) {
+      this.searchQuery = query;
+      this.$router.push(`/search/q=${this.encodedQuery}`);
     },
   },
   data() {
     return {
-      // message: 'Hello world!',
+      searchQuery: '',
     }
   },
 })
