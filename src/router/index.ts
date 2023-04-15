@@ -14,12 +14,12 @@ const routes = [
     component: Home,
   },
   {
-    path: '/',
+    path: '/search/',
     name: 'SearchResults',
     component: SearchResults,
   },
   {
-    path: '/result',
+    path: '/result/',
     name: 'Result',
     component: Result,
   },

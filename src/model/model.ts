@@ -1,8 +1,19 @@
 import {tmdbApi, } from "./apiConfig";
 
-function image(path : string) {
+type PosterSize = 'w92' | 'w154' | 'w185' | 'w342' | 'w500' | 'w780' | 'original';
+type BackdropSize = 'w300' | 'w780' | 'w1280' | 'original';
+
+function poster(size:PosterSize = 'w500', path : string):string {
+    return image(size, path);
+}
+function backdrop(size:BackdropSize = 'w780', path : string):string {
+    return image(size, path);
+
+}
+
+function image(size: PosterSize | BackdropSize, path : string):string {
     let params = new URLSearchParams({"api_key": import.meta.env.VITE_TMDB_API_KEY});
-    let res = "https://image.tmdb.org/" + "/t/p/w500" + path + "?" + params;
+    let res = `https://image.tmdb.org/t/p/${size}/${path}?${params}`;
     return res;
 }
 
@@ -12,7 +23,6 @@ function wrap(query : string, params : URLSearchParams) {
     return res;
 }
 
-// TODO define model with all the things we need, amongst others:
 /*
 - title, overview/description
 - rating/popularity
@@ -21,7 +31,7 @@ function wrap(query : string, params : URLSearchParams) {
 - Cast
 - Reviews (verkar finnas i apin)
 - Similar movies?
-- Director, writer (tror det tas från credits)
+- Director, writer (tas från credits för movies)
 - Budget, revenue
  */
 
@@ -29,6 +39,7 @@ interface Content {
     id: number,
     overview: string,
     vote_average: number,
+    vote_count: number,
     popularity: number,
     release_date: string,
     spoken_languages: {
@@ -80,11 +91,12 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
         id: input.id,
         overview: input.overview,
         vote_average: input.vote_average,
+        vote_count: input.vote_count,
         popularity: input.popularity,
         release_date: input.release_date,
         spoken_languages: input.spoken_languages,
-        backdrop_path: image(input.backdrop_path),
-        poster_path: image(input.poster_path),
+        backdrop_path: backdrop(undefined, input.backdrop_path),
+        poster_path: poster(undefined, input.poster_path),
         genres: input.genres,
         budget: input.budget,
         revenue: input.revenue,
