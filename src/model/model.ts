@@ -65,6 +65,11 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
 interface Model {
     movies: Promise<[Movie]>
     series: Promise<[Series]>
+    searchQuery: {
+        searchString: string,
+        page: number,
+    },
+
 }
 
 
@@ -74,6 +79,10 @@ let model : Model = {
 // TODO fetch data lazily
     movies: getDiscover(MediaType.MOVIE).then(data => data.data.results.map(contentFromQuery)),
     series: getDiscover(MediaType.SERIES).then(data => data.data.results.map(contentFromQuery)),
+    searchQuery: {
+        searchString: "",
+        page: 1,
+    },
 }
 
 async function getDiscover(media: MediaType) {
