@@ -19,6 +19,7 @@ import {
   getMedia,
   getSimilarMedia,
 } from "../model/model";
+import {MediaType} from '../types/types';
 
 export default defineComponent({
   components: {
@@ -53,7 +54,7 @@ export default defineComponent({
       const params = new URLSearchParams();
       params.append("query", this.searchString);
       const contentResponse: any | undefined = await searchMedia(
-        "movie",
+        MediaType.MOVIE,
         new URLSearchParams(params)
       );
       console.log("API Search", contentResponse);

@@ -10,7 +10,7 @@
         id="searchBar"
         type="text"
         v-model="searchString"
-        placeholder="Search for a movie"
+        placeholder="Search for a movie, series, genre..."
         name="inputSearchBar"
         @focus="onInputFocus"
         @blur="onInputBlur"
@@ -31,6 +31,7 @@ import {
   getMedia,
   getSimilarMedia,
 } from "../model/model";
+
 
 export default defineComponent({
   mounted() {
