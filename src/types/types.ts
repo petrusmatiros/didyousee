@@ -1,8 +1,8 @@
 
 
 export enum TriviaCategory {
-    MOVIES = '11',
-    TV = '14',
+    MOVIE = '11',
+    SERIES = '14',
 }
 
 export type PosterSize = 'w92' | 'w154' | 'w185' | 'w342' | 'w500' | 'w780' | 'original';

@@ -10,26 +10,38 @@ import {
 } from "../types/types";
 import { SortingOrder, random, sort, filter, find } from "../utils/index";
 
-function randomTrivia(category: TriviaCategory):string {
-    const PREFIX = 'Did you know';
-    let data = trivia(category);
-    let parsed = data.map((e:any) => `${PREFIX}: ${e.question}`);
-    return parsed[random(0, parsed.length)];
+async function randomTrivia(category: TriviaCategory): Promise<string>{
+    try {
+
+        let res = await trivia(category, 15);
+        return escapeChars(res);
+    } catch (error) {
+        console.log(error);   
+        return "";
+    }
 }
 
-function trivia(category: TriviaCategory, amount: number = 10):any {
+function escapeChars(str: string): string {
+    return str?.replace(/&quot;/g, '"')?.replace(/&#039;/g, "'");
+}
+
+function trivia(category: TriviaCategory, amount: number = 10): any {
   let params = new URLSearchParams({
     amount: amount.toString(),
     category: category,
     type: "boolean",
   });
-  opentdbApi
-    .get(`${params}`)
+
+  return opentdbApi
+    .get(`?${params}`)
     .then(function (response) {
       return response.data;
     })
     .then(function (data) {
-      return data.results.filter((e:any) => e.correct_answer !== "False");
+      const PREFIX = "Did you know";
+      let res = data.results.filter((e: any) => e.correct_answer !== "False");
+      let parsed = res.map((e: any) => `${PREFIX}: ${e.question}`);
+      return parsed[random(0, parsed.length)];
     })
     .catch(function (error) {
       console.log(error);
@@ -48,7 +60,7 @@ function image(size: PosterSize | BackdropSize, path: string): any {
     api_key: import.meta.env.VITE_TMDB_API_KEY,
   });
   tmdbImageApi
-    .get(`${size}/${path}?${params}`)
+    .get(`${size}${path}?${params}`)
     .then(function (response) {
       return response.data;
     })
@@ -155,4 +167,11 @@ async function searchMedia(media: MediaType, query: URLSearchParams) {
   return wrap(`/search/${media}`, query);
 }
 
-export { model, searchMedia, getTrending, getMedia, getSimilarMedia };
+export {
+  model,
+  randomTrivia,
+  searchMedia,
+  getTrending,
+  getMedia,
+  getSimilarMedia,
+};

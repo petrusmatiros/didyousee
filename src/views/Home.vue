@@ -32,11 +32,14 @@ import MovieCard from "../components/MovieCard.vue";
 import Filter from "../components/Filter.vue";
 import {
   model,
+  randomTrivia,
   searchMedia,
   getTrending,
   getMedia,
   getSimilarMedia,
 } from "../model/model";
+import {TriviaCategory} from '../types/types';
+import {random} from '../utils/index'
 
 export default defineComponent({
   components: {
@@ -61,6 +64,13 @@ export default defineComponent({
     // }
   },
   mounted() {
+    let r = random(0, 1)
+    let category:TriviaCategory = r === 0 ? TriviaCategory.MOVIE : TriviaCategory.SERIES;
+    randomTrivia(category).then((data:any) => {
+      this.trivia = data;
+    }).catch((error:any) => {
+      console.log(error);
+    });
     this.getTrendingMedia();
   },
   methods: {
@@ -87,8 +97,7 @@ export default defineComponent({
   data() {
     return {
       // searchFilter: false,
-      trivia:
-        "Did you know: In 2012, The Matrix was selected by the U.S. Library of Congress for preservation in the National Film Registry archives for being culturally historically or aesthetically significant",
+      trivia: "",
       movies: [],
     };
   },

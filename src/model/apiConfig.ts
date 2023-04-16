@@ -5,12 +5,13 @@ const tmdbApi = axios.create({
     common: {
       Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
       "Content-Type": "application/json;charset=utf-8",
+      
     },
   },
 });
 
 const tmdbImageApi = axios.create({
-  baseURL: "https://image.tmdb.org/",
+  baseURL: "https://image.tmdb.org/t/p/",
   headers: {
     common: {
       Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
@@ -20,7 +21,7 @@ const tmdbImageApi = axios.create({
 });
 
 const opentdbApi = axios.create({
-  baseURL: "https://opentdb.com/api.php?",
+  baseURL: "https://opentdb.com/api.php",
   headers: {
     common: {
       "Content-Type": "application/json;charset=utf-8",
