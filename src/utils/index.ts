@@ -1,11 +1,24 @@
 export enum SortingOrder {
-    ASC = 'ASC',
-    DSC = 'DSC',
+  ASC = "ASC",
+  DSC = "DSC",
+}
+/**
+ * [random - generates a random number between min and max]
+ * 
+ * **Both the min and max are inclusive**
+ *
+ * @param   {number}  min  [the lower bound]
+ * @param   {number}  max  [the upper bound]
+ *
+ * @return  {[type]}       [the random number]
+ */
+function random(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 /**
- * [sort - sorts an array in ascending or descending order] 
- * 
+ * [sort - sorts an array in ascending or descending order]
+ *
  * **Returns a copy of the array**
  *
  * @param   {T[]}           arr        [the array to sort]
@@ -14,18 +27,22 @@ export enum SortingOrder {
  *
  * @return  {T[]}                      [the sorted array]
  */
-function sort<T>(arr: T[], order: SortingOrder, compareCB: (a: T, b: T) => number): T[] {
-    const copy = [...arr];
-    if (order === SortingOrder.ASC) {
-        copy.sort(compareCB);
-    } else if (order === SortingOrder.DSC) {
-        copy.sort((a, b) => compareCB(b, a));
-    }
-    return copy;
+function sort<T>(
+  arr: T[],
+  order: SortingOrder,
+  compareCB: (a: T, b: T) => number
+): T[] {
+  const copy = [...arr];
+  if (order === SortingOrder.ASC) {
+    copy.sort(compareCB);
+  } else if (order === SortingOrder.DSC) {
+    copy.sort((a, b) => compareCB(b, a));
+  }
+  return copy;
 }
 /**
  * [filter - filters an array using a callback]
- * 
+ *
  * **Returns a copy of the array**
  *
  * @param   {T[]}     arr       [the array to filter]
@@ -33,22 +50,27 @@ function sort<T>(arr: T[], order: SortingOrder, compareCB: (a: T, b: T) => numbe
  *
  * @return  {T[]}               [the filtered array]
  */
-function filter<T>(arr: T[], filterCB: (value: T, index: number, arr: T[]) => boolean): T[] {
-    return arr.filter(filterCB);
+function filter<T>(
+  arr: T[],
+  filterCB: (value: T, index: number, arr: T[]) => boolean
+): T[] {
+  return arr.filter(filterCB);
 }
 
 /**
  * [find - finds an element in an array using a callback]
- * 
+ *
  *
  * @param   {T[]}     arr     [the array to search]
  * @param   {T}       findCB  [the callback to use for finding]
  *
  * @return  {T}               [the found element or undefined]
  */
-function find<T>(arr: T[], findCB: (elem: T, index: number, obj: T[]) => boolean): T | undefined {
-
-    return arr.find(findCB);
+function find<T>(
+  arr: T[],
+  findCB: (elem: T, index: number, obj: T[]) => boolean
+): T | undefined {
+  return arr.find(findCB);
 }
 
-export {sort, filter, find}
+export { random, sort, filter, find };

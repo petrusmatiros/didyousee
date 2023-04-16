@@ -1,5 +1,6 @@
-import { tmdbApi, tmdbImageApi } from "./apiConfig";
+import { tmdbApi, tmdbImageApi, opentdbApi } from "./apiConfig";
 import {
+  TriviaCategory,
   PosterSize,
   BackdropSize,
   MediaType,
@@ -7,7 +8,33 @@ import {
   Movie,
   Series,
 } from "../types/types";
-import { SortingOrder, sort, filter, find } from "../utils/index";
+import { SortingOrder, random, sort, filter, find } from "../utils/index";
+
+function randomTrivia(category: TriviaCategory):string {
+    const PREFIX = 'Did you know';
+    let data = trivia(category);
+    let parsed = data.map((e:any) => `${PREFIX}: ${e.question}`);
+    return parsed[random(0, parsed.length)];
+}
+
+function trivia(category: TriviaCategory, amount: number = 10):any {
+  let params = new URLSearchParams({
+    amount: amount.toString(),
+    category: category,
+    type: "boolean",
+  });
+  opentdbApi
+    .get(`${params}`)
+    .then(function (response) {
+      return response.data;
+    })
+    .then(function (data) {
+      return data.results.filter((e:any) => e.correct_answer !== "False");
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
 
 function poster(size: PosterSize = "w500", path: string): string {
   return image(size, path);
@@ -16,7 +43,7 @@ function backdrop(size: BackdropSize = "w780", path: string): string {
   return image(size, path);
 }
 
-function image(size: PosterSize | BackdropSize, path: string): string {
+function image(size: PosterSize | BackdropSize, path: string): any {
   let params = new URLSearchParams({
     api_key: import.meta.env.VITE_TMDB_API_KEY,
   });
@@ -24,6 +51,9 @@ function image(size: PosterSize | BackdropSize, path: string): string {
     .get(`${size}/${path}?${params}`)
     .then(function (response) {
       return response.data;
+    })
+    .then(function (data) {
+      return data;
     })
     .catch(function (error) {
       console.log(error);
@@ -104,7 +134,10 @@ async function getDiscover(media: MediaType) {
 
 async function getTrending(type: string, timeWindow: string, page: string) {
   //return wrap(`/trending/${type}/${timeWindow}`, new URLSearchParams()).then(query => query.data.results);
-  return wrap(`/trending/${type}/${timeWindow}`, new URLSearchParams({ page }));
+  return wrap(
+    `/trending/${type}/${timeWindow}`,
+    new URLSearchParams({ page, include_adult: "false" })
+  );
 }
 
 async function getMedia(media: MediaType, id: string) {

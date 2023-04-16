@@ -1,5 +1,4 @@
 <template>
-  <Filter v-if="searchFilter" />
   <div class="search-results flex-col flex-center">
     <div class="trending-list flex-row flex-center">
       <MovieCard v-for="(movie, index) in movies" :key="index" :movie="movie" />
@@ -53,6 +52,7 @@ export default defineComponent({
     async getSearchMedia() {
       const params = new URLSearchParams();
       params.append("query", this.searchString);
+      params.append("include_adult", "false");
       const contentResponse: any | undefined = await searchMedia(
         MediaType.MOVIE,
         new URLSearchParams(params)
@@ -66,14 +66,9 @@ export default defineComponent({
         console.log("Response", response.data.results)
       this.movies = response.data.results;
     },
-    filterClickACB() {
-      console.log("Filter!");
-      this.searchFilter = !this.searchFilter;
-    },
   },
   data() {
     return {
-      searchFilter: false,
       searchString: "",
       movies: [
         {
