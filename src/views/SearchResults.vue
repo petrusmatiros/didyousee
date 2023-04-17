@@ -14,6 +14,7 @@ import Filter from "../components/Filter.vue";
 import {
   model,
   searchMedia,
+  discoverMedia,
   getTrending,
   getMedia,
   getSimilarMedia,

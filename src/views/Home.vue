@@ -39,7 +39,7 @@ import {
   getSimilarMedia,
 } from "../model/model";
 import {TriviaCategory} from '../types/types';
-import {random} from '../utils/index'
+import {random} from '../utils/utils'
 
 export default defineComponent({
   components: {

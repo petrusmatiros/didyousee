@@ -8,7 +8,7 @@ import {
   Movie,
   Series,
 } from "../types/types";
-import { SortingOrder, random, sort, filter, find } from "../utils/index";
+import { SortingOrder, random, sort, filter, find } from "../utils/utils";
 
 async function randomTrivia(category: TriviaCategory): Promise<string>{
     try {
@@ -166,11 +166,16 @@ async function searchMedia(media: MediaType, query: URLSearchParams) {
   //return wrap("/search/movie", query).then(query => query.data);
   return wrap(`/search/${media}`, query);
 }
+async function discoverMedia(media: MediaType, query: URLSearchParams) {
+  return wrap(`/discover/${media}`, query);
+}
+
 
 export {
   model,
   randomTrivia,
   searchMedia,
+  discoverMedia,
   getTrending,
   getMedia,
   getSimilarMedia,
