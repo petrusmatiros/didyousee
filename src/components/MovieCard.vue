@@ -1,11 +1,12 @@
 <template>
   <div class="content-card flex-col" @click="handleClickACB">
-    <div class="loading-skeleton content-poster" v-if="!movie.poster_lath"></div>
+    <div class="loading-skeleton content-poster" v-if="!movie.poster_path"></div>
     <img
       :src="imagePath"
       loading="lazy"
       decoding="async"
       fetchpriority="low"
+      v-else
       class="content-poster"
     />
     <h2 class="flex-row">{{ movie.title }}</h2>
