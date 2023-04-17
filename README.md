@@ -70,7 +70,7 @@ We plan to implement the following:
 │   ├── App.vue
 │   ├── assets
 │   │   ├── didyousee.svg
-│   │   ├── dummy.svg
+│   │   ├── no-poster.svg
 │   │   └── tmdb_alt_short_blue.svg
 │   ├── components
 │   │   ├── Filter.vue
@@ -120,7 +120,7 @@ We plan to implement the following:
 | src/App.vue | Main Vue component for the project |
 | src/assets/ | Folder containing assets used in the project |
 | src/assets/didyousee.svg | Logo for the project |
-| src/assets/dummy.svg | Placeholder image |
+| src/assets/no-poster.svg | Placeholder image |
 | src/assets/tmdb_alt_short_blue.svg | TMDB logo |
 | src/components/ | Vue components used in the project |
 | src/components/Filter.vue | Component for filtering movies/series |

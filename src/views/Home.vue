@@ -8,7 +8,7 @@
         fetchpriority="high"
       />
       <h1>Did  You See</h1>
-      <p>{{ trivia }}</p>
+      <p :class="triviaClass">{{ trivia }}</p>
     </div>
     <!-- <div class="overlay"></div> -->
     <!-- <div class="popup">
@@ -51,6 +51,11 @@ export default defineComponent({
     // localStorage.setItem("userSearch", JSON.stringify(this.searchString));
     // localStorage.setItem("userPage", JSON.stringify(this.currentPage));
     next();
+  },
+  computed: {
+    triviaClass() {
+      return this.trivia ? 'trivia-container flex-col flex-center' : 'trivia-container flex-col flex-center loading-skeleton';
+    }
   },
   created() {
     // // Reads saved values

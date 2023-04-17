@@ -12,7 +12,6 @@ import { SortingOrder, random, sort, filter, find } from "../utils/utils";
 
 async function randomTrivia(category: TriviaCategory): Promise<string>{
     try {
-
         let res = await trivia(category, 15);
         return escapeChars(res);
     } catch (error) {

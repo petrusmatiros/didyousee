@@ -3,19 +3,20 @@
     <button class="button back" @click="goBackACB()">
       <span class="material-symbols-rounded">keyboard_backspace</span>
     </button>
-    <div class="main-info flex-col">
-      <div class="content flex-row">
-        <img class="loading-skeleton" loading="lazy" :src="poster" />
-        <div class="content-info flex-col flex-start">
-          <h1 class="content-info--title">{{ title }}</h1>
-          <p class="content-info--overview">{{ overview }}</p>
-          <div class="content-more-info flex-row flex-center-start">
-            <div class="content-more-info--primary flex-col flex-center-start">
+    <div class="result-main-info flex-col">
+      <div class="result-content flex-row">
+        <div class="loading-skeleton result-content-poster" v-if="!poster"></div>
+        <img class="result-content-poster" v-else loading="lazy" :src="poster" />
+        <div class="result-content-info flex-col flex-start">
+          <h1 class="result-content-info--title">{{ title }}</h1>
+          <p class="result-content-info--overview">{{ overview }}</p>
+          <div class="result-content-more-info flex-row flex-center-start">
+            <div class="result-content-more-info--primary flex-col flex-center-start">
               <p>Rating: {{ vote_average }}</p>
               <p>Release date: {{ release_date }}</p>
             </div>
             <div
-              class="content-more-info--secondary flex-col flex-center-start"
+              class="result-content-more-info--secondary flex-col flex-center-start"
             >
               <div class="flex-row flex-center">
                 <button
@@ -150,9 +151,9 @@ export default defineComponent({
     updateData(response: any) {
       console.log("Response",response)
       this.title = response.data.title;
-      this.poster = `https://image.tmdb.org/t/p/w500${
+      this.poster = response.data.poster_path ? `https://image.tmdb.org/t/p/w500${
         response.data.poster_path
-      }`;
+      }`: "/src/assets/no-poster.svg";
       this.overview = response.data.overview;
       this.vote_average = response.data.vote_average;
       this.release_date = response.data.release_date;

@@ -1,11 +1,12 @@
 <template>
   <div class="content-card flex-col" @click="handleClickACB">
+    <div class="loading-skeleton content-poster" v-if="!movie.poster_lath"></div>
     <img
       :src="imagePath"
       loading="lazy"
       decoding="async"
       fetchpriority="low"
-      class="content-poster loading-skeleton"
+      class="content-poster"
     />
     <h2 class="flex-row">{{ movie.title }}</h2>
   </div>
@@ -23,11 +24,12 @@ export default defineComponent({
     },
   },
   computed: {
+    
     imagePath():any {
       if (this.movie.poster_path) {
         return `https://image.tmdb.org/t/p/w342/${this.movie.poster_path}`;
       } else {
-        return "/src/assets/dummy.svg";
+        return "/src/assets/no-poster.svg";
       }
     },
   },
