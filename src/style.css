@@ -358,6 +358,7 @@ a:active {
 
 .intro-container p {
   margin: 0;
+  height: 3rem;
   padding: var(--padding-large);
   word-wrap: break-word;
   text-align: center;
