@@ -1,7 +1,7 @@
 <template>
   <nav class="flex-row flex-center" id="nav">
     <div class="nav-link-container flex-row flex-center">
-      <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="./assets/didyousee.svg" alt="didyousee logo. an owl holding a binocular, looking for the next movie/series" decoding="sync" fetchpriority="high"/></RouterLink>
+      <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="./assets/didyousee.svg" alt="didyousee logo. an owl with a binocular, looking for the next movie/series" decoding="sync" fetchpriority="high"/></RouterLink>
       <div class="nav-link-right flex-row flex-center">
         <SearchBar @search="onSearchACB"></SearchBar>
         <RouterLink to="/profile" class="nav-link flex-row flex-center" id="profile">Profile</RouterLink>
@@ -13,7 +13,7 @@
   </div>
   <footer class="flex-col flex-seperate" id="footer">
     <div class="footer-top flex-row flex-center">
-      <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="./assets/didyousee.svg" alt="didyousee logo. an owl holding a binocular, looking for the next movie/series" decoding="sync" fetchpriority="high"/></RouterLink>
+      <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="./assets/didyousee.svg" alt="didyousee logo. an owl with a binocular, looking for the next movie/series" decoding="sync" fetchpriority="high"/></RouterLink>
       <RouterLink to="/profile" class="nav-link"></RouterLink>
     </div>
     <div class="footer-bottom flex-row flex-center">

@@ -346,7 +346,9 @@ a:active {
 }
 
 .intro-container {
-  max-width: 45rem;
+  width: 35rem;
+  max-width: 35rem;
+  margin: var(--margin-medium) 0 var(--margin-medium) 0;
 }
 
 .intro-container img {
@@ -365,10 +367,9 @@ a:active {
 }
 
 .trivia-container {
-  margin: 0;
-  width: 10rem;
-  height: 3rem;
   width: inherit;
+  max-width: inherit;
+  margin: var(--margin-medium) 0 var(--margin-medium) 0;
   padding: var(--padding-large);
   word-wrap: break-word;
   text-align: center;

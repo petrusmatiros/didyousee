@@ -3,7 +3,7 @@
     <div class="credentials-container flex-col flex-center">
       <img
         src="../assets/didyousee.svg"
-        alt="didyousee logo. an owl holding a binocular, looking for the next movie/series"
+        alt="didyousee logo. an owl with a binocular, looking for the next movie/series"
         decoding="async"
         fetchpriority="high"
       />
