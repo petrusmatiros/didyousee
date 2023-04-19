@@ -10,18 +10,18 @@ import {
 } from "../types/types";
 import { SortingOrder, random, sort, filter, find } from "../utils/utils";
 
-async function randomTrivia(category: TriviaCategory): Promise<string>{
-    try {
-        let res = await trivia(category, 15);
-        return escapeChars(res);
-    } catch (error) {
-        console.log(error);   
-        return "";
-    }
+async function randomTrivia(category: TriviaCategory): Promise<string> {
+  try {
+    let res = await trivia(category, 15);
+    return escapeChars(res);
+  } catch (error) {
+    console.log(error);
+    return "";
+  }
 }
 
 function escapeChars(str: string): string {
-    return str?.replace(/&quot;/g, '"')?.replace(/&#039;/g, "'");
+  return str?.replace(/&quot;/g, '"')?.replace(/&#039;/g, "'");
 }
 
 function trivia(category: TriviaCategory, amount: number = 10): any {
@@ -86,8 +86,8 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
     popularity: input.popularity,
     release_date: input.release_date,
     spoken_languages: input.spoken_languages,
-    backdrop_path: backdrop(undefined, input.backdrop_path),
-    poster_path: poster(undefined, input.poster_path),
+    backdrop_path: input.backdrop_path,
+    poster_path: input.poster_path,
     genres: input.genres,
     budget: input.budget,
     revenue: input.revenue,
@@ -116,28 +116,99 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
 }
 
 interface Model {
-  movies: Promise<[Movie]>;
-  series: Promise<[Series]>;
-  searchQuery: {
-    searchString: string;
-    page: number;
-  };
+  movies: Content[];
+  series: Content[];
+  searchString: string;
+  page: number;
+  observers: ((payload: any) => void)[];
+
+  fetchMovies: () => Promise<void>;
+  fetchSeries: () => Promise<void>;
+  notifyObservers: (payload: any) => void;
+  addObserver: (observer: (obs: any) => void) => void;
+  removeObserver: (observer: (obs: any) => void) => void;
+
+  setSearchString: (str: string) => void;
+  getSearchString: () => string;
+  setPage: (page: number) => void;
+  getPage: () => number;
 }
 
 // Everything that should persist
 let model: Model = {
-  // TODO fetch data lazily
-  movies: getDiscover(MediaType.MOVIE).then((data) =>
-    data.data.results.map(contentFromQuery)
-  ),
-  series: getDiscover(MediaType.SERIES).then((data) =>
-    data.data.results.map(contentFromQuery)
-  ),
-  searchQuery: {
-    searchString: "",
-    page: 1,
+  movies: [], // Store resolved movies data
+  series: [],
+
+  fetchMovies: async function () {
+
+    try {
+      const movies: any | undefined = await searchMedia(
+        MediaType.MOVIE,
+        this.getSearchString(),
+      );
+      console.log("API fetchMovies", this.getSearchString());
+      this.movies = movies.data.results.map(contentFromQuery); // Update movies data
+
+    } catch (error) {
+      console.error("Failed to fetch movies:", error);
+      throw error;
+    }
+  },
+  // Fetch series data
+  fetchSeries: async function () {
+    try {
+      const series = await searchMedia(
+        MediaType.SERIES,
+        this.getSearchString()
+      );
+      console.log("API getSeries", this.getSearchString());
+      this.series = series.data.results.map(contentFromQuery); // Update series data
+    } catch (error) {
+      console.error("Failed to fetch series:", error);
+      throw error;
+    }
+  },
+  observers: [],
+  searchString: "",
+  page: 1,
+
+  notifyObservers: function (payload: any) {
+    function invokeObserversCB(obs: (payload: any) => void) {
+      try {
+        console.log("Notify observer");
+        obs(payload);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    this.observers.forEach(invokeObserversCB);
+  },
+  addObserver: function (obs: (payload: any) => void) {
+    if (!this.observers.includes(obs)) {
+      this.observers.push(obs);
+    }
+  },
+  removeObserver: function (obs: (payload: any) => void) {
+    this.observers = this.observers.filter((o) => o !== obs);
+  },
+  setSearchString: function (str: string) {
+    this.searchString = str;
+    console.log("setSearchString", this.searchString);
+    this.notifyObservers({ searchString: str });
+  },
+  getSearchString: function () {
+    return this.searchString;
+  },
+  setPage: function (page: number) {
+    this.page = page;
+    this.notifyObservers({ page: page });
+  },
+  getPage: function () {
+    return this.page;
   },
 };
+
+// async function setMovi
 
 async function getDiscover(media: MediaType) {
   return wrap(`/discover/${media}`, new URLSearchParams());
@@ -161,14 +232,32 @@ async function getSimilarMedia(media: MediaType, id: string) {
   return wrap(`/${media}/${id}/similar`, new URLSearchParams());
 }
 
-async function searchMedia(media: MediaType, query: URLSearchParams) {
+async function searchMedia(media: MediaType, query: string) {
+  console.log("SearchMedia", query);
   //return wrap("/search/movie", query).then(query => query.data);
-  return wrap(`/search/${media}`, query);
+  return wrap(`/search/${media}`, new URLSearchParams(`query=${query}&include_adult=false`));
 }
+
 async function discoverMedia(media: MediaType, query: URLSearchParams) {
   return wrap(`/discover/${media}`, query);
 }
 
+// TODO:
+// async function getSearchMedia() {
+//   const params = new URLSearchParams();
+//   console.log("GetSearchMedia", searchString.value)
+//   params.append('query', searchString.value);
+//   params.append('include_adult', 'false');
+//   console.log(params.toString())
+//   const contentResponse: any | undefined = await searchMedia(
+//     MediaType.MOVIE,
+//     new URLSearchParams(params)
+//   );
+//   console.log('API Search', contentResponse);
+//   if (contentResponse) {
+//     updateData(contentResponse);
+//   }
+// }
 
 export {
   model,

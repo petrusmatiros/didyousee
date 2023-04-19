@@ -38,7 +38,7 @@ import {
   getMedia,
   getSimilarMedia,
 } from "../model/model";
-import {TriviaCategory} from '../types/types';
+import {TriviaCategory, MediaType} from '../types/types';
 import {random} from '../utils/utils'
 
 export default defineComponent({
@@ -82,7 +82,7 @@ export default defineComponent({
     async getTrendingMedia() {
       let page = 1;
       const movie: any | undefined = await getTrending(
-        "movie",
+        MediaType.MOVIE,
         "day",
         page.toString(),
       );

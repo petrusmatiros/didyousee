@@ -1,18 +1,25 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
-import SearchResults from '../views/SearchResults.vue'
+import SearchResults from '../presenters/SearchResultsPresenter.vue'
 import Result from '../views/Result.vue'
 import Profile from '../views/Profile.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import PageNotFound from '../views/PageNotFound.vue'
 
+import {model} from '../model/model';
+
+import { reactive, watchEffect } from "vue";
+
+const promiseModel = reactive(model);
+
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: Home,
+    props: {model: promiseModel},
   },
   {
     path: '/about',
@@ -23,6 +30,7 @@ const routes = [
     path: '/search/',
     name: 'SearchResults',
     component: SearchResults,
+    props: {model: promiseModel},
   },
   {
     path: '/result/',
@@ -54,10 +62,6 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
-  scrollBehavior(to, from, savedPosition) {
-    // always scroll to top
-    return { top: 0 }
-  },
 })
 
 router.beforeEach((to, from, next) => {

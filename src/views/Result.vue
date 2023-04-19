@@ -85,17 +85,7 @@
           <h1>Title</h1>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. In laoreet
-            justo venenatis nunc dignissim maximus quis sed erat. Nullam
-            ultrices sodales risus vel fringilla. Sed dictum sit amet ex eu
-            commodo. Nulla vel ornare felis. Duis sed ante sed tellus tincidunt
-            maximus. Proin malesuada sodales commodo. Fusce aliquam ullamcorper
-            nisl, id finibus nulla. Quisque nec sem rutrum, commodo mi vitae,
-            lobortis urna. Praesent et purus sit amet sapien tempus consequat a
-            ac arcu. Nulla at hendrerit neque, vel elementum mauris.
-            Pellentesque habitant morbi tristique senectus et netus et malesuada
-            fames ac turpis egestas. Fusce suscipit lectus eu facilisis
-            condimentum. Cras vitae eros metus. Duis eu sodales dui, eget
-            fringilla ligula
+            justo venenatis nunc dignissim maximus quis sed erat. 
           </p>
         </div>
         <div class="info-card flex-col">

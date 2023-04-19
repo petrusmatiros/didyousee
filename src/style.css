@@ -8,7 +8,9 @@
   --bg: hsl(230, 4%, 24%);
   --bg-light: hsl(230, 4%, 28%);
   --bg-lighter: hsl(230, 4%, 32%);
+  --bg-lightest: hsl(230, 4%, 40%);
   --fg: hsl(0, 0%, 100%);
+  --fg-secondary: hsl(0, 0%, 84%);
   --black: hsl(0, 0%, 0%);
   --overlay: hsla(0, 0%, 0%, 0.5);
   /* Accent colors */
@@ -336,6 +338,7 @@ a:active {
 
 #footer img {
   width: 4rem;
+  border-radius: 0 !important;
 }
 /*  ================== Footer END ================== */
 

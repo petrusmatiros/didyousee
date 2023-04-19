@@ -64,7 +64,8 @@ export default defineComponent({
         return;
       }
       console.log(`Searching: ${searchQuery}`);
-      this.$emit('searchClickACB', this.searchString);
+      // this.$emit('searchClickACB', searchQuery);
+      model.setSearchString(searchQuery);
       this.goToSearchResultsPage();
     },
     searchEnterACB() {
