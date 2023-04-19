@@ -5,7 +5,7 @@
           alt="didyousee logo. an owl with a binocular, looking for the next movie/series" decoding="sync"
           fetchpriority="high" /></RouterLink>
       <div class="nav-link-right flex-row flex-center">
-        <!-- <SearchBar @search="onSearchACB" model="model"></SearchBar> -->
+        <SearchBar :model="model"></SearchBar>
         <RouterLink to="/profile" class="nav-link flex-row flex-center" id="profile">Profile</RouterLink>
       </div>
     </div>
@@ -40,7 +40,7 @@ import { defineComponent, reactive } from 'vue'
 import SearchBar from "../src/components/SearchBar.vue";
 import { model } from "../src/model/model";
 
-const promiseModel = model;
+const promiseModel = reactive(model);
 
 export default defineComponent({
   name: 'App',
@@ -54,14 +54,10 @@ export default defineComponent({
 
   },
   methods: {
-    onSearchACB(query: string) {
-      // this.searchQuery = query;
-      // this.$router.push(`/search/q=${this.encodedQuery}`);
-    },
   },
   data() {
     return {
-      model: null,
+      model: promiseModel,
     }
   },
 })

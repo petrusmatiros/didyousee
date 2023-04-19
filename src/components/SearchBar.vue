@@ -39,7 +39,7 @@ export default defineComponent({
   setup(props:any) {
     let inputFocused = false;
     let typingTimeout = 0;
-
+    console.log("MODEL", props.model)
     
     const searchBar = document.getElementById("searchBar");
     if (searchBar) {
