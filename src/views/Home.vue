@@ -53,7 +53,7 @@ export default defineComponent({
     next();
   },
   computed: {
-    triviaClass() {
+    triviaClass():string {
       return this.trivia ? 'trivia-container flex-col flex-center' : 'trivia-container flex-col flex-center loading-skeleton';
     }
   },

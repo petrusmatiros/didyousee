@@ -6,7 +6,7 @@ import { Movie } from '../types/types';
 
 const emit = defineEmits(["searchClick"])
 
-function searchClickACB() { emit("searchClick")}
+function searchClickACB() {emit("searchClick")}
 
 </script>
 

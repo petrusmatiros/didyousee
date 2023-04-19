@@ -1,6 +1,7 @@
 <script lang="ts">
 import { MediaType } from "../types/types";
 import { defineComponent } from 'vue'
+import Vue from 'vue'; // add this line
 import SearchResultsView from "../views/SearchResultsView.vue";
 
 export default defineComponent({
@@ -15,10 +16,9 @@ export default defineComponent({
     },
   },
   setup(props: any) {
-    props.model.fetchMovies();
-
+    // props.model.fetchMovies();
     function searchACB() {
-      props.model.fetchMovies();
+      props.model.fetchMovies(); 
     }
     return {
       searchACB,

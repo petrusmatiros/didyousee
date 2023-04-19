@@ -1,6 +1,6 @@
 <template>
   <div class="content-card flex-col" @click="handleClickACB">
-    <div class="loading-skeleton content-poster" v-if="!movie.poster_path"></div>
+    <div class="loading-skeleton content-poster" v-if="!imagePath"></div>
     <img
       :src="imagePath"
       loading="lazy"
@@ -16,6 +16,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import "./../style.css";
+import {PosterSize} from '../types/types';
 
 export default defineComponent({
   props: {
@@ -27,11 +28,7 @@ export default defineComponent({
   computed: {
     
     imagePath():any {
-      if (this.movie.poster_path) {
-        return `https://image.tmdb.org/t/p/w342/${this.movie.poster_path}`;
-      } else {
-        return "/src/assets/no-poster.svg";
-      }
+      return this.movie.poster_path ? `https://image.tmdb.org/t/p/${PosterSize.W342}/${this.movie.poster_path}` : "/src/assets/no-poster.svg";
     },
   },
   data() {

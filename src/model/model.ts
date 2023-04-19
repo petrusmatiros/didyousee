@@ -47,10 +47,10 @@ function trivia(category: TriviaCategory, amount: number = 10): any {
     });
 }
 
-function poster(size: PosterSize = "w500", path: string): string {
+function poster(size: PosterSize = PosterSize.W500, path: string): string {
   return image(size, path);
 }
-function backdrop(size: BackdropSize = "w780", path: string): string {
+function backdrop(size: BackdropSize = BackdropSize.W780, path: string): string {
   return image(size, path);
 }
 
@@ -138,7 +138,10 @@ interface Model {
 let model: Model = {
   movies: [], // Store resolved movies data
   series: [],
-
+  observers: [],
+  searchString: "",
+  page: 1,
+  
   fetchMovies: async function () {
 
     try {
@@ -168,9 +171,6 @@ let model: Model = {
       throw error;
     }
   },
-  observers: [],
-  searchString: "",
-  page: 1,
 
   notifyObservers: function (payload: any) {
     function invokeObserversCB(obs: (payload: any) => void) {
@@ -258,7 +258,6 @@ async function discoverMedia(media: MediaType, query: URLSearchParams) {
 //     updateData(contentResponse);
 //   }
 // }
-
 export {
   model,
   randomTrivia,
