@@ -44,12 +44,6 @@ const promiseModel = model;
 
 export default defineComponent({
   name: 'App',
-  props: {
-    model: {
-      type: Object,
-      required: true,
-    }
-  },
   components: {
     SearchBar,
   },
