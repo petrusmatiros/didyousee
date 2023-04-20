@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import './../style.css';
-import { defineEmits } from 'vue';
 import MediaCard from '../components/MediaCard.vue';
-import { Movie } from '../types/types';
-
-const emit = defineEmits(["searchClick"])
-
-function searchClickACB() { emit("searchClick") }
 
 </script>
 

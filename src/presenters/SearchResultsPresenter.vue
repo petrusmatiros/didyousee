@@ -28,5 +28,5 @@ export default defineComponent({
 });
 </script>
 <template>
-  <SearchResultsView :model="model" @searchClick="searchACB" />
+  <SearchResultsView :model="model" />
 </template>
