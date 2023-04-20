@@ -3,9 +3,9 @@ import Home from '../presenters/HomePresenter.vue'
 import About from '../presenters/AboutPresenter.vue'
 import SearchResults from '../presenters/SearchResultsPresenter.vue'
 import Content from '../presenters/ContentPresenter.vue'
-import Profile from '../views/Profile.vue'
-import Login from '../views/Login.vue'
-import Register from '../views/Register.vue'
+import Profile from '../presenters/ProfilePresenter.vue'
+import Login from '../presenters/LoginPresenter.vue'
+import Register from '../presenters/RegisterPresenter.vue'
 import PageNotFound from '../presenters/PageNotFoundPresenter.vue'
 
 import {model} from '../model/model';

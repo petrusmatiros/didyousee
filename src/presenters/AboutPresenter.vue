@@ -15,5 +15,5 @@ export default defineComponent({
 });
 </script>
 <template>
-    <AboutView />
+    <AboutView/>
 </template>

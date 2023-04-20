@@ -1,9 +1,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import ContentView from "../views/ContentView.vue";
-import { getSystemErrorMap } from 'util';
 import { useRouter,useRoute } from 'vue-router'
-import { Console } from 'console';
 
 export default defineComponent({
     name: "ContentPresenter",
