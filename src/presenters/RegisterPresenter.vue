@@ -25,12 +25,13 @@ export default defineComponent({
             console.log("Mail:", mail)
             console.log("Password:", password)
             console.log("Confirm Password:", confirm_password)
+
             createUserWithEmailAndPassword(auth, mail, password)
                 .then((userCredential) => {
                     // Signed in :: https://firebase.google.com/docs/auth/web/password-auth
                     const user = userCredential.user;
                     console.log("User", user)
-                    console.log("Signed in", userCredential)
+                    console.log("Signed in!", userCredential)
                     router.push('/profile');
                 })
                 .catch((error) => {
@@ -39,7 +40,6 @@ export default defineComponent({
                     // const errorMessage = error.message;
                 });
         }
-
         return {
             handleCreateAccountACB,
         };

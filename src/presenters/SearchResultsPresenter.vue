@@ -1,7 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import SearchResultsView from "../views/SearchResultsView.vue";
-import { serialize } from 'v8';
 
 export default defineComponent({
   name: "SearchResultsPresenter",

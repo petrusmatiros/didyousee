@@ -28,7 +28,7 @@ function handleCreateAccountACB(username: string, mail: string, password: string
             required
             v-model="username"
           />
-          <label for="mail">Mail</label>
+          <label for="mail">Email</label>
           <input
             type="text"
             id="mail"
