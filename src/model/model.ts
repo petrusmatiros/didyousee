@@ -143,6 +143,7 @@ interface Model {
   getPage: () => number;
 
   resetCurrentContent: () => void;
+  resetMovies: () => void;
 }
 
 // Everything that should persist
@@ -275,6 +276,9 @@ let model: Model = {
 
   resetCurrentContent: function () {
     this.currentContent = { id: 0, title: '', overview: '', vote_average: 0, vote_count: 0, popularity: 0, release_date: '', spoken_languages: [], backdrop_path: '', poster_path: '', genres: [], budget: 0, revenue: 0, status: '', runtime: 0, belongs_to_collection: {}};
+  },
+  resetMovies: function () {
+    this.movies = [];
   },
 };
 

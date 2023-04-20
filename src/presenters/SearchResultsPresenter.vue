@@ -16,6 +16,7 @@ export default defineComponent({
   setup(props: any) {
     searchACB();
     function searchACB() {
+      props.model.resetMovies();
       props.model.fetchMovies();
     }
     props.model.addObserver(searchACB);
