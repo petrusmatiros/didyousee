@@ -16,10 +16,12 @@ export default defineComponent({
     },
   },
   setup(props: any) {
-    // props.model.fetchMovies();
     function searchACB() {
       props.model.fetchMovies(); 
     }
+    
+    props.model.addObserver(searchACB);
+
     return {
       searchACB,
     };

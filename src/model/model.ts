@@ -233,7 +233,6 @@ async function getSimilarMedia(media: MediaType, id: string) {
 }
 
 async function searchMedia(media: MediaType, query: string) {
-  console.log("SearchMedia", query);
   //return wrap("/search/movie", query).then(query => query.data);
   return wrap(`/search/${media}`, new URLSearchParams(`query=${query}&include_adult=false`));
 }

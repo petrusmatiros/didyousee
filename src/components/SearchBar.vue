@@ -14,8 +14,8 @@
         name="inputSearchBar"
         @focus="methods.onInputFocus"
         @blur="methods.onInputBlur"
-        @keydown.enter="methods.searchEnterACB"
-        @input="methods.onInputTyping"
+        @keydown.enter="methods.searchEnterACB(searchString)"
+        @input="methods.onInputTyping(searchString)"
       />
       
     </div>
@@ -25,8 +25,6 @@
 import { defineComponent } from "vue";
 import { useRouter } from 'vue-router'
 import "./../style.css";
-
-
 
 export default defineComponent({
   name: "SearchBar",
@@ -38,7 +36,7 @@ export default defineComponent({
   },
   setup(props:any) {
     let inputFocused = false;
-    let typingTimeout = 0;
+    let typingTimeout = setTimeout(() => {});
     console.log("MODEL", props.model)
     
     const searchBar = document.getElementById("searchBar");
@@ -73,16 +71,16 @@ export default defineComponent({
         props.model.setSearchString(searchQuery);
         goToSearchResultsPage();
       },
-      searchEnterACB() {
-        this.searchClickACB(props.model.getSearchString());
+      searchEnterACB(searchQuery: string) {
+        this.searchClickACB(searchQuery);
       },
-      onInputTyping() {
-        if (props.typingTimeout) {
-          clearTimeout(props.typingTimeout);
+      onInputTyping(searchQuery: string) {
+        if (typingTimeout) {
+          clearTimeout(typingTimeout);
         }
-        let typingTimeout = setTimeout(() => {
-          this.searchClickACB(props.model.getSearchString());
-        }, 250);
+        typingTimeout = setTimeout(() => {
+          this.searchClickACB(searchQuery);
+        }, 300);
       },
       onInputFocus() {
         inputFocused = true;

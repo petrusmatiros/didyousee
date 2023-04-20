@@ -47,14 +47,6 @@ export default defineComponent({
   components: {
     SearchBar,
   },
-  created() {
-
-  },
-  computed: {
-
-  },
-  methods: {
-  },
   data() {
     return {
       model: promiseModel,
