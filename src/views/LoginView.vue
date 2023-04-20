@@ -4,7 +4,7 @@ import { defineEmits } from 'vue';
 
 const emit = defineEmits(["handleLogin"])
 
-function handleLoginACB(username: string, password: string) {emit("handleLogin", username, password);}
+function handleLoginACB(mail: string, password: string) {emit("handleLogin", mail, password);}
 
 </script>
 
@@ -20,13 +20,13 @@ function handleLoginACB(username: string, password: string) {emit("handleLogin",
         <h1 class="credentials-title">Login</h1>
         <p class="credentials-subtitle">Welcome back!</p>
         <form class="credentials-form flex-col flex-center-start">
-          <label for="username">Username</label>
+          <label for="mail">Email</label>
           <input
             type="text"
-            id="username"
+            id="mail"
             name="credentials"
             required
-            v-model="username"
+            v-model="mail"
           />
           <label for="password">Password</label>
           <input
@@ -37,7 +37,7 @@ function handleLoginACB(username: string, password: string) {emit("handleLogin",
             v-model="password"
           />
           <div class="credentials-button-container flex-col flex-center">
-            <button class="credentials-submit-button" @click.prevent="handleLoginACB(username, password)">
+            <button class="credentials-submit-button" @click.prevent="handleLoginACB(mail, password)">
               Login
             </button>
             <p class="credentials-link">
@@ -52,7 +52,7 @@ function handleLoginACB(username: string, password: string) {emit("handleLogin",
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-let username = "";
+let mail = "";
 let password = "";
 
 

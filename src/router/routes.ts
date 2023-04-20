@@ -42,16 +42,19 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: Profile,
+    props: {model: promiseModel},
   },
   {
     path: '/login',
     name: 'Login',
     component: Login,
+    props: {model: promiseModel},
   },
   {
     path: '/register',
     name: 'Register',
     component: Register,
+    props: {model: promiseModel},
   },
   {
     path: '/:pathMatch(.*)*',

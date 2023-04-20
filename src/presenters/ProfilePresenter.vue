@@ -1,6 +1,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import ProfileView from "../views/ProfileView.vue";
+import { auth, app } from "../firebaseConfig";
+import { signOut } from "firebase/auth";
 import { useRouter } from 'vue-router'
 
 export default defineComponent({
@@ -8,23 +10,37 @@ export default defineComponent({
     components: {
         ProfileView,
     },
+    props: {
+        model: {
+            type: Object,
+            required: true,
+        },
+    },
     setup(props: any) {
-    const router = useRouter()
+        const router = useRouter()
+        const currentUser = auth.currentUser; // Kollar ifall användaren är inloggad!
 
-    console.log("Profile console log...")
+        function logoutClickACB() {
+            signOut(auth).then(() => {
+                // Sign-out successful.
+                console.log("Signed-out!")
+            }).catch((error) => {
+                // An error happened.
+                console.warn("Error Sign-out!")
+            });
+            router.push('/login');
+        }
 
-    // TODO: Ändra till token! Auth!
-    const isValidCookie = 0;
-
-    if (!isValidCookie) {
-      // Omdirigera till inloggningssidan
-      router.push('/login');
-    }
+        if (!currentUser) {
+            // Omdirigera till inloggningssidan
+            router.push('/login');
+        }
         return {
+            logoutClickACB,
         };
     },
 });
 </script>
 <template>
-    <ProfileView/>
+    <ProfileView @logoutClick="logoutClickACB" />
 </template>
