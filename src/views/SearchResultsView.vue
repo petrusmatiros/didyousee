@@ -21,7 +21,6 @@ function searchClickACB() {emit("searchClick")}
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { stringLength } from '@firebase/util';
 
 export default defineComponent({
   name: 'SearchResultsView',
