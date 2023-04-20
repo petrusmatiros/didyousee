@@ -184,7 +184,7 @@ let model: Model = {
         this.getSearchString(),
       );
       console.log("API fetchMovies", this.getSearchString());
-      this.movies = movies.data.results.map(contentFromQuery); // Update movies data
+      this.movies = movies.data.results.map(contentFromQuery);
 
     } catch (error) {
       console.error("Failed to fetch movies:", error);
@@ -198,7 +198,7 @@ let model: Model = {
         this.getSearchString()
       );
       console.log("API getSeries", this.getSearchString());
-      this.series = series.data.results.map(contentFromQuery); // Update series data
+      this.series = series.data.results.map(contentFromQuery);
     } catch (error) {
       console.error("Failed to fetch series:", error);
       throw error;
@@ -212,7 +212,7 @@ let model: Model = {
         this.getPage(),
       );
       console.log("API getTrending", this.getSearchString());
-      this.movies = series.data.results.map(contentFromQuery); // Update series data
+      this.movies = series.data.results.map(contentFromQuery); 
     } catch (error) {
       console.error("Failed to fetch trending:", error);
       throw error;
@@ -263,7 +263,6 @@ let model: Model = {
   setSearchID: function (str: string) {
     this.searchID = str;
     console.log("setSearchID", this.searchID);
-    // this.notifyObservers({ searchID: str });
   },
   getSearchID: function () {
     return this.searchID;
@@ -275,12 +274,11 @@ let model: Model = {
   getPage: function () {
     return this.page;
   },
+
   resetCurrentContent: function () {
     this.currentContent = { id: 0, title: '', overview: '', vote_average: 0, vote_count: 0, popularity: 0, release_date: '', spoken_languages: [], backdrop_path: '', poster_path: '', genres: [], budget: 0, revenue: 0, status: '', runtime: 0, belongs_to_collection: {}};
   },
 };
-
-// async function setMovi
 
 async function getDiscover(media: MediaType) {
   return wrap(`/discover/${media}`, new URLSearchParams());
@@ -313,22 +311,6 @@ async function discoverMedia(media: MediaType, query: URLSearchParams) {
   return wrap(`/discover/${media}`, query);
 }
 
-// TODO:
-// async function getSearchMedia() {
-//   const params = new URLSearchParams();
-//   console.log("GetSearchMedia", searchString.value)
-//   params.append('query', searchString.value);
-//   params.append('include_adult', 'false');
-//   console.log(params.toString())
-//   const contentResponse: any | undefined = await searchMedia(
-//     MediaType.MOVIE,
-//     new URLSearchParams(params)
-//   );
-//   console.log('API Search', contentResponse);
-//   if (contentResponse) {
-//     updateData(contentResponse);
-//   }
-// }
 export {
   model,
   randomTrivia,
