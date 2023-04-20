@@ -122,12 +122,14 @@ interface Model {
   searchString: string;
   searchID: string;
   page: number;
+  trivia: string;
   observers: ((payload: any) => void)[];
-  title: String;
 
   fetchMovie: () => Promise<void>;
   fetchMovies: () => Promise<void>;
   fetchSeries: () => Promise<void>;
+  fetchTrending: () => Promise<void>;
+  fetchTrivia: () => Promise<void>;
 
   notifyObservers: (payload: any) => void;
   addObserver: (observer: (obs: any) => void) => void;
@@ -152,7 +154,8 @@ let model: Model = {
   searchString: "",
   searchID: "",
   page: 1,
-  title: "",
+  trivia: "",
+
   
 
   fetchMovie: async function () {
@@ -163,7 +166,8 @@ let model: Model = {
       );
       console.log("API fetchMovie", this.getSearchID());
       this.currentContent = movie.data;
-      // TODO: 
+
+      // TODO: Ändra hur vi tar hand om poster_path och backdrop. Om vi enbart gör x = movie.data får vi bara ena delen i poster_path.
       this.currentContent.poster_path = movie.data.poster_path ? `https://image.tmdb.org/t/p/w500${
         movie.data.poster_path
       }`: "/src/assets/no-poster.svg";
@@ -187,7 +191,6 @@ let model: Model = {
       throw error;
     }
   },
-  // Fetch series data
   fetchSeries: async function () {
     try {
       const series = await searchMedia(
@@ -198,6 +201,34 @@ let model: Model = {
       this.series = series.data.results.map(contentFromQuery); // Update series data
     } catch (error) {
       console.error("Failed to fetch series:", error);
+      throw error;
+    }
+  },
+  fetchTrending: async function () {
+    try {
+      const series = await getTrending(
+        MediaType.MOVIE,
+        "day",
+        this.getPage(),
+      );
+      console.log("API getTrending", this.getSearchString());
+      this.movies = series.data.results.map(contentFromQuery); // Update series data
+    } catch (error) {
+      console.error("Failed to fetch trending:", error);
+      throw error;
+    }
+  },
+  fetchTrivia: async function () {
+    try {
+      let r = random(0, 1)
+      let category:TriviaCategory = r === 0 ? TriviaCategory.MOVIE : TriviaCategory.SERIES;
+      randomTrivia(category).then((data:any) => {
+        this.trivia = data;
+      }).catch((error:any) => {
+        console.log(error);
+      });
+    } catch (error) {
+      console.error("Failed to fetch trending:", error);
       throw error;
     }
   },
@@ -255,11 +286,11 @@ async function getDiscover(media: MediaType) {
   return wrap(`/discover/${media}`, new URLSearchParams());
 }
 
-async function getTrending(type: string, timeWindow: string, page: string) {
+async function getTrending(type: string, timeWindow: string, page: number) {
   //return wrap(`/trending/${type}/${timeWindow}`, new URLSearchParams()).then(query => query.data.results);
   return wrap(
     `/trending/${type}/${timeWindow}`,
-    new URLSearchParams({ page, include_adult: "false" })
+    new URLSearchParams({ page: page.toString(), include_adult: "false" })
   );
 }
 
