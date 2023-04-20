@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, onBeforeMount } from 'vue'
 import HomeView from "../views/HomeView.vue";
 
 export default defineComponent({
@@ -18,6 +18,9 @@ export default defineComponent({
             props.model.fetchTrivia();
             props.model.fetchTrendingMovies();
             props.model.fetchTrendingSeries();
+        }
+        function onBeforeMount() {
+            props.model.generateDummyContent();
         }
         updateDataACB();
         return {

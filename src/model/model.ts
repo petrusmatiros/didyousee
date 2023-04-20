@@ -50,7 +50,10 @@ function trivia(category: TriviaCategory, amount: number = 10): any {
 function poster(size: PosterSize = PosterSize.W500, path: string): string {
   return image(size, path);
 }
-function backdrop(size: BackdropSize = BackdropSize.W780, path: string): string {
+function backdrop(
+  size: BackdropSize = BackdropSize.W780,
+  path: string
+): string {
   return image(size, path);
 }
 
@@ -118,12 +121,14 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
 interface Model {
   movies: Content[];
   series: Content[];
-  currentContent: Movie | Series,
+  currentContent: Movie | Series;
   searchString: string;
   searchID: string;
   page: number;
   trivia: string;
   observers: ((payload: any) => void)[];
+
+  generateDummyContent: () => void;
 
   fetchSingleMovie: () => Promise<void>;
   fetchSingleSeries: () => Promise<void>;
@@ -150,48 +155,82 @@ interface Model {
 
 // Everything that should persist
 let model: Model = {
-  movies: [], 
+  movies: [],
   series: [],
-  currentContent: { id: 0, title: '', overview: '', vote_average: 0, vote_count: 0, popularity: 0, release_date: '', spoken_languages: [], backdrop_path: '', poster_path: '', genres: [], budget: 0, revenue: 0, status: '', runtime: 0, belongs_to_collection: {} },
+  currentContent: {
+    id: 0,
+    title: "",
+    overview: "",
+    vote_average: 0,
+    vote_count: 0,
+    popularity: 0,
+    release_date: "",
+    spoken_languages: [],
+    backdrop_path: "",
+    poster_path: "",
+    genres: [],
+    budget: 0,
+    revenue: 0,
+    status: "",
+    runtime: 0,
+    belongs_to_collection: {},
+  },
   observers: [],
   searchString: "",
   searchID: "",
   page: 1,
   trivia: "",
 
+  generateDummyContent: function () {
+    for (let i = 0; i < 20; i++) {
+      this.movies.push({
+        id: 0,
+        overview: "",
+        vote_average: 0,
+        vote_count: 0,
+        popularity: 0,
+        release_date: "",
+        spoken_languages: [],
+        backdrop_path: "",
+        poster_path: "",
+        genres: [],
+        budget: 0,
+        revenue: 0,
+        status: "",
+      });
+    }
+  },
   fetchSingleMovie: async function () {
     try {
       const movie: any | undefined = await getMedia(
         MediaType.MOVIE,
-        this.getSearchID(),
+        this.getSearchID()
       );
       console.log("API fetchMovie", this.getSearchID());
       this.currentContent = movie.data;
 
       // TODO: Ändra hur vi tar hand om poster_path och backdrop. Om vi enbart gör x = movie.data får vi bara ena delen i poster_path.
-      this.currentContent.poster_path = movie.data.poster_path ? `https://image.tmdb.org/t/p/w500${
-        movie.data.poster_path
-      }`: "/src/assets/no-poster.svg";
-
+      this.currentContent.poster_path = movie.data.poster_path
+        ? `https://image.tmdb.org/t/p/w500${movie.data.poster_path}`
+        : "/src/assets/no-poster.svg";
     } catch (error) {
       console.error("Failed to fetch single movie:", error);
       throw error;
     }
   },
-    fetchSingleSeries: async function () {
+  fetchSingleSeries: async function () {
     try {
       const movie: any | undefined = await getMedia(
         MediaType.SERIES,
-        this.getSearchID(),
+        this.getSearchID()
       );
       console.log("API fetchMovie", this.getSearchID());
       this.currentContent = movie.data;
 
       // TODO: Ändra hur vi tar hand om poster_path och backdrop. Om vi enbart gör x = movie.data får vi bara ena delen i poster_path.
-      this.currentContent.poster_path = movie.data.poster_path ? `https://image.tmdb.org/t/p/w500${
-        movie.data.poster_path
-      }`: "/src/assets/no-poster.svg";
-
+      this.currentContent.poster_path = movie.data.poster_path
+        ? `https://image.tmdb.org/t/p/w500${movie.data.poster_path}`
+        : "/src/assets/no-poster.svg";
     } catch (error) {
       console.error("Failed to fetch single series:", error);
       throw error;
@@ -201,11 +240,10 @@ let model: Model = {
     try {
       const movies: any | undefined = await searchMedia(
         MediaType.MOVIE,
-        this.getSearchString(),
+        this.getSearchString()
       );
       console.log("API fetchMovies", this.getSearchString());
       this.movies = movies.data.results.map(contentFromQuery);
-
     } catch (error) {
       console.error("Failed to fetch movies:", error);
       throw error;
@@ -226,13 +264,9 @@ let model: Model = {
   },
   fetchTrendingMovies: async function () {
     try {
-      const series = await getTrending(
-        MediaType.MOVIE,
-        "day",
-        this.getPage(),
-      );
+      const series = await getTrending(MediaType.MOVIE, "day", this.getPage());
       console.log("API getTrendingMovies", series.data.results);
-      this.movies = series.data.results.map(contentFromQuery); 
+      this.movies = series.data.results.map(contentFromQuery);
     } catch (error) {
       console.error("Failed to fetch trending movies:", error);
       throw error;
@@ -240,13 +274,9 @@ let model: Model = {
   },
   fetchTrendingSeries: async function () {
     try {
-      const series = await getTrending(
-        MediaType.SERIES,
-        "day",
-        this.getPage(),
-      );
+      const series = await getTrending(MediaType.SERIES, "day", this.getPage());
       console.log("API getTrendingSeries", series.data.results);
-      this.series = series.data.results.map(contentFromQuery); 
+      this.series = series.data.results.map(contentFromQuery);
     } catch (error) {
       console.error("Failed to fetch trending series:", error);
       throw error;
@@ -254,13 +284,16 @@ let model: Model = {
   },
   fetchTrivia: async function () {
     try {
-      let r = random(0, 1)
-      let category:TriviaCategory = r === 0 ? TriviaCategory.MOVIE : TriviaCategory.SERIES;
-      randomTrivia(category).then((data:any) => {
-        this.trivia = data;
-      }).catch((error:any) => {
-        console.log(error);
-      });
+      let r = random(0, 1);
+      let category: TriviaCategory =
+        r === 0 ? TriviaCategory.MOVIE : TriviaCategory.SERIES;
+      randomTrivia(category)
+        .then((data: any) => {
+          this.trivia = data;
+        })
+        .catch((error: any) => {
+          console.log(error);
+        });
     } catch (error) {
       console.error("Failed to fetch trivia:", error);
       throw error;
@@ -310,7 +343,24 @@ let model: Model = {
   },
 
   resetCurrentContent: function () {
-    this.currentContent = { id: 0, title: '', overview: '', vote_average: 0, vote_count: 0, popularity: 0, release_date: '', spoken_languages: [], backdrop_path: '', poster_path: '', genres: [], budget: 0, revenue: 0, status: '', runtime: 0, belongs_to_collection: {}};
+    this.currentContent = {
+      id: 0,
+      title: "",
+      overview: "",
+      vote_average: 0,
+      vote_count: 0,
+      popularity: 0,
+      release_date: "",
+      spoken_languages: [],
+      backdrop_path: "",
+      poster_path: "",
+      genres: [],
+      budget: 0,
+      revenue: 0,
+      status: "",
+      runtime: 0,
+      belongs_to_collection: {},
+    };
   },
   resetMovies: function () {
     this.movies = [];
@@ -341,7 +391,10 @@ async function getSimilarMedia(media: MediaType, id: string) {
 
 async function searchMedia(media: MediaType, query: string) {
   //return wrap("/search/movie", query).then(query => query.data);
-  return wrap(`/search/${media}`, new URLSearchParams(`query=${query}&include_adult=false`));
+  return wrap(
+    `/search/${media}`,
+    new URLSearchParams(`query=${query}&include_adult=false`)
+  );
 }
 
 async function discoverMedia(media: MediaType, query: URLSearchParams) {
