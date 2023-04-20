@@ -23,7 +23,7 @@ function goBackACB() {emit("goBack")}
           <div class="loading-skeleton result-content-poster" v-if="!$props.model.currentContent.poster_path"></div>
           <img class="result-content-poster" v-else loading="lazy" :src="$props.model.currentContent.poster_path" />
           <div class="result-content-info flex-col flex-start">
-            <h1 class="result-content-info--title">{{ $props.model.currentContent.title }}</h1>
+            <h1 class="result-content-info--title">{{ $props.model.currentContent.title || $props.model.currentContent.name  }}</h1>
             <p class="result-content-info--overview">{{ $props.model.currentContent.overview }}</p>
             <div class="result-content-more-info flex-row flex-center-start">
               <div class="result-content-more-info--primary flex-col flex-center-start">

@@ -125,7 +125,8 @@ interface Model {
   trivia: string;
   observers: ((payload: any) => void)[];
 
-  fetchMovie: () => Promise<void>;
+  fetchSingleMovie: () => Promise<void>;
+  fetchSingleSeries: () => Promise<void>;
   fetchMovies: () => Promise<void>;
   fetchSeries: () => Promise<void>;
   fetchTrendingMovies: () => Promise<void>;
@@ -158,7 +159,7 @@ let model: Model = {
   page: 1,
   trivia: "",
 
-  fetchMovie: async function () {
+  fetchSingleMovie: async function () {
     try {
       const movie: any | undefined = await getMedia(
         MediaType.MOVIE,
@@ -173,7 +174,26 @@ let model: Model = {
       }`: "/src/assets/no-poster.svg";
 
     } catch (error) {
-      console.error("Failed to fetch movie:", error);
+      console.error("Failed to fetch single movie:", error);
+      throw error;
+    }
+  },
+    fetchSingleSeries: async function () {
+    try {
+      const movie: any | undefined = await getMedia(
+        MediaType.SERIES,
+        this.getSearchID(),
+      );
+      console.log("API fetchMovie", this.getSearchID());
+      this.currentContent = movie.data;
+
+      // TODO: Ändra hur vi tar hand om poster_path och backdrop. Om vi enbart gör x = movie.data får vi bara ena delen i poster_path.
+      this.currentContent.poster_path = movie.data.poster_path ? `https://image.tmdb.org/t/p/w500${
+        movie.data.poster_path
+      }`: "/src/assets/no-poster.svg";
+
+    } catch (error) {
+      console.error("Failed to fetch single series:", error);
       throw error;
     }
   },
@@ -211,7 +231,7 @@ let model: Model = {
         "day",
         this.getPage(),
       );
-      console.log("API getTrendingMovies", this.getSearchString());
+      console.log("API getTrendingMovies", series.data.results);
       this.movies = series.data.results.map(contentFromQuery); 
     } catch (error) {
       console.error("Failed to fetch trending movies:", error);
@@ -225,8 +245,7 @@ let model: Model = {
         "day",
         this.getPage(),
       );
-      console.log("API getTrendingSeries", this.getSearchString());
-      console.log(series.data.results)
+      console.log("API getTrendingSeries", series.data.results);
       this.series = series.data.results.map(contentFromQuery); 
     } catch (error) {
       console.error("Failed to fetch trending series:", error);

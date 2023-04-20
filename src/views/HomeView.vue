@@ -30,13 +30,13 @@ function searchClickACB() { emit("searchClick") }
       <h1>Movies</h1>
     </div>
     <div class="trending-list flex-row flex-center">
-      <MediaCard v-for="(movie, index) in $props.model.movies" :key="index" :movie="movie" />
+      <MediaCard v-for="(movie, index) in $props.model.movies" :key="index" :media="movie" :media-type="'movie'"/>
     </div>
     <div>
       <h1>Series</h1>
     </div>
     <div class="trending-list flex-row flex-center">
-      <MediaCard v-for="(serie, index) in $props.model.series" :key="index" :movie="serie" />
+      <MediaCard v-for="(series, index) in $props.model.series" :key="index" :media="series" :media-type="'tv'"/>
     </div>
   </div>
 </template>

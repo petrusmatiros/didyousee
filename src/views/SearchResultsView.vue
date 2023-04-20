@@ -14,13 +14,14 @@ function searchClickACB() {emit("searchClick")}
   <!-- <button @click="searchClickACB()">X</button> -->
   <div class="search-results flex-col flex-center">
     <div class="trending-list flex-row flex-center">
-      <MediaCard v-for="(movie, index) in movies" :key="index" v-if="movies" :movie="movie" />
+      <MediaCard v-for="(movie, index) in movies" :key="index" v-if="movies" :media="movie" :mediaType="'movie'" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { stringLength } from '@firebase/util';
 
 export default defineComponent({
   name: 'SearchResultsView',

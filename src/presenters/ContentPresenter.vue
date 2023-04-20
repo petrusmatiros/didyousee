@@ -2,6 +2,7 @@
 import { defineComponent } from 'vue'
 import ContentView from "../views/ContentView.vue";
 import { useRouter,useRoute } from 'vue-router'
+import { MediaType } from '../types/types';
 
 export default defineComponent({
     name: "ContentPresenter",
@@ -21,11 +22,20 @@ export default defineComponent({
         function updateDataACB() {
             props.model.resetCurrentContent();
             const id = route.query.id;
+            const type = route.query.type;
             if (id) {
                 const mediaID = JSON.parse(id as string);
-                console.log("Media from query parameter:", mediaID);
+                const mediaType = JSON.parse(type as string);
+                console.log("Media from query parameter- TYPE:", mediaType, "ID:", mediaID);
                 props.model.setSearchID(mediaID);
-                props.model.fetchMovie();
+
+                if (mediaType === MediaType.MOVIE) {
+                    props.model.fetchSingleMovie();
+                }
+                else if (mediaType === MediaType.SERIES) {
+                    props.model.fetchSingleSeries();
+                }
+
             }
         }
         updateDataACB();
@@ -55,7 +65,6 @@ export default defineComponent({
             console.log("Back button clicked");
             router.go(-1); // Go back one step in Vue Router history
         }
-
         return {
             updateDataACB,
             handleLikedACB,
