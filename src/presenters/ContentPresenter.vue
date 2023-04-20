@@ -19,6 +19,8 @@ export default defineComponent({
         const router = useRouter();
         const route = useRoute()
 
+        console.log("currentContent:", props.model.currentContent)
+
         function updateDataACB() {
             props.model.resetCurrentContent();
             const id = route.query.id;

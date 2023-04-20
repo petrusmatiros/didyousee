@@ -6,7 +6,7 @@ import { Movie } from '../types/types';
 
 const emit = defineEmits(["searchClick"])
 
-function searchClickACB() {emit("searchClick")}
+function searchClickACB() { emit("searchClick") }
 
 </script>
 
@@ -14,7 +14,18 @@ function searchClickACB() {emit("searchClick")}
   <!-- <button @click="searchClickACB()">X</button> -->
   <div class="search-results flex-col flex-center">
     <div class="trending-list flex-row flex-center">
-      <MediaCard v-for="(movie, index) in movies" :key="index" v-if="movies" :media="movie" :mediaType="'movie'" />
+      <div>
+        <h1>Movies</h1>
+      </div>
+      <div class="trending-list flex-row flex-center">
+        <MediaCard v-for="(movie, index) in $props.model.movies" :key="index" :media="movie" :media-type="'movie'" />
+      </div>
+      <div>
+        <h1>Series</h1>
+      </div>
+      <div class="trending-list flex-row flex-center">
+        <MediaCard v-for="(series, index) in $props.model.series" :key="index" :media="series" :media-type="'tv'" />
+      </div>
     </div>
   </div>
 </template>
@@ -28,7 +39,10 @@ export default defineComponent({
     MediaCard,
   },
   props: {
-    movies: Array as () => Movie[],
+    model: {
+      type: Object,
+      required: true,
+    },
   },
 });
 </script>

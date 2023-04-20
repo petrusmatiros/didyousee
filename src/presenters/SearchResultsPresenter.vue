@@ -18,6 +18,7 @@ export default defineComponent({
     function searchACB() {
       props.model.resetMovies();
       props.model.fetchMovies();
+      props.model.fetchSeries();
     }
     props.model.addObserver(searchACB);
     return {
@@ -27,5 +28,5 @@ export default defineComponent({
 });
 </script>
 <template>
-  <SearchResultsView :movies="model.movies" @searchClick="searchACB" />
+  <SearchResultsView :model="model" @searchClick="searchACB" />
 </template>

@@ -86,7 +86,7 @@ export default defineComponent({
         }
       },
       onInputBlur() {
-        inputFocused = false; // set the inputFocused flag to false
+        inputFocused = false;
         const searchBar = document.querySelector(".searchBar");
         if (searchBar) {
           searchBar.classList.remove("searchBar--focused");
