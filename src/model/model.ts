@@ -228,7 +228,7 @@ let model: Model = {
         console.log(error);
       });
     } catch (error) {
-      console.error("Failed to fetch trending:", error);
+      console.error("Failed to fetch trivia:", error);
       throw error;
     }
   },
