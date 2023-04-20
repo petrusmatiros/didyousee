@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import SearchResults from '../presenters/SearchResultsPresenter.vue'
-import Result from '../views/Result.vue'
+import Content from '../presenters/ContentPresenter.vue'
 import Profile from '../views/Profile.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
@@ -33,9 +33,10 @@ const routes = [
     props: {model: promiseModel},
   },
   {
-    path: '/result/',
-    name: 'Result',
-    component: Result,
+    path: '/content/',
+    name: 'Content',
+    component: Content,
+    props: {model: promiseModel},
   },
   {
     path: '/profile',

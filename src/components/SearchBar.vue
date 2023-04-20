@@ -16,8 +16,7 @@
         @blur="methods.onInputBlur"
         @keydown.enter="methods.searchEnterACB(searchString)"
         @input="methods.onInputTyping(searchString)"
-      />
-      
+      /> 
     </div>
 </template>
 
@@ -37,7 +36,6 @@ export default defineComponent({
   setup(props:any) {
     let inputFocused = false;
     let typingTimeout = setTimeout(() => {});
-    console.log("MODEL", props.model)
     
     const searchBar = document.getElementById("searchBar");
     if (searchBar) {
@@ -51,9 +49,7 @@ export default defineComponent({
       });
     };
 
-
     const methods = {
-      
       async searchClickACB(searchQuery: string) {
         const searchBar = document.querySelector(".searchBar");
         inputFocused = true;

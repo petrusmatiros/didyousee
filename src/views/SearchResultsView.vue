@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import './../style.css';
-import { defineProps, defineEmits } from 'vue';
+import { defineEmits } from 'vue';
 import MovieCard from '../components/MovieCard.vue';
 import { Movie } from '../types/types';
 
@@ -11,7 +11,7 @@ function searchClickACB() {emit("searchClick")}
 </script>
 
 <template>
-  <button @click="searchClickACB()">X</button>
+  <!-- <button @click="searchClickACB()">X</button> -->
   <div class="search-results flex-col flex-center">
     <div class="trending-list flex-row flex-center">
       <MovieCard v-for="(movie, index) in movies" :key="index" v-if="movies" :movie="movie" />
@@ -28,7 +28,6 @@ export default defineComponent({
     MovieCard,
   },
   props: {
-    searchString: String,
     movies: Array as () => Movie[],
   },
 });

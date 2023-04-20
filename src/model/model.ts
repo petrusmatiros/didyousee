@@ -118,32 +118,62 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
 interface Model {
   movies: Content[];
   series: Content[];
+  currentContent: Movie | Series,
   searchString: string;
+  searchID: string;
   page: number;
   observers: ((payload: any) => void)[];
+  title: String;
 
+  fetchMovie: () => Promise<void>;
   fetchMovies: () => Promise<void>;
   fetchSeries: () => Promise<void>;
+
   notifyObservers: (payload: any) => void;
   addObserver: (observer: (obs: any) => void) => void;
   removeObserver: (observer: (obs: any) => void) => void;
 
   setSearchString: (str: string) => void;
   getSearchString: () => string;
+  setSearchID: (str: string) => void;
+  getSearchID: () => string;
   setPage: (page: number) => void;
   getPage: () => number;
+
+  resetCurrentContent: () => void;
 }
 
 // Everything that should persist
 let model: Model = {
-  movies: [], // Store resolved movies data
+  movies: [], 
   series: [],
+  currentContent: { id: 0, title: '', overview: '', vote_average: 0, vote_count: 0, popularity: 0, release_date: '', spoken_languages: [], backdrop_path: '', poster_path: '', genres: [], budget: 0, revenue: 0, status: '', runtime: 0, belongs_to_collection: {} },
   observers: [],
   searchString: "",
+  searchID: "",
   page: 1,
+  title: "",
   
-  fetchMovies: async function () {
 
+  fetchMovie: async function () {
+    try {
+      const movie: any | undefined = await getMedia(
+        MediaType.MOVIE,
+        this.getSearchID(),
+      );
+      console.log("API fetchMovie", this.getSearchID());
+      this.currentContent = movie.data;
+      // TODO: 
+      this.currentContent.poster_path = movie.data.poster_path ? `https://image.tmdb.org/t/p/w500${
+        movie.data.poster_path
+      }`: "/src/assets/no-poster.svg";
+
+    } catch (error) {
+      console.error("Failed to fetch movie:", error);
+      throw error;
+    }
+  },
+  fetchMovies: async function () {
     try {
       const movies: any | undefined = await searchMedia(
         MediaType.MOVIE,
@@ -199,12 +229,23 @@ let model: Model = {
   getSearchString: function () {
     return this.searchString;
   },
+  setSearchID: function (str: string) {
+    this.searchID = str;
+    console.log("setSearchID", this.searchID);
+    // this.notifyObservers({ searchID: str });
+  },
+  getSearchID: function () {
+    return this.searchID;
+  },
   setPage: function (page: number) {
     this.page = page;
     this.notifyObservers({ page: page });
   },
   getPage: function () {
     return this.page;
+  },
+  resetCurrentContent: function () {
+    this.currentContent = { id: 0, title: '', overview: '', vote_average: 0, vote_count: 0, popularity: 0, release_date: '', spoken_languages: [], backdrop_path: '', poster_path: '', genres: [], budget: 0, revenue: 0, status: '', runtime: 0, belongs_to_collection: {}};
   },
 };
 

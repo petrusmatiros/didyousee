@@ -26,7 +26,6 @@ export default defineComponent({
     },
   },
   computed: {
-    
     imagePath():any {
       return this.movie.poster_path ? `https://image.tmdb.org/t/p/${PosterSize.W342}/${this.movie.poster_path}` : "/src/assets/no-poster.svg";
     },
@@ -42,7 +41,7 @@ export default defineComponent({
       // Navigate to the result page with movie information as a parameter
       // window.location.href = `/result?id=${JSON.stringify(this.movie.id)}`;
       this.$router.push({
-        name: "Result",
+        name: "Content",
         query: { id: JSON.stringify(this.movie.id) },
       });
     },

@@ -117,7 +117,7 @@ import {model, searchMedia, getTrending, getMedia, getSimilarMedia} from "../mod
 import { MediaType } from '../types/types';
 
 export default defineComponent({
-  name: "Result",
+  name: "ResultOld",
   components: {
     MovieCard,
   },
@@ -150,13 +150,13 @@ export default defineComponent({
       this.languages = response.data.spoken_languages;
       this.genres = response.data.genres;
     },
-    async retrieveSimilarMedia(id:string) {
-      const movie: any | undefined = await getSimilarMedia(MediaType.MOVIE, id);
-      if (movie) {
-        console.log("dataSimilarMediaMounted", movie);
-        this.movies = movie.data.results.splice(0, 8);
-      }
-    },
+    // async retrieveSimilarMedia(id:string) {
+    //   const movie: any | undefined = await getSimilarMedia(MediaType.MOVIE, id);
+    //   if (movie) {
+    //     console.log("dataSimilarMediaMounted", movie);
+    //     this.movies = movie.data.results.splice(0, 8);
+    //   }
+    // },
     goBackACB() {
       console.log("Back button clicked");
       this.$router.go(-1); // Go back one step in Vue Router history
