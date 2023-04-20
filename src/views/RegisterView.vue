@@ -38,7 +38,7 @@ function handleCreateAccountACB(username: string, mail: string, password: string
           />
           <label for="mail">Password</label>
           <input
-            type="text"
+            type="password"
             id="password"
             name="credentials"
             required
@@ -46,7 +46,7 @@ function handleCreateAccountACB(username: string, mail: string, password: string
           />
           <label for="mail">Confirm password</label>
           <input
-            type="text"
+            type="password"
             id="confirm_password"
             name="credentials"
             required

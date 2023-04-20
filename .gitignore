@@ -16,6 +16,8 @@ dist-ssr
 .env
 
 # Firebase
+/src/firebaseConfig.ts
+src/firebaseConfig.ts
 .idea
 **/node_modules/*
 **/.firebase
