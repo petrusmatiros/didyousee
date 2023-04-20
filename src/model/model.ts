@@ -128,7 +128,8 @@ interface Model {
   fetchMovie: () => Promise<void>;
   fetchMovies: () => Promise<void>;
   fetchSeries: () => Promise<void>;
-  fetchTrending: () => Promise<void>;
+  fetchTrendingMovies: () => Promise<void>;
+  fetchTrendingSeries: () => Promise<void>;
   fetchTrivia: () => Promise<void>;
 
   notifyObservers: (payload: any) => void;
@@ -203,17 +204,32 @@ let model: Model = {
       throw error;
     }
   },
-  fetchTrending: async function () {
+  fetchTrendingMovies: async function () {
     try {
       const series = await getTrending(
         MediaType.MOVIE,
         "day",
         this.getPage(),
       );
-      console.log("API getTrending", this.getSearchString());
+      console.log("API getTrendingMovies", this.getSearchString());
       this.movies = series.data.results.map(contentFromQuery); 
     } catch (error) {
-      console.error("Failed to fetch trending:", error);
+      console.error("Failed to fetch trending movies:", error);
+      throw error;
+    }
+  },
+  fetchTrendingSeries: async function () {
+    try {
+      const series = await getTrending(
+        MediaType.SERIES,
+        "day",
+        this.getPage(),
+      );
+      console.log("API getTrendingSeries", this.getSearchString());
+      console.log(series.data.results)
+      this.series = series.data.results.map(contentFromQuery); 
+    } catch (error) {
+      console.error("Failed to fetch trending series:", error);
       throw error;
     }
   },

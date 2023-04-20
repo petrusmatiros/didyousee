@@ -16,7 +16,8 @@ export default defineComponent({
     setup(props: any) {
         function updateDataACB() {
             props.model.fetchTrivia();
-            props.model.fetchTrending();
+            props.model.fetchTrendingMovies();
+            props.model.fetchTrendingSeries();
         }
         updateDataACB();
         return {

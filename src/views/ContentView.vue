@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import './../style.css';
 import { defineEmits } from 'vue';
-import MovieCard from '../components/MovieCard.vue';
+import MediaCard from '../components/MediaCard.vue';
 
 const emit = defineEmits(["handleLiked", "handleWatchlist", "handleSeen", "handleDisliked", "goBack"])
 
@@ -129,7 +129,7 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'ContentView',
   components: {
-    MovieCard,
+    MediaCard,
   },
   props: {
     model: {
