@@ -1,11 +1,11 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
-import PageNotFoundView from "../views/PageNotFoundView.vue";
+import AboutView from "../views/AboutView.vue";
 
 export default defineComponent({
-    name: "PageNotFoundPresenter",
+    name: "AboutPresenter",
     components: {
-        PageNotFoundView
+        AboutView,
     },
     setup(props: any) {
 
@@ -15,5 +15,5 @@ export default defineComponent({
 });
 </script>
 <template>
-    <PageNotFoundView />
+    <AboutView />
 </template>

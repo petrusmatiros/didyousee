@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import './../style.css';
-import MovieCard from '../components/MovieCard.vue';
-import { Movie } from '../types/types';
 
 </script>
 
@@ -17,8 +15,5 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
     name: 'PageNotFoundView',
-    components: {
-        MovieCard,
-    },
 });
 </script>
