@@ -9,7 +9,6 @@ import {
   Series,
 } from "../types/types";
 import { SortingOrder, random, sort, filter, find } from "../utils/utils";
-import { BlobOptions } from "buffer";
 
 async function randomTrivia(category: TriviaCategory): Promise<string> {
   try {
