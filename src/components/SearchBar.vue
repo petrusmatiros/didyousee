@@ -1,36 +1,106 @@
 <template>
-  <!-- <div
-    class="searchBar flex-row flex-center"
-    :class="{ 'searchBar--focused': inputFocused }"
-  >
-    <span class="material-symbols-rounded" @click="filterClickACB">filter_alt</span>
-    <input
-      type="text"
-      placeholder="Search for a movie"
-      name="inputSearchBar"
-      @focus="onInputFocus"
-      @blur="onInputBlur"
-      v-model="searchString"
-      @keydown.enter="searchEnterACB"
-      @input="onInputTyping"
-    />
-    <span class="material-symbols-rounded" @click="searchClickACB(searchString)"
-      >search</span
+  <div
+      class="searchBar flex-row flex-center"
+      :class="{ 'searchBar--focused': inputFocused }"
     >
-  </div> -->
+    <span class="material-symbols-rounded" @click="methods.searchClickACB(searchString)"
+        >search</span
+      >
+      <input
+        id="searchBar"
+        type="text"
+        v-model="searchString"
+        placeholder="Search for a movie, series, genre..."
+        name="inputSearchBar"
+        @focus="methods.onInputFocus"
+        @blur="methods.onInputBlur"
+        @keydown.enter="methods.searchEnterACB(searchString)"
+        @input="methods.onInputTyping(searchString)"
+      /> 
+    </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useRouter } from 'vue-router'
 import "./../style.css";
-import {
-  model,
-  searchMovie,
-} from "../model/model";
 
 export default defineComponent({
-  
+  name: "SearchBar",
+  props: {
+    model: {
+      type: Object,
+      required: true,
+    },
+  },
+  setup(props:any) {
+    let inputFocused = false;
+    let typingTimeout = setTimeout(() => {});
+    
+    const searchBar = document.getElementById("searchBar");
+    if (searchBar) {
+      searchBar.setAttribute("value",  props.model.getSearchString());
+    }
 
-  
+    const router = useRouter();
+    const goToSearchResultsPage = function() {
+      router.push({
+        name: "SearchResults",
+      });
+    };
+
+    const methods = {
+      async searchClickACB(searchQuery: string) {
+        const searchBar = document.querySelector(".searchBar");
+        inputFocused = true;
+        if (searchBar) {
+          searchBar.classList.add("searchBar--focused");
+        }
+        if (typingTimeout) {
+          clearTimeout(typingTimeout);
+        }
+        if (!searchQuery) {
+          props.model.setSearchString("");
+          return;
+        }
+        console.log(`Searching: ${searchQuery}`);
+        props.model.setSearchString(searchQuery);
+        goToSearchResultsPage();
+      },
+      searchEnterACB(searchQuery: string) {
+        this.searchClickACB(searchQuery);
+      },
+      onInputTyping(searchQuery: string) {
+        if (typingTimeout) {
+          clearTimeout(typingTimeout);
+        }
+        typingTimeout = setTimeout(() => {
+          this.searchClickACB(searchQuery);
+        }, 300);
+      },
+      onInputFocus() {
+        inputFocused = true;
+        const searchBar = document.querySelector(".searchBar");
+        if (searchBar) {
+          searchBar.classList.add("searchBar--focused");
+        }
+      },
+      onInputBlur() {
+        inputFocused = false;
+        const searchBar = document.querySelector(".searchBar");
+        if (searchBar) {
+          searchBar.classList.remove("searchBar--focused");
+        }
+      },
+    }
+
+    return {
+      typingTimeout: null as ReturnType<typeof setTimeout> | null,
+      inputFocused,
+      searchString: props.model.getSearchString(),
+      movies: [],
+      methods,
+    };
+  },
 });
 </script>

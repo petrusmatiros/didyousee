@@ -16,6 +16,8 @@ dist-ssr
 .env
 
 # Firebase
+/src/firebaseConfig.ts
+src/firebaseConfig.ts
 .idea
 **/node_modules/*
 **/.firebase
@@ -46,3 +48,4 @@ yarn.lock
 *.njsproj
 *.sln
 *.sw?
+src/firebaseConfig.ts

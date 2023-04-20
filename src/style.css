@@ -1,13 +1,16 @@
 :root {
   /* For cards etc */
-  --main: hsl(230, 4%, 16%);
-  --main-hover: hsl(230, 4%, 12%);
-  --main-active: hsl(230, 4%, 8%);
+  --main: hsl(230, 4%, 14%);
+  --main-hover: hsl(230, 4%, 10%);
+  --main-active: hsl(230, 4%, 6%);
   /* BG, FG and nav + footer */
+  --bg-dark: hsl(230, 4%, 20%);
   --bg: hsl(230, 4%, 24%);
   --bg-light: hsl(230, 4%, 28%);
   --bg-lighter: hsl(230, 4%, 32%);
+  --bg-lightest: hsl(230, 4%, 40%);
   --fg: hsl(0, 0%, 100%);
+  --fg-secondary: hsl(0, 0%, 84%);
   --black: hsl(0, 0%, 0%);
   --overlay: hsla(0, 0%, 0%, 0.5);
   /* Accent colors */
@@ -23,6 +26,8 @@
   /* Shadows */
   --shadow: hsla(0, 0%, 0%, 0.3);
   --box-shadow: 0 0.125rem 0.5rem var(--shadow);
+  /* Cards and Poster */
+  --content-card-width: 15rem;
   /* Border radius */
   --border-radius: 0.25rem;
   /* Font sizes */
@@ -76,7 +81,7 @@ body {
   margin: 0;
   box-sizing: border-box;
   color: var(--fg);
-  background: linear-gradient(var(--main), var(--bg));
+  background: linear-gradient(var(--bg-dark), var(--bg));
   background-attachment: fixed;
 }
 
@@ -116,21 +121,10 @@ body {
     margin: 0 var(--margin-large) 0 var(--margin-large) !important;
   }
   .trending-list {
-    gap: 0.5rem !important;
+    /* gap: 0.5rem !important; */
   }
-  .movie-card {
-    width: 6rem !important;
-    max-width: 6rem !important;
-    padding: var(--padding-small) !important;
-  }
-  .movie-poster {
-    /* object-fit: contain; */
-    min-width: 5.875rem !important;
-    width: 5.875rem !important;
-    min-height: 8.5rem !important;
-    height: 8.5rem !important;
-  }
-  .movie-card h2 {
+
+  .content-card h2 {
     font-size: var(--font-small) !important;
     padding: 0 !important;
     vertical-align: middle;
@@ -146,10 +140,19 @@ p {
   margin: 0;
 }
 
+img {
+  border: none !important;
+  outline: none !important;
+  border-radius: var(--border-radius);
+  border-image-width: 0 !important;
+
+}
+
 #app {
   min-height: 100vh !important;
   height: 100vh !important;
 }
+
 .margin {
   margin-left: var(--margin-large-3) !important;
   margin-right: var(--margin-large-3)!important;
@@ -280,6 +283,10 @@ a:active {
   width: 100%;
   margin: 0 var(--margin-large-3) 0 var(--margin-large-3);
 }
+.nav-link-right {
+  margin: 0 0 0 auto;
+  gap: 1rem;
+}
 #logo {
   width: 3rem;
   height: 3rem;
@@ -298,7 +305,6 @@ a:active {
   padding:  var(--padding-small) var(--padding-medium) var(--padding-small) var(--padding-medium);
   border-radius: var(--border-radius);
   background-color: var(--bg-lighter);
-  margin: 0 0 0 auto;
 }
 /*  ================== Nav END ================== */
 
@@ -332,6 +338,7 @@ a:active {
 
 #footer img {
   width: 4rem;
+  border-radius: 0 !important;
 }
 /*  ================== Footer END ================== */
 
@@ -342,7 +349,9 @@ a:active {
 }
 
 .intro-container {
-  max-width: 45rem;
+  width: 35rem;
+  max-width: 35rem;
+  margin: var(--margin-medium) 0 var(--margin-medium) 0;
 }
 
 .intro-container img {
@@ -354,13 +363,16 @@ a:active {
   font-weight: var(--font-weight-black);
   margin: 0;
   color: var(--accent-logo);
+  text-align: center;
   /* text-shadow: 0 0 0.75rem var(--accent-logo-shadow),
     0 0 0.75rem var(--accent-logo-shadow), 0 0 0.75rem var(--accent-logo-shadow),
     0 0 0.75rem var(--accent-logo-shadow); */
 }
 
-.intro-container p {
-  margin: 0;
+.trivia-container {
+  width: inherit;
+  max-width: inherit;
+  margin: var(--margin-medium) 0 var(--margin-medium) 0;
   padding: var(--padding-large);
   word-wrap: break-word;
   text-align: center;
@@ -372,16 +384,14 @@ a:active {
   gap: 1rem;
 }
 
-.movie-card {
+.content-card {
   cursor: pointer;
   user-select: none;
   justify-content: start;
   align-items: center;
   gap: 1rem;
-  width: 11rem;
-  max-width: 11rem;
+  width: var(--content-card-width);
   height: auto;
-  flex-grow: 1;
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
   background-color: var(--main);
@@ -389,17 +399,17 @@ a:active {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.movie-card:hover {
+.content-card:hover {
   background-color: var(--main-hover);
   transform: scale(1.05);
 }
 
-.movie-card:active {
+.content-card:active {
   background-color: var(--main-active);
   transform: scale(0.99);
 }
 
-.movie-card h2 {
+.content-card h2 {
   user-select: text;
   justify-content: center;
   align-items: center;
@@ -411,10 +421,10 @@ a:active {
   vertical-align: middle;
 }
 .loading-skeleton {
-  min-width: 10.875rem;
-  width: 10.875rem;
-  min-height: 16.5rem;
-  height: 16.5rem;
+  min-width: 100%;
+  max-width: fit-content;
+  min-height: inherit;
+  height: inherit;
   border-radius: var(--border-radius);
   background-color: var(--bg-lighter);
   animation: loading 0.7s infinite alternate ease-in-out;
@@ -428,13 +438,14 @@ a:active {
   }
 }
 
-.movie-poster {
-  /* object-fit: contain; */
-  min-width: 10.875rem;
-  width: 10.875rem;
-  min-height: 16.5rem;
-  height: 16.5rem;
+.content-poster {
+  min-width: var(--content-card-width);
+  width: var(--content-card-width);
+  min-height: auto;
+  height: auto;
+  aspect-ratio: 2/3;
   border-radius: var(--border-radius);
+  background-color: var(--bg-lighter);
 }
 
 .page-buttons-container {
@@ -447,20 +458,28 @@ a:active {
 }
 /*  ================== Home page END ================== */
 
+/*  ================== Search Results END ================== */
+.search-results {
+  margin-top: var(--margin-large-2);
+}
+/*  ================== Search Results END ================== */
+
 /*  ================== SearchBar END ================== */
 .searchBar {
-  width: 45rem;
-  padding: var(--padding-medium-2);
-  margin-bottom: var(--margin-large-2);
+  width: 25rem;
   border-radius: var(--border-radius);
   background-color: var(--input);
-  box-shadow: var(--box-shadow);
-  gap: 0.5rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.searchBar span {
+  padding: var(--padding-medium);
+}
+.searchBar span:hover {
+  background-color: var(--input-text);
 }
 
 .searchBar--focused {
-  width: 50rem;
+  width: 40rem;
 }
 
 .material-symbols-rounded {
@@ -469,22 +488,23 @@ a:active {
   padding: var(--padding-small);
   color: var(--fg);
   font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 48;
+  border-radius: var(--border-radius);
 }
 
 input[name="inputSearchBar"] {
   caret-color: var(--fg);
   width: 100%;
+  height: 1rem;
   padding: var(--padding-medium-2);
   border: none;
   border-radius: var(--border-radius);
   font-size: var(--font-medium);
   margin: 0;
-  background-color: var(--input-text);
+  background-color: var(--input);
   color: var(--fg);
 }
 input[name="inputSearchBar"]:focus {
   outline: none;
-  background-color: var(--input-focus);
 }
 /*  ================== SearchBar END ================== */
 
@@ -494,30 +514,31 @@ input[name="inputSearchBar"]:focus {
   margin: var(--margin-large);
 }
 
-.main-info {
+.result-main-info {
   padding: var(--padding-large);
   gap: 1rem;
   background-color: var(--main);
   border-radius: var(--border-radius);
 }
 
-.content {
+.result-content {
   border-radius: var(--border-radius);
   background-color: var(--main);
   border-radius: var(--border-radius);
   gap: 1rem;
 }
 
-.content img {
+.result-content-poster {
   user-select: none;
   min-width: 17.125rem;
   min-height: 25.688rem;
   height: fit-content;
   width: 17.125rem;
   border-radius: var(--border-radius);
+  background-color: var(--bg-lighter);
 }
 
-.content-info {
+.result-content-info {
   background-color: var(--bg-lighter);
   border-radius: var(--border-radius);
   padding: var(--padding-large-2);
@@ -525,34 +546,34 @@ input[name="inputSearchBar"]:focus {
   gap: 1rem;
   
 }
-.content-info h1 p {
+.result-content-info h1 p {
   margin: 0 !important;
 }
-.content-info--title {
+.result-content-info--title {
   font-weight:var(--font-weight-bold);
   font-size: var(--font-large-2);
 
 }
 
-.content-info--overview {
+.result-content-info--overview {
   font-weight:var(--font-weight-medium);
   font-size: var(--font-small-2);
 }
 
-.content-more-info {
+.result-content-more-info {
   font-weight: var(--font-weight-light);
   gap: 1rem;
 }
 
-.content-more-info--primary {
+.result-content-more-info--primary {
   padding: var(--padding-medium);
   gap: 1rem;
 }
-.content-more-info--secondary {
+.result-content-more-info--secondary {
   padding: var(--padding-medium);
   gap: 1rem;
 }
-.content-more-info--secondary div {
+.result-content-more-info--secondary div {
   gap: 1rem;
   height: 100%;
 }
