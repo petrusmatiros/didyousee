@@ -48,3 +48,4 @@ yarn.lock
 *.njsproj
 *.sln
 *.sw?
+src/firebaseConfig.ts
