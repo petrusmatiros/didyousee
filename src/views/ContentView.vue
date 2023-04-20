@@ -28,7 +28,7 @@ function goBackACB() {emit("goBack")}
             <div class="result-content-more-info flex-row flex-center-start">
               <div class="result-content-more-info--primary flex-col flex-center-start">
                 <p>Rating: {{ $props.model.currentContent.vote_average }}</p>
-                <p>Release date: {{ $props.model.currentContent.release_date }}</p>
+                <p>Release date: {{ $props.model.currentContent.release_date || $props.model.currentContent.first_air_date }}</p>
               </div>
               <div
                 class="result-content-more-info--secondary flex-col flex-center-start"
