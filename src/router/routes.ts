@@ -6,7 +6,7 @@ import Content from '../presenters/ContentPresenter.vue'
 import Profile from '../views/Profile.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
-import PageNotFound from '../views/PageNotFound.vue'
+import PageNotFound from '../presenters/PageNotFoundPresenter.vue'
 
 import {model} from '../model/model';
 
@@ -55,7 +55,7 @@ const routes = [
   },
   {
     path: '/:pathMatch(.*)*',
-    name: 'NotFound',
+    name: 'PageNotFound',
     component: PageNotFound,
   }  
 ]
