@@ -44,7 +44,7 @@ function goBackACB() {emit("goBack")}
                 </div>
                 <div class="flex-row flex-center">
                   <button
-                    v-for="(language, index) in $props.model.currentContent.languages"
+                    v-for="(language, index) in $props.model.currentContent.spoken_languages"
                     :key="index"
                     :language="language"
                   >
