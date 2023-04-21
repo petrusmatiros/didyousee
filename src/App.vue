@@ -4,6 +4,10 @@
       <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="/src/assets/didyousee.svg"
           alt="didyousee logo. an owl with a binocular, looking for the next movie/series" decoding="sync"
           fetchpriority="high" /></RouterLink>
+      <RouterLink to="/profile" class="nav-link flex-row flex-center">Watchlist</RouterLink>
+      <RouterLink to="/profile" class="nav-link flex-row flex-center">Seen</RouterLink>
+      <RouterLink to="/profile" class="nav-link flex-row flex-center">Liked</RouterLink>
+      <RouterLink to="/profile" class="nav-link flex-row flex-center">Disliked</RouterLink>
       <div class="nav-link-right flex-row flex-center">
         <SearchBar :model="model"></SearchBar>
         <RouterLink to="/profile" class="nav-link flex-row flex-center" id="profile">Profile</RouterLink>

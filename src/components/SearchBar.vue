@@ -18,12 +18,17 @@
         @input="methods.onInputTyping(searchString)"
       /> 
     </div>
+    <select v-model="selectedCategory" class="button" name="searchCategory" id="searchCategorySelect" @change="methods.onCategoryChange(selectedCategory)">
+      <option value="title">Title</option>
+      <option value="genre">Genre</option>
+  </select>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useRouter } from 'vue-router'
 import "./../style.css";
+import { SearchCategory } from "../types/types";
 
 export default defineComponent({
   name: "SearchBar",
@@ -92,12 +97,16 @@ export default defineComponent({
           searchBar.classList.remove("searchBar--focused");
         }
       },
+      onCategoryChange(category: SearchCategory) {
+        props.model.setSearchCategory(category);
+      }
     }
 
     return {
       typingTimeout: null as ReturnType<typeof setTimeout> | null,
       inputFocused,
       searchString: props.model.getSearchString(),
+      selectedCategory: props.model.getSearchCategory(),
       movies: [],
       methods,
     };

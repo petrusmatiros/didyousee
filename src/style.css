@@ -67,15 +67,18 @@
   --margin-large-2: 2rem;
 }
 
+* {
+  font-family: "Inter", sans-serif;
+}
+
 body {
   text-rendering: optimizeLegibility;
   text-size-adjust: 100%;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", sans-serif !important;
   -webkit-text-size-adjust: 100%;
   color-scheme: dark;
   /* Remove blue highlight on mobile devices */
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
+  
   min-height: 100vh !important;
   height: 100vh !important;
   margin: 0;
@@ -506,6 +509,25 @@ input[name="inputSearchBar"] {
 input[name="inputSearchBar"]:focus {
   outline: none;
 }
+
+select {
+  outline: none !important;
+  border: none !important;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+select option {
+  outline: none !important;
+  border: none !important;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: var(--padding-large);
+}
+
+
 /*  ================== SearchBar END ================== */
 
 /*  ================== Result ================== */

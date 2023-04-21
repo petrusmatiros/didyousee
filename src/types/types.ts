@@ -5,6 +5,11 @@ export enum TriviaCategory {
     SERIES = '14',
 }
 
+export enum SearchCategory {
+    TITLE = 'title',
+    GENRE = 'genre',
+}
+
 export enum PosterSize {
     W92 = 'w92',
     W154 = 'w154',
@@ -74,12 +79,14 @@ export interface Content {
 
 export interface Movie extends Content {
     title: string
+    mediaType: MediaType.MOVIE,
     runtime: number,
     belongs_to_collection: {},
 }
 
 export interface Series extends Content {
     name: string,
+    mediaType: MediaType.SERIES,
     created_by: any[],
     episode_run_time: number[],
     last_episode_to_air: {},

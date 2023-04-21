@@ -1,6 +1,7 @@
 import { tmdbApi, tmdbImageApi, opentdbApi } from "./apiConfig";
 import {
   TriviaCategory,
+  SearchCategory,
   PosterSize,
   BackdropSize,
   MediaType,
@@ -100,6 +101,7 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
     return {
       ...content,
       title: input.title,
+      mediaType: MediaType.MOVIE,
       runtime: input.runtime,
       belongs_to_collection: input.belongs_to_collection,
     };
@@ -107,6 +109,7 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
     return {
       ...content,
       name: input.name,
+      mediaType: MediaType.SERIES,
       created_by: input.created_by,
       episode_run_time: input.episode_run_time,
       last_episode_to_air: input.last_episode_to_air,
@@ -119,21 +122,29 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
 }
 
 interface Model {
-  movies: Content[];
-  series: Content[];
+  // Only for Home
+  movies: Movie[];
+  series: Series[];
+  trivia: string;
+  // Search
+  searchContent: (Movie | Series)[];
   currentContent: Movie | Series;
+  searchCategory: SearchCategory;
   searchString: string;
   searchID: string;
   page: number;
-  trivia: string;
+  total_pages: number;
   observers: ((payload: any) => void)[];
 
-  generateDummyContent: () => void;
+  //TODO
+  // generateDummyContent: () => void;
 
   fetchSingleMovie: () => Promise<void>;
   fetchSingleSeries: () => Promise<void>;
   fetchMovies: () => Promise<void>;
   fetchSeries: () => Promise<void>;
+  fetchContent: () => Promise<void>;
+  fetchGenreContent: () => Promise<void>;
   fetchTrendingMovies: () => Promise<void>;
   fetchTrendingSeries: () => Promise<void>;
   fetchTrivia: () => Promise<void>;
@@ -146,20 +157,31 @@ interface Model {
   getSearchString: () => string;
   setSearchID: (str: string) => void;
   getSearchID: () => string;
+  incrementPage: () => void;
   setPage: (page: number) => void;
   getPage: () => number;
+  setTotalPages: (page: number) => void;
+  getTotalPages: () => number;
+  setSearchCategory: (category: SearchCategory) => void;
+  getSearchCategory : () => SearchCategory;
 
   resetCurrentContent: () => void;
-  resetMovies: () => void;
+  resetSearchContent: () => void;
 }
 
 // Everything that should persist
 let model: Model = {
+  // Home
   movies: [],
   series: [],
+  trivia: "",
+  // Search
+  searchContent: [],
+  searchCategory: SearchCategory.TITLE,
   currentContent: {
     id: 0,
     title: "",
+    mediaType: MediaType.MOVIE,
     overview: "",
     vote_average: 0,
     vote_count: 0,
@@ -179,27 +201,9 @@ let model: Model = {
   searchString: "",
   searchID: "",
   page: 1,
-  trivia: "",
+  total_pages: 1000,
 
-  generateDummyContent: function () {
-    for (let i = 0; i < 20; i++) {
-      this.movies.push({
-        id: 0,
-        overview: "",
-        vote_average: 0,
-        vote_count: 0,
-        popularity: 0,
-        release_date: "",
-        spoken_languages: [],
-        backdrop_path: "",
-        poster_path: "",
-        genres: [],
-        budget: 0,
-        revenue: 0,
-        status: "",
-      });
-    }
-  },
+
   fetchSingleMovie: async function () {
     try {
       const movie: any | undefined = await getMedia(
@@ -240,7 +244,8 @@ let model: Model = {
     try {
       const movies: any | undefined = await searchMedia(
         MediaType.MOVIE,
-        this.getSearchString()
+        this.getSearchString(),
+        this.getPage()
       );
       console.log("API fetchMovies", this.getSearchString());
       this.movies = movies.data.results.map(contentFromQuery);
@@ -253,13 +258,47 @@ let model: Model = {
     try {
       const series = await searchMedia(
         MediaType.SERIES,
-        this.getSearchString()
+        this.getSearchString(),
+        this.getPage()
       );
       console.log("API getSeries", this.getSearchString());
       this.series = series.data.results.map(contentFromQuery);
     } catch (error) {
       console.error("Failed to fetch series:", error);
       throw error;
+    }
+  },
+  fetchGenreContent: async function () {
+    try {
+      const movies = await discoverMedia(
+        MediaType.MOVIE,
+        this.getSearchString(), //SearchString is genre
+        this.getPage()
+      );
+      const series = await discoverMedia(
+        MediaType.SERIES,
+        this.getSearchString(), 
+        this.getPage()
+      );
+      console.log("API get with genre", this.getSearchString());
+      const contentWithGenre = [...movies.data.results, ...series.data.results];
+      this.searchContent = contentWithGenre.map(contentFromQuery);
+    } catch (error) {
+      console.error("Failed to fetch content with genre:", error);
+      throw error;
+    }
+  },
+  fetchContent: async function () {
+    try {
+      await this.fetchMovies();
+      await this.fetchSeries();
+      const data = [...this.movies, ...this.series];
+      this.searchContent = [...this.searchContent, ...data];
+      console.log("this.searchContent",this.searchContent);
+      console.log("Page", this.getPage());
+    } catch (error) {
+      console.error("Failed to fetch content:", error);
+      this.searchContent = [];
     }
   },
   fetchTrendingMovies: async function () {
@@ -334,18 +373,36 @@ let model: Model = {
   getSearchID: function () {
     return this.searchID;
   },
+  incrementPage: function () {
+    this.setPage(this.getPage() + 1);
+  },
   setPage: function (page: number) {
-    this.page = page;
-    this.notifyObservers({ page: page });
+    if (page <= this.total_pages && page > 0) {
+      this.page = page;
+      // this.notifyObservers({ page: page });
+    }
   },
   getPage: function () {
     return this.page;
   },
-
+  setTotalPages: function (totalPages: number) {
+    this.total_pages = totalPages;
+    // this.notifyObservers({ totalPages: totalPages });
+  },
+  getTotalPages: function () {
+    return this.total_pages;
+  },
+  setSearchCategory: function (searchCategory: SearchCategory) {
+    this.searchCategory = searchCategory;
+  },
+  getSearchCategory: function () {
+    return this.searchCategory;
+  },
   resetCurrentContent: function () {
     this.currentContent = {
       id: 0,
       title: "",
+      mediaType: MediaType.MOVIE,
       overview: "",
       vote_average: 0,
       vote_count: 0,
@@ -362,8 +419,11 @@ let model: Model = {
       belongs_to_collection: {},
     };
   },
-  resetMovies: function () {
+  resetSearchContent: function () {
+    this.setPage(1);
     this.movies = [];
+    this.series = [];
+    this.searchContent = [];
   },
 };
 
@@ -389,16 +449,20 @@ async function getSimilarMedia(media: MediaType, id: string) {
   return wrap(`/${media}/${id}/similar`, new URLSearchParams());
 }
 
-async function searchMedia(media: MediaType, query: string) {
+async function searchMedia(media: MediaType, query: string, page: number = 1) {
   //return wrap("/search/movie", query).then(query => query.data);
   return wrap(
     `/search/${media}`,
-    new URLSearchParams(`query=${query}&include_adult=false`)
+    new URLSearchParams(`query=${query}&page=${page.toString()}&include_adult=false`)
   );
 }
 
-async function discoverMedia(media: MediaType, query: URLSearchParams) {
-  return wrap(`/discover/${media}`, query);
+async function discoverMedia(media: MediaType, query: string, page:number = 1) {
+  const params = new URLSearchParams();
+  params.append("page", page.toString());
+  params.append("include_adult", "false");
+  params.append("with_genres", query);
+  return wrap(`/discover/${media}`, params);
 }
 
 export {
