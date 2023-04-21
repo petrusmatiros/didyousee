@@ -19,9 +19,6 @@ export default defineComponent({
             props.model.fetchTrendingMovies();
             props.model.fetchTrendingSeries();
         }
-        function onBeforeMount() {
-            props.model.generateDummyContent();
-        }
         updateDataACB();
         return {
             updateDataACB,
