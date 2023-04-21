@@ -281,8 +281,9 @@ let model: Model = {
         this.getPage()
       );
       console.log("API get with genre", this.getSearchString());
-      const contentWithGenre = [...movies.data.results, ...series.data.results];
-      this.searchContent = contentWithGenre.map(contentFromQuery);
+      const data = [...movies.data.results, ...series.data.results];
+      const genreContent = data.map(contentFromQuery);
+      this.searchContent = [...this.searchContent, ...genreContent];
     } catch (error) {
       console.error("Failed to fetch content with genre:", error);
       throw error;
