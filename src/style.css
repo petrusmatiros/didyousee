@@ -189,6 +189,11 @@ img {
   font-weight: var(--font-weight-medium);
   border: none;
   background-color: var(--bg-lighter);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.button:hover {
+  background-color: var(--bg-lightest);
 }
 
 .back {
@@ -285,6 +290,7 @@ a:active {
 .nav-link-container {
   width: 100%;
   margin: 0 var(--margin-large-3) 0 var(--margin-large-3);
+  gap: 1rem;
 }
 .nav-link-right {
   margin: 0 0 0 auto;

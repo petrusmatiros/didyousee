@@ -34,7 +34,7 @@ function goBackACB() {emit("goBack")}
                 class="result-content-more-info--secondary flex-col flex-center-start"
               >
                 <div class="flex-row flex-center">
-                  <button
+                  <button class="button"
                     v-for="(genre, index) in $props.model.currentContent.genres"
                     :key="index"
                     :genre="genre"
@@ -43,7 +43,7 @@ function goBackACB() {emit("goBack")}
                   </button>
                 </div>
                 <div class="flex-row flex-center">
-                  <button
+                  <button class="button"
                     v-for="(language, index) in $props.model.currentContent.spoken_languages"
                     :key="index"
                     :language="language"
@@ -56,16 +56,16 @@ function goBackACB() {emit("goBack")}
           </div>
         </div>
         <div class="list-buttons flex-row flex-center">
-          <button @click="handleLikedACB()">
+          <button class="button" @click="handleLikedACB()">
             <span class="material-symbols-rounded">favorite</span>
           </button>
-          <button @click="handleWatchlistACB">
+          <button class="button" @click="handleWatchlistACB">
             <span class="material-symbols-rounded">bookmark</span>
           </button>
-          <button @click="handleSeenACB">
+          <button class="button" @click="handleSeenACB">
             <span class="material-symbols-rounded">task_alt</span>
           </button>
-          <button @click="handleDislikedACB">
+          <button class="button" @click="handleDislikedACB">
             <span class="material-symbols-rounded">block</span>
           </button>
         </div>
