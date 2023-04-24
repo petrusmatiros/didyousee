@@ -78,7 +78,8 @@ body {
   -webkit-text-size-adjust: 100%;
   color-scheme: dark;
   /* Remove blue highlight on mobile devices */
-  
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
   min-height: 100vh !important;
   height: 100vh !important;
   margin: 0;
