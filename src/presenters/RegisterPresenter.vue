@@ -1,7 +1,7 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import RegisterView from "../views/RegisterView.vue";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, AuthErrorCodes } from "firebase/auth";
 import { auth, app } from "../firebaseConfig";
 import { useRouter } from 'vue-router'
 
@@ -18,6 +18,7 @@ export default defineComponent({
     },
     setup(props: any) {
         const router = useRouter()
+        const obj = reactive({ errorMessage: undefined });
 
         function handleCreateAccountACB(username: string, mail: string, password: string, confirm_password: string) {
             console.log("Register clicked!");
@@ -35,17 +36,17 @@ export default defineComponent({
                     router.push('/profile');
                 })
                 .catch((error) => {
-                    console.log("Wrong Email/Password!");
-                    // const errorCode = error.code;
-                    // const errorMessage = error.message;
+                    console.log(error.message);
+                    obj.errorMessage = error.message;
                 });
         }
         return {
             handleCreateAccountACB,
+            obj,
         };
     },
 });
 </script>
 <template>
-    <RegisterView @handleCreateAccount="handleCreateAccountACB" />
+    <RegisterView @handleCreateAccount="handleCreateAccountACB" v-bind:errorMessage="obj.errorMessage" />
 </template>
