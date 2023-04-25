@@ -1,32 +1,41 @@
 <template>
   <div
-      class="searchBar flex-row flex-center"
-      :class="{ 'searchBar--focused': inputFocused }"
+    class="searchBar flex-row flex-center"
+    :class="{ 'searchBar--focused': inputFocused }"
+  >
+    <input
+      id="searchBar"
+      type="text"
+      v-model="searchString"
+      placeholder="Search"
+      name="inputSearchBar"
+      @focus="methods.onInputFocus"
+      @blur="methods.onInputBlur"
+      @keydown.enter="methods.searchEnterACB(searchString)"
+      @input="methods.onInputTyping(searchString)"
+    />
+    <select
+      v-model="selectedCategory"
+      class="selectButton"
+      name="searchCategory"
+      id="searchCategorySelect"
+      @change="methods.onCategoryChange(selectedCategory)"
     >
-    <span class="material-symbols-rounded" @click="methods.searchClickACB(searchString)"
-        >search</span
-      >
-      <input
-        id="searchBar"
-        type="text"
-        v-model="searchString"
-        placeholder="Search for a movie, series, genre..."
-        name="inputSearchBar"
-        @focus="methods.onInputFocus"
-        @blur="methods.onInputBlur"
-        @keydown.enter="methods.searchEnterACB(searchString)"
-        @input="methods.onInputTyping(searchString)"
-      /> 
-    </div>
-    <select v-model="selectedCategory" class="button" name="searchCategory" id="searchCategorySelect" @change="methods.onCategoryChange(selectedCategory)">
       <option value="title">Title</option>
       <option value="genre">Genre</option>
-  </select>
+    </select>
+    <div class="verticalBar"></div>
+    <span
+      class="material-symbols-rounded"
+      @click="methods.searchClickACB(searchString)"
+      >search</span
+    >
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useRouter } from 'vue-router'
+import { useRouter } from "vue-router";
 import "./../style.css";
 import { SearchCategory } from "../types/types";
 
@@ -38,17 +47,17 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props:any) {
+  setup(props: any) {
     let inputFocused = false;
     let typingTimeout = setTimeout(() => {});
-    
+
     const searchBar = document.getElementById("searchBar");
     if (searchBar) {
-      searchBar.setAttribute("value",  props.model.getSearchString());
+      searchBar.setAttribute("value", props.model.getSearchString());
     }
 
     const router = useRouter();
-    const goToSearchResultsPage = function() {
+    const goToSearchResultsPage = function () {
       router.push({
         name: "SearchResults",
       });
@@ -56,11 +65,6 @@ export default defineComponent({
 
     const methods = {
       async searchClickACB(searchQuery: string) {
-        const searchBar = document.querySelector(".searchBar");
-        inputFocused = true;
-        if (searchBar) {
-          searchBar.classList.add("searchBar--focused");
-        }
         if (typingTimeout) {
           clearTimeout(typingTimeout);
         }
@@ -99,8 +103,8 @@ export default defineComponent({
       },
       onCategoryChange(category: SearchCategory) {
         props.model.setSearchCategory(category);
-      }
-    }
+      },
+    };
 
     return {
       typingTimeout: null as ReturnType<typeof setTimeout> | null,

@@ -520,9 +520,9 @@ input[name="inputSearchBar"]:focus {
 select {
   outline: none !important;
   border: none !important;
-  appearance: none;
+  /* appearance: none;
   -webkit-appearance: none;
-  -moz-appearance: none;
+  -moz-appearance: none; */
 }
 
 select option {
@@ -531,9 +531,42 @@ select option {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  padding: var(--padding-large);
+}
+select option:focus {
+  background-color: var(--bg) !important;
+}
+select option:hover {
+  background-color: var(--bg) !important;
 }
 
+select option:checked {
+  background-color: var(--bg);
+}
+div[aria-hidden="true"] {
+  margin:0 !important;
+}
+
+.selectButton {
+  background-color: inherit;
+  font-size: inherit;
+  padding: var(--padding-medium);
+  border-radius: var(--border-radius);
+  text-align: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+.selectButton:hover {
+  background-color: var(--main-active);
+}
+
+.verticalBar {
+  width: 0.15rem;
+  border-radius: var(--border-radius);
+  height: 1.5rem;
+  background-color: var(--fg);
+  margin: 0 var(--margin-medium);
+}
 
 /*  ================== SearchBar END ================== */
 
@@ -741,9 +774,8 @@ select option {
 .credentials-form {
 }
 
-label {
-  color: var(--fg);
-  margin-bottom: var(--margin-medium);
+.credentials-form label {
+  margin-bottom: var(--margin-medium)
 }
 
 input[name="credentials"] {

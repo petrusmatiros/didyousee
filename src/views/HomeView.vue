@@ -17,15 +17,6 @@ function searchClickACB() { emit("searchClick") }
     <h1>Did You See</h1>
       <p :class="triviaClass">{{ $props.model.trivia }}</p>
     </div>
-    <!-- <div class="overlay"></div> -->
-    <!-- <div class="popup">
-            <div class="popup-close"><span class="material-symbols-rounded">close</span></div>
-            <h1>Seasons:</h1>
-            <p>Season 1</p>
-            <p>Season 2</p>
-            <p>Season 3</p>
-            <p>Season 4</p>
-          </div> -->
     <div>
       <h1>Movies</h1>
     </div>

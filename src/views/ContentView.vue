@@ -18,6 +18,15 @@ function goBackACB() {emit("goBack")}
       <button class="button back" @click="goBackACB()">
         <span class="material-symbols-rounded">keyboard_backspace</span>
       </button>
+      <!-- <div class="overlay"></div> -->
+    <!-- <div class="popup">
+            <div class="popup-close"><span class="material-symbols-rounded">close</span></div>
+            <h1>Seasons:</h1>
+            <p>Season 1</p>
+            <p>Season 2</p>
+            <p>Season 3</p>
+            <p>Season 4</p>
+          </div> -->
       <div class="result-main-info flex-col">
         <div class="result-content flex-row">
           <div class="loading-skeleton result-content-poster" v-if="!$props.model.currentContent.poster_path"></div>
