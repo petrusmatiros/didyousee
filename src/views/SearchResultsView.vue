@@ -7,7 +7,7 @@ import MediaCard from '../components/MediaCard.vue';
 <template>
   <!-- <button @click="searchClickACB()">X</button> -->
   <div class="search-results flex-col flex-center">
-    <div id="searchResultsList" class="trending-list flex-row flex-center">
+    <div id="searchResultsList" class="trending-list gap-full flex-row flex-center">
       <MediaCard v-for="(media, index) in $props.model.searchContent" :key="index" :media="media" :media-type="media.mediaType" />
     </div>
   </div>

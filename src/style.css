@@ -56,6 +56,7 @@
   --padding-large: 1rem;
   --padding-large-2: 1.25rem;
   --padding-large-3: 1.5rem;
+  --padding-large-4: 1.75rem;
   --padding-huge: 2rem;
   /* Margin */
   --margin-small: 0.25rem;
@@ -126,9 +127,9 @@ iframe {
   }
   .margin {
     margin-left: var(--margin-large) !important;
-    margin-right: var(--margin-large)!important;
+    margin-right: var(--margin-large) !important;
     padding-left: var(--padding-small) !important;
-    padding-right: var(--padding-small)!important;
+    padding-right: var(--padding-small) !important;
   }
   #nav {
     padding: var(--padding-small) !important;
@@ -145,7 +146,6 @@ iframe {
     padding: 0 !important;
     vertical-align: middle;
   }
-
 }
 
 h1 {
@@ -161,7 +161,6 @@ img {
   outline: none !important;
   border-radius: var(--border-radius);
   border-image-width: 0 !important;
-
 }
 
 #app {
@@ -171,20 +170,18 @@ img {
 
 .margin {
   margin-left: var(--margin-large-3) !important;
-  margin-right: var(--margin-large-3)!important;
+  margin-right: var(--margin-large-3) !important;
   padding-left: var(--padding-large) !important;
-  padding-right: var(--padding-large)!important;
+  padding-right: var(--padding-large) !important;
 }
 /* ============= Error page ============  */
 .error-404 {
   min-height: 100vh !important;
-  gap: 1rem;
 }
 
 .error-404 h1 {
   font-weight: var(--font-weight-bold);
   font-size: var(--font-huge);
-
 }
 
 .error-404 p {
@@ -213,7 +210,6 @@ img {
   width: fit-content !important;
 }
 
-
 /* ============= Modular classes ============  */
 .flex-row {
   display: flex;
@@ -241,8 +237,19 @@ img {
   justify-content: space-between;
   align-items: center;
 }
+
+.gap-quarter {
+  gap: 0.25rem !important;
+}
+.gap-half {
+  gap: 0.5rem !important;
+}
+.gap-full {
+  gap: 1rem !important;
+}
+
 .hidden {
-  display:none;
+  display: none;
 }
 .overlay {
   position: fixed;
@@ -303,11 +310,9 @@ a:active {
 .nav-link-container {
   width: 100%;
   margin: 0 var(--margin-large-3) 0 var(--margin-large-3);
-  gap: 1rem;
 }
 .nav-link-right {
   margin: 0 0 0 auto;
-  gap: 1rem;
 }
 #logo {
   width: 3rem;
@@ -324,7 +329,8 @@ a:active {
 #profile {
   width: fit-content;
   height: 2rem;
-  padding:  var(--padding-small) var(--padding-medium) var(--padding-small) var(--padding-medium);
+  padding: var(--padding-small) var(--padding-medium) var(--padding-small)
+    var(--padding-medium);
   border-radius: var(--border-radius);
   background-color: var(--bg-lighter);
 }
@@ -347,7 +353,6 @@ a:active {
 }
 #footer div {
   width: 100%;
-  gap: 1rem;
 }
 
 #logo-footer {
@@ -368,7 +373,6 @@ a:active {
 /*  ================== Home page ================== */
 .homepage {
   margin-top: var(--margin-large-2);
-  gap: 1rem;
 }
 
 .intro-container {
@@ -404,7 +408,6 @@ a:active {
 .trending-list {
   align-items: stretch !important;
   flex-wrap: wrap;
-  gap: 1rem;
 }
 
 .content-card {
@@ -412,7 +415,6 @@ a:active {
   user-select: none;
   justify-content: start;
   align-items: center;
-  gap: 1rem;
   width: var(--content-card-width);
   height: auto;
   border-radius: var(--border-radius);
@@ -469,15 +471,6 @@ a:active {
   aspect-ratio: 2/3;
   border-radius: var(--border-radius);
   background-color: var(--bg-lighter);
-}
-
-.page-buttons-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  gap: 1rem;
-  margin-top: var(--margin-medium)
 }
 /*  ================== Home page END ================== */
 
@@ -556,7 +549,7 @@ select option:checked {
   background-color: var(--bg);
 }
 div[aria-hidden="true"] {
-  margin:0 !important;
+  margin: 0 !important;
 }
 
 .selectButton {
@@ -567,7 +560,6 @@ div[aria-hidden="true"] {
   text-align: center;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
 
 .selectButton:hover {
   background-color: var(--main-active);
@@ -585,14 +577,12 @@ div[aria-hidden="true"] {
 
 /*  ================== Result ================== */
 .result {
-  gap: 1rem;
   max-width: var(--desktop-max-width);
   margin: var(--margin-large);
 }
 
 .result-main-info {
   padding: var(--padding-large);
-  gap: 1rem;
   max-width: var(--desktop-max-width);
   background-color: var(--main);
   border-radius: var(--border-radius);
@@ -601,8 +591,6 @@ div[aria-hidden="true"] {
 .result-content {
   border-radius: var(--border-radius);
   background-color: var(--main);
-  border-radius: var(--border-radius);
-  gap: 1rem;
 }
 
 .result-content-poster {
@@ -618,54 +606,54 @@ div[aria-hidden="true"] {
 .result-content-info {
   background-color: var(--bg-lighter);
   border-radius: var(--border-radius);
-  padding: var(--padding-large-2);
+  padding: var(--padding-huge);
   width: 100%;
   max-width: var(--desktop-max-width);
-  gap: 1rem;
-  
 }
+
 .result-content-info h1 p {
   margin: 0 !important;
 }
-.result-content-info h1{
+.result-content-info h1 {
   margin: 0 !important;
 }
 .result-content-info p {
   margin: 0 !important;
 }
 .result-content-info--title {
-  font-weight:var(--font-weight-bold);
-  font-size: var(--font-large-2);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-large-3);
+}
 
+.result-content-info--details p {
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-small-2);
+  color: var(--fg-secondary);
+}
+
+.result-content-info--details span {
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-small);
+  color: var(--fg-secondary);
 }
 
 .result-content-info--overview {
-  font-weight:var(--font-weight-medium);
-  font-size: var(--font-small-2);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-small-3);
 }
 
 .result-content-more-info {
   font-weight: var(--font-weight-light);
-  gap: 1rem;
 }
 
 .result-content-more-info--primary {
   padding: var(--padding-medium);
-  gap: 1rem;
 }
 .result-content-more-info--secondary {
   padding: var(--padding-medium);
-  gap: 1rem;
 }
 .result-content-more-info--secondary div {
-  gap: 1rem;
   height: 100%;
-}
-
-
-
-.list-buttons {
-  gap: 1rem;
 }
 
 .list-buttons button {
@@ -678,12 +666,11 @@ div[aria-hidden="true"] {
   width: 100%;
   border: none;
   background-color: var(--bg-lighter);
-  gap: 0.25rem;
 }
 
 .list-buttons button h1 {
   font-size: var(--font-large);
-  font-weight: var(--font-weight-medium)
+  font-weight: var(--font-weight-medium);
 }
 .list-buttons button i {
   user-select: none;
@@ -708,7 +695,6 @@ div[aria-hidden="true"] {
   background-color: var(--bg-lighter);
   border-radius: var(--border-radius);
   height: fit-content;
-  gap: 1rem;
 }
 
 .detailed-info h1 {
@@ -727,7 +713,6 @@ div[aria-hidden="true"] {
   min-height: fit-content;
   /* Uncomment the row below for debugging */
   /* background-color: var(--bg); */
-  gap: 1rem;
   border-radius: var(--border-radius);
 }
 
@@ -736,7 +721,6 @@ div[aria-hidden="true"] {
   background-color: var(--main);
   padding: var(--padding-huge);
   border-radius: var(--border-radius);
-  gap: 0.25rem;
 }
 
 .width-15 {
@@ -760,36 +744,32 @@ div[aria-hidden="true"] {
 }
 .similar-list-container {
   width: 100%;
-  gap: 1rem;
-  margin-top: var(--margin-large-3)
+  margin-top: var(--margin-large-3);
 }
 .similar-list-container p {
   margin: 0;
-  font-weight:var(--font-weight-bold);
-  font-size: var(--font-large-3)
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-large-3);
 }
 .similar-list {
   width: 100%;
   flex-wrap: wrap !important;
-  gap: 1rem;
 }
 /*  ================== Result ================== */
 
 /*  ================== Credentials ================== */
 .top {
   margin-top: var(--margin-large-2);
-  gap: 1rem;
 }
 
 .credentials-container {
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
-  
 }
+
 .credentials-container img {
   width: 10rem;
-  height:8rem;
+  height: 8rem;
 }
 .credentials-container h1 {
   font-size: var(--font-huge);
@@ -818,7 +798,7 @@ div[aria-hidden="true"] {
 }
 
 .credentials-form label {
-  margin-bottom: var(--margin-medium)
+  margin-bottom: var(--margin-medium);
 }
 
 input[name="credentials"] {

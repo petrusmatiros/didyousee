@@ -9,8 +9,8 @@ function handleLoginACB(mail: string, password: string) {emit("handleLogin", mai
 </script>
 
 <template>
-    <div class="top flex-col flex-center">
-      <div class="credentials-container flex-col flex-center">
+    <div class="top gap-full flex-col flex-center">
+      <div class="credentials-container gap-half flex-col flex-center">
         <img
           src="../assets/didyousee.svg"
           alt="didyousee logo. an owl with a binocular, looking for the next movie/series"

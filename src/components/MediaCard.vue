@@ -1,5 +1,5 @@
 <template>
-  <div class="content-card flex-col" @click="handleClickACB">
+  <div class="content-card gap-full flex-col" @click="handleClickACB">
     <div class="loading-skeleton content-poster" v-if="!imagePath"></div>
     <img :src="imagePath" loading="lazy" decoding="async" fetchpriority="low" v-else class="content-poster" />
     <h2 class="flex-row">{{ media.title || media.name }}</h2>

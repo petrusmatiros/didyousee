@@ -1,6 +1,6 @@
 <template>
   <nav class="flex-row flex-center" id="nav">
-    <div class="nav-link-container flex-row flex-center">
+    <div class="nav-link-container gap-full flex-row flex-center">
       <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="/src/assets/didyousee.svg"
           alt="didyousee logo. an owl with a binocular, looking for the next movie/series" decoding="sync"
           fetchpriority="high" /></RouterLink>
@@ -8,7 +8,7 @@
       <RouterLink to="/profile" class="nav-link flex-row flex-center">Seen</RouterLink>
       <RouterLink to="/profile" class="nav-link flex-row flex-center">Liked</RouterLink>
       <RouterLink to="/profile" class="nav-link flex-row flex-center">Disliked</RouterLink>
-      <div class="nav-link-right flex-row flex-center">
+      <div class="nav-link-right gap-full flex-row flex-center">
         <SearchBar :model="model"></SearchBar>
         <RouterLink to="/profile" class="nav-link flex-row flex-center" id="profile">Profile</RouterLink>
       </div>
@@ -17,7 +17,7 @@
   <div class="margin">
     <RouterView></RouterView>
   </div>
-  <footer class="flex-col flex-seperate" id="footer">
+  <footer class="flex-col flex-seperate gap-full" id="footer">
     <div class="footer-top flex-row flex-center">
       <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="/src/assets/didyousee.svg"
           alt="didyousee logo. an owl with a binocular, looking for the next movie/series" decoding="sync"
