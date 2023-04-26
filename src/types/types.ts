@@ -64,6 +64,7 @@ export interface Content {
     budget: number
     revenue: number
     status: string,
+    video: string,
     // credits: {
     //     cast: any[],
     //     crew: any[],

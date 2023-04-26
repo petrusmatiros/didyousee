@@ -65,6 +65,10 @@
   --margin-large-2: 1.25rem;
   --margin-large-3: 1.5rem;
   --margin-large-2: 2rem;
+  /* Responsive sizes */
+  --desktop-max-width: 1024px;
+  --tablet-max-width: 768px;
+  --mobile-max-width: 480px;
 }
 
 * {
@@ -87,6 +91,14 @@ body {
   color: var(--fg);
   background: linear-gradient(var(--bg-dark), var(--bg));
   background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center !important;
+}
+
+iframe {
+  background-color: var(--bg) !important;
+  border-radius: var(--border-radius);
 }
 
 /* Desktop styles */
@@ -325,6 +337,7 @@ a:active {
   color: var(--fg);
   padding: var(--padding-large);
   margin-top: var(--margin-large-2);
+  width: var(--desktop-max-overlay-width);
 }
 
 .footer-top {
@@ -573,12 +586,14 @@ div[aria-hidden="true"] {
 /*  ================== Result ================== */
 .result {
   gap: 1rem;
+  max-width: var(--desktop-max-width);
   margin: var(--margin-large);
 }
 
 .result-main-info {
   padding: var(--padding-large);
   gap: 1rem;
+  max-width: var(--desktop-max-width);
   background-color: var(--main);
   border-radius: var(--border-radius);
 }
@@ -605,10 +620,17 @@ div[aria-hidden="true"] {
   border-radius: var(--border-radius);
   padding: var(--padding-large-2);
   width: 100%;
+  max-width: var(--desktop-max-width);
   gap: 1rem;
   
 }
 .result-content-info h1 p {
+  margin: 0 !important;
+}
+.result-content-info h1{
+  margin: 0 !important;
+}
+.result-content-info p {
   margin: 0 !important;
 }
 .result-content-info--title {
@@ -656,11 +678,29 @@ div[aria-hidden="true"] {
   width: 100%;
   border: none;
   background-color: var(--bg-lighter);
+  gap: 0.25rem;
 }
 
+.list-buttons button h1 {
+  font-size: var(--font-large);
+  font-weight: var(--font-weight-medium)
+}
 .list-buttons button i {
   user-select: none;
   color: var(--fg);
+}
+.video-player-container {
+  max-width: var(--desktop-max-width) !important;
+  padding: var(--padding-large);
+  background-color: var(--bg-lighter);
+  border-radius: var(--border-radius);
+}
+
+.contentVideoPlayer {
+  width: 100%;
+  max-width: inherit;
+  height: 30rem;
+  border-radius: var(--border-radius);
 }
 
 .detailed-info {
@@ -696,7 +736,7 @@ div[aria-hidden="true"] {
   background-color: var(--main);
   padding: var(--padding-huge);
   border-radius: var(--border-radius);
-  gap: 0.5rem;
+  gap: 0.25rem;
 }
 
 .width-15 {
@@ -712,6 +752,9 @@ div[aria-hidden="true"] {
   width: 45rem !important;
 }
 
+.info-card h1 {
+  font-weight: var(--font-weight-bold);
+}
 .info-card p {
   flex-grow: 1;
 }

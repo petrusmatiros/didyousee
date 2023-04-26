@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import ContentView from "../views/ContentView.vue";
-import { useRouter,useRoute } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { MediaType } from '../types/types';
 
 export default defineComponent({
@@ -21,7 +21,7 @@ export default defineComponent({
 
         console.log("currentContent:", props.model.currentContent)
 
-        function updateDataACB() {
+        async function updateDataACB() {
             props.model.resetCurrentContent();
             const id = route.query.id;
             const type = route.query.type;
@@ -32,13 +32,15 @@ export default defineComponent({
                 props.model.setSearchID(mediaID);
 
                 if (mediaType === MediaType.MOVIE) {
-                    props.model.fetchSingleMovie();
+                    await props.model.fetchSingleMovie();
+                    await props.model.fetchContentVideosMovie();
                 }
                 else if (mediaType === MediaType.SERIES) {
-                    props.model.fetchSingleSeries();
+                    await props.model.fetchSingleSeries();
+                    await props.model.fetchContentVideosSeries();
                 }
-
             }
+            console.log(props.model.currentContent.video)
         }
         updateDataACB();
         // props.model.addObserver(updateDataACB);
@@ -81,5 +83,5 @@ export default defineComponent({
 <template>
     <ContentView :model="model" @updateData="updateDataACB" @handleLiked="handleLikedACB"
         @handleWatchlist="handleWatchlistACB" @handleSeen="handleSeenACB" @handleDisliked="handleDislikedACB"
-        @goBack="goBackACB"  />
+        @goBack="goBackACB" />
 </template>

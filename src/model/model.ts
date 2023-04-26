@@ -96,6 +96,7 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
     budget: input.budget,
     revenue: input.revenue,
     status: input.status,
+    video: "",
   };
   if ("title" in input) {
     return {
@@ -148,6 +149,8 @@ interface Model {
   fetchTrendingMovies: () => Promise<void>;
   fetchTrendingSeries: () => Promise<void>;
   fetchTrivia: () => Promise<void>;
+  fetchContentVideosMovie: () => Promise<void>;
+  fetchContentVideosSeries: () => Promise<void>;
 
   notifyObservers: (payload: any) => void;
   addObserver: (observer: (obs: any) => void) => void;
@@ -196,6 +199,7 @@ let model: Model = {
     status: "",
     runtime: 0,
     belongs_to_collection: {},
+    video: "",
   },
   observers: [],
   searchString: "",
@@ -339,6 +343,36 @@ let model: Model = {
       throw error;
     }
   },
+  fetchContentVideosMovie: async function () {
+    try {
+      const movieVideos = await getMovieVideos(this.getSearchID());
+      console.log("API getContentVideosMovie", movieVideos.data.results);
+      const filteredMovieVideos = movieVideos.data.results.filter((video: any) => {
+        return (video.site === "YouTube" && video.official === true && (video.type === "Trailer" || video.type === "Teaser"));
+      });
+      console.log("filteredMovieVideos", filteredMovieVideos)
+      this.currentContent.video = filteredMovieVideos && filteredMovieVideos.length > 0 ? `https://www.youtube.com/embed/${filteredMovieVideos[0].key}` : "";
+      console.log("video", this.currentContent.video)
+    } catch (error) {
+      console.error("Failed to fetch getContentVideosMovie:", error);
+      throw error;
+    }
+  },
+  fetchContentVideosSeries: async function () {
+    try {
+      const seriesVideos = await getSeriesVideos(this.getSearchID());
+      console.log("API getContentVideosSeries", seriesVideos.data.results);
+      const filteredSeriesVideos = seriesVideos.data.results.filter((video: any) => {
+        return (video.site === "YouTube" && video.official === true && (video.type === "Trailer" || video.type === "Teaser"));
+      });
+      console.log("filteredSeriesVideos", filteredSeriesVideos)
+      this.currentContent.video = filteredSeriesVideos && filteredSeriesVideos.length > 0 ? `https://www.youtube.com/embed/${filteredSeriesVideos[0].key}` : "";
+      console.log("video", this.currentContent.video)
+    } catch (error) {
+      console.error("Failed to fetch getContentVideosSeries:", error);
+      throw error;
+    }
+  },
 
   notifyObservers: function (payload: any) {
     function invokeObserversCB(obs: (payload: any) => void) {
@@ -418,6 +452,7 @@ let model: Model = {
       status: "",
       runtime: 0,
       belongs_to_collection: {},
+      video: "",
     };
   },
   resetSearchContent: function () {
@@ -438,6 +473,22 @@ async function getTrending(type: string, timeWindow: string, page: number) {
     `/trending/${type}/${timeWindow}`,
     new URLSearchParams({ page: page.toString(), include_adult: "false" })
   );
+}
+
+async function getMovieVideos(movie_id: string) {
+  //return wrap(`/trending/${type}/${timeWindow}`, new URLSearchParams()).then(query => query.data.results);
+  return wrap(
+    `/movie/${movie_id}/videos`,
+    new URLSearchParams()
+  );
+}
+
+async function getSeriesVideos(tv_id: string) {
+  //return wrap(`/trending/${type}/${timeWindow}`, new URLSearchParams()).then(query => query.data.results);
+  return wrap(
+    `/tv/${tv_id}/videos`,
+    new URLSearchParams()
+    );
 }
 
 async function getMedia(media: MediaType, id: string) {
