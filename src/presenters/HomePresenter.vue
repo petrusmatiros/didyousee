@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, onBeforeMount } from 'vue'
+import { defineComponent } from 'vue'
 import HomeView from "../views/HomeView.vue";
 
 export default defineComponent({

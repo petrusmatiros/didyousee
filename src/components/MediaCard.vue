@@ -5,8 +5,11 @@
     <div class="flex-col flex-center gap-half">
       <h2 class="flex-row">{{ media.title || media.name }}</h2>
       <div class="flex-row flex-center gap-half">
-        <button class="content-card-button button">{{ media.mediaType }}</button>
-        <button class="content-card-button button">{{ media.release_date?.split('-')[0] }}</button>
+        <button class="content-card-button button">{{ capitalizedMediaType
+        }}</button>
+        <button class="content-card-button button">{{ parseFloat(media.vote_average.toFixed(1)) }}</button>
+        <button v-if="media.release_date" class="content-card-button button">{{ media.release_date?.split('-')[0]
+        }}</button>
       </div>
     </div>
   </div>
@@ -27,13 +30,22 @@ export default defineComponent({
       type: String,
       required: true,
       validator: (value: string) => {
-      return [MediaType.SERIES.toString(), MediaType.MOVIE.toString()].includes(value)
-    }
+        return [MediaType.SERIES.toString(), MediaType.MOVIE.toString()].includes(value)
+      }
     },
   },
   computed: {
     imagePath(): any {
       return this.media.poster_path ? `https://image.tmdb.org/t/p/${PosterSize.W342}/${this.media.poster_path}` : "/src/assets/no-poster.svg";
+    },
+    capitalizedMediaType(): string {
+      if (this.mediaType === MediaType.MOVIE.toString()) {
+        return "Movie";
+      } else if (this.mediaType === MediaType.SERIES.toString()) {
+        return "Series";
+      } else {
+        return this.mediaType;
+      }
     },
   },
   data() {
@@ -44,6 +56,7 @@ export default defineComponent({
     handleClickACB() {
       // Handle click event for the movie card
       console.log("Clicked media:", this.media);
+      console.log("Seasons:", this.media.last_episode_to_air);
       // Navigate to the result page with movie information as a parameter
       // window.location.href = `/result?id=${JSON.stringify(this.movie.id)}`;
       this.$router.push({

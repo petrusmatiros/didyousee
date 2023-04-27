@@ -130,7 +130,7 @@ interface Model {
   trivia: string;
   // Search
   searchContent: (Movie | Series)[];
-  currentContent: Movie | Series;
+  currentContent: (Movie | Series);
   searchCategory: SearchCategory;
   searchString: string;
   searchID: string;
