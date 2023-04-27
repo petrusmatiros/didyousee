@@ -10,6 +10,7 @@ import {
   Series,
 } from "../types/types";
 import { SortingOrder, random, sort, filter, find } from "../utils/utils";
+import noPoster from "../assets/no_poster.svg"
 
 async function randomTrivia(category: TriviaCategory): Promise<string> {
   try {
@@ -235,7 +236,7 @@ let model: Model = {
       // TODO: Ändra hur vi tar hand om poster_path och backdrop. Om vi enbart gör x = movie.data får vi bara ena delen i poster_path.
       this.currentContent.poster_path = movie.data.poster_path
         ? `https://image.tmdb.org/t/p/w500${movie.data.poster_path}`
-        : "/src/assets/no-poster.svg";
+        : noPoster;
     } catch (error) {
       console.error("Failed to fetch single movie:", error);
       throw error;
@@ -253,7 +254,7 @@ let model: Model = {
       // TODO: Ändra hur vi tar hand om poster_path och backdrop. Om vi enbart gör x = movie.data får vi bara ena delen i poster_path.
       this.currentContent.poster_path = movie.data.poster_path
         ? `https://image.tmdb.org/t/p/w500${movie.data.poster_path}`
-        : "/src/assets/no-poster.svg";
+        : noPoster;
     } catch (error) {
       console.error("Failed to fetch single series:", error);
       throw error;

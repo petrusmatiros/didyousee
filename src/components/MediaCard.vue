@@ -10,6 +10,7 @@
 import { defineComponent } from "vue";
 import "./../style.css";
 import { PosterSize, MediaType } from '../types/types';
+import noPoster from "../assets/no_poster.svg"
 
 export default defineComponent({
   props: {
@@ -27,7 +28,7 @@ export default defineComponent({
   },
   computed: {
     imagePath(): any {
-      return this.media.poster_path ? `https://image.tmdb.org/t/p/${PosterSize.W342}/${this.media.poster_path}` : "/src/assets/no-poster.svg";
+      return this.media.poster_path ? `https://image.tmdb.org/t/p/${PosterSize.W342}/${this.media.poster_path}` : noPoster;
     },
   },
   data() {
