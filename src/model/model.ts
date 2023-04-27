@@ -75,6 +75,13 @@ function image(size: PosterSize | BackdropSize, path: string): any {
     });
 }
 
+function average(array: number[]): number[] {
+  console.log(array)
+  if (!array) return [0];
+  if (array.length === 0) return [0];
+  return [Math.round(array.reduce((a, b) => a + b, 0) / array.length)];
+}
+
 function wrap(query: string, params: URLSearchParams) {
   params.append("api_key", import.meta.env.VITE_TMDB_API_KEY);
   let res = tmdbApi.get(`${query}?${params}`);
@@ -94,20 +101,30 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
     backdrop_path: input.backdrop_path,
     poster_path: input.poster_path,
     genres: input.genres,
-    budget: input.budget,
-    revenue: input.revenue,
     status: input.status,
     video: "",
-    reviews: [],
-    credits: [],
+    reviews: {
+      id: 0,
+      page: 0,
+      results: [],
+      total_pages: 0,
+      total_results: 0
+    },
+    credits: {
+      cast: [],
+      crew: [],
+    },
   };
   if ("title" in input) {
     return {
       ...content,
       title: input.title,
       mediaType: MediaType.MOVIE,
+      budget: input.budget,
+      revenue: input.revenue,
       runtime: input.runtime,
       belongs_to_collection: input.belongs_to_collection,
+
     };
   } else {
     return {
@@ -115,7 +132,7 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
       name: input.name,
       mediaType: MediaType.SERIES,
       created_by: input.created_by,
-      episode_run_time: input.episode_run_time,
+      episode_run_time: average(input.episode_run_time),
       last_episode_to_air: input.last_episode_to_air,
       next_episode_to_air: input.next_episode_to_air,
       number_of_episodes: input.number_of_episodes,
@@ -132,7 +149,8 @@ interface Model {
   trivia: string;
   // Search
   searchContent: (Movie | Series)[];
-  currentContent: (Movie | Series);
+  currentMovie: Movie;
+  currentSeries: Series;
   searchCategory: SearchCategory;
   searchString: string;
   searchID: string;
@@ -188,7 +206,7 @@ let model: Model = {
   // Search
   searchContent: [],
   searchCategory: SearchCategory.TITLE,
-  currentContent: {
+  currentMovie: {
     id: 0,
     title: "",
     mediaType: MediaType.MOVIE,
@@ -208,8 +226,54 @@ let model: Model = {
     runtime: 0,
     belongs_to_collection: {},
     video: "",
-    reviews: [],
-    credits: [],
+    reviews: {
+      id: 0,
+      page: 0,
+      results: [],
+      total_pages: 0,
+      total_results: 0,
+
+    },
+    credits: {
+      cast: [],
+      crew: [],
+    },
+  },
+  currentSeries: {
+    id: 0,
+    name: "",
+    mediaType: MediaType.SERIES,
+    overview: "",
+    created_by: [],
+    last_episode_to_air: {},
+    next_episode_to_air: {},
+    number_of_episodes: 0,
+    number_of_seasons: 0,
+    seasons: [],
+    vote_average: 0,
+    vote_count: 0,
+    popularity: 0,
+    release_date: "",
+    original_language: "",
+    spoken_languages: [],
+    backdrop_path: "",
+    poster_path: "",
+    genres: [],
+    status: "",
+    episode_run_time: [],
+    video: "",
+    reviews: {
+      id: 0,
+      page: 0,
+      results: [],
+      total_pages: 0,
+      total_results: 0,
+
+    },
+    credits: {
+      cast: [],
+      crew: [],
+    },
   },
   observers: [],
   searchString: "",
@@ -225,10 +289,10 @@ let model: Model = {
         this.getSearchID()
       );
       console.log("API fetchMovie", this.getSearchID());
-      this.currentContent = movie.data;
+      this.currentMovie = movie.data;
 
       // TODO: Ändra hur vi tar hand om poster_path och backdrop. Om vi enbart gör x = movie.data får vi bara ena delen i poster_path.
-      this.currentContent.poster_path = movie.data.poster_path
+      this.currentMovie.poster_path = movie.data.poster_path
         ? `https://image.tmdb.org/t/p/w500${movie.data.poster_path}`
         : "/src/assets/no-poster.svg";
     } catch (error) {
@@ -238,16 +302,16 @@ let model: Model = {
   },
   fetchSingleSeries: async function () {
     try {
-      const movie: any | undefined = await getMedia(
+      const series: any | undefined = await getMedia(
         MediaType.SERIES,
         this.getSearchID()
       );
       console.log("API fetchSeries", this.getSearchID());
-      this.currentContent = movie.data;
+      this.currentSeries = series.data;
 
       // TODO: Ändra hur vi tar hand om poster_path och backdrop. Om vi enbart gör x = movie.data får vi bara ena delen i poster_path.
-      this.currentContent.poster_path = movie.data.poster_path
-        ? `https://image.tmdb.org/t/p/w500${movie.data.poster_path}`
+      this.currentSeries.poster_path = series.data.poster_path
+        ? `https://image.tmdb.org/t/p/w500${series.data.poster_path}`
         : "/src/assets/no-poster.svg";
     } catch (error) {
       console.error("Failed to fetch single series:", error);
@@ -318,9 +382,9 @@ let model: Model = {
   },
   fetchTrendingMovies: async function () {
     try {
-      const series = await getTrending(MediaType.MOVIE, "day", this.getPage());
-      console.log("API getTrendingMovies", series.data.results);
-      this.movies = series.data.results.map(contentFromQuery);
+      const movie = await getTrending(MediaType.MOVIE, "day", this.getPage());
+      console.log("API getTrendingMovies", movie.data.results);
+      this.movies = movie.data.results.map(contentFromQuery);
     } catch (error) {
       console.error("Failed to fetch trending movies:", error);
       throw error;
@@ -361,8 +425,8 @@ let model: Model = {
         return (video.site === "YouTube" && video.official === true && (video.type === "Trailer" || video.type === "Teaser"));
       });
       console.log("filteredMovieVideos", filteredMovieVideos)
-      this.currentContent.video = filteredMovieVideos && filteredMovieVideos.length > 0 ? `https://www.youtube.com/embed/${filteredMovieVideos[0].key}` : "";
-      console.log("video", this.currentContent.video)
+      this.currentMovie.video = filteredMovieVideos && filteredMovieVideos.length > 0 ? `https://www.youtube.com/embed/${filteredMovieVideos[0].key}` : "";
+      console.log("video", this.currentMovie.video)
     } catch (error) {
       console.error("Failed to fetch getContentVideosMovie:", error);
       throw error;
@@ -376,8 +440,8 @@ let model: Model = {
         return (video.site === "YouTube" && video.official === true && (video.type === "Trailer" || video.type === "Teaser"));
       });
       console.log("filteredSeriesVideos", filteredSeriesVideos)
-      this.currentContent.video = filteredSeriesVideos && filteredSeriesVideos.length > 0 ? `https://www.youtube.com/embed/${filteredSeriesVideos[0].key}` : "";
-      console.log("video", this.currentContent.video)
+      this.currentSeries.video = filteredSeriesVideos && filteredSeriesVideos.length > 0 ? `https://www.youtube.com/embed/${filteredSeriesVideos[0].key}` : "";
+      console.log("video", this.currentSeries.video)
     } catch (error) {
       console.error("Failed to fetch getContentVideosSeries:", error);
       throw error;
@@ -387,7 +451,7 @@ let model: Model = {
     try {
       const seriesReview = await getSeriesReviews(this.getSearchID());
       console.log("API fetchContentReviewsSeries", seriesReview.data.results);
-      this.currentContent.reviews = seriesReview.data.results;
+      this.currentSeries.reviews = seriesReview.data.results;
     } catch (error) {
       console.error("Failed to fetch getSeriesReview:", error);
       throw error;
@@ -397,7 +461,7 @@ let model: Model = {
     try {
       const movieReview = await getMovieReviews(this.getSearchID());
       console.log("API fetchContentReviewsMovie", movieReview.data.results);
-      this.currentContent.reviews = movieReview.data.results;
+      this.currentMovie.reviews = movieReview.data.results;
     } catch (error) {
       console.error("Failed to fetch getMovieReview:", error);
       throw error;
@@ -407,7 +471,7 @@ let model: Model = {
     try {
       const seriesCredits = await getSeriesCredits(this.getSearchID());
       console.log("API fetchContentCreditsSeries", seriesCredits.data.results);
-      this.currentContent.credits = seriesCredits.data.cast;
+      this.currentSeries.credits = seriesCredits.data.cast;
     } catch (error) {
       console.error("Failed to fetch getSeriesCredits:", error);
       throw error;
@@ -417,7 +481,7 @@ let model: Model = {
     try {
       const movieCredits = await getMovieCredits(this.getSearchID());
       console.log("API fetchContentCreditsMovie", movieCredits);
-      this.currentContent.credits = movieCredits.data.cast;
+      this.currentMovie.credits = movieCredits.data.cast;
     } catch (error) {
       console.error("Failed to fetch getMovieCredits:", error);
       throw error;
@@ -484,7 +548,7 @@ let model: Model = {
     return this.searchCategory;
   },
   resetCurrentContent: function () {
-    this.currentContent = {
+    this.currentMovie = {
       id: 0,
       title: "",
       mediaType: MediaType.MOVIE,
@@ -504,17 +568,63 @@ let model: Model = {
       runtime: 0,
       belongs_to_collection: {},
       video: "",
-      reviews: [],
-      credits: [],
+      reviews: {
+        id: 0,
+        page: 0,
+        results: [],
+        total_pages: 0,
+        total_results: 0,
+  
+      },
+      credits: {
+        cast: [],
+        crew: [],
+      },
     };
-  },
+  this.currentSeries = {
+    id: 0,
+    name: "",
+    mediaType: MediaType.SERIES,
+    overview: "",
+    created_by: [],
+    last_episode_to_air: {},
+    next_episode_to_air: {},
+    number_of_episodes: 0,
+    number_of_seasons: 0,
+    seasons: [],
+    vote_average: 0,
+    vote_count: 0,
+    popularity: 0,
+    release_date: "",
+    original_language: "",
+    spoken_languages: [],
+    backdrop_path: "",
+    poster_path: "",
+    genres: [],
+    status: "",
+    episode_run_time: [],
+    video: "",
+    reviews: {
+      id: 0,
+      page: 0,
+      results: [],
+      total_pages: 0,
+      total_results: 0,
+
+    },
+    credits: {
+      cast: [],
+      crew: [],
+    },
+  };
+},
   resetSearchContent: function () {
     this.setPage(1);
     this.movies = [];
     this.series = [];
     this.searchContent = [];
-  },
-};
+  }
+}
 
 async function getDiscover(media: MediaType) {
   return wrap(`/discover/${media}`, new URLSearchParams());

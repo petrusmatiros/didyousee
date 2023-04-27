@@ -29,55 +29,64 @@ function goBackACB() { emit("goBack") }
           </div> -->
     <div class="result-main-info gap-full flex-col">
       <div class="result-content gap-full flex-row">
-        <div class="loading-skeleton result-content-poster" v-if="!$props.model.currentContent.poster_path"></div>
-        <img class="result-content-poster" v-else loading="lazy" :src="$props.model.currentContent.poster_path" />
+        <div class="loading-skeleton result-content-poster" v-if="!($props.model.currentMovie.poster_path || $props.model.currentSeries.poster_path)"></div>
+        <img class="result-content-poster" v-else loading="lazy" :src="($props.model.currentMovie.poster_path || $props.model.currentSeries.poster_path)" />
         <div class="result-content-info gap-full flex-col flex-start">
           <div class="flex-col">
-            <h1 class="result-content-info--title">{{ $props.model.currentContent.title || $props.model.currentContent.name
-            }}</h1>
+            <div class="flex-row gap-half">
+              <h1 class="result-content-info--title">{{ $props.model.currentMovie.title || $props.model.currentSeries.name }}</h1>
+              <button class="button">Season 1</button>
+            </div>
             <!-- TODO: se över flex-center för movies -->
-            <div class="gap-half flex-row flex-center"> 
+            <div class="gap-half flex-row flex-start-center"> 
 
               <!-- Date -->
-              <p> {{ $props.model.currentContent.release_date || $props.model.currentContent.first_air_date }}</p>
+              <p> {{ $props.model.currentMovie.release_date?.split('-')[0] || $props.model.currentSeries.first_air_date?.split('-')[0] }}</p>
 
               <!-- Director-->
               <span>●</span>
-              <!-- Series--> <p v-if="$props.model.currentContent.created_by"> {{ $props.model.currentContent.created_by[0].name }}</p>
+              <!-- TODO, created by -->
+              <!-- Series--> <p v-if="$props.model.currentMovie.created_by"> {{ $props.model.currentSeries.created_by[0].name }}</p>
               <!-- Movies--> <p v-else> Director</p>
               
               <!-- Runtime -->
               <span>●</span>
-              <!-- Movies--> <p v-if="$props.model.currentContent.runtime"> {{ Math.floor($props.model.currentContent.runtime / 60) }}:{{ String($props.model.currentContent.runtime % 60).padStart(2, '0') }}</p>
-              <!-- Series--> <p v-else> HH:MM</p>
+
+              <!-- Movies--> <p v-if="$props.model.currentMovie.runtime"> {{ Math.floor($props.model.currentMovie.runtime / 60).toString().padStart(2, '0') }}:{{ ($props.model.currentMovie.runtime % 60).toString().padStart(2, '0') }}</p>
+              <p v-else-if="$props.model.currentSeries.episode_run_time[0]"> {{ Math.floor($props.model.currentSeries.episode_run_time[0] / 60).toString().padStart(2, '0') }}:{{ ($props.model.currentSeries.episode_run_time[0] % 60).toString().padStart(2, '0') }}</p>
+              <!-- Series--> <p v-else> {{$props.model.currentSeries.status }}</p>
+
 
               <!-- Episodes -->
-              <span>●</span>
-              <!-- Series--> <p v-if="$props.model.currentContent.number_of_episodes"> {{ $props.model.currentContent.number_of_episodes + " episodes" }}</p>
-              <!-- Movies--> <p v-else> text</p>
+              <span v-if="$props.model.currentSeries.number_of_episodes">●</span>
+              <!-- Series--> <p v-if="$props.model.currentSeries.number_of_episodes"> {{ $props.model.currentSeries.number_of_episodes + " episodes" }}</p>
+              <!-- Movies--> <p v-else></p>
 
               <!-- Seasons -->
-              <span>●</span>
-              <!-- Series--> <p v-if="$props.model.currentContent.number_of_seasons">{{ $props.model.currentContent.number_of_seasons + " seasons" }}</p>
-              <!-- Movies--> <p v-else> text</p>
+              <span v-if="$props.model.currentSeries.number_of_seasons">●</span>
+              <!-- Series--> <p v-if="$props.model.currentSeries.number_of_seasons">{{ $props.model.currentSeries.number_of_seasons + " seasons" }}</p>
+              <!-- Movies--> <p v-else></p>
             </div>
           </div>
-          <p class="result-content-info--overview">{{ $props.model.currentContent.overview }}</p>
+          <p class="result-content-info--overview">{{ $props.model.currentMovie.overview ||$props.model.currentSeries.overview }}</p>
           <div class="result-content-more-info gap-full flex-row flex-center-start">
-            <div class="result-content-more-info--primary gap-full flex-col flex-center-start">
-              <p>Rating: {{ $props.model.currentContent.vote_average }}</p>
-              <p>Release date: {{ $props.model.currentContent.release_date || $props.model.currentContent.first_air_date
-              }}</p>
+             <div class="result-content-more-info--primary gap-full flex-col flex-center-start">
+              <p>Rating: {{ $props.model.currentMovie.vote_average  || $props.model.currentSeries.vote_average  }}/10</p>
+              <p v-if="$props.model.currentSeries.last_episode_to_air">Latest episode: {{ $props.model.currentSeries.last_episode_to_air?.air_date }}</p>
+              <p v-if="$props.model.currentSeries.next_episode_to_air">Next episode: {{ $props.model.currentSeries.next_episode_to_air?.air_date}}</p>
+
+
+
             </div>
             <div class="result-content-more-info--secondary gap-full flex-col flex-center-start">
               <div class="gap-full flex-row flex-center">
-                <button class="button" v-for="(genre, index) in $props.model.currentContent.genres" :key="index"
+                <button class="button" v-for="(genre, index) in ($props.model.currentMovie.genres || $props.model.currentSeries.genres)" :key="index"
                   :genre="genre">
                   {{ genre.name }}
                 </button>
               </div>
               <div class="gap-full flex-row flex-center">
-                <button class="button" v-for="(language, index) in $props.model.currentContent.spoken_languages"
+                <button class="button" v-for="(language, index) in ($props.model.currentMovie.spoken_languages || $props.model.currentSeries.spoken_languages)"
                   :key="index" :language="language">
                   {{ language.english_name }}
                 </button>
@@ -108,8 +117,8 @@ function goBackACB() { emit("goBack") }
       </div>
     </div>
 
-    <div v-if="$props.model.currentContent.video !== ''" class="video-player-container" id="video-player-container">
-        <iframe loading="lazy" :key="$props.model.currentContent.video" class="contentVideoPlayer" :src="$props.model.currentContent.video" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <div v-if="($props.model.currentMovie.video || $props.model.currentSeries.video) !== ''" class="video-player-container" id="video-player-container">
+        <iframe loading="lazy" :key="($props.model.currentMovie.video || $props.model.currentSeries.video) " class="contentVideoPlayer" :src="($props.model.currentMovie.video || $props.model.currentSeries.video) " title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       </div>
 
 
@@ -121,7 +130,7 @@ function goBackACB() { emit("goBack") }
             Information
           </p>
           <!-- TODO: Filtrera denna och bestäm hur det ska se ut.-->
-          <!-- <p>{{ $props.model.currentContent.credits }}</p> -->
+          <!-- <p>{{ $props.model.currentMovie.credits || $props.model.currentSeries.credits  }}</p> -->
         </div>
       </div>
       <div class="info-container gap-full flex-row flex-center">
@@ -129,9 +138,9 @@ function goBackACB() { emit("goBack") }
           <h1>Reviews</h1>
           <p>Information</p>
           <!-- TODO: Filtrera denna och bestäm hur det ska se ut.-->
-          <!-- <p>{{ $props.model.currentContent.reviews }}</p> -->
+          <!-- <p>{{ $props.model.currentMovie.reviews || $props.model.currentSeries.reviews }}</p> -->
         </div>
-        <div class="info-card gap-quarter flex-col width-25">
+         <div class="info-card gap-quarter flex-col width-25">
           <h1>Watch providers</h1>
           <p>Information</p>
           <p>Provided by JustWatch</p>
@@ -142,14 +151,14 @@ function goBackACB() { emit("goBack") }
           <h1>Budget</h1>
           <p>
             <!-- Denna fungerar enbart för Movie -->
-            <!-- {{ $props.model.currentContent.budget.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }) }} -->
+            <!-- {{ $props.model.currentMovie.budget.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }) }} -->
           </p>
         </div>
         <div class="info-card gap-quarter flex-col">
           <h1>Revenue</h1>
           <p>
           <!-- Denna fungerar enbart för Movie -->
-          <!-- {{ $props.model.currentContent.revenue.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }) }} -->
+          <!-- {{ $props.model.currentMovie.revenue.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }) }} -->
           </p>
         </div>
       </div>

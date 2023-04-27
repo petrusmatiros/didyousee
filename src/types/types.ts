@@ -62,23 +62,19 @@ export interface Content {
         id: number,
         name: string,
     }[],
-    budget: number
-    revenue: number
     status: string,
     video: string,
-    reviews: Array<string>,
-    credits: Array<string>,
-    // credits: {
-    //     cast: any[],
-    //     crew: any[],
-    // }
-    // reviews: {
-    //     id: number,
-    //     page: number,
-    //     results: any[],
-    //     total_pages: number,
-    //     total_results: number,
-    // }
+    credits: {
+        cast: any[],
+        crew: any[],
+    }
+    reviews: {
+        id: number,
+        page: number,
+        results: any[],
+        total_pages: number,
+        total_results: number,
+    }
 }
 
 export interface Movie extends Content {
@@ -86,6 +82,8 @@ export interface Movie extends Content {
     mediaType: MediaType.MOVIE,
     runtime: number,
     belongs_to_collection: {},
+    budget: number
+    revenue: number
 }
 
 export interface Series extends Content {

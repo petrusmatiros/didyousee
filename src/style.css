@@ -234,6 +234,10 @@ img {
   justify-content: center;
   align-items: start;
 }
+.flex-start-center {
+  justify-content: start;
+  align-items: center;
+}
 .flex-seperate {
   justify-content: space-between;
   align-items: center;

@@ -42,7 +42,8 @@ export default defineComponent({
                     await props.model.fetchContentCreditsSeries();
                 }
             }
-            console.log("currentContent:", props.model.currentContent)
+            console.log("currentMovie:", props.model.currentMovie)
+            console.log("currentSeries:", props.model.currentSeries)
         }
         updateDataACB();
         // props.model.addObserver(updateDataACB);
