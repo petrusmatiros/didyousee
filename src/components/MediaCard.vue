@@ -2,7 +2,13 @@
   <div class="content-card gap-full flex-col" @click="handleClickACB">
     <div class="loading-skeleton content-poster" v-if="!imagePath"></div>
     <img :src="imagePath" loading="lazy" decoding="async" fetchpriority="low" v-else class="content-poster" />
-    <h2 class="flex-row">{{ media.title || media.name }}</h2>
+    <div class="flex-col flex-center gap-half">
+      <h2 class="flex-row">{{ media.title || media.name }}</h2>
+      <div class="flex-row flex-center gap-half">
+        <button class="content-card-button button">{{ media.mediaType }}</button>
+        <button class="content-card-button button">{{ media.release_date?.split('-')[0] }}</button>
+      </div>
+    </div>
   </div>
 </template>
 

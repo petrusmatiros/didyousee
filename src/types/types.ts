@@ -50,6 +50,7 @@ export interface Content {
     vote_count: number,
     popularity: number,
     release_date: string,
+    original_language: string,
     spoken_languages: {
         english_name: string,
         iso_639_1: string,

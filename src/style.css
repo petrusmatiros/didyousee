@@ -9,6 +9,7 @@
   --bg-light: hsl(230, 4%, 28%);
   --bg-lighter: hsl(230, 4%, 32%);
   --bg-lightest: hsl(230, 4%, 40%);
+  --bg-lightest-2: hsl(230, 4%, 44%);
   --fg: hsl(0, 0%, 100%);
   --fg-secondary: hsl(0, 0%, 84%);
   --black: hsl(0, 0%, 0%);
@@ -444,6 +445,11 @@ a:active {
   margin: 0;
   color: var(--fg);
   vertical-align: middle;
+}
+
+.content-card-button {
+  padding: var(--padding-small);
+  background-color: var(--bg-light);
 }
 .loading-skeleton {
   min-width: 100%;
