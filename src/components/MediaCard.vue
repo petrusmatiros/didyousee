@@ -7,7 +7,7 @@
       <div class="flex-row flex-center gap-half">
         <button class="content-card-button button">{{ capitalizedMediaType
         }}</button>
-        <button class="content-card-button button">{{ parseFloat(media.vote_average.toFixed(1)) }}</button>
+        <button v-if="parseFloat(media.vote_average.toFixed(1)) > 0" class="content-card-button button">{{ parseFloat(media.vote_average.toFixed(1)) }}</button>
         <button v-if="media.release_date" class="content-card-button button">{{ media.release_date?.split('-')[0]
         }}</button>
       </div>

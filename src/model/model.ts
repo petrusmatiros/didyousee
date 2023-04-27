@@ -98,6 +98,8 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
     revenue: input.revenue,
     status: input.status,
     video: "",
+    reviews: [],
+    credits: [],
   };
   if ("title" in input) {
     return {
@@ -152,6 +154,10 @@ interface Model {
   fetchTrivia: () => Promise<void>;
   fetchContentVideosMovie: () => Promise<void>;
   fetchContentVideosSeries: () => Promise<void>;
+  fetchContentReviewsSeries: () => Promise<void>;
+  fetchContentReviewsMovie: () => Promise<void>;
+  fetchContentCreditsSeries: () => Promise<void>;
+  fetchContentCreditsMovie: () => Promise<void>;
 
   notifyObservers: (payload: any) => void;
   addObserver: (observer: (obs: any) => void) => void;
@@ -167,7 +173,7 @@ interface Model {
   setTotalPages: (page: number) => void;
   getTotalPages: () => number;
   setSearchCategory: (category: SearchCategory) => void;
-  getSearchCategory : () => SearchCategory;
+  getSearchCategory: () => SearchCategory;
 
   resetCurrentContent: () => void;
   resetSearchContent: () => void;
@@ -202,6 +208,8 @@ let model: Model = {
     runtime: 0,
     belongs_to_collection: {},
     video: "",
+    reviews: [],
+    credits: [],
   },
   observers: [],
   searchString: "",
@@ -234,7 +242,7 @@ let model: Model = {
         MediaType.SERIES,
         this.getSearchID()
       );
-      console.log("API fetchMovie", this.getSearchID());
+      console.log("API fetchSeries", this.getSearchID());
       this.currentContent = movie.data;
 
       // TODO: Ändra hur vi tar hand om poster_path och backdrop. Om vi enbart gör x = movie.data får vi bara ena delen i poster_path.
@@ -283,7 +291,7 @@ let model: Model = {
       );
       const series = await discoverMedia(
         MediaType.SERIES,
-        this.getSearchString(), 
+        this.getSearchString(),
         this.getPage()
       );
       console.log("API get with genre", this.getSearchString());
@@ -301,7 +309,7 @@ let model: Model = {
       await this.fetchSeries();
       const data = [...this.movies, ...this.series];
       this.searchContent = [...this.searchContent, ...data];
-      console.log("this.searchContent",this.searchContent);
+      console.log("this.searchContent", this.searchContent);
       console.log("Page", this.getPage());
     } catch (error) {
       console.error("Failed to fetch content:", error);
@@ -372,6 +380,46 @@ let model: Model = {
       console.log("video", this.currentContent.video)
     } catch (error) {
       console.error("Failed to fetch getContentVideosSeries:", error);
+      throw error;
+    }
+  },
+  fetchContentReviewsSeries: async function () {
+    try {
+      const seriesReview = await getSeriesReviews(this.getSearchID());
+      console.log("API fetchContentReviewsSeries", seriesReview.data.results);
+      this.currentContent.reviews = seriesReview.data.results;
+    } catch (error) {
+      console.error("Failed to fetch getSeriesReview:", error);
+      throw error;
+    }
+  },
+  fetchContentReviewsMovie: async function () {
+    try {
+      const movieReview = await getMovieReviews(this.getSearchID());
+      console.log("API fetchContentReviewsMovie", movieReview.data.results);
+      this.currentContent.reviews = movieReview.data.results;
+    } catch (error) {
+      console.error("Failed to fetch getMovieReview:", error);
+      throw error;
+    }
+  },
+  fetchContentCreditsSeries: async function () {
+    try {
+      const seriesCredits = await getSeriesCredits(this.getSearchID());
+      console.log("API fetchContentCreditsSeries", seriesCredits.data.results);
+      this.currentContent.credits = seriesCredits.data.cast;
+    } catch (error) {
+      console.error("Failed to fetch getSeriesCredits:", error);
+      throw error;
+    }
+  },
+  fetchContentCreditsMovie: async function () {
+    try {
+      const movieCredits = await getMovieCredits(this.getSearchID());
+      console.log("API fetchContentCreditsMovie", movieCredits);
+      this.currentContent.credits = movieCredits.data.cast;
+    } catch (error) {
+      console.error("Failed to fetch getMovieCredits:", error);
       throw error;
     }
   },
@@ -456,6 +504,8 @@ let model: Model = {
       runtime: 0,
       belongs_to_collection: {},
       video: "",
+      reviews: [],
+      credits: [],
     };
   },
   resetSearchContent: function () {
@@ -471,7 +521,6 @@ async function getDiscover(media: MediaType) {
 }
 
 async function getTrending(type: string, timeWindow: string, page: number) {
-  //return wrap(`/trending/${type}/${timeWindow}`, new URLSearchParams()).then(query => query.data.results);
   return wrap(
     `/trending/${type}/${timeWindow}`,
     new URLSearchParams({ page: page.toString(), include_adult: "false" })
@@ -479,7 +528,6 @@ async function getTrending(type: string, timeWindow: string, page: number) {
 }
 
 async function getMovieVideos(movie_id: string) {
-  //return wrap(`/trending/${type}/${timeWindow}`, new URLSearchParams()).then(query => query.data.results);
   return wrap(
     `/movie/${movie_id}/videos`,
     new URLSearchParams()
@@ -487,32 +535,54 @@ async function getMovieVideos(movie_id: string) {
 }
 
 async function getSeriesVideos(tv_id: string) {
-  //return wrap(`/trending/${type}/${timeWindow}`, new URLSearchParams()).then(query => query.data.results);
   return wrap(
     `/tv/${tv_id}/videos`,
     new URLSearchParams()
-    );
+  );
+}
+
+async function getSeriesReviews(tv_id: string) {
+  return wrap(
+    `/tv/${tv_id}/reviews`,
+    new URLSearchParams()
+  );
+}
+async function getMovieReviews(movie_id: string) {
+  return wrap(
+    `/movie/${movie_id}/reviews`,
+    new URLSearchParams()
+  );
+}
+
+async function getSeriesCredits(tv_id: string) {
+  return wrap(
+    `/tv/${tv_id}/credits`,
+    new URLSearchParams()
+  );
+}
+async function getMovieCredits(movie_id: string) {
+  return wrap(
+    `/movie/${movie_id}/credits`,
+    new URLSearchParams()
+  );
 }
 
 async function getMedia(media: MediaType, id: string) {
-  //return wrap(`/movie/${id}`, new URLSearchParams()).then(movie => movieFromQuery(movie));
   return wrap(`/${media}/${id}`, new URLSearchParams());
 }
 
 async function getSimilarMedia(media: MediaType, id: string) {
-  //return wrap(`/movie/${id}/similar`, new URLSearchParams()).then(query => query.data.results);
   return wrap(`/${media}/${id}/similar`, new URLSearchParams());
 }
 
 async function searchMedia(media: MediaType, query: string, page: number = 1) {
-  //return wrap("/search/movie", query).then(query => query.data);
   return wrap(
     `/search/${media}`,
     new URLSearchParams(`query=${query}&page=${page.toString()}&include_adult=false`)
   );
 }
 
-async function discoverMedia(media: MediaType, query: string, page:number = 1) {
+async function discoverMedia(media: MediaType, query: string, page: number = 1) {
   const params = new URLSearchParams();
   params.append("page", page.toString());
   params.append("include_adult", "false");

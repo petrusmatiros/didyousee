@@ -66,6 +66,8 @@ export interface Content {
     revenue: number
     status: string,
     video: string,
+    reviews: Array<string>,
+    credits: Array<string>,
     // credits: {
     //     cast: any[],
     //     crew: any[],

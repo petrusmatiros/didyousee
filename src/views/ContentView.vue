@@ -35,16 +35,31 @@ function goBackACB() { emit("goBack") }
           <div class="flex-col">
             <h1 class="result-content-info--title">{{ $props.model.currentContent.title || $props.model.currentContent.name
             }}</h1>
-            <div class="gap-half flex-row flex-center">
-              <p>yyyy-mm-dd</p>
+            <!-- TODO: se över flex-center för movies -->
+            <div class="gap-half flex-row flex-center"> 
+
+              <!-- Date -->
+              <p> {{ $props.model.currentContent.release_date || $props.model.currentContent.first_air_date }}</p>
+
+              <!-- Director-->
               <span>●</span>
-              <p>director/creator</p>
+              <!-- Series--> <p v-if="$props.model.currentContent.created_by"> {{ $props.model.currentContent.created_by[0].name }}</p>
+              <!-- Movies--> <p v-else> Director</p>
+              
+              <!-- Runtime -->
               <span>●</span>
-              <p>HH:MM</p>
+              <!-- Movies--> <p v-if="$props.model.currentContent.runtime"> {{ Math.floor($props.model.currentContent.runtime / 60) }}:{{ String($props.model.currentContent.runtime % 60).padStart(2, '0') }}</p>
+              <!-- Series--> <p v-else> HH:MM</p>
+
+              <!-- Episodes -->
               <span>●</span>
-              <p>X episodes</p>
+              <!-- Series--> <p v-if="$props.model.currentContent.number_of_episodes"> {{ $props.model.currentContent.number_of_episodes + " episodes" }}</p>
+              <!-- Movies--> <p v-else> text</p>
+
+              <!-- Seasons -->
               <span>●</span>
-              <p>X seasons</p>
+              <!-- Series--> <p v-if="$props.model.currentContent.number_of_seasons">{{ $props.model.currentContent.number_of_seasons + " seasons" }}</p>
+              <!-- Movies--> <p v-else> text</p>
             </div>
           </div>
           <p class="result-content-info--overview">{{ $props.model.currentContent.overview }}</p>
@@ -104,14 +119,17 @@ function goBackACB() { emit("goBack") }
           <h1>Cast</h1>
           <p>
             Information
-            test
           </p>
+          <!-- TODO: Filtrera denna och bestäm hur det ska se ut.-->
+          <!-- <p>{{ $props.model.currentContent.credits }}</p> -->
         </div>
       </div>
       <div class="info-container gap-full flex-row flex-center">
         <div class="info-card gap-quarter flex-col">
           <h1>Reviews</h1>
           <p>Information</p>
+          <!-- TODO: Filtrera denna och bestäm hur det ska se ut.-->
+          <!-- <p>{{ $props.model.currentContent.reviews }}</p> -->
         </div>
         <div class="info-card gap-quarter flex-col width-25">
           <h1>Watch providers</h1>
@@ -123,13 +141,16 @@ function goBackACB() { emit("goBack") }
         <div class="info-card gap-quarter flex-col">
           <h1>Budget</h1>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In laoreet
-            justo venenatis nunc dignissim maximus quis sed erat.
+            <!-- Denna fungerar enbart för Movie -->
+            <!-- {{ $props.model.currentContent.budget.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }) }} -->
           </p>
         </div>
         <div class="info-card gap-quarter flex-col">
           <h1>Revenue</h1>
-          <p>Information</p>
+          <p>
+          <!-- Denna fungerar enbart för Movie -->
+          <!-- {{ $props.model.currentContent.revenue.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }) }} -->
+          </p>
         </div>
       </div>
     </div>

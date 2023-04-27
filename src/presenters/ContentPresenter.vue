@@ -19,8 +19,6 @@ export default defineComponent({
         const router = useRouter();
         const route = useRoute()
 
-        console.log("currentContent:", props.model.currentContent)
-
         async function updateDataACB() {
             props.model.resetCurrentContent();
             const id = route.query.id;
@@ -34,16 +32,21 @@ export default defineComponent({
                 if (mediaType === MediaType.MOVIE) {
                     await props.model.fetchSingleMovie();
                     await props.model.fetchContentVideosMovie();
+                    await props.model.fetchContentReviewsMovie();
+                    await props.model.fetchContentCreditsMovie();
                 }
                 else if (mediaType === MediaType.SERIES) {
                     await props.model.fetchSingleSeries();
                     await props.model.fetchContentVideosSeries();
+                    await props.model.fetchContentReviewsSeries();
+                    await props.model.fetchContentCreditsSeries();
                 }
             }
-            console.log(props.model.currentContent.video)
+            console.log("currentContent:", props.model.currentContent)
         }
         updateDataACB();
         // props.model.addObserver(updateDataACB);
+
 
         function handleLikedACB() {
             // Handle click event for the "liked" button
