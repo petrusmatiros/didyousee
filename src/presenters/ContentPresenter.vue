@@ -25,14 +25,7 @@ export default defineComponent({
         var mediaID = route.query.id;
         var mediaType = route.query.type;
         if (!mediaID || userID === "") {
-            console.log("Invalid Page! TODO show not found page");
-            const doNothing = () => {return;};
-            return {
-                handleLikedACB: doNothing,
-                handleWatchlistACB: doNothing,
-                handleSeenACB: doNothing,
-                handleDislikedACB: doNothing,
-                goBackACB: doNothing};
+            router.push('404');
         } else {
             mediaID = JSON.parse(mediaID as string);
             mediaType = JSON.parse(mediaType as string);
