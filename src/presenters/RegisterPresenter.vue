@@ -24,15 +24,18 @@ export default defineComponent({
             console.log("Register clicked!");
             console.log("Username:", username)
             console.log("Mail:", mail)
-            console.log("Password:", password)
-            console.log("Confirm Password:", confirm_password)
 
             createUserWithEmailAndPassword(auth, mail, password)
                 .then((userCredential) => {
                     // Signed in :: https://firebase.google.com/docs/auth/web/password-auth
                     const user = userCredential.user;
                     console.log("User", user)
-                    console.log("Signed in!", userCredential)
+                    console.log("Created account!", userCredential)
+                    if(props.model.userData[user.uid]) {
+                        console.log("ERROR: User already exists!", user.uid);
+                    } else {
+                        props.model.userData[user.uid] = {};
+                    }
                     router.push('/profile');
                 })
                 .catch((error) => {

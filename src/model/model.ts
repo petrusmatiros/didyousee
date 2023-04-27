@@ -121,7 +121,14 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
   }
 }
 
+interface UserData {
+  uid: string;
+  movieLists: Record<string, string[]>;
+}
+
 interface Model {
+  userData: Record<string, UserData>;
+  addMovie: (userID: string, list: string, mediaID: string) => void;
   // Only for Home
   movies: Movie[];
   series: Series[];
@@ -171,6 +178,18 @@ interface Model {
 
 // Everything that should persist
 let model: Model = {
+  userData: {},
+  addMovie: (userID: string, list: string, mediaID: string) => {
+    if(!model.userData[userID]) {
+      model.userData[userID] = { uid: userID, movieLists: {} };
+    }
+    const data = model.userData[userID];
+    if(!data.movieLists[list]) {
+      data.movieLists[list] = [];
+    }
+    data.movieLists[list].push(mediaID);
+
+  },
   // Home
   movies: [],
   series: [],
