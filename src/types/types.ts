@@ -46,6 +46,7 @@ export enum MediaType {
 export interface Content {
     id: number,
     overview: string,
+    created_by: any[],
     vote_average: number,
     vote_count: number,
     popularity: number,
@@ -83,13 +84,14 @@ export interface Movie extends Content {
     runtime: number,
     belongs_to_collection: {},
     budget: number
+    formatted_budget: string
     revenue: number
+    formatted_revenue: string
 }
 
 export interface Series extends Content {
     name: string,
     mediaType: MediaType.SERIES,
-    created_by: any[],
     episode_run_time: number[],
     last_episode_to_air: {},
     next_episode_to_air: {},

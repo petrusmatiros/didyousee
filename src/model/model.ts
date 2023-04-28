@@ -10,6 +10,7 @@ import {
   Series,
 } from "../types/types";
 import { SortingOrder, random, sort, filter, find } from "../utils/utils";
+import numeral from 'numeral';
 
 async function randomTrivia(category: TriviaCategory): Promise<string> {
   try {
@@ -76,10 +77,23 @@ function image(size: PosterSize | BackdropSize, path: string): any {
 }
 
 function average(array: number[]): number[] {
-  console.log(array)
   if (!array) return [0];
   if (array.length === 0) return [0];
   return [Math.round(array.reduce((a, b) => a + b, 0) / array.length)];
+}
+
+function formatMoney(amount: number): string {
+  return numeral(amount).format('$0,0 a').toUpperCase();
+}
+
+function setCreator(input: any, mediaType: MediaType): any {
+  if (!input) return [];
+  if (input.length === 0) return [];
+  if (mediaType === MediaType.MOVIE) {
+    return input.filter((e:any) => e.job === "Director");
+  } else if (mediaType === MediaType.SERIES) {
+    return input;
+  }
 }
 
 function wrap(query: string, params: URLSearchParams) {
@@ -92,6 +106,7 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
   const content = {
     id: input.id,
     overview: input.overview,
+    created_by: input.created_by,
     vote_average: input.vote_average,
     vote_count: input.vote_count,
     popularity: input.popularity,
@@ -121,7 +136,9 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
       title: input.title,
       mediaType: MediaType.MOVIE,
       budget: input.budget,
+      formatted_budget: formatMoney(input.budget),
       revenue: input.revenue,
+      formatted_revenue: formatMoney(input.revenue),
       runtime: input.runtime,
       belongs_to_collection: input.belongs_to_collection,
 
@@ -211,6 +228,7 @@ let model: Model = {
     title: "",
     mediaType: MediaType.MOVIE,
     overview: "",
+    created_by: [],
     vote_average: 0,
     vote_count: 0,
     popularity: 0,
@@ -221,7 +239,9 @@ let model: Model = {
     poster_path: "",
     genres: [],
     budget: 0,
+    formatted_budget: "",
     revenue: 0,
+    formatted_revenue: "",
     status: "",
     runtime: 0,
     belongs_to_collection: {},
@@ -289,7 +309,7 @@ let model: Model = {
         this.getSearchID()
       );
       console.log("API fetchMovie", this.getSearchID());
-      this.currentMovie = movie.data;
+      this.currentMovie = contentFromQuery(movie.data) as Movie;
 
       // TODO: Ändra hur vi tar hand om poster_path och backdrop. Om vi enbart gör x = movie.data får vi bara ena delen i poster_path.
       this.currentMovie.poster_path = movie.data.poster_path
@@ -307,7 +327,7 @@ let model: Model = {
         this.getSearchID()
       );
       console.log("API fetchSeries", this.getSearchID());
-      this.currentSeries = series.data;
+      this.currentSeries = contentFromQuery(series.data) as Series;
 
       // TODO: Ändra hur vi tar hand om poster_path och backdrop. Om vi enbart gör x = movie.data får vi bara ena delen i poster_path.
       this.currentSeries.poster_path = series.data.poster_path
@@ -482,6 +502,7 @@ let model: Model = {
       const movieCredits = await getMovieCredits(this.getSearchID());
       console.log("API fetchContentCreditsMovie", movieCredits);
       this.currentMovie.credits = movieCredits.data.cast;
+      this.currentMovie.created_by = setCreator(movieCredits.data.crew, MediaType.MOVIE);
     } catch (error) {
       console.error("Failed to fetch getMovieCredits:", error);
       throw error;
@@ -553,6 +574,7 @@ let model: Model = {
       title: "",
       mediaType: MediaType.MOVIE,
       overview: "",
+      created_by: [],
       vote_average: 0,
       vote_count: 0,
       popularity: 0,
@@ -563,7 +585,9 @@ let model: Model = {
       poster_path: "",
       genres: [],
       budget: 0,
+      formatted_budget: "",
       revenue: 0,
+      formatted_revenue: "",
       status: "",
       runtime: 0,
       belongs_to_collection: {},

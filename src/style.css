@@ -20,6 +20,8 @@
   --accent-active: hsl(39, 100%, 47%);
   --accent-logo: hsl(39, 100%, 50%);
   --accent-logo-shadow: hsla(39, 100%, 46%, 0.3);
+  --accent-good: hsl(115, 100%, 78%);
+  --accent-bad: hsl(0, 100%, 78%);
   /* Input */
   --input: hsl(0, 0%, 10%);
   --input-text: hsl(0, 0%, 5%);
@@ -39,6 +41,9 @@
   --font-large: 1.25rem;
   --font-large-2: 1.5rem;
   --font-large-3: 2rem;
+  --font-large-4: 2.25rem;
+  --font-large-5: 2.5rem;
+  --font-large-6: 2.75rem;
   --font-huge: 3rem;
   /* Font weights */
   --font-weight-thin: 100;
@@ -251,6 +256,15 @@ img {
 }
 .gap-full {
   gap: 1rem !important;
+}
+.gap-half-quarter {
+  gap: 1.25rem !important;
+}
+.gap-half-double {
+  gap: 1.5rem !important;
+}
+.gap-double {
+  gap: 2rem !important;
 }
 
 .hidden {
@@ -630,9 +644,21 @@ div[aria-hidden="true"] {
 .result-content-info p {
   margin: 0 !important;
 }
-.result-content-info--title {
+.result-content-info--top {
+
+}
+
+.result-content-info--top button {
+  background-color: var(--bg-light) !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.result-content-info--top button:hover {
+  background-color: var(--bg-lightest) !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.result-content-info--top h1{
   font-weight: var(--font-weight-bold);
-  font-size: var(--font-large-3);
+  font-size: var(--font-large-5);
 }
 
 .result-content-info--details p {
@@ -657,13 +683,34 @@ div[aria-hidden="true"] {
 }
 
 .result-content-more-info--primary {
-  padding: var(--padding-medium);
+
 }
+.result-content-more-info--primary div {
+  background-color: var(--bg-light) !important;
+  padding: var(--padding-medium);
+  border-radius: var(--border-radius);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-small-2);
+}
+
 .result-content-more-info--secondary {
-  padding: var(--padding-medium);
+  
 }
-.result-content-more-info--secondary div {
-  height: 100%;
+.result-content-more-info--secondary button {
+  background-color: var(--bg-lightest-2) !important;
+  padding: var(--padding-medium);
+  border-radius: var(--border-radius);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-small-2);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.result-content-more-info--secondary button:hover {
+  background-color: var(--bg-lightest) !important;
+  padding: var(--padding-medium);
+  border-radius: var(--border-radius);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-small-2);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .list-buttons button {
@@ -731,6 +778,22 @@ div[aria-hidden="true"] {
   background-color: var(--main);
   padding: var(--padding-huge);
   border-radius: var(--border-radius);
+}
+
+.info-card h1 {
+  font-size: var(--font-large)
+}
+
+.info-card p {
+  font-size: var(--font-medium);
+  margin: 0;
+}
+
+.revenue-positive {
+  color: var(--accent-good);
+}
+.revenue-negative {
+  color: var(--accent-bad);
 }
 
 .width-15 {
