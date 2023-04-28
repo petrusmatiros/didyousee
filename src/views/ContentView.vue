@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import './../style.css';
-import { defineEmits } from 'vue';
 import MediaCard from '../components/MediaCard.vue';
 
 const emit = defineEmits(["handleLiked", "handleWatchlist", "handleSeen", "handleDisliked", "goBack"])

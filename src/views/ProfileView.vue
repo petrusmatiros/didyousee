@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import './../style.css';
-import { defineEmits } from 'vue';
 
 const emit = defineEmits(["logoutClick"])
 
