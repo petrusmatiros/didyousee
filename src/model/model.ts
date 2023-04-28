@@ -10,6 +10,9 @@ import {
   Series,
 } from "../types/types";
 import { SortingOrder, random, sort, filter, find } from "../utils/utils";
+import noPoster from "../assets/no_poster.svg"
+import { db } from "../firebaseConfig"
+import { ref, set, get, onValue } from "firebase/database";
 
 async function randomTrivia(category: TriviaCategory): Promise<string> {
   try {
@@ -121,6 +124,11 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
   }
 }
 
+interface UserData {
+  uid: string;
+  movieLists: Record<string, string[]>;
+}
+
 interface Model {
   // Only for Home
   movies: Movie[];
@@ -216,7 +224,7 @@ let model: Model = {
       // TODO: Ändra hur vi tar hand om poster_path och backdrop. Om vi enbart gör x = movie.data får vi bara ena delen i poster_path.
       this.currentContent.poster_path = movie.data.poster_path
         ? `https://image.tmdb.org/t/p/w500${movie.data.poster_path}`
-        : "/src/assets/no-poster.svg";
+        : noPoster;
     } catch (error) {
       console.error("Failed to fetch single movie:", error);
       throw error;
@@ -234,7 +242,7 @@ let model: Model = {
       // TODO: Ändra hur vi tar hand om poster_path och backdrop. Om vi enbart gör x = movie.data får vi bara ena delen i poster_path.
       this.currentContent.poster_path = movie.data.poster_path
         ? `https://image.tmdb.org/t/p/w500${movie.data.poster_path}`
-        : "/src/assets/no-poster.svg";
+        : noPoster;
     } catch (error) {
       console.error("Failed to fetch single series:", error);
       throw error;
@@ -465,6 +473,60 @@ async function discoverMedia(media: MediaType, query: string, page:number = 1) {
   return wrap(`/discover/${media}`, params);
 }
 
+
+// This is NOT exported, access only using functions that automatically persist any change.
+interface Persistent {
+  userData: UserData | null;
+}
+
+let persistent : Persistent = {
+  userData: null,
+}
+
+// Initially, we do not have an observer
+let unsubscriber = () => {};
+
+async function subscribeDB(uid : string) {
+  // Unsubscribe the previous observer first
+  unsubscriber();
+  let refer = ref(db, 'users/' + uid);
+  let value = await get(refer).then((snapshot) => snapshot.val());
+  persistent.userData = value || { uid, movieLists: {} };
+  unsubscriber = onValue(refer, (snapshot) => {
+    persistent.userData = snapshot.val();
+  });
+}
+
+function persistUserData() {
+  if(persistent.userData)
+    set(ref(db, 'users/' + persistent.userData.uid), persistent.userData);
+}
+
+async function addMovie(userID: string, list: string, mediaID: string) {
+  if(!persistent.userData) {
+    await subscribeDB(userID);
+  }
+  if(persistent.userData) {
+    if(!persistent.userData.movieLists[list]) {
+      persistent.userData.movieLists[list] = [];
+    }
+    persistent.userData.movieLists[list].push(mediaID);
+  } else {
+    console.log("ERROR: Despite fetching from DB still no userdata.");
+  }
+  persistUserData();
+}
+
+async function getUserData(uid : string) : Promise<UserData | null> {
+  if(persistent.userData === null) {
+    await subscribeDB(uid);
+  } else if(persistent.userData.uid !== uid) {
+    console.log("ERROR: Fetching another users data");
+    return null;
+  }
+  return persistent.userData;
+}
+
 export {
   model,
   randomTrivia,
@@ -473,4 +535,8 @@ export {
   getTrending,
   getMedia,
   getSimilarMedia,
+
+  subscribeDB,
+  addMovie,
+  getUserData,
 };
