@@ -183,7 +183,7 @@ function goBackACB() { emit("goBack") }
         </div>
         <div class="info-card gap-quarter flex-col">
           <h1>Revenue</h1>
-          <p :class="$props.model.currentMovie.revenue > $props.model.currentMovie.budget ? 'revenue-positive' : $props.model.currentMovie.revenue < $props.model.currentMovie.budget ? 'revenue-positive' : 'nothing'">
+          <p :class="$props.model.currentMovie.revenue > $props.model.currentMovie.budget ? 'revenue-positive' : $props.model.currentMovie.revenue < $props.model.currentMovie.budget ? 'revenue-negative' : 'nothing'">
           <!-- Denna fungerar enbart för Movie -->
           {{ $props.model.currentMovie.formatted_revenue }}
           </p>

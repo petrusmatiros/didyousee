@@ -80,7 +80,7 @@ export interface Content {
 export interface Movie extends Content {
     title: string
     release_date: string,
-    mediaType: MediaType.MOVIE,
+    mediaType: MediaType.MOVIE | undefined,
     runtime: number,
     belongs_to_collection: {},
     budget: number
@@ -92,7 +92,7 @@ export interface Movie extends Content {
 export interface Series extends Content {
     name: string,
     first_air_date: string,
-    mediaType: MediaType.SERIES,
+    mediaType: MediaType.SERIES | undefined,
     episode_run_time: number[],
     last_episode_to_air: {},
     next_episode_to_air: {},

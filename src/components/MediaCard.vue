@@ -1,5 +1,5 @@
 <template>
-  <div class="content-card gap-full flex-col" @click="handleClickACB">
+  <div v-if="mediaType !== undefined" class="content-card gap-full flex-col" @click="handleClickACB">
     <div class="loading-skeleton content-poster" v-if="!imagePath"></div>
     <img :src="imagePath" loading="lazy" decoding="async" fetchpriority="low" v-else class="content-poster" />
     <div class="flex-col flex-center gap-half">
@@ -28,9 +28,9 @@ export default defineComponent({
     },
     mediaType: {
       type: String,
-      required: true,
+      required: false,
       validator: (value: string) => {
-        return [MediaType.SERIES.toString(), MediaType.MOVIE.toString()].includes(value)
+        return [MediaType.SERIES.toString(), MediaType.MOVIE.toString(), undefined].includes(value)
       }
     },
   },
@@ -38,7 +38,7 @@ export default defineComponent({
     imagePath(): any {
       return this.media.poster_path ? `https://image.tmdb.org/t/p/${PosterSize.W342}/${this.media.poster_path}` : "/src/assets/no-poster.svg";
     },
-    capitalizedMediaType(): string {
+    capitalizedMediaType(): string | undefined {
       if (this.mediaType === MediaType.MOVIE.toString()) {
         return "Movie";
       } else if (this.mediaType === MediaType.SERIES.toString()) {

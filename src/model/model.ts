@@ -96,6 +96,42 @@ function setCreator(input: any, mediaType: MediaType): any {
   }
 }
 
+function generateDummyContent(amount: number): any[] {
+  amount = Math.round(Math.abs(amount));
+  let array = [];
+  for (let i = 0; i < amount; i++) {
+    array.push({
+      id: i,
+      title: "",
+      name: "",
+      overview: "",
+      created_by: [],
+      vote_average: 0,
+      vote_count: 0,
+      popularity: 0,
+      original_language: "",
+      spoken_languages: [],
+      backdrop_path: "",
+      poster_path: "",
+      genres: [],
+      status: "",
+      video: "",
+      reviews: {
+        id: 0,
+        page: 0,
+        results: [],
+        total_pages: 0,
+        total_results: 0
+      },
+      credits: {
+        cast: [],
+        crew: [],
+      },
+    })
+  }
+  return array;
+}
+
 function wrap(query: string, params: URLSearchParams) {
   params.append("api_key", import.meta.env.VITE_TMDB_API_KEY);
   let res = tmdbApi.get(`${query}?${params}`);
@@ -166,17 +202,16 @@ interface Model {
   trivia: string;
   // Search
   searchContent: (Movie | Series)[];
+  dummyContent: (Movie | Series)[];
   currentMovie: Movie;
   currentSeries: Series;
   searchCategory: SearchCategory;
   searchString: string;
+  result_status: string;
   searchID: string;
   page: number;
   total_pages: number;
   observers: ((payload: any) => void)[];
-
-  //TODO
-  // generateDummyContent: () => void;
 
   fetchSingleMovie: () => Promise<void>;
   fetchSingleSeries: () => Promise<void>;
@@ -222,6 +257,7 @@ let model: Model = {
   trivia: "",
   // Search
   searchContent: [],
+  dummyContent: generateDummyContent(20),
   searchCategory: SearchCategory.TITLE,
   currentMovie: {
     id: 0,
@@ -295,6 +331,7 @@ let model: Model = {
   },
   observers: [],
   searchString: "",
+  result_status: "",
   searchID: "",
   page: 1,
   total_pages: 1000,
@@ -343,8 +380,23 @@ let model: Model = {
         this.getSearchString(),
         this.getPage()
       );
+      console.log(movies)
       console.log("API fetchMovies", this.getSearchString());
-      this.movies = movies.data.results.map(contentFromQuery);
+      this.movies = movies.data.results.map(contentFromQuery)
+
+      // TODO!
+      if (movies.status === 0) {
+        this.result_status = "pending"
+      } else {
+        if (movies.data.total_results > 0) {
+          this.result_status = "fulfilled"
+        }
+        else if (movies.data.total_results === 0) {
+          this.result_status = "rejected"
+        }
+      }
+      
+      console.log("TOTAL STATUS MOVIE", this.result_status)
     } catch (error) {
       console.error("Failed to fetch movies:", error);
       throw error;
@@ -357,8 +409,22 @@ let model: Model = {
         this.getSearchString(),
         this.getPage()
       );
-      console.log("API getSeries", this.getSearchString());
+      console.log("API fetchSeries", this.getSearchString());
       this.series = series.data.results.map(contentFromQuery);
+
+      // TODO!
+      if (series.status === 0) {
+        this.result_status = "pending"
+      } else {
+        if (series.data.total_results > 0) {
+          this.result_status = "fulfilled"
+        }
+        else if (series.data.total_results === 0) {
+          this.result_status = "rejected"
+        }
+      }
+      
+      console.log("TOTAL STATUS SERIES", this.result_status)
     } catch (error) {
       console.error("Failed to fetch series:", error);
       throw error;
@@ -376,7 +442,7 @@ let model: Model = {
         this.getSearchString(),
         this.getPage()
       );
-      console.log("API get with genre", this.getSearchString());
+      console.log("API fetchGenreContent", this.getSearchString());
       const data = [...movies.data.results, ...series.data.results];
       const genreContent = data.map(contentFromQuery);
       this.searchContent = [...this.searchContent, ...genreContent];
@@ -644,7 +710,7 @@ let model: Model = {
     this.setPage(1);
     this.movies = [];
     this.series = [];
-    this.searchContent = [];
+    this.searchContent = generateDummyContent(0);
   }
 }
 
