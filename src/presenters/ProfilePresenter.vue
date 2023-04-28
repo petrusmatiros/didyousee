@@ -18,7 +18,7 @@ export default defineComponent({
     },
     setup(props: any) {
         const router = useRouter()
-        const currentUser = auth.currentUser; // Kollar ifall användaren är inloggad!
+        const user = auth.currentUser; // Kollar ifall användaren är inloggad!
 
         function logoutClickACB() {
             signOut(auth).then(() => {
@@ -31,7 +31,7 @@ export default defineComponent({
             router.push('/login');
         }
 
-        if (!currentUser) {
+        if (!user) {
             // Omdirigera till inloggningssidan
             router.push('/login');
         }
