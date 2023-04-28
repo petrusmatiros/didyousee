@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import './../style.css';
 import MediaCard from '../components/MediaCard.vue';
+import ReviewCard from '../components/ReviewCard.vue';
+import CastCard from '../components/CastCard.vue';
 
 const emit = defineEmits(["handleLiked", "handleWatchlist", "handleSeen", "handleDisliked", "goBack"])
 
@@ -35,7 +37,12 @@ function goBackACB() { emit("goBack") }
           <div class="flex-col gap-quarter">
             <div class="result-content-info--top flex-row flex-start-center gap-half">
               <h1 class="flex-row">{{ $props.model.currentMovie.title || $props.model.currentSeries.name }}</h1>
-              <button class="button">Season 1/Collection</button>
+              <select v-if="$props.model.currentSeries.seasons.length > 0" class="button">
+                <option value="default" selected>All Seasons</option>
+                <option v-for="(season, index) in $props.model.currentSeries.seasons" :value="'s' + (index + 1)" :key="'season' + index">
+                  {{ season.name }}
+                </option>
+              </select>
             </div>
             <!-- TODO: se över flex-center för movies -->
             <div class="result-content-info--details gap-half flex-row flex-start-center"> 
@@ -148,19 +155,17 @@ function goBackACB() { emit("goBack") }
       <div class="info-container gap-full flex-row flex-center">
         <div class="info-card gap-quarter flex-col">
           <h1>Cast</h1>
-          <p>
-            Information
-          </p>
           <!-- TODO: Filtrera denna och bestäm hur det ska se ut.-->
-          <!-- <p>{{ $props.model.currentMovie.credits || $props.model.currentSeries.credits  }}</p> -->
+          <!-- <p>{{ $props.model.currentMovie.credits || $props.model.currentSeries.credits }}</p> -->
+          <CastCard v-for="(cast, index) in $props.model.currentMovie.credits || $props.model.currentSeries.credits" :key="index" :cast="cast"/>
         </div>
       </div>
       <div class="info-container gap-full flex-row flex-center">
         <div class="info-card gap-quarter flex-col">
           <h1>Reviews</h1>
-          <p>Information</p>
           <!-- TODO: Filtrera denna och bestäm hur det ska se ut.-->
           <!-- <p>{{ $props.model.currentMovie.reviews || $props.model.currentSeries.reviews }}</p> -->
+          <ReviewCard v-for="(review, index) in $props.model.currentMovie.reviews || $props.model.currentSeries.reviews" :key="index" :review="review"/>
         </div>
          <div class="info-card gap-quarter flex-col width-25">
           <!-- TODO -->
@@ -207,6 +212,8 @@ export default defineComponent({
   name: 'ContentView',
   components: {
     MediaCard,
+    ReviewCard,
+    CastCard,
   },
   props: {
     model: {
