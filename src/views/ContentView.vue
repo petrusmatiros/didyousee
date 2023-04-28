@@ -31,72 +31,84 @@ function goBackACB() { emit("goBack") }
       <div class="result-content gap-full flex-row">
         <div class="loading-skeleton result-content-poster" v-if="!($props.model.currentMovie.poster_path || $props.model.currentSeries.poster_path)"></div>
         <img class="result-content-poster" v-else loading="lazy" :src="($props.model.currentMovie.poster_path || $props.model.currentSeries.poster_path)" />
-        <div class="result-content-info gap-double flex-col flex-start">
+        <div class="loading-skeleton result-content-info gap-double flex-col flex-start" v-if="!($props.model.currentMovie.title || $props.model.currentSeries.name)"></div>
+        <div v-else class="result-content-info gap-double flex-col flex-start">
           <div class="flex-col gap-quarter">
             <div class="result-content-info--top flex-row flex-start-center gap-half">
               <h1 class="flex-row">{{ $props.model.currentMovie.title || $props.model.currentSeries.name }}</h1>
-              <button class="button">Season 1</button>
+              <button class="button">Season 1/Collection</button>
             </div>
             <!-- TODO: se över flex-center för movies -->
             <div class="result-content-info--details gap-half flex-row flex-start-center"> 
 
               <!-- Date -->
+              <!-- <span v-if="$props.model.currentMovie.release_date?.split('-')[0]">●</span> -->
               <p> {{ $props.model.currentMovie.release_date?.split('-')[0] || $props.model.currentSeries.first_air_date?.split('-')[0] }}</p>
 
-              <!-- Director -->
-              <span v-if="$props.model.currentMovie.release_date?.split('-')[0]">●</span>
-
-              <p v-if="$props.model.currentMovie.created_by[0]?.name || $props.model.currentSeries.created_by[0]?.name"> {{ $props.model.currentMovie.created_by[0]?.name || $props.model.currentSeries.created_by[0].name }}</p>
               
-              <span v-if="$props.model.currentMovie.created_by || $props.model.currentSeries.created_by[0]?.name">●</span>
+              <!-- Created by -->
+              <span v-if="$props.model.currentMovie.created_by && $props.model.currentMovie.created_by[0]?.name">●</span>
+
+              <p v-if="$props.model.currentMovie.created_by && $props.model.currentMovie.created_by[0]?.name"> {{ $props.model.currentMovie.created_by && $props.model.currentMovie.created_by[0]?.name }}</p>
+
+              <span v-if="$props.model.currentSeries.created_by[0]?.name">●</span>
+              <p v-if="$props.model.currentSeries.created_by[0]?.name"> {{ $props.model.currentSeries.created_by[0]?.name }}</p>
+              
 
               <!-- Runtime or Average episode runtime -->
+              <span v-if="$props.model.currentMovie.runtime">●</span>
+              <span v-if="$props.model.currentSeries.episode_run_time[0]">●</span>
+
               <p v-if="$props.model.currentMovie.runtime"> {{ Math.floor($props.model.currentMovie.runtime / 60).toString().padEnd(2, 'h') }} {{ ($props.model.currentMovie.runtime % 60).toString().padEnd(3, 'm') }}</p>
 
-              <p v-else-if="$props.model.currentSeries.episode_run_time[0]"> {{ Math.floor($props.model.currentSeries.episode_run_time[0] / 60).toString().padEnd(2, 'h') }}:{{ ($props.model.currentSeries.episode_run_time[0] % 60).toString().padEnd(3, 'm') }}</p>
+              <p v-if="$props.model.currentSeries.episode_run_time[0]"> {{ Math.floor($props.model.currentSeries.episode_run_time[0] / 60).toString().padEnd(2, 'h') }} {{ ($props.model.currentSeries.episode_run_time[0] % 60).toString().padEnd(3, 'm') }}</p>
 
               <!-- Status -->
-              <span v-if="$props.model.currentMovie.status || $props.model.currentSeries.status ">●</span>
               
-              <p v-if="$props.model.currentMovie.status || $props.model.currentSeries.status"> {{ $props.model.currentMovie.status || $props.model.currentSeries.status }}</p>
+              <span v-if="$props.model.currentMovie.status">●</span>
+              <span v-if="$props.model.currentSeries.status">●</span>
+              <p v-if="$props.model.currentMovie.status"> {{ $props.model.currentMovie.status}}</p>
+              <p v-if="$props.model.currentSeries.status"> {{ $props.model.currentSeries.status }}</p>
 
+
+              
               <!-- Series--> 
               <!-- Episodes -->
               <span v-if="$props.model.currentSeries.number_of_episodes">●</span>
-             <p v-if="$props.model.currentSeries.number_of_episodes"> {{ $props.model.currentSeries.number_of_episodes + " episodes" }}</p>
-
+              <p v-if="$props.model.currentSeries.number_of_episodes"> {{ $props.model.currentSeries.number_of_episodes + " episodes" }}</p>
+              
               <!-- Seasons -->
               <span v-if="$props.model.currentSeries.number_of_seasons">●</span>
               <p v-if="$props.model.currentSeries.number_of_seasons">{{ $props.model.currentSeries.number_of_seasons + " seasons" }}</p>
             </div>
           </div>
-          <p class="result-content-info--overview">{{ $props.model.currentMovie.overview || $props.model.currentSeries.overview }}</p>
+          <p v-if="$props.model.currentSeries.overview" class="result-content-info--overview">{{ $props.model.currentMovie.overview || $props.model.currentSeries.overview }}</p>
           <div class="result-content-more-info gap-double flex-col flex-center-start">
-             <div class="result-content-more-info--primary gap-half flex-row flex-center-start">
-              <div>Rating: {{ $props.model.currentMovie.vote_average  || $props.model.currentSeries.vote_average  }}/10</div>
+             <div v-if="($props.model.currentMovie.vote_average || $props.model.currentSeries.vote_average) || $props.model.currentSeries.last_episode_to_air?.air_date || $props.model.currentSeries.next_episode_to_air?.air_date" class="result-content-more-info--primary gap-half flex-row flex-center-start">
+              <div v-if="$props.model.currentMovie.vote_average  || $props.model.currentSeries.vote_average">Rating: {{ $props.model.currentMovie.vote_average  || $props.model.currentSeries.vote_average  }}/10</div>
               <div v-if="$props.model.currentSeries.last_episode_to_air?.air_date">Latest episode: {{ $props.model.currentSeries.last_episode_to_air?.air_date }}</div>
               <div v-if="$props.model.currentSeries.next_episode_to_air?.air_date">Next episode: {{ $props.model.currentSeries.next_episode_to_air?.air_date}}</div>
             </div>
-            <div class="result-content-more-info--secondary gap-full flex-row flex-center-start">
-              <div v-if="$props.model.currentMovie.genres.length !== 0" class="gap-full flex-row flex-center">
+            <div class="result-content-more-info--secondary gap-full flex-row flex-start-center">
+              <div v-if="$props.model.currentMovie.genres.length !== 0" class="gap-full flex-row flex-start-center">
                 <button class="button" v-for="(genre, index) in $props.model.currentMovie.genres" :key="index"
                   :genre="genre">
                   {{ genre.name }}
                 </button>
               </div>
-              <div v-if="$props.model.currentSeries.genres.length !== 0" class="gap-full flex-row flex-center">
+              <div v-if="$props.model.currentSeries.genres.length !== 0" class="gap-full flex-row flex-start-center">
                 <button class="button" v-for="(genre, index) in $props.model.currentSeries.genres" :key="index"
                   :genre="genre">
                   {{ genre.name }}
                 </button>
               </div>
-              <div v-if="$props.model.currentMovie.spoken_languages.length !== 0" class="gap-full flex-row flex-center">
+              <div v-if="$props.model.currentMovie.spoken_languages.length !== 0" class="gap-full flex-row flex-start-center">
                 <button class="button" v-for="(language, index) in $props.model.currentMovie.spoken_languages"
                   :key="index" :language="language">
                   {{ language.english_name }}
                 </button>
               </div>
-              <div v-if="$props.model.currentSeries.spoken_languages.length !== 0" class="gap-full flex-row flex-center">
+              <div v-if="$props.model.currentSeries.spoken_languages.length !== 0" class="gap-full flex-row flex-start-center">
                 <button class="button" v-for="(language, index) in $props.model.currentSeries.spoken_languages"
                   :key="index" :language="language">
                   {{ language.english_name }}

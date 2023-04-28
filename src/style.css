@@ -73,7 +73,7 @@
   --margin-large-3: 1.5rem;
   --margin-large-2: 2rem;
   /* Responsive sizes */
-  --desktop-max-width: 1024px;
+  --desktop-max-width: 1920px;
   --tablet-max-width: 768px;
   --mobile-max-width: 480px;
 }
@@ -470,8 +470,8 @@ a:active {
   background-color: var(--bg-light);
 }
 .loading-skeleton {
-  min-width: 100%;
-  max-width: fit-content;
+  min-width: fit-content;
+  max-width: inherit;
   min-height: inherit;
   height: inherit;
   border-radius: var(--border-radius);
@@ -694,6 +694,11 @@ div[aria-hidden="true"] {
 }
 
 .result-content-more-info--secondary {
+  flex-wrap: wrap;
+  
+}
+.result-content-more-info--secondary div {
+  flex-wrap: wrap;
   
 }
 .result-content-more-info--secondary button {

@@ -50,7 +50,6 @@ export interface Content {
     vote_average: number,
     vote_count: number,
     popularity: number,
-    release_date: string,
     original_language: string,
     spoken_languages: {
         english_name: string,
@@ -80,6 +79,7 @@ export interface Content {
 
 export interface Movie extends Content {
     title: string
+    release_date: string,
     mediaType: MediaType.MOVIE,
     runtime: number,
     belongs_to_collection: {},
@@ -91,6 +91,7 @@ export interface Movie extends Content {
 
 export interface Series extends Content {
     name: string,
+    first_air_date: string,
     mediaType: MediaType.SERIES,
     episode_run_time: number[],
     last_episode_to_air: {},
