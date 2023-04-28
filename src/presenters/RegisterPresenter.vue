@@ -31,11 +31,6 @@ export default defineComponent({
                     const user = userCredential.user;
                     console.log("User", user)
                     console.log("Created account!", userCredential)
-                    if(props.model.userData[user.uid]) {
-                        console.log("ERROR: User already exists!", user.uid);
-                    } else {
-                        props.model.userData[user.uid] = {};
-                    }
                     router.push('/profile');
                 })
                 .catch((error) => {
