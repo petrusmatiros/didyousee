@@ -3,7 +3,8 @@
       <h2> {{ review.author }} </h2>
       <p class="flex-row"> {{ review.content }}</p>
       <div class="flex-col flex-center gap-half">
-        <p class="flex-row">{{ "Rating: " + review.author_details.rating }}</p>
+        <p class="flex-row">{{ review.created_at }}</p>
+        
       </div>
     </div>
   </template>

@@ -11,7 +11,6 @@ function handleWatchlistACB() { emit("handleWatchlist") }
 function handleSeenACB() { emit("handleSeen") }
 function handleDislikedACB() { emit("handleDisliked") }
 function goBackACB() { emit("goBack") }
-
 </script>
 
 <template>
@@ -70,15 +69,13 @@ function goBackACB() { emit("goBack") }
               <p v-if="$props.model.currentSeries.episode_run_time[0]"> {{ Math.floor($props.model.currentSeries.episode_run_time[0] / 60).toString().padEnd(2, 'h') }} {{ ($props.model.currentSeries.episode_run_time[0] % 60).toString().padEnd(3, 'm') }}</p>
 
               <!-- Status -->
-              
               <span v-if="$props.model.currentMovie.status">●</span>
               <span v-if="$props.model.currentSeries.status">●</span>
               <p v-if="$props.model.currentMovie.status"> {{ $props.model.currentMovie.status}}</p>
               <p v-if="$props.model.currentSeries.status"> {{ $props.model.currentSeries.status }}</p>
 
-
               
-              <!-- Series--> 
+              <!-- Series --> 
               <!-- Episodes -->
               <span v-if="$props.model.currentSeries.number_of_episodes">●</span>
               <p v-if="$props.model.currentSeries.number_of_episodes"> {{ $props.model.currentSeries.number_of_episodes + " episodes" }}</p>
@@ -157,7 +154,8 @@ function goBackACB() { emit("goBack") }
           <h1>Cast</h1>
           <!-- TODO: Filtrera denna och bestäm hur det ska se ut.-->
           <!-- <p>{{ $props.model.currentMovie.credits || $props.model.currentSeries.credits }}</p> -->
-          <CastCard v-for="(cast, index) in $props.model.currentMovie.credits || $props.model.currentSeries.credits" :key="index" :cast="cast"/>
+          <!-- Denna är enbart för Movie -->
+          <CastCard v-if="$props.model.currentMovie.credits.cast.length > 0" v-for="(cast, index) in $props.model.currentMovie.credits.cast" :key="index" :cast="cast"/>
         </div>
       </div>
       <div class="info-container gap-full flex-row flex-center">
@@ -165,7 +163,8 @@ function goBackACB() { emit("goBack") }
           <h1>Reviews</h1>
           <!-- TODO: Filtrera denna och bestäm hur det ska se ut.-->
           <!-- <p>{{ $props.model.currentMovie.reviews || $props.model.currentSeries.reviews }}</p> -->
-          <ReviewCard v-for="(review, index) in $props.model.currentMovie.reviews || $props.model.currentSeries.reviews" :key="index" :review="review"/>
+          <!-- Denna är enbart för Movie -->
+          <ReviewCard v-if="$props.model.currentMovie.reviews.length > 0 " v-for="(review, index) in $props.model.currentMovie.reviews" :key="index" :review="review"/>
         </div>
          <div class="info-card gap-quarter flex-col width-25">
           <!-- TODO -->

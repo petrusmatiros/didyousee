@@ -252,7 +252,6 @@ let model: Model = {
       results: [],
       total_pages: 0,
       total_results: 0,
-
     },
     credits: {
       cast: [],
@@ -288,7 +287,6 @@ let model: Model = {
       results: [],
       total_pages: 0,
       total_results: 0,
-
     },
     credits: {
       cast: [],
@@ -491,7 +489,7 @@ let model: Model = {
     try {
       const seriesCredits = await getSeriesCredits(this.getSearchID());
       console.log("API fetchContentCreditsSeries", seriesCredits.data.results);
-      this.currentSeries.credits = seriesCredits.data.cast;
+      this.currentSeries.credits.cast = seriesCredits.data.cast;
     } catch (error) {
       console.error("Failed to fetch getSeriesCredits:", error);
       throw error;
@@ -501,7 +499,7 @@ let model: Model = {
     try {
       const movieCredits = await getMovieCredits(this.getSearchID());
       console.log("API fetchContentCreditsMovie", movieCredits);
-      this.currentMovie.credits = movieCredits.data.cast;
+      this.currentMovie.credits.cast = movieCredits.data.cast;
       this.currentMovie.created_by = setCreator(movieCredits.data.crew, MediaType.MOVIE);
     } catch (error) {
       console.error("Failed to fetch getMovieCredits:", error);
