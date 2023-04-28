@@ -82,7 +82,7 @@ function goBackACB() { emit("goBack") }
               <p v-if="$props.model.currentSeries.number_of_seasons">{{ $props.model.currentSeries.number_of_seasons + " seasons" }}</p>
             </div>
           </div>
-          <p v-if="$props.model.currentSeries.overview" class="result-content-info--overview">{{ $props.model.currentMovie.overview || $props.model.currentSeries.overview }}</p>
+          <p v-if="$props.model.currentMovie.overview || $props.model.currentSeries.overview" class="result-content-info--overview">{{ $props.model.currentMovie.overview || $props.model.currentSeries.overview }}</p>
           <div class="result-content-more-info gap-double flex-col flex-center-start">
              <div v-if="($props.model.currentMovie.vote_average || $props.model.currentSeries.vote_average) || $props.model.currentSeries.last_episode_to_air?.air_date || $props.model.currentSeries.next_episode_to_air?.air_date" class="result-content-more-info--primary gap-half flex-row flex-center-start">
               <div v-if="$props.model.currentMovie.vote_average  || $props.model.currentSeries.vote_average">Rating: {{ $props.model.currentMovie.vote_average  || $props.model.currentSeries.vote_average  }}/10</div>
