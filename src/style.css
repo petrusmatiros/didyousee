@@ -485,6 +485,7 @@ a:active {
 .content-card-button {
   padding: var(--padding-small);
   background-color: var(--bg-light);
+  font-size: var(--font-small) !important;
 }
 .loading-skeleton {
   min-width: fit-content;
