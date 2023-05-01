@@ -102,26 +102,26 @@ function goBackACB() { emit("goBack") }
               <div v-if="$props.model.currentSeries.last_episode_to_air?.air_date">Latest episode: {{ $props.model.currentSeries.last_episode_to_air?.air_date }}</div>
               <div v-if="$props.model.currentSeries.next_episode_to_air?.air_date">Next episode: {{ $props.model.currentSeries.next_episode_to_air?.air_date}}</div>
             </div>
-            <div class="result-content-more-info--secondary gap-full flex-row flex-start-center">
-              <div v-if="$props.model.currentMovie.genres.length !== 0" class="gap-full flex-row flex-start-center">
+            <div class="result-content-more-info--secondary gap-half flex-row flex-start-center">
+              <div v-if="$props.model.currentMovie.genres.length !== 0" class="gap-half flex-row flex-start-center">
                 <button class="button" v-for="(genre, index) in $props.model.currentMovie.genres" :key="index"
                   :genre="genre">
                   {{ genre.name }}
                 </button>
               </div>
-              <div v-if="$props.model.currentSeries.genres.length !== 0" class="gap-full flex-row flex-start-center">
+              <div v-if="$props.model.currentSeries.genres.length !== 0" class="gap-half flex-row flex-start-center">
                 <button class="button" v-for="(genre, index) in $props.model.currentSeries.genres" :key="index"
                   :genre="genre">
                   {{ genre.name }}
                 </button>
               </div>
-              <div v-if="$props.model.currentMovie.spoken_languages.length !== 0" class="gap-full flex-row flex-start-center">
+              <div v-if="$props.model.currentMovie.spoken_languages.length !== 0" class="gap-half flex-row flex-start-center">
                 <button class="button" v-for="(language, index) in $props.model.currentMovie.spoken_languages"
                   :key="index" :language="language">
                   {{ language.english_name }}
                 </button>
               </div>
-              <div v-if="$props.model.currentSeries.spoken_languages.length !== 0" class="gap-full flex-row flex-start-center">
+              <div v-if="$props.model.currentSeries.spoken_languages.length !== 0" class="gap-half flex-row flex-start-center">
                 <button class="button" v-for="(language, index) in $props.model.currentSeries.spoken_languages"
                   :key="index" :language="language">
                   {{ language.english_name }}

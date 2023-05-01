@@ -493,7 +493,8 @@ a:active {
   justify-content: center;
   align-items: center;
   font-size: var(--font-small-2);
-  height: 2rem;
+  min-height: 2rem;
+  max-height: fit-content;
   font-weight: var(--font-weight-regular);
   text-align: center;
   margin: 0;
