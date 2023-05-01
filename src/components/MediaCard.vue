@@ -1,14 +1,15 @@
 <template>
-  <div v-if="mediaType !== undefined" class="content-card gap-full flex-col" @click="handleClickACB">
+  <div v-if="mediaType !== undefined" class="content-card gap-half flex-col" @click="handleClickACB">
     <div class="loading-skeleton content-poster" v-if="!imagePath"></div>
     <img :src="imagePath" loading="lazy" decoding="async" fetchpriority="low" v-else class="content-poster" />
-    <div class="flex-col flex-center gap-half">
+    <div class="flex-col flex-center gap-half p-small">
       <h2 class="flex-row">{{ media.title || media.name }}</h2>
       <div class="flex-row flex-center gap-half">
         <button class="content-card-button button">{{ capitalizedMediaType
         }}</button>
         <button v-if="media.release_date || media.first_air_date" class="content-card-button button">{{ (media.release_date || media.first_air_date)?.split('-')[0]
         }}</button>
+
         <button v-if="parseFloat(media.vote_average.toFixed(1)) > 0" class="content-card-button button">{{ parseFloat(media.vote_average.toFixed(1)) }}/10</button>
       </div>
     </div>

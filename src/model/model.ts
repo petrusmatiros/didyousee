@@ -86,6 +86,10 @@ function formatMoney(amount: number): string {
   return numeral(amount).format('$0,0 a').toUpperCase();
 }
 
+function formatVoteCount(amount: number): string {
+  return numeral(amount).format('0,0 a').toUpperCase();
+}
+
 function setCreator(input: any, mediaType: MediaType): any {
   if (!input) return [];
   if (input.length === 0) return [];
@@ -145,6 +149,7 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
     created_by: input.created_by,
     vote_average: input.vote_average,
     vote_count: input.vote_count,
+    formatted_vote_count: formatVoteCount(input.vote_count),
     popularity: input.popularity,
     original_language: input.original_language,
     spoken_languages: input.spoken_languages,
@@ -268,6 +273,7 @@ let model: Model = {
     created_by: [],
     vote_average: 0,
     vote_count: 0,
+    formatted_vote_count: "",
     popularity: 0,
     original_language: "",
     spoken_languages: [],
@@ -308,6 +314,7 @@ let model: Model = {
     seasons: [],
     vote_average: 0,
     vote_count: 0,
+    formatted_vote_count: "",
     popularity: 0,
     original_language: "",
     spoken_languages: [],
@@ -509,7 +516,7 @@ let model: Model = {
         return (video.site === "YouTube" && video.official === true && (video.type === "Trailer" || video.type === "Teaser"));
       });
       console.log("filteredMovieVideos", filteredMovieVideos)
-      this.currentMovie.video = filteredMovieVideos && filteredMovieVideos.length > 0 ? `https://www.youtube.com/embed/${filteredMovieVideos[0].key}` : "";
+      this.currentMovie.video = filteredMovieVideos && filteredMovieVideos.length > 0 ? `https://www.youtube-nocookie.com/embed/${filteredMovieVideos[0].key}` : "";
       console.log("video", this.currentMovie.video)
     } catch (error) {
       console.error("Failed to fetch getContentVideosMovie:", error);
@@ -524,7 +531,7 @@ let model: Model = {
         return (video.site === "YouTube" && video.official === true && (video.type === "Trailer" || video.type === "Teaser"));
       });
       console.log("filteredSeriesVideos", filteredSeriesVideos)
-      this.currentSeries.video = filteredSeriesVideos && filteredSeriesVideos.length > 0 ? `https://www.youtube.com/embed/${filteredSeriesVideos[0].key}` : "";
+      this.currentSeries.video = filteredSeriesVideos && filteredSeriesVideos.length > 0 ? `https://www.youtube-nocookie.com/embed/${filteredSeriesVideos[0].key}` : "";
       console.log("video", this.currentSeries.video)
     } catch (error) {
       console.error("Failed to fetch getContentVideosSeries:", error);
@@ -642,6 +649,7 @@ let model: Model = {
       created_by: [],
       vote_average: 0,
       vote_count: 0,
+      formatted_vote_count: "",
       popularity: 0,
       original_language: "",
       spoken_languages: [],
@@ -683,6 +691,7 @@ let model: Model = {
     seasons: [],
     vote_average: 0,
     vote_count: 0,
+    formatted_vote_count: "",
     popularity: 0,
     original_language: "",
     spoken_languages: [],
@@ -769,6 +778,9 @@ async function getMedia(media: MediaType, id: string) {
   return wrap(`/${media}/${id}`, new URLSearchParams());
 }
 
+async function getRecommendedMedia(media: MediaType, id: string) {
+  return wrap(`/${media}/${id}/recommendations`, new URLSearchParams());
+}
 async function getSimilarMedia(media: MediaType, id: string) {
   return wrap(`/${media}/${id}/similar`, new URLSearchParams());
 }
@@ -796,4 +808,5 @@ export {
   getTrending,
   getMedia,
   getSimilarMedia,
+  getRecommendedMedia,
 };

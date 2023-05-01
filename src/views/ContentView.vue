@@ -87,8 +87,18 @@ function goBackACB() { emit("goBack") }
           </div>
           <p v-if="$props.model.currentMovie.overview || $props.model.currentSeries.overview" class="result-content-info--overview">{{ $props.model.currentMovie.overview || $props.model.currentSeries.overview }}</p>
           <div class="result-content-more-info gap-double flex-col flex-center-start">
-             <div v-if="($props.model.currentMovie.vote_average || $props.model.currentSeries.vote_average) || $props.model.currentSeries.last_episode_to_air?.air_date || $props.model.currentSeries.next_episode_to_air?.air_date" class="result-content-more-info--primary gap-half flex-row flex-center-start">
-              <div v-if="$props.model.currentMovie.vote_average  || $props.model.currentSeries.vote_average">Rating: {{ $props.model.currentMovie.vote_average  || $props.model.currentSeries.vote_average  }}/10</div>
+             <div v-if="(($props.model.currentMovie.vote_average && $props.model.currentMovie.formatted_vote_count) || ($props.model.currentSeries.vote_average && $props.model.currentSeries.formatted_vote_count)) || $props.model.currentSeries.last_episode_to_air?.air_date || $props.model.currentSeries.next_episode_to_air?.air_date" class="result-content-more-info--primary gap-half flex-row flex-center-start">
+              <div class="flex-row flex-center-start gap-quarter" v-if="($props.model.currentMovie.vote_average && $props.model.currentMovie.formatted_vote_count)  || ($props.model.currentSeries.vote_average && $props.model.currentSeries.formatted_vote_count)">
+                <span class="material-symbols-rounded">star</span>
+                <div class="flex-col gap-quarter p-0 rating">
+                  <p>
+                    Rating: {{ $props.model.currentMovie.vote_average  || $props.model.currentSeries.vote_average  }}/10
+                  </p>
+                  <p class="rating-count ">
+                    {{ $props.model.currentMovie.formatted_vote_count || $props.model.currentSeries.formatted_vote_count }}
+                  </p>
+                </div>
+              </div>
               <div v-if="$props.model.currentSeries.last_episode_to_air?.air_date">Latest episode: {{ $props.model.currentSeries.last_episode_to_air?.air_date }}</div>
               <div v-if="$props.model.currentSeries.next_episode_to_air?.air_date">Next episode: {{ $props.model.currentSeries.next_episode_to_air?.air_date}}</div>
             </div>
@@ -192,16 +202,24 @@ function goBackACB() { emit("goBack") }
     </div>
   </div>
 
-  <!-- <div class="similar-list-container gap-full flex-center flex-col">
-      <p>Similar Movies</p>
-      <div class="similar-list gap-full flex-row flex-center">
-        <content-card
-          v-for="(movie, index) in movies"
-          :key="index"
-          :movie="movie"
-        />
+  <div class="similar-list-container gap-full flex-center flex-col">
+      <p>Recommended content</p>
+      <div v-if="$props.model.recommendedMovies" class="similar-list gap-full flex-row flex-center">
+        <MediaCard v-for="(movie, index) in $props.model.recommendedMovies" :key="index" :media="movie" :media-type="'movie'"/>
       </div>
-    </div> -->
+      <div v-else-if="$props.model.recommendedSeries" class="similar-list gap-full flex-row flex-center">
+        <MediaCard v-for="(series, index) in $props.model.recommendedSeries" :key="index" :media="series" :media-type="'tv'"/>
+      </div>
+  </div>
+  <div class="similar-list-container gap-full flex-center flex-col">
+      <p>Similar content</p>
+      <div v-if="$props.model.similarMovies" class="similar-list gap-full flex-row flex-center">
+        <MediaCard v-for="(movie, index) in $props.model.similarMovies" :key="index" :media="movie" :media-type="'movie'"/>
+      </div>
+      <div v-else-if="$props.model.similarSeries" class="similar-list gap-full flex-row flex-center">
+        <MediaCard v-for="(series, index) in $props.model.similarSeries" :key="index" :media="series" :media-type="'tv'"/>
+      </div>
+  </div>
 </template>
 
 <script lang="ts">

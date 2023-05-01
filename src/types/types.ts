@@ -49,6 +49,7 @@ export interface Content {
     created_by: any[],
     vote_average: number,
     vote_count: number,
+    formatted_vote_count: string,
     popularity: number,
     original_language: string,
     spoken_languages: {
