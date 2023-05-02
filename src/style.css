@@ -514,7 +514,7 @@ a:active {
   height: inherit;
   border-radius: var(--border-radius);
   background-color: var(--bg-lighter);
-  animation: loading 0.7s infinite alternate ease-in-out;
+  animation: loading 0.4s infinite alternate ease-in-out;
 }
 @keyframes loading {
   0% {
@@ -534,6 +534,57 @@ a:active {
   border-radius: var(--border-radius);
   background-color: var(--bg-lighter);
 }
+
+/* Container element / */
+
+.carousel {
+  gap: 1rem;
+}
+
+.carousel-title {
+
+}
+
+.splide {
+  height: fit-content;
+  width: 80rem;
+  gap: 1rem;
+}
+
+/* / Slide element / */
+.splide__slide {
+  height: 100%;
+  /* width: fit-content; */
+  /* gap: 1rem; */
+
+}
+.splide__track {
+  display:block;
+  gap:0.25rem;
+}
+
+.splide__pagination {
+  /* width: 5rem; */
+  gap: 1rem !important;
+}
+.splide__pagination__page {
+  display:inline !important;
+  height: 0.5rem !important;
+  width: 2rem !important;
+  border-radius: var(--border-radius) !important;
+}
+
+/* / Arrow buttons / */
+.splide__arrow {
+  background-color: #000;
+  color: #fff;
+}
+
+/* / Pagination dots */
+.splidepaginationpage {
+  background-color: #000;
+}
+
 /*  ================== Home page END ================== */
 
 /*  ================== Search Results END ================== */

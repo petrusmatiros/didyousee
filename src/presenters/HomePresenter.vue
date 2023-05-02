@@ -16,10 +16,25 @@ export default defineComponent({
     setup(props: any) {
         function updateDataACB() {
             props.model.fetchTrivia();
-            props.model.fetchTrendingMovies();
-            props.model.fetchTrendingSeries();
+
+            props.model.fetchHomeTrendingMovies();
+            props.model.fetchHomeTrendingSeries();
+
+            props.model.fetchHomePopularMovies();
+            props.model.fetchHomePopularSeries();
+
+            props.model.fetchHomeTopRatedMovies();
+            props.model.fetchHomeTopRatedSeries();
+
+            props.model.fetchHomeUpcomingMovies();
+            props.model.fetchHomeOnTheAirSeries();
+            
+            props.model.fetchHomeNowPlayingMovies();
+            props.model.fetchHomeAiringTodaySeries();
+           
         }
         updateDataACB();
+
         return {
             updateDataACB,
         };

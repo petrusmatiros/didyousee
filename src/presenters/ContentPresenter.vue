@@ -85,7 +85,7 @@ export default defineComponent({
 });
 </script>
 <template>
-    <ContentView :model="model" @updateData="updateDataACB" @handleLiked="handleLikedACB"
+    <ContentView :model="model" @handleLiked="handleLikedACB"
         @handleWatchlist="handleWatchlistACB" @handleSeen="handleSeenACB" @handleDisliked="handleDislikedACB"
         @goBack="goBackACB" />
 </template>
