@@ -13,6 +13,7 @@
   --fg: hsl(0, 0%, 100%);
   --fg-secondary: hsl(0, 0%, 84%);
   --black: hsl(0, 0%, 0%);
+  --white: hsl(0, 0%, 100%);
   --overlay: hsla(0, 0%, 0%, 0.5);
   /* Accent colors */
   --accent: hsl(39, 100%, 65%);
@@ -98,9 +99,9 @@ body {
   color: var(--fg);
   background: linear-gradient(var(--bg-dark), var(--bg));
   background-attachment: fixed;
-  display: flex;
-  align-items: center;
-  justify-content: center !important;
+  display:flex;
+  justify-content: center;
+  align-items:  center;
 }
 
 iframe {
@@ -245,6 +246,10 @@ img {
   justify-content: start;
   align-items: center;
 }
+.flex-space-between-center {
+  justify-content: space-between;
+  align-items: center;
+}
 .flex-seperate {
   justify-content: space-between;
   align-items: center;
@@ -348,6 +353,7 @@ a:active {
   color: var(--fg);
   padding: var(--padding-large);
   min-height: 2.5rem;
+  width: var(--desktop-max-overlay-width);
 }
 .nav-link-container {
   width: 100%;
@@ -598,7 +604,7 @@ a:active {
   width: 25rem;
   border-radius: var(--border-radius);
   background-color: var(--input);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); */
 }
 .searchBar span {
   padding: var(--padding-medium);
@@ -608,7 +614,7 @@ a:active {
 }
 
 .searchBar--focused {
-  width: 40rem;
+  outline: 2px solid var(--white);
 }
 
 .material-symbols-rounded {
