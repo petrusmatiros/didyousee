@@ -514,7 +514,7 @@ a:active {
   height: inherit;
   border-radius: var(--border-radius);
   background-color: var(--bg-lighter);
-  animation: loading 0.4s infinite alternate ease-in-out;
+  animation: loading 0.7s infinite alternate ease-in-out;
 }
 @keyframes loading {
   0% {

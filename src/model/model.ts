@@ -1,5 +1,6 @@
 import { tmdbApi, tmdbImageApi, opentdbApi } from "./apiConfig";
 import {
+  FetchType,
   TriviaCategory,
   SearchCategory,
   PosterSize,
@@ -9,33 +10,44 @@ import {
   Movie,
   Series,
 } from "../types/types";
-import { SortingOrder, random, sort, filter, find } from "../utils/utils";
-import numeral from 'numeral';
-import Fuse from 'fuse.js';
+import {
+  SortingOrder,
+  random,
+  sort,
+  filter,
+  find,
+  escapeChars,
+  average,
+  formatMoney,
+  formatVoteCount,
+} from "../utils/utils";
 
+import {
+  getTrending,
+  getNowPlayingMovies,
+  getAiringTodaySeries,
+  getOnTheAirSeries,
+  getPopular,
+  getTopRated,
+  getUpcomingMovies,
+  getMovieVideos,
+  getSeriesVideos,
+  getSeriesReviews,
+  getMovieReviews,
+  getSeriesCredits,
+  getMovieCredits,
+  getMedia,
+  getRecommendedMedia,
+  getSimilarMedia,
+  searchMedia,
+  searchMultiMedia,
+  getDiscover,
+  getGenreList,
+} from "./apiEndpoints";
 
-async function promiseHandler(promise: Promise<any>, status: any): Promise<any> {
-  let isStatusPending = true;
+import promiseHandler from "./promiseHandler";
 
-  if (isStatusPending) {
-    status.current = 'pending';
-  }
-
-  return promise.then((response) => {
-    status.current = 'fulfilled';
-    if (response.data.total_results === 0) {
-      status.current = 'rejected';
-    }
-    isStatusPending = false;
-    return response;
-  }).catch((error) => {
-    console.log("Promise rejected: ", error);
-    status.current = 'rejected';
-    isStatusPending = false;
-    return error;
-  })
-
-}
+import Fuse from "fuse.js";
 
 async function randomTrivia(category: TriviaCategory): Promise<string> {
   try {
@@ -45,10 +57,6 @@ async function randomTrivia(category: TriviaCategory): Promise<string> {
     console.log(error);
     return "";
   }
-}
-
-function escapeChars(str: string): string {
-  return str?.replace(/&quot;/g, '"')?.replace(/&#039;/g, "'");
 }
 
 function trivia(category: TriviaCategory, amount: number = 10): any {
@@ -74,52 +82,25 @@ function trivia(category: TriviaCategory, amount: number = 10): any {
     });
 }
 
-function poster(size: PosterSize = PosterSize.W500, path: string): string {
-  return image(size, path);
+function poster(path: string, size: PosterSize = PosterSize.W500): string {
+  return image(path, size);
 }
 function backdrop(
-  size: BackdropSize = BackdropSize.W780,
-  path: string
+  path: string,
+  size: BackdropSize = BackdropSize.W780
 ): string {
-  return image(size, path);
+  return image(path, size);
 }
 
-function image(size: PosterSize | BackdropSize, path: string): any {
-  let params = new URLSearchParams({
-    api_key: import.meta.env.VITE_TMDB_API_KEY,
-  });
-  tmdbImageApi
-    .get(`${size}${path}?${params}`)
-    .then(function (response) {
-      return response.data;
-    })
-    .then(function (data) {
-      return data;
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-}
-
-function average(array: number[]): number[] {
-  if (!array) return [0];
-  if (array.length === 0) return [0];
-  return [Math.round(array.reduce((a, b) => a + b, 0) / array.length)];
-}
-
-function formatMoney(amount: number): string {
-  return numeral(amount).format('$0,0 a').toUpperCase();
-}
-
-function formatVoteCount(amount: number): string {
-  return numeral(amount).format('0,0 a').toUpperCase();
+function image(path: string, size: PosterSize | BackdropSize): any {
+  return path ? `https://image.tmdb.org/t/p/${size}${path}` : "";
 }
 
 function setCreator(input: any, mediaType: MediaType): any {
   if (!input) return [];
   if (input.length === 0) return [];
   if (mediaType === MediaType.MOVIE) {
-    return input.filter((e:any) => e.job === "Director");
+    return input.filter((e: any) => e.job === "Director");
   } else if (mediaType === MediaType.SERIES) {
     return input;
   }
@@ -150,21 +131,73 @@ function generateDummyContent(amount: number): any[] {
         page: 0,
         results: [],
         total_pages: 0,
-        total_results: 0
+        total_results: 0,
       },
       credits: {
         cast: [],
         crew: [],
       },
-    })
+    });
   }
   return array;
 }
 
-function wrap(query: string, params: URLSearchParams) {
-  params.append("api_key", import.meta.env.VITE_TMDB_API_KEY);
-  let res = tmdbApi.get(`${query}?${params}`);
-  return res;
+async function fetchHandler(
+  axiosPromise: any,
+  fetchType: FetchType
+): Promise<any> {
+  if (fetchType === FetchType.SINGLE) {
+    try {
+      const fetchedData: any | undefined = await axiosPromise;
+      return contentFromQuery(fetchedData.data);
+    } catch (error) {
+      console.error(`Failed to fetch ${fetchType}: ${error}`);
+      throw error;
+    }
+  } else if (fetchType === FetchType.QUERY) {
+    try {
+      const fetchedData: any | undefined = await axiosPromise;
+      return fetchedData.data.results.map(contentFromQuery);
+    } catch (error) {
+      console.error(`Failed to fetch ${fetchType}: ${error}`);
+      throw error;
+    }
+  } else if (fetchType === FetchType.VIDEO) {
+    try {
+      const fetchedData: any | undefined = await axiosPromise;
+      const filteredVideos = fetchedData.data.results.filter(
+        (video: any) => {
+          return (
+            video.site === "YouTube" &&
+            video.official === true &&
+            (video.type === "Trailer" || video.type === "Teaser")
+          );
+        }
+      );
+      return filteredVideos && filteredVideos.length > 0
+      ? `https://www.youtube-nocookie.com/embed/${filteredVideos[0].key}`
+      : "";
+    } catch (error) {
+      console.error(`Failed to fetch ${fetchType}: ${error}`);
+      throw error;
+    }
+  } else if (fetchType === FetchType.CREDITS) {
+    try {
+      const fetchedData: any | undefined = await axiosPromise;
+      return fetchedData.data;
+    } catch (error) {
+      console.error(`Failed to fetch ${fetchType}: ${error}`);
+      throw error;
+    }
+  } else if (fetchType === FetchType.REVIEWS) {
+    try {
+      const fetchedData: any | undefined = await axiosPromise;
+      return fetchedData.data.results;
+    } catch (error) {
+      console.error(`Failed to fetch ${fetchType}: ${error}`);
+      throw error;
+    }
+  }
 }
 
 function contentFromQuery(input: Movie | Series): Movie | Series {
@@ -178,8 +211,8 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
     popularity: input.popularity,
     original_language: input.original_language,
     spoken_languages: input.spoken_languages,
-    backdrop_path: input.backdrop_path,
-    poster_path: input.poster_path,
+    backdrop_path: backdrop(input.backdrop_path),
+    poster_path: poster(input.poster_path),
     genres: input.genres,
     status: input.status,
     video: "",
@@ -188,7 +221,7 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
       page: 0,
       results: [],
       total_pages: 0,
-      total_results: 0
+      total_results: 0,
     },
     credits: {
       cast: [],
@@ -207,7 +240,6 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
       formatted_revenue: formatMoney(input.revenue),
       runtime: input.runtime,
       belongs_to_collection: input.belongs_to_collection,
-
     };
   } else {
     return {
@@ -232,17 +264,17 @@ interface Model {
   trivia: string;
 
   homeContent: {
-    trendingMovies: [],
-    nowPlayingMovies: [],
-    topRatedMovies: [],
-    popularMovies: [],
-    upcomingMovies: [],
-    trendingSeries: [],
-    onTheAirSeries: [],
-    popularSeries: [],
-    topRatedSeries: [],
-    airingTodaySeries: [],
-  },
+    trendingMovies: [];
+    nowPlayingMovies: [];
+    topRatedMovies: [];
+    popularMovies: [];
+    upcomingMovies: [];
+    trendingSeries: [];
+    onTheAirSeries: [];
+    popularSeries: [];
+    topRatedSeries: [];
+    airingTodaySeries: [];
+  };
   // Search
   searchContent: (Movie | Series)[];
   dummyContent: (Movie | Series)[];
@@ -257,12 +289,16 @@ interface Model {
   observers: ((payload: any) => void)[];
   isPageLoading: boolean;
 
+  // Fetching methods for single content
   fetchSingleMovie: () => Promise<void>;
   fetchSingleSeries: () => Promise<void>;
+  // Fetching methods for search
   fetchMovies: () => Promise<void>;
   fetchMoviesTest: () => Promise<void>;
+  // New methods for search
   fetchSeries: () => Promise<void>;
   fetchSeriesTest: () => Promise<void>;
+  // Main fetching methods
   fetchContent: () => Promise<void>;
   fetchGenreContent: () => Promise<void>;
 
@@ -277,6 +313,7 @@ interface Model {
   fetchHomeOnTheAirSeries: () => Promise<void>;
   fetchHomeAiringTodaySeries: () => Promise<void>;
 
+  // Fetching methods for extra information
   fetchTrivia: () => Promise<void>;
   fetchContentVideosMovie: () => Promise<void>;
   fetchContentVideosSeries: () => Promise<void>;
@@ -286,7 +323,7 @@ interface Model {
   fetchContentCreditsMovie: () => Promise<void>;
 
   notifyObservers: (payload: any) => void;
-  addObserver: (observer: (obs: any) => void) => void; 
+  addObserver: (observer: (obs: any) => void) => void;
   removeObserver: (observer: (obs: any) => void) => void;
 
   setSearchString: (str: string) => void;
@@ -420,64 +457,48 @@ let model: Model = {
 
   fetchSingleMovie: async function () {
     try {
-      const movie: any | undefined = await getMedia(
-        MediaType.MOVIE,
-        this.getSearchID()
-      ); 
-
-      console.log("API fetchMovie", this.getSearchID());
-      this.currentMovie = contentFromQuery(movie.data) as Movie;
-
-      // TODO: Ändra hur vi tar hand om poster_path och backdrop. Om vi enbart gör x = movie.data får vi bara ena delen i poster_path.
-      this.currentMovie.poster_path = movie.data.poster_path
-        ? `https://image.tmdb.org/t/p/w500${movie.data.poster_path}`
-        : "/src/assets/no-poster.svg";
+      this.currentMovie = await fetchHandler(
+        getMedia(MediaType.MOVIE, this.getSearchID()),
+        FetchType.SINGLE
+      );
     } catch (error) {
-      console.error("Failed to fetch single movie:", error);
-      throw error;
+      console.log(error);
     }
   },
   fetchSingleSeries: async function () {
     try {
-      const series: any | undefined = await getMedia(
-        MediaType.SERIES,
-        this.getSearchID()
+      this.currentSeries = await fetchHandler(
+        getMedia(MediaType.SERIES, this.getSearchID()),
+        FetchType.SINGLE
       );
-      console.log("API fetchSeries", this.getSearchID());
-      this.currentSeries = contentFromQuery(series.data) as Series;
-
-      // TODO: Ändra hur vi tar hand om poster_path och backdrop. Om vi enbart gör x = movie.data får vi bara ena delen i poster_path.
-      this.currentSeries.poster_path = series.data.poster_path
-        ? `https://image.tmdb.org/t/p/w500${series.data.poster_path}`
-        : "/src/assets/no-poster.svg";
     } catch (error) {
-      console.error("Failed to fetch single series:", error);
-      throw error;
+      console.log(error);
     }
   },
   fetchMovies: async function () {
     try {
-      const movies: any | undefined = await searchMedia(
-        MediaType.MOVIE,
-        this.getSearchString(),
-        this.getPage()
+      this.movies = await fetchHandler(
+        searchMedia(MediaType.MOVIE, this.getSearchString(), this.getPage()),
+        FetchType.QUERY
       );
-        
-      console.log("API fetchMovies", this.getSearchString());
-      this.movies = movies.data.results.map(contentFromQuery)
-      
     } catch (error) {
-      console.error("Failed to fetch movies:", error);
-      throw error;
+      console.log(error);
     }
   },
   fetchMoviesTest: async function () {
-    const promise = searchMedia(MediaType.MOVIE, this.getSearchString(), this.getPage())
-    const returnedPromise = await promiseHandler(promise, this.result_status)
-    
-    this.movies = await returnedPromise.data.results.map(contentFromQuery);
+    const promise = searchMedia(
+      MediaType.MOVIE,
+      this.getSearchString(),
+      this.getPage()
+    );
+    try {
+      const returnedPromise = await promiseHandler(promise, this.result_status);
+      this.movies = await fetchHandler(returnedPromise, FetchType.QUERY);
+    } catch (error) {
+      console.log(error);
+    }
 
-    // console.log("returnedPromise", returnedPromise);
+    // this.movies = await returnedPromise.data.results.map(contentFromQuery);
   },
   fetchSeries: async function () {
     try {
@@ -488,34 +509,40 @@ let model: Model = {
       );
       console.log("API fetchSeries", this.getSearchString());
       this.series = series.data.results.map(contentFromQuery);
-      
     } catch (error) {
       console.error("Failed to fetch series:", error);
       throw error;
     }
   },
   fetchSeriesTest: async function () {
-    const promise = searchMedia(MediaType.SERIES, this.getSearchString(), this.getPage())
-    const returnedPromise = await promiseHandler(promise, this.result_status)
-    
-    this.series = await returnedPromise.data.results.map(contentFromQuery);
+    const promise = searchMedia(
+      MediaType.SERIES,
+      this.getSearchString(),
+      this.getPage()
+    );
+    try {
+      const returnedPromise = await promiseHandler(promise, this.result_status);
+      this.series = await fetchHandler(returnedPromise, FetchType.QUERY);
+    } catch (error) {
+      console.log(error);
+    }
+
+    // this.series = await returnedPromise.data.results.map(contentFromQuery);
   },
   fetchGenreContent: async function () {
     try {
-      const movies = await discoverMedia(
-        MediaType.MOVIE,
-        this.getSearchString(),
-        this.getPage()
+      const movies = await fetchHandler(
+        discoverMedia(MediaType.MOVIE, this.getSearchString(), this.getPage()),
+        FetchType.QUERY
       );
-      const series = await discoverMedia(
-        MediaType.SERIES,
-        this.getSearchString(),
-        this.getPage()
+
+      const series = await fetchHandler(
+        discoverMedia(MediaType.SERIES, this.getSearchString(), this.getPage()),
+        FetchType.QUERY
       );
       console.log("API fetchGenreContent", this.getSearchString());
-      const data = [...movies.data.results, ...series.data.results];
-      console.log("API fetchGenreContent", data)
-      const genreContent = data.map(contentFromQuery);
+      const genreContent = [...movies, ...series];
+      console.log("API fetchGenreContent", genreContent);
       this.searchContent = [...this.searchContent, ...genreContent];
     } catch (error) {
       console.error("Failed to fetch content with genre:", error);
@@ -535,9 +562,10 @@ let model: Model = {
   },
   fetchHomeTrendingMovies: async function () {
     try {
-      const movie = await getTrending(MediaType.MOVIE, "day", this.getPage());
-      console.log("API getTrendingMovies", movie.data.results);
-      this.homeContent.trendingMovies = movie.data.results.map(contentFromQuery);
+      this.homeContent.trendingMovies = await fetchHandler(
+        getTrending(MediaType.MOVIE, "day", this.getPage()),
+        FetchType.QUERY
+      );
     } catch (error) {
       console.error("Failed to fetch trending movies:", error);
       throw error;
@@ -545,19 +573,21 @@ let model: Model = {
   },
   fetchHomeTrendingSeries: async function () {
     try {
-      const series = await getTrending(MediaType.SERIES, "day", this.getPage());
-      console.log("API getTrendingSeries", series.data.results);
-      this.homeContent.trendingSeries = series.data.results.map(contentFromQuery);
+      this.homeContent.trendingSeries = await fetchHandler(
+        getTrending(MediaType.SERIES, "day", this.getPage()),
+        FetchType.QUERY
+      );
     } catch (error) {
-      console.error("Failed to fetch trending series:", error);
+      console.error("Failed to fetch trending movies:", error);
       throw error;
     }
   },
   fetchHomePopularMovies: async function () {
     try {
-      const movie = await getPopular(MediaType.MOVIE);
-      console.log("API getPopularMovies", movie.data.results);
-      this.homeContent.popularMovies = movie.data.results.map(contentFromQuery);
+      this.homeContent.popularMovies = await fetchHandler(
+        getPopular(MediaType.MOVIE),
+        FetchType.QUERY
+      );
     } catch (error) {
       console.error("Failed to fetch popular movies:", error);
       throw error;
@@ -565,9 +595,10 @@ let model: Model = {
   },
   fetchHomePopularSeries: async function () {
     try {
-      const series = await getPopular(MediaType.SERIES);
-      console.log("API getPopularSeries", series.data.results);
-      this.homeContent.popularSeries = series.data.results.map(contentFromQuery);
+      this.homeContent.popularSeries = await fetchHandler(
+        getPopular(MediaType.SERIES),
+        FetchType.QUERY
+      );
     } catch (error) {
       console.error("Failed to fetch popular series:", error);
       throw error;
@@ -575,9 +606,10 @@ let model: Model = {
   },
   fetchHomeTopRatedMovies: async function () {
     try {
-      const movie = await getTopRated(MediaType.MOVIE);
-      console.log("API getTopRatedMovies", movie.data.results);
-      this.homeContent.topRatedMovies = movie.data.results.map(contentFromQuery);
+      this.homeContent.topRatedMovies = await fetchHandler(
+        getTopRated(MediaType.MOVIE),
+        FetchType.QUERY
+      );
     } catch (error) {
       console.error("Failed to fetch top rated movies:", error);
       throw error;
@@ -585,9 +617,10 @@ let model: Model = {
   },
   fetchHomeTopRatedSeries: async function () {
     try {
-      const series = await getTopRated(MediaType.SERIES);
-      console.log("API getTopRatedSeries", series.data.results);
-      this.homeContent.topRatedSeries = series.data.results.map(contentFromQuery);
+      this.homeContent.topRatedSeries = await fetchHandler(
+        getTopRated(MediaType.SERIES),
+        FetchType.QUERY
+      );
     } catch (error) {
       console.error("Failed to fetch top rated series:", error);
       throw error;
@@ -595,9 +628,10 @@ let model: Model = {
   },
   fetchHomeUpcomingMovies: async function () {
     try {
-      const movie = await getUpcomingMovies();
-      console.log("API getUpcomingMovies", movie.data.results);
-      this.homeContent.upcomingMovies = movie.data.results.map(contentFromQuery);
+      this.homeContent.upcomingMovies = await fetchHandler(
+        getUpcomingMovies(),
+        FetchType.QUERY
+      );
     } catch (error) {
       console.error("Failed to fetch upcoming movies:", error);
       throw error;
@@ -605,9 +639,10 @@ let model: Model = {
   },
   fetchHomeNowPlayingMovies: async function () {
     try {
-      const movie = await getNowPlayingMovies();
-      console.log("API getNowPlayingMovies", movie.data.results);
-      this.homeContent.nowPlayingMovies = movie.data.results.map(contentFromQuery);
+      this.homeContent.nowPlayingMovies = await fetchHandler(
+        getNowPlayingMovies(),
+        FetchType.QUERY
+      );
     } catch (error) {
       console.error("Failed to fetch now playing movies:", error);
       throw error;
@@ -615,9 +650,10 @@ let model: Model = {
   },
   fetchHomeOnTheAirSeries: async function () {
     try {
-      const series = await getOnTheAirSeries();
-      console.log("API onTheAirSeries", series.data.results);
-      this.homeContent.onTheAirSeries = series.data.results.map(contentFromQuery);
+      this.homeContent.onTheAirSeries = await fetchHandler(
+        getOnTheAirSeries(),
+        FetchType.QUERY
+      );
     } catch (error) {
       console.error("Failed to on the air series series:", error);
       throw error;
@@ -625,9 +661,10 @@ let model: Model = {
   },
   fetchHomeAiringTodaySeries: async function () {
     try {
-      const series = await getAiringTodaySeries();
-      console.log("API getAiringTodaySeries", series.data.results);
-      this.homeContent.airingTodaySeries = series.data.results.map(contentFromQuery);
+      this.homeContent.airingTodaySeries = await fetchHandler(
+        getAiringTodaySeries(),
+        FetchType.QUERY
+      );
     } catch (error) {
       console.error("Failed to fetch airing today series:", error);
       throw error;
@@ -653,14 +690,10 @@ let model: Model = {
   },
   fetchContentVideosMovie: async function () {
     try {
-      const movieVideos = await getMovieVideos(this.getSearchID());
-      console.log("API getContentVideosMovie", movieVideos.data.results);
-      const filteredMovieVideos = movieVideos.data.results.filter((video: any) => {
-        return (video.site === "YouTube" && video.official === true && (video.type === "Trailer" || video.type === "Teaser"));
-      });
-      console.log("filteredMovieVideos", filteredMovieVideos)
-      this.currentMovie.video = filteredMovieVideos && filteredMovieVideos.length > 0 ? `https://www.youtube-nocookie.com/embed/${filteredMovieVideos[0].key}` : "";
-      console.log("video", this.currentMovie.video)
+      this.currentSeries.video = await fetchHandler(
+        getMovieVideos(this.getSearchID()),
+        FetchType.VIDEO
+      );
     } catch (error) {
       console.error("Failed to fetch getContentVideosMovie:", error);
       throw error;
@@ -668,14 +701,10 @@ let model: Model = {
   },
   fetchContentVideosSeries: async function () {
     try {
-      const seriesVideos = await getSeriesVideos(this.getSearchID());
-      console.log("API getContentVideosSeries", seriesVideos.data.results);
-      const filteredSeriesVideos = seriesVideos.data.results.filter((video: any) => {
-        return (video.site === "YouTube" && video.official === true && (video.type === "Trailer" || video.type === "Teaser"));
-      });
-      console.log("filteredSeriesVideos", filteredSeriesVideos)
-      this.currentSeries.video = filteredSeriesVideos && filteredSeriesVideos.length > 0 ? `https://www.youtube-nocookie.com/embed/${filteredSeriesVideos[0].key}` : "";
-      console.log("video", this.currentSeries.video)
+      this.currentSeries.video = await fetchHandler(
+        getSeriesVideos(this.getSearchID()),
+        FetchType.VIDEO
+      );
     } catch (error) {
       console.error("Failed to fetch getContentVideosSeries:", error);
       throw error;
@@ -683,9 +712,10 @@ let model: Model = {
   },
   fetchContentReviewsSeries: async function () {
     try {
-      const seriesReview = await getSeriesReviews(this.getSearchID());
-      console.log("API fetchContentReviewsSeries", seriesReview.data.results);
-      this.currentSeries.reviews = seriesReview.data.results;
+      this.currentSeries.reviews = await fetchHandler(
+        getSeriesReviews(this.getSearchID()),
+        FetchType.REVIEWS
+      );
     } catch (error) {
       console.error("Failed to fetch getSeriesReview:", error);
       throw error;
@@ -693,9 +723,10 @@ let model: Model = {
   },
   fetchContentReviewsMovie: async function () {
     try {
-      const movieReview = await getMovieReviews(this.getSearchID());
-      console.log("API fetchContentReviewsMovie", movieReview.data.results);
-      this.currentMovie.reviews = movieReview.data.results;
+      this.currentMovie.reviews = await fetchHandler(
+        getMovieReviews(this.getSearchID()),
+        FetchType.REVIEWS
+      );
     } catch (error) {
       console.error("Failed to fetch getMovieReview:", error);
       throw error;
@@ -703,9 +734,8 @@ let model: Model = {
   },
   fetchContentCreditsSeries: async function () {
     try {
-      const seriesCredits = await getSeriesCredits(this.getSearchID());
-      console.log("API fetchContentCreditsSeries", seriesCredits.data.results);
-      this.currentSeries.credits.cast = seriesCredits.data.cast;
+      const seriesCredits = await fetchHandler(getSeriesCredits(this.getSearchID()), FetchType.CREDITS);
+      this.currentSeries.credits.cast = seriesCredits.cast;
     } catch (error) {
       console.error("Failed to fetch getSeriesCredits:", error);
       throw error;
@@ -713,10 +743,15 @@ let model: Model = {
   },
   fetchContentCreditsMovie: async function () {
     try {
-      const movieCredits = await getMovieCredits(this.getSearchID());
-      console.log("API fetchContentCreditsMovie", movieCredits);
-      this.currentMovie.credits.cast = movieCredits.data.cast;
-      this.currentMovie.created_by = setCreator(movieCredits.data.crew, MediaType.MOVIE);
+      const movieCredits = await fetchHandler(
+        getMovieCredits(this.getSearchID()),
+        FetchType.CREDITS
+      );
+      this.currentMovie.credits.cast = movieCredits.cast;
+      this.currentMovie.created_by = setCreator(
+        movieCredits.crew,
+        MediaType.MOVIE
+      );
     } catch (error) {
       console.error("Failed to fetch getMovieCredits:", error);
       throw error;
@@ -818,176 +853,62 @@ let model: Model = {
         results: [],
         total_pages: 0,
         total_results: 0,
-  
       },
       credits: {
         cast: [],
         crew: [],
       },
     };
-  this.currentSeries = {
-    id: 0,
-    name: "",
-    first_air_date: "",
-    mediaType: MediaType.SERIES,
-    overview: "",
-    created_by: [],
-    last_episode_to_air: {},
-    next_episode_to_air: {},
-    number_of_episodes: 0,
-    number_of_seasons: 0,
-    seasons: [],
-    vote_average: 0,
-    vote_count: 0,
-    formatted_vote_count: "",
-    popularity: 0,
-    original_language: "",
-    spoken_languages: [],
-    backdrop_path: "",
-    poster_path: "",
-    genres: [],
-    status: "",
-    episode_run_time: [],
-    video: "",
-    reviews: {
+    this.currentSeries = {
       id: 0,
-      page: 0,
-      results: [],
-      total_pages: 0,
-      total_results: 0,
-
-    },
-    credits: {
-      cast: [],
-      crew: [],
-    },
-  };
-},
+      name: "",
+      first_air_date: "",
+      mediaType: MediaType.SERIES,
+      overview: "",
+      created_by: [],
+      last_episode_to_air: {},
+      next_episode_to_air: {},
+      number_of_episodes: 0,
+      number_of_seasons: 0,
+      seasons: [],
+      vote_average: 0,
+      vote_count: 0,
+      formatted_vote_count: "",
+      popularity: 0,
+      original_language: "",
+      spoken_languages: [],
+      backdrop_path: "",
+      poster_path: "",
+      genres: [],
+      status: "",
+      episode_run_time: [],
+      video: "",
+      reviews: {
+        id: 0,
+        page: 0,
+        results: [],
+        total_pages: 0,
+        total_results: 0,
+      },
+      credits: {
+        cast: [],
+        crew: [],
+      },
+    };
+  },
   resetSearchContent: function () {
     this.setPage(1);
     this.movies = [];
     this.series = [];
     this.searchContent = generateDummyContent(0);
-  }
-}
+  },
+};
 
-async function getDiscover(media: MediaType) {
-  return wrap(`/discover/${media}`, new URLSearchParams());
-}
-
-async function getTrending(type: string, timeWindow: string, page: number) {
-  return wrap(
-    `/trending/${type}/${timeWindow}`,
-    new URLSearchParams({ page: page.toString(), include_adult: "false" })
-  );
-}
-
-async function getNowPlayingMovies() {
-  return wrap(
-    `/movie/now_playing`,
-    new URLSearchParams()
-  );
-}
-async function getAiringTodaySeries() {
-  return wrap(
-    `/tv/airing_today`,
-    new URLSearchParams()
-  );
-}
-async function getOnTheAirSeries() {
-  return wrap(
-    `/tv/on_the_air`,
-    new URLSearchParams()
-  );
-}
-
-async function getPopular(media: MediaType) {
-  return wrap(
-    `/${media}/popular`,
-    new URLSearchParams()
-  );
-}
-async function getTopRated(media: MediaType) {
-  return wrap(
-    `/${media}/top_rated`,
-    new URLSearchParams()
-  );
-}
-async function getUpcomingMovies() {
-  return wrap(
-    `/movie/upcoming`,
-    new URLSearchParams()
-  );
-}
-
-
-
-
-async function getMovieVideos(movie_id: string) {
-  return wrap(
-    `/movie/${movie_id}/videos`,
-    new URLSearchParams()
-  );
-}
-
-async function getSeriesVideos(tv_id: string) {
-  return wrap(
-    `/tv/${tv_id}/videos`,
-    new URLSearchParams()
-  );
-}
-
-async function getSeriesReviews(tv_id: string) {
-  return wrap(
-    `/tv/${tv_id}/reviews`,
-    new URLSearchParams()
-  );
-}
-async function getMovieReviews(movie_id: string) {
-  return wrap(
-    `/movie/${movie_id}/reviews`,
-    new URLSearchParams()
-  );
-}
-
-async function getSeriesCredits(tv_id: string) {
-  return wrap(
-    `/tv/${tv_id}/credits`,
-    new URLSearchParams()
-  );
-}
-async function getMovieCredits(movie_id: string) {
-  return wrap(
-    `/movie/${movie_id}/credits`,
-    new URLSearchParams()
-  );
-}
-
-async function getMedia(media: MediaType, id: string) {
-  return wrap(`/${media}/${id}`, new URLSearchParams());
-}
-
-async function getRecommendedMedia(media: MediaType, id: string) {
-  return wrap(`/${media}/${id}/recommendations`, new URLSearchParams());
-}
-async function getSimilarMedia(media: MediaType, id: string) {
-  return wrap(`/${media}/${id}/similar`, new URLSearchParams());
-}
-
-async function searchMedia(media: MediaType, query: string, page: number = 1) {
-  return wrap(
-    `/search/${media}`,
-    new URLSearchParams(`query=${query}&page=${page.toString()}&include_adult=false`)
-  );
-}
-async function searchMultiMedia(query: string, page: number = 1) {
-  return wrap(
-    `/search/multi`,
-    new URLSearchParams(`query=${query}&page=${page.toString()}&include_adult=false`)
-  );
-}
-
-async function discoverMedia(media: MediaType, query: string, page: number = 1) {
+async function discoverMedia(
+  media: MediaType,
+  query: string,
+  page: number = 1
+) {
   const params = new URLSearchParams();
   params.append("page", page.toString());
   params.append("include_adult", "false");
@@ -1010,26 +931,24 @@ async function discoverMedia(media: MediaType, query: string, page: number = 1) 
     }
   }
 
-  return wrap(`/discover/${media}`, params);
-}
-
-async function getGenreList(media: MediaType) {
-  return wrap(`/genre/${media}/list`, new URLSearchParams());
+  return getDiscover(media, params);
 }
 
 async function genreIDfromName(media: MediaType, name: string) {
   try {
     let genresResponse = await getGenreList(media);
-    const genres = genresResponse.data.map((genre:any) => {  return { id: genre.id, name: genre.name.toLowerCase() }; });
+    const genres = genresResponse.data.map((genre: any) => {
+      return { id: genre.id, name: genre.name.toLowerCase() };
+    });
     const options = {
-      keys: ['name'],
+      keys: ["name"],
       includeScore: true,
-      threshold: 0.2 // adjust threshold as needed
+      threshold: 0.2, // adjust threshold as needed
     };
     const fuse = new Fuse(genres, options);
     const results = fuse.search(name);
     if (results.length > 0) {
-      const genre:any = results[0].item;
+      const genre: any = results[0].item;
       return genre.id;
     }
   } catch (e) {
