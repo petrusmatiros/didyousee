@@ -11,8 +11,6 @@ import {
 } from "../types/types";
 import { SortingOrder, random, sort, filter, find } from "../utils/utils";
 import numeral from 'numeral';
-import resolvePromise from "../resolvePromise";
-import promiseNoData from "../promiseNoData";
 import Fuse from 'fuse.js';
 
 
