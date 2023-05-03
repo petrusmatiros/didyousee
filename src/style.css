@@ -87,6 +87,8 @@
 -ms-transform: translateX(0);
 -o-transform: translateX(0);
 transform: translateX(0); */
+  word-break: break-word;
+  overflow-wrap: break-word;
 } 
 
 body {
