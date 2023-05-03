@@ -59,7 +59,73 @@ import '@splidejs/vue-splide/css';
       </Splide>
     </div>
 
-    <!-- To Do -->
+    <div class="carousel flex-col flex-center-start">
+      <div class="carousel-title">
+        <h1>Top Rated Movies</h1>
+      </div>
+      <Splide v-if="$props.model.homeContent.topRatedMovies.length > 0" data-splide='{"type":"loop","perPage":5}' :options="{ rewind: true, lazy: true}" aria-label="Top Rated Movies">
+        <SplideSlide v-for="(movie, index) in $props.model.homeContent.topRatedMovies" :key="index">
+          <MediaCard :media="movie" :media-type="'movie'" />
+        </SplideSlide>
+      </Splide>
+    </div>
+
+    <div class="carousel flex-col flex-center-start">
+      <div class="carousel-title">
+        <h1>Top Rated Series</h1>
+      </div>
+      <Splide v-if="$props.model.homeContent.topRatedSeries.length > 0" data-splide='{"type":"loop","perPage":5}' :options="{ rewind: true, lazy: true}" aria-label="Top Rated Series">
+        <SplideSlide v-for="(series, index) in $props.model.homeContent.topRatedSeries" :key="index">
+          <MediaCard :media="series" :media-type="'tv'" />
+        </SplideSlide>
+      </Splide>
+    </div>
+
+    <div class="carousel flex-col flex-center-start">
+      <div class="carousel-title">
+        <h1>Upcoming Movies</h1>
+      </div>
+      <Splide v-if="$props.model.homeContent.upcomingMovies.length > 0" data-splide='{"type":"loop","perPage":5}' :options="{ rewind: true, lazy: true}" aria-label="Upcoming Movies">
+        <SplideSlide v-for="(movie, index) in $props.model.homeContent.upcomingMovies" :key="index">
+          <MediaCard :media="movie" :media-type="'movie'" />
+        </SplideSlide>
+      </Splide>
+    </div>
+
+    <!-- TODO! ÄR INTE DENNA SAMMA SOM POPULAR SERIES? -->
+    <div class="carousel flex-col flex-center-start">
+      <div class="carousel-title">
+        <h1>On The Air Series</h1>
+      </div>
+      <Splide v-if="$props.model.homeContent.onTheAirSeries.length > 0" data-splide='{"type":"loop","perPage":5}' :options="{ rewind: true, lazy: true}" aria-label="On The Air Series">
+        <SplideSlide v-for="(series, index) in $props.model.homeContent.onTheAirSeries" :key="index">
+          <MediaCard :media="series" :media-type="'tv'" />
+        </SplideSlide>
+      </Splide>
+    </div>
+
+    <div class="carousel flex-col flex-center-start">
+      <div class="carousel-title">
+        <h1>Now Playing Movies</h1>
+      </div>
+      <Splide v-if="$props.model.homeContent.nowPlayingMovies.length > 0" data-splide='{"type":"loop","perPage":5}' :options="{ rewind: true, lazy: true}" aria-label="Now Playing Movies">
+        <SplideSlide v-for="(movie, index) in $props.model.homeContent.nowPlayingMovies" :key="index">
+          <MediaCard :media="movie" :media-type="'movie'" />
+        </SplideSlide>
+      </Splide>
+    </div>
+
+    <!-- TODO! ÄR INTE DENNA OCKSÅ SAMMA SOM POPULAR SERIES? -->    
+    <div class="carousel flex-col flex-center-start">
+      <div class="carousel-title">
+        <h1>Airing Today Series</h1>
+      </div>
+      <Splide v-if="$props.model.homeContent.airingTodaySeries.length > 0" data-splide='{"type":"loop","perPage":5}' :options="{ rewind: true, lazy: true}" aria-label="Airing Today Series">
+        <SplideSlide v-for="(series, index) in $props.model.homeContent.airingTodaySeries" :key="index">
+          <MediaCard :media="series" :media-type="'tv'" />
+        </SplideSlide>
+      </Splide>
+    </div>
 
   </div>
 </template>
