@@ -460,7 +460,7 @@ let model: Model = {
       this.currentMovie = await fetchHandler(
         getMedia(MediaType.MOVIE, this.getSearchID()),
         FetchType.SINGLE
-      );
+      ) as Movie
     } catch (error) {
       console.log(error);
     }
@@ -470,7 +470,7 @@ let model: Model = {
       this.currentSeries = await fetchHandler(
         getMedia(MediaType.SERIES, this.getSearchID()),
         FetchType.SINGLE
-      );
+      ) as Series;
     } catch (error) {
       console.log(error);
     }

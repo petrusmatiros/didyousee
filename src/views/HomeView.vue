@@ -42,8 +42,8 @@ import '@splidejs/vue-splide/css';
         <h1>Popular Movies</h1>
       </div>
       <Splide v-if="$props.model.homeContent.popularMovies.length > 0" data-splide='{"type":"loop","perPage":5}' :options="{ rewind: true, lazy: true}" aria-label="Popular Movies">
-        <SplideSlide v-for="(series, index) in $props.model.homeContent.popularMovies" :key="index">
-          <MediaCard :media="series" :media-type="'tv'" />
+        <SplideSlide v-for="(movie, index) in $props.model.homeContent.popularMovies" :key="index">
+          <MediaCard :media="movie" :media-type="'movie'" />
         </SplideSlide>
       </Splide>
     </div>
