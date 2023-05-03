@@ -907,6 +907,10 @@ div[aria-hidden="true"] {
   font-size: var(--font-medium);
   margin: 0;
 }
+.info-card span {
+  font-size: var(--font-large);
+  margin: 0;
+}
 
 .revenue-positive {
   color: var(--accent-good);

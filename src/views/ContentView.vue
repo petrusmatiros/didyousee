@@ -174,7 +174,7 @@ function goBackACB() { emit("goBack") }
           <!-- TODO: Filtrera denna och bestäm hur det ska se ut.-->
           <!-- <p>{{ $props.model.currentMovie.reviews || $props.model.currentSeries.reviews }}</p> -->
           <!-- Denna är enbart för Movie -->
-          <ReviewCard v-if="$props.model.currentMovie.reviews.length > 0 " v-for="(review, index) in $props.model.currentMovie.reviews" :key="index" :review="review"/>
+          <ReviewCard v-if="$props.model.currentMovie.reviews.length > 0" v-for="(review, index) in $props.model.currentMovie.reviews" :key="index" :review="review"/>
         </div>
          <div class="info-card gap-quarter flex-col width-25">
           <!-- TODO -->
@@ -186,17 +186,17 @@ function goBackACB() { emit("goBack") }
       <div v-if="$props.model.currentMovie.budget || $props.model.currentMovie.revenue" class="info-container gap-full flex-row flex-center">
         <div  class="info-card gap-quarter flex-col">
           <h1>Budget</h1>
-          <p>
+          <span>
             <!-- Denna fungerar enbart för Movie -->
             {{ $props.model.currentMovie.formatted_budget}}
-          </p>
+          </span>
         </div>
         <div class="info-card gap-quarter flex-col">
           <h1>Revenue</h1>
-          <p :class="$props.model.currentMovie.revenue > $props.model.currentMovie.budget ? 'revenue-positive' : $props.model.currentMovie.revenue < $props.model.currentMovie.budget ? 'revenue-negative' : 'nothing'">
+          <span :class="$props.model.currentMovie.revenue > $props.model.currentMovie.budget ? 'revenue-positive' : $props.model.currentMovie.revenue < $props.model.currentMovie.budget ? 'revenue-negative' : 'nothing'">
           <!-- Denna fungerar enbart för Movie -->
           {{ $props.model.currentMovie.formatted_revenue }}
-          </p>
+          </span>
         </div>
       </div>
     </div>
