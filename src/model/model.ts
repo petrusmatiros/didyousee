@@ -214,6 +214,7 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
     backdrop_path: backdrop(input.backdrop_path),
     poster_path: poster(input.poster_path),
     genres: input.genres,
+    genre_ids: input.genre_ids,
     status: input.status,
     video: "",
     reviews: {
@@ -384,6 +385,7 @@ let model: Model = {
     backdrop_path: "",
     poster_path: "",
     genres: [],
+    genre_ids: [],
     budget: 0,
     formatted_budget: "",
     revenue: 0,
@@ -425,6 +427,7 @@ let model: Model = {
     backdrop_path: "",
     poster_path: "",
     genres: [],
+    genre_ids: [],
     status: "",
     episode_run_time: [],
     video: "",
@@ -531,21 +534,28 @@ let model: Model = {
   },
   fetchGenreContent: async function () {
     try {
+      const promiseMovie = discoverMedia(MediaType.MOVIE, this.getSearchString(), this.getPage());
+      const promiseSeries = discoverMedia(MediaType.SERIES, this.getSearchString(), this.getPage());
+      const returnedPromiseMovies = await promiseHandler(promiseMovie, this.result_status);
+      const returnedPromiseSeries = await promiseHandler(promiseSeries, this.result_status);
       const movies = await fetchHandler(
-        discoverMedia(MediaType.MOVIE, this.getSearchString(), this.getPage()),
+        returnedPromiseMovies,
         FetchType.QUERY
       );
 
       const series = await fetchHandler(
-        discoverMedia(MediaType.SERIES, this.getSearchString(), this.getPage()),
+        returnedPromiseSeries,
         FetchType.QUERY
       );
+
+
       console.log("API fetchGenreContent", this.getSearchString());
       const genreContent = [...movies, ...series];
       console.log("API fetchGenreContent", genreContent);
       this.searchContent = [...this.searchContent, ...genreContent];
     } catch (error) {
       console.error("Failed to fetch content with genre:", error);
+      this.searchContent = [];
       throw error;
     }
   },
@@ -558,6 +568,7 @@ let model: Model = {
     } catch (error) {
       console.error("Failed to fetch content:", error);
       this.searchContent = [];
+      throw error;
     }
   },
   fetchHomeTrendingMovies: async function () {
@@ -839,6 +850,7 @@ let model: Model = {
       backdrop_path: "",
       poster_path: "",
       genres: [],
+      genre_ids: [],
       budget: 0,
       formatted_budget: "",
       revenue: 0,
@@ -880,6 +892,7 @@ let model: Model = {
       backdrop_path: "",
       poster_path: "",
       genres: [],
+      genre_ids: [],
       status: "",
       episode_run_time: [],
       video: "",
@@ -918,18 +931,32 @@ async function discoverMedia(
     query = query.trim();
     const genreIDs = [];
     const genres = query.split(/[ ,]+/);
+    console.log("genres", genres)
+    console.log("genres.length", genres.length)
     for (const genre of genres) {
-      const genreID = await genreIDfromName(media, genre);
-      if (genreID) {
-        genreIDs.push(genreID);
-      } else {
-        params.append("with_keywords", genre);
+      console.log("genre", genre)
+      try {
+        const genreID = await genreIDfromName(media, genre);
+        console.log("genreID", genreID)
+        if (genreID) {
+          console.log("push")
+          genreIDs.push(genreID);
+        } else {
+          console.log("with keyword")
+          params.append("with_keywords", genre);
+        }
+      } catch (e) {
+        console.error(e)
       }
     }
     if (genreIDs.length > 0) {
+      console.log("with_genres")
       params.append("with_genres", genreIDs.join(","));
     }
   }
+  console.log("params", params.get("with_genres"))
+
+  console.log(await getDiscover(media, params))
 
   return getDiscover(media, params);
 }
@@ -937,9 +964,8 @@ async function discoverMedia(
 async function genreIDfromName(media: MediaType, name: string) {
   try {
     let genresResponse = await getGenreList(media);
-    const genres = genresResponse.data.map((genre: any) => {
-      return { id: genre.id, name: genre.name.toLowerCase() };
-    });
+    console.log("genresResponse", genresResponse)
+    const genres = genresResponse.data.genres;
     const options = {
       keys: ["name"],
       includeScore: true,
@@ -948,7 +974,9 @@ async function genreIDfromName(media: MediaType, name: string) {
     const fuse = new Fuse(genres, options);
     const results = fuse.search(name);
     if (results.length > 0) {
+      console.log("results", results)
       const genre: any = results[0].item;
+      console.log("found genre", genre)
       return genre.id;
     }
   } catch (e) {

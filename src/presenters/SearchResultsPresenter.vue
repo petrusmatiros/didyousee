@@ -20,10 +20,10 @@ export default defineComponent({
     function searchACB() {
       if (props.model.getSearchString()) {
         props.model.resetSearchContent();
-        if (props.model.getSearchCategory() == SearchCategory.TITLE) {
+        if (props.model.getSearchCategory() === SearchCategory.TITLE) {
           props.model.fetchContent();
         }
-        else if (props.model.getSearchCategory() == SearchCategory.GENRE) {
+        else if (props.model.getSearchCategory() === SearchCategory.GENRE) {
           props.model.fetchGenreContent();
         }
       }
@@ -39,10 +39,10 @@ export default defineComponent({
         // TODO! Total Pages for Series / Movies
         console.log("IncrementPage")
         props.model.incrementPage();
-        if (props.model.getSearchCategory() == SearchCategory.TITLE) {
+        if (props.model.getSearchCategory() === SearchCategory.TITLE) {
           props.model.fetchContent();
         }
-        else if (props.model.getSearchCategory() == SearchCategory.GENRE) {
+        else if (props.model.getSearchCategory() === SearchCategory.GENRE) {
           props.model.fetchGenreContent();
         }
         props.model.setIsPageLoading(false);

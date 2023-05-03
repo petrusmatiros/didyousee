@@ -102,6 +102,7 @@ export default defineComponent({
         }
       },
       onCategoryChange(category: SearchCategory) {
+        console.log("Category changed to: ", category)
         props.model.setSearchCategory(category);
       },
     };

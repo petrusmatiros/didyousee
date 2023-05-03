@@ -69,6 +69,7 @@ export interface Content {
         id: number,
         name: string,
     }[],
+    genre_ids: number[],
     status: string,
     video: string,
     credits: {
