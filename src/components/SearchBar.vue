@@ -14,6 +14,12 @@
       @keydown.enter="methods.searchEnterACB(searchString)"
       @input="methods.onInputTyping(searchString)"
     />
+    <span
+      class="material-symbols-rounded"
+      @click="methods.clearSearch()"
+      >close</span
+    >
+    <div class="verticalBar"></div>
     <select
       v-model="selectedCategory"
       class="selectButton"
@@ -24,7 +30,6 @@
       <option value="title">Title</option>
       <option value="genre">Genre</option>
     </select>
-    <div class="verticalBar"></div>
     <span
       class="material-symbols-rounded"
       @click="methods.searchClickACB(searchString)"
@@ -34,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, reactive } from "vue";
 import { useRouter } from "vue-router";
 import "./../style.css";
 import { SearchCategory } from "../types/types";
@@ -75,6 +80,14 @@ export default defineComponent({
         console.log(`Searching: ${searchQuery}`);
         props.model.setSearchString(searchQuery);
         goToSearchResultsPage();
+      },
+      clearSearch() {
+        const searchBar = document.querySelector(".searchBar");
+        if (searchBar) {
+          const searchBarInput = document.getElementById("searchBar") as HTMLInputElement;
+          searchBarInput?.focus();
+          searchBarInput.value = ""
+        }
       },
       searchEnterACB(searchQuery: string) {
         this.searchClickACB(searchQuery);

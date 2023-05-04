@@ -43,6 +43,7 @@ import {
   searchMultiMedia,
   getDiscover,
   getGenreList,
+  getWatchProviders,
 } from "./apiEndpoints";
 
 import promiseHandler from "./promiseHandler";
@@ -54,7 +55,6 @@ async function randomTrivia(category: TriviaCategory): Promise<string> {
     let res = await trivia(category, 15);
     return escapeChars(res);
   } catch (error) {
-    console.log(error);
     return "";
   }
 }
@@ -78,7 +78,7 @@ function trivia(category: TriviaCategory, amount: number = 10): any {
       return parsed[random(0, parsed.length)];
     })
     .catch(function (error) {
-      console.log(error);
+      throw error;
     });
 }
 
@@ -93,7 +93,7 @@ function backdrop(
 }
 
 function image(path: string, size: PosterSize | BackdropSize): any {
-  return path ? `https://image.tmdb.org/t/p/${size}${path}` : "";
+  return path ? `https://image.tmdb.org/t/p/${size}${path}` : "/src/assets/no-poster.svg";
 }
 
 function setCreator(input: any, mediaType: MediaType): any {
@@ -151,7 +151,6 @@ async function fetchHandler(
       const fetchedData: any | undefined = await axiosPromise;
       return contentFromQuery(fetchedData.data);
     } catch (error) {
-      console.error(`Failed to fetch ${fetchType}: ${error}`);
       throw error;
     }
   } else if (fetchType === FetchType.QUERY) {
@@ -159,26 +158,22 @@ async function fetchHandler(
       const fetchedData: any | undefined = await axiosPromise;
       return fetchedData.data.results.map(contentFromQuery);
     } catch (error) {
-      console.error(`Failed to fetch ${fetchType}: ${error}`);
       throw error;
     }
   } else if (fetchType === FetchType.VIDEO) {
     try {
       const fetchedData: any | undefined = await axiosPromise;
-      const filteredVideos = fetchedData.data.results.filter(
-        (video: any) => {
-          return (
-            video.site === "YouTube" &&
-            video.official === true &&
-            (video.type === "Trailer" || video.type === "Teaser")
-          );
-        }
-      );
+      const filteredVideos = fetchedData.data.results.filter((video: any) => {
+        return (
+          video.site === "YouTube" &&
+          video.official === true &&
+          (video.type === "Trailer" || video.type === "Teaser")
+        );
+      });
       return filteredVideos && filteredVideos.length > 0
-      ? `https://www.youtube-nocookie.com/embed/${filteredVideos[0].key}`
-      : "";
+        ? `https://www.youtube-nocookie.com/embed/${filteredVideos[0].key}`
+        : "";
     } catch (error) {
-      console.error(`Failed to fetch ${fetchType}: ${error}`);
       throw error;
     }
   } else if (fetchType === FetchType.CREDITS) {
@@ -186,7 +181,6 @@ async function fetchHandler(
       const fetchedData: any | undefined = await axiosPromise;
       return fetchedData.data;
     } catch (error) {
-      console.error(`Failed to fetch ${fetchType}: ${error}`);
       throw error;
     }
   } else if (fetchType === FetchType.REVIEWS) {
@@ -194,7 +188,6 @@ async function fetchHandler(
       const fetchedData: any | undefined = await axiosPromise;
       return fetchedData.data.results;
     } catch (error) {
-      console.error(`Failed to fetch ${fetchType}: ${error}`);
       throw error;
     }
   }
@@ -263,6 +256,11 @@ interface Model {
   movies: Movie[];
   series: Series[];
   trivia: string;
+  // Only for single content
+  recommendedMovies: Movie[],
+  recommendedSeries: Series[],
+  similarMovies: Movie[],
+  similarSeries: Series[],
 
   homeContent: {
     trendingMovies: [];
@@ -283,7 +281,7 @@ interface Model {
   currentSeries: Series;
   searchCategory: SearchCategory;
   searchString: string;
-  result_status: Object;
+  result_status: { current: string };
   searchID: string;
   page: number;
   total_pages: number;
@@ -295,10 +293,8 @@ interface Model {
   fetchSingleSeries: () => Promise<void>;
   // Fetching methods for search
   fetchMovies: () => Promise<void>;
-  fetchMoviesTest: () => Promise<void>;
   // New methods for search
   fetchSeries: () => Promise<void>;
-  fetchSeriesTest: () => Promise<void>;
   // Main fetching methods
   fetchContent: () => Promise<void>;
   fetchGenreContent: () => Promise<void>;
@@ -322,6 +318,10 @@ interface Model {
   fetchContentReviewsMovie: () => Promise<void>;
   fetchContentCreditsSeries: () => Promise<void>;
   fetchContentCreditsMovie: () => Promise<void>;
+  fetchContentRecommendedMovie: () => Promise<void>;
+  fetchContentRecommendedSeries: () => Promise<void>;
+  fetchContentSimilarMovie: () => Promise<void>;
+  fetchContentSimilarSeries: () => Promise<void>;
 
   notifyObservers: (payload: any) => void;
   addObserver: (observer: (obs: any) => void) => void;
@@ -351,7 +351,12 @@ let model: Model = {
   movies: [],
   series: [],
   trivia: "",
-
+  
+  recommendedMovies: [],
+  recommendedSeries: [],
+  similarMovies: [],
+  similarSeries: [],
+  
   homeContent: {
     trendingMovies: [],
     nowPlayingMovies: [],
@@ -460,22 +465,22 @@ let model: Model = {
 
   fetchSingleMovie: async function () {
     try {
-      this.currentMovie = await fetchHandler(
+      this.currentMovie = (await fetchHandler(
         getMedia(MediaType.MOVIE, this.getSearchID()),
         FetchType.SINGLE
-      ) as Movie
+      )) as Movie;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   },
   fetchSingleSeries: async function () {
     try {
-      this.currentSeries = await fetchHandler(
+      this.currentSeries = (await fetchHandler(
         getMedia(MediaType.SERIES, this.getSearchID()),
         FetchType.SINGLE
-      ) as Series;
+      )) as Series;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   },
   fetchMovies: async function () {
@@ -485,88 +490,102 @@ let model: Model = {
         FetchType.QUERY
       );
     } catch (error) {
-      console.log(error);
+      throw error;
     }
-  },
-  fetchMoviesTest: async function () {
-    const promise = searchMedia(
-      MediaType.MOVIE,
-      this.getSearchString(),
-      this.getPage()
-    );
-    try {
-      const returnedPromise = await promiseHandler(promise, this.result_status);
-      this.movies = await fetchHandler(returnedPromise, FetchType.QUERY);
-    } catch (error) {
-      console.log(error);
-    }
-
-    // this.movies = await returnedPromise.data.results.map(contentFromQuery);
   },
   fetchSeries: async function () {
     try {
-      const series = await searchMedia(
+      this.series = await fetchHandler(
+        searchMedia(MediaType.SERIES, this.getSearchString(), this.getPage()),
+        FetchType.QUERY
+      );
+    } catch (error) {
+      throw error;
+    }
+  },
+  fetchGenreContent: async function () {
+    try {
+      const promiseMovie = discoverMedia(
+        MediaType.MOVIE,
+        this.getSearchString(),
+        this.getPage()
+      );
+      const promiseSeries = discoverMedia(
         MediaType.SERIES,
         this.getSearchString(),
         this.getPage()
       );
-      console.log("API fetchSeries", this.getSearchString());
-      this.series = series.data.results.map(contentFromQuery);
-    } catch (error) {
-      console.error("Failed to fetch series:", error);
-      throw error;
-    }
-  },
-  fetchSeriesTest: async function () {
-    const promise = searchMedia(
-      MediaType.SERIES,
-      this.getSearchString(),
-      this.getPage()
-    );
-    try {
-      const returnedPromise = await promiseHandler(promise, this.result_status);
-      this.series = await fetchHandler(returnedPromise, FetchType.QUERY);
-    } catch (error) {
-      console.log(error);
-    }
-
-    // this.series = await returnedPromise.data.results.map(contentFromQuery);
-  },
-  fetchGenreContent: async function () {
-    try {
-      const promiseMovie = discoverMedia(MediaType.MOVIE, this.getSearchString(), this.getPage());
-      const promiseSeries = discoverMedia(MediaType.SERIES, this.getSearchString(), this.getPage());
-      const returnedPromiseMovies = await promiseHandler(promiseMovie, this.result_status);
-      const returnedPromiseSeries = await promiseHandler(promiseSeries, this.result_status);
-      const movies = await fetchHandler(
-        returnedPromiseMovies,
-        FetchType.QUERY
+      const returnedPromiseMovies = await promiseHandler(
+        promiseMovie,
+        this.result_status
       );
-
-      const series = await fetchHandler(
-        returnedPromiseSeries,
-        FetchType.QUERY
+      const returnedPromiseSeries = await promiseHandler(
+        promiseSeries,
+        this.result_status
       );
+      const movies = await fetchHandler(returnedPromiseMovies, FetchType.QUERY);
 
+      const series = await fetchHandler(returnedPromiseSeries, FetchType.QUERY);
 
       console.log("API fetchGenreContent", this.getSearchString());
       const genreContent = [...movies, ...series];
       console.log("API fetchGenreContent", genreContent);
       this.searchContent = [...this.searchContent, ...genreContent];
     } catch (error) {
-      console.error("Failed to fetch content with genre:", error);
       this.searchContent = [];
       throw error;
     }
   },
   fetchContent: async function () {
     try {
-      await this.fetchMoviesTest();
-      await this.fetchSeriesTest();
-      const data = [...this.movies, ...this.series];
-      this.searchContent = [...this.searchContent, ...data];
+      const promiseMovie = searchMedia(
+        MediaType.MOVIE,
+        this.getSearchString(),
+        this.getPage()
+      );
+      const promiseSeries = searchMedia(
+        MediaType.SERIES,
+        this.getSearchString(),
+        this.getPage()
+      );
+      let resultStatusMovie = { current: "" };
+      let resultStatusSeries = { current: "" };
+      this.result_status.current = "pending";
+      const returnedPromiseMovies = await promiseHandler(
+        promiseMovie,
+        resultStatusMovie
+      );
+      const returnedPromiseSeries = await promiseHandler(
+        promiseSeries,
+        resultStatusSeries
+      );
+      console.log("resultStatusMovie.current", resultStatusMovie.current);
+      console.log("resultStatusSeries.current", resultStatusSeries.current);
+      if (
+        resultStatusMovie.current === "fulfilled" ||
+        resultStatusSeries.current === "fulfilled"
+      ) {
+        this.result_status.current = "fulfilled";
+        this.movies = await fetchHandler(
+          returnedPromiseMovies,
+          FetchType.QUERY
+        );
+
+        this.series = await fetchHandler(
+          returnedPromiseSeries,
+          FetchType.QUERY
+        );
+
+        const data = [...this.movies, ...this.series];
+        this.searchContent = [...this.searchContent, ...data];
+      } else if (
+        resultStatusMovie.current === "rejected" ||
+        resultStatusSeries.current === "rejected"
+      ) {
+        this.result_status.current = "rejected";
+        this.searchContent = [];
+      }
     } catch (error) {
-      console.error("Failed to fetch content:", error);
       this.searchContent = [];
       throw error;
     }
@@ -578,7 +597,6 @@ let model: Model = {
         FetchType.QUERY
       );
     } catch (error) {
-      console.error("Failed to fetch trending movies:", error);
       throw error;
     }
   },
@@ -589,7 +607,6 @@ let model: Model = {
         FetchType.QUERY
       );
     } catch (error) {
-      console.error("Failed to fetch trending movies:", error);
       throw error;
     }
   },
@@ -600,7 +617,6 @@ let model: Model = {
         FetchType.QUERY
       );
     } catch (error) {
-      console.error("Failed to fetch popular movies:", error);
       throw error;
     }
   },
@@ -611,7 +627,6 @@ let model: Model = {
         FetchType.QUERY
       );
     } catch (error) {
-      console.error("Failed to fetch popular series:", error);
       throw error;
     }
   },
@@ -622,7 +637,6 @@ let model: Model = {
         FetchType.QUERY
       );
     } catch (error) {
-      console.error("Failed to fetch top rated movies:", error);
       throw error;
     }
   },
@@ -633,7 +647,6 @@ let model: Model = {
         FetchType.QUERY
       );
     } catch (error) {
-      console.error("Failed to fetch top rated series:", error);
       throw error;
     }
   },
@@ -644,7 +657,6 @@ let model: Model = {
         FetchType.QUERY
       );
     } catch (error) {
-      console.error("Failed to fetch upcoming movies:", error);
       throw error;
     }
   },
@@ -655,7 +667,6 @@ let model: Model = {
         FetchType.QUERY
       );
     } catch (error) {
-      console.error("Failed to fetch now playing movies:", error);
       throw error;
     }
   },
@@ -666,7 +677,6 @@ let model: Model = {
         FetchType.QUERY
       );
     } catch (error) {
-      console.error("Failed to on the air series series:", error);
       throw error;
     }
   },
@@ -677,7 +687,6 @@ let model: Model = {
         FetchType.QUERY
       );
     } catch (error) {
-      console.error("Failed to fetch airing today series:", error);
       throw error;
     }
   },
@@ -689,13 +698,11 @@ let model: Model = {
       randomTrivia(category)
         .then((data: any) => {
           this.trivia = data;
-          console.log("API getTrivia");
         })
         .catch((error: any) => {
-          console.log(error);
+          throw error;
         });
     } catch (error) {
-      console.error("Failed to fetch trivia:", error);
       throw error;
     }
   },
@@ -706,7 +713,6 @@ let model: Model = {
         FetchType.VIDEO
       );
     } catch (error) {
-      console.error("Failed to fetch getContentVideosMovie:", error);
       throw error;
     }
   },
@@ -717,7 +723,6 @@ let model: Model = {
         FetchType.VIDEO
       );
     } catch (error) {
-      console.error("Failed to fetch getContentVideosSeries:", error);
       throw error;
     }
   },
@@ -728,7 +733,6 @@ let model: Model = {
         FetchType.REVIEWS
       );
     } catch (error) {
-      console.error("Failed to fetch getSeriesReview:", error);
       throw error;
     }
   },
@@ -739,16 +743,17 @@ let model: Model = {
         FetchType.REVIEWS
       );
     } catch (error) {
-      console.error("Failed to fetch getMovieReview:", error);
       throw error;
     }
   },
   fetchContentCreditsSeries: async function () {
     try {
-      const seriesCredits = await fetchHandler(getSeriesCredits(this.getSearchID()), FetchType.CREDITS);
+      const seriesCredits = await fetchHandler(
+        getSeriesCredits(this.getSearchID()),
+        FetchType.CREDITS
+      );
       this.currentSeries.credits.cast = seriesCredits.cast;
     } catch (error) {
-      console.error("Failed to fetch getSeriesCredits:", error);
       throw error;
     }
   },
@@ -764,7 +769,46 @@ let model: Model = {
         MediaType.MOVIE
       );
     } catch (error) {
-      console.error("Failed to fetch getMovieCredits:", error);
+      throw error;
+    }
+  },
+  fetchContentRecommendedMovie: async function() {
+    try {
+      this.recommendedMovies = await fetchHandler(
+        getRecommendedMedia(MediaType.MOVIE, this.getSearchID()),
+        FetchType.QUERY
+      );
+    } catch (error) {
+      throw error;
+    }
+  },
+  fetchContentRecommendedSeries: async function () {
+    try {
+      this.recommendedSeries = await fetchHandler(
+        getRecommendedMedia(MediaType.MOVIE, this.getSearchID()),
+        FetchType.QUERY
+      );
+    } catch (error) {
+      throw error;
+    }
+  },
+  fetchContentSimilarMovie: async function () {
+    try {
+      this.similarMovies = await fetchHandler(
+        getSimilarMedia(MediaType.MOVIE, this.getSearchID()),
+        FetchType.QUERY
+      );
+    } catch (error) {
+      throw error;
+    }
+  },
+  fetchContentSimilarSeries: async function () {
+    try {
+      this.similarSeries = await fetchHandler(
+        getSimilarMedia(MediaType.MOVIE, this.getSearchID()),
+        FetchType.QUERY
+      );
+    } catch (error) {
       throw error;
     }
   },
@@ -774,8 +818,8 @@ let model: Model = {
       try {
         console.log("Notify observer");
         obs(payload);
-      } catch (err) {
-        console.error(err);
+      } catch (error) {
+        console.error(error);
       }
     }
     this.observers.forEach(invokeObserversCB);
@@ -931,32 +975,22 @@ async function discoverMedia(
     query = query.trim();
     const genreIDs = [];
     const genres = query.split(/[ ,]+/);
-    console.log("genres", genres)
-    console.log("genres.length", genres.length)
     for (const genre of genres) {
-      console.log("genre", genre)
       try {
         const genreID = await genreIDfromName(media, genre);
-        console.log("genreID", genreID)
         if (genreID) {
-          console.log("push")
           genreIDs.push(genreID);
-        } else {
-          console.log("with keyword")
-          params.append("with_keywords", genre);
         }
-      } catch (e) {
-        console.error(e)
+      } catch (error) {
+        console.error(error);
       }
     }
     if (genreIDs.length > 0) {
-      console.log("with_genres")
       params.append("with_genres", genreIDs.join(","));
+    } else {
+      params.append("with_genres", query);
     }
   }
-  console.log("params", params.get("with_genres"))
-
-  console.log(await getDiscover(media, params))
 
   return getDiscover(media, params);
 }
@@ -964,23 +998,25 @@ async function discoverMedia(
 async function genreIDfromName(media: MediaType, name: string) {
   try {
     let genresResponse = await getGenreList(media);
-    console.log("genresResponse", genresResponse)
-    const genres = genresResponse.data.genres;
-    const options = {
-      keys: ["name"],
-      includeScore: true,
-      threshold: 0.2, // adjust threshold as needed
-    };
-    const fuse = new Fuse(genres, options);
-    const results = fuse.search(name);
-    if (results.length > 0) {
-      console.log("results", results)
-      const genre: any = results[0].item;
-      console.log("found genre", genre)
-      return genre.id;
+
+    if (genresResponse) {
+      const genres = genresResponse.data.genres;
+      const options = {
+        keys: ["name"],
+        includeScore: true,
+        threshold: 0.2, // adjust threshold as needed
+      };
+      const fuse = new Fuse(genres, options);
+      const results = fuse.search(name);
+      if (results.length > 0) {
+        const genre: any = results[0].item;
+        return genre.id;
+      }
+    } else {
+      throw Error;
     }
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error(error);
   }
 }
 

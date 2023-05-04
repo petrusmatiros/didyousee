@@ -31,21 +31,22 @@ export default defineComponent({
     function checkForNextPage() {
       // const { isPageLoaded = ;
       // console.log("NEXT PAGE", isPageLoaded)
-      if (props.model.getIsPageLoading()) {
-        return;
-      }
-      if (props.model.result_status.current === 'fulfilled' && props.model.getPage() < props.model.getTotalPages()) {
-        
-        // TODO! Total Pages for Series / Movies
-        console.log("IncrementPage")
-        props.model.incrementPage();
-        if (props.model.getSearchCategory() === SearchCategory.TITLE) {
-          props.model.fetchContent();
+      console.log("isloading", props.model.getIsPageLoading())
+      if (!props.model.getIsPageLoading()) {
+        console.log("NEXT PAGE (x/x)", props.model.getPage(), props.model.getTotalPages())
+        if (props.model.result_status.current === 'fulfilled' && props.model.getPage() < props.model.getTotalPages()) {
+          
+          // TODO! Total Pages for Series / Movies
+          console.log("IncrementPage")
+          props.model.incrementPage();
+          if (props.model.getSearchCategory() === SearchCategory.TITLE) {
+            props.model.fetchContent();
+          }
+          else if (props.model.getSearchCategory() === SearchCategory.GENRE) {
+            props.model.fetchGenreContent();
+          }
+          props.model.setIsPageLoading(false);
         }
-        else if (props.model.getSearchCategory() === SearchCategory.GENRE) {
-          props.model.fetchGenreContent();
-        }
-        props.model.setIsPageLoading(false);
       }
     }
     searchACB();

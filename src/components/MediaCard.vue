@@ -1,7 +1,7 @@
 <template>
   <div v-if="mediaType !== undefined" class="content-card gap-half flex-col" @click="handleClickACB">
-    <div class="loading-skeleton content-poster" v-if="!imagePath"></div>
-    <img :src="imagePath" loading="lazy" decoding="async" fetchpriority="low" v-else class="content-poster" />
+    <div class="loading-skeleton content-poster" v-if="!$props.media.poster_path"></div>
+    <img :src="$props.media.poster_path" loading="lazy" decoding="async" fetchpriority="low" v-else class="content-poster" />
     <div class="flex-col flex-center gap-half p-small">
       <h2 class="flex-row">{{ media.title || media.name }}</h2>
       <div class="flex-row flex-center gap-half">
@@ -20,6 +20,7 @@
 import { defineComponent } from "vue";
 import "./../style.css";
 import { PosterSize, MediaType } from '../types/types';
+import { formToJSON } from "axios";
 
 export default defineComponent({
   props: {
@@ -36,9 +37,6 @@ export default defineComponent({
     },
   },
   computed: {
-    imagePath(): any {
-      return this.media.poster_path ? `https://image.tmdb.org/t/p/${PosterSize.W342}/${this.media.poster_path}` : "/src/assets/no-poster.svg";
-    },
     capitalizedMediaType(): string | undefined {
       if (this.mediaType === MediaType.MOVIE.toString()) {
         return "Movie";
@@ -57,10 +55,10 @@ export default defineComponent({
     handleClickACB() {
       // Handle click event for the movie card
       console.log("Clicked media:", this.media);
-      console.log("Seasons:", this.media.last_episode_to_air);
+      // console.log("Seasons:", this.media.last_episode_to_air);
       // Navigate to the result page with movie information as a parameter
       // window.location.href = `/result?id=${JSON.stringify(this.movie.id)}`;
-      this.$router.push({
+      this.$router.replace({
         name: "Content",
         query: { type: JSON.stringify(this.mediaType), id: JSON.stringify(this.media.id) },
       });

@@ -61,6 +61,12 @@ async function getSimilarMedia(media: MediaType, id: string) {
   return wrap(`/${media}/${id}/similar`, new URLSearchParams());
 }
 
+async function getWatchProviders(media: MediaType, id: string) {
+  return wrap(`/${media}/${id}/watch/providers`, new URLSearchParams());
+}
+
+
+
 async function searchMedia(media: MediaType, query: string, page: number = 1) {
   return wrap(
     `/search/${media}`,
@@ -86,10 +92,14 @@ async function getGenreList(media: MediaType) {
   return wrap(`/genre/${media}/list`, new URLSearchParams());
 }
 
-function wrap(query: string, params: URLSearchParams) {
+async function wrap(query: string, params: URLSearchParams) {
   params.append("api_key", import.meta.env.VITE_TMDB_API_KEY);
-  let res = tmdbApi.get(`${query}?${params}`);
-  return res;
+  try {
+    let res = await tmdbApi.get(`${query}?${params}`);
+    return res;
+  } catch (e) {
+    console.clear();
+  }
 }
 
 export {
@@ -113,4 +123,5 @@ export {
     searchMultiMedia,
     getDiscover,
     getGenreList,
+    getWatchProviders,
 }

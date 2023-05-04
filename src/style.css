@@ -204,6 +204,7 @@ img {
 .error-404 p {
   font-weight: var(--font-weight-medium);
   font-size: var(--font-medium);
+  text-align: center;
 }
 /* ============= Error page END ============  */
 
@@ -763,6 +764,7 @@ div[aria-hidden="true"] {
 .result-content-info--top h1{
   font-weight: var(--font-weight-bold);
   font-size: var(--font-large-5);
+  line-height: 1.25;
 }
 
 .result-content-info--details p {

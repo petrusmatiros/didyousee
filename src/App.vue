@@ -18,7 +18,20 @@
     </div>
   </nav>
   <div class="margin">
-    <RouterView></RouterView>
+    <RouterView v-slot="{ Component }">
+
+          <Suspense>
+            <!-- main content -->
+          <component :is="Component"></component>
+  
+          <!-- loading state -->
+          <template #fallback>
+            Loading...
+          </template>
+          </Suspense>
+
+      
+    </RouterView>
   </div>
   <footer class="flex-col flex-seperate gap-full" id="footer">
     <div class="footer-top flex-row flex-center">
@@ -33,7 +46,7 @@
     <div class="flex-row flex-center">
       <p>Copyright © 2023 didyousee. All rights reserved</p>
     </div>
-    <div class="flex-row flex-center">
+    <div class="flex-row flex-center gap-quarter">
       <p>This product uses the TMDb API but is not endorsed or certified by TMDb.</p>
       <img src="./assets/tmdb_alt_short_blue.svg" alt="TMDB alt short logo" loading="lazy" decoding="async" />
     </div>

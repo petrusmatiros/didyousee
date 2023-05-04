@@ -30,20 +30,32 @@ export default defineComponent({
                 props.model.setSearchID(mediaID);
 
                 if (mediaType === MediaType.MOVIE) {
-                    await props.model.fetchSingleMovie();
-                    await props.model.fetchContentVideosMovie();
-                    await props.model.fetchContentReviewsMovie();
-                    await props.model.fetchContentCreditsMovie();
+                    try {
+                        await props.model.fetchSingleMovie();
+                        await props.model.fetchContentVideosMovie();
+                        await props.model.fetchContentReviewsMovie();
+                        await props.model.fetchContentCreditsMovie();
+                        await props.model.fetchContentRecommendedMovie();
+                        await props.model.fetchContentSimilarMovie();
+                        console.log("currentMovie:", props.model.currentMovie)
+                    } catch (e) {
+                        goPageNotFoundACB();
+                    }
                 }
                 else if (mediaType === MediaType.SERIES) {
-                    await props.model.fetchSingleSeries();
-                    await props.model.fetchContentVideosSeries();
-                    await props.model.fetchContentReviewsSeries();
-                    await props.model.fetchContentCreditsSeries();
+                    try {
+                        await props.model.fetchSingleSeries();
+                        await props.model.fetchContentVideosSeries();
+                        await props.model.fetchContentReviewsSeries();
+                        await props.model.fetchContentCreditsSeries();
+                        await props.model.fetchContentRecommendedSeries();
+                        await props.model.fetchContentSimilarSeries();
+                        console.log("currentSeries:", props.model.currentSeries)
+                    } catch (e) {
+                        goPageNotFoundACB();
+                    }
                 }
             }
-            console.log("currentMovie:", props.model.currentMovie)
-            console.log("currentSeries:", props.model.currentSeries)
         }
         updateDataACB();
         // props.model.addObserver(updateDataACB);
@@ -71,7 +83,18 @@ export default defineComponent({
         }
         function goBackACB() {
             console.log("Back button clicked");
-            router.go(-1); // Go back one step in Vue Router history
+            if (props.model.getSearchString() !== "") {
+                router.push({
+                    name: "SearchResults",
+                });
+            } else {
+                router.go(-1); // Go back one step in Vue Router history
+            }
+        }
+        function goPageNotFoundACB() {
+            router.push({
+                name: "PageNotFound",
+            });
         }
         return {
             updateDataACB,
@@ -80,6 +103,7 @@ export default defineComponent({
             handleSeenACB,
             handleDislikedACB,
             goBackACB,
+            goPageNotFoundACB,
         };
     },
 });
@@ -87,5 +111,5 @@ export default defineComponent({
 <template>
     <ContentView :model="model" @handleLiked="handleLikedACB"
         @handleWatchlist="handleWatchlistACB" @handleSeen="handleSeenACB" @handleDisliked="handleDislikedACB"
-        @goBack="goBackACB" />
+        @goBack="goBackACB"/>
 </template>
