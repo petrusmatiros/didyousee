@@ -162,7 +162,7 @@ function goToCastPageACB() { emit("goToCastPage") }
     
         <div class="detailed-info gap-full flex-col">
           <div v-if="($props.model.currentMovie.credits || $props.model.currentSeries.credits)" class="info-container gap-full flex-row flex-center">
-            <div v-if="$props.model.currentMovie.credits || $props.model.currentSeries.credits" class="info-card gap-quarter flex-col">
+            <div v-if="$props.model.currentMovie.credits || $props.model.currentSeries.credits" class="info-card gap-half flex-col">
               <div class="flex-row flex-start-center button button-secondary fixed-button"> 
                 <h1 class="fixed-button" @click="goToCastPageACB">Cast</h1>
                 <span class="material-symbols-rounded p-0">chevron_right</span>
@@ -172,7 +172,7 @@ function goToCastPageACB() { emit("goToCastPage") }
           </div>
 
           <div v-if="($props.model.currentMovie.reviews.length > 0 || $props.model.currentSeries.reviews.length > 0)" class="info-container gap-full flex-row flex-center">
-            <div v-if="$props.model.currentMovie.reviews.length > 0 || $props.model.currentSeries.reviews.length > 0" class="info-card gap-quarter flex-col">
+            <div v-if="$props.model.currentMovie.reviews.length > 0 || $props.model.currentSeries.reviews.length > 0" class="info-card gap-half flex-col">
               <div class="flex-row flex-start-center button button-secondary fixed-button"> 
                 <h1 class="fixed-button" @click="goToReviewPageACB">Reviews</h1>
                 <span class="material-symbols-rounded p-0">chevron_right</span>
@@ -191,14 +191,14 @@ function goToCastPageACB() { emit("goToCastPage") }
         
           <!-- ONLY FOR MOVIE -->
           <div v-if="$props.model.currentMovie.budget || $props.model.currentMovie.revenue" class="info-container gap-full flex-row flex-center">
-            <div v-if="$props.model.currentMovie.budget" class="info-card gap-quarter flex-col">
+            <div v-if="$props.model.currentMovie.budget" class="info-card gap-half flex-col">
               <h1>Budget</h1>
               <span>
                 {{ $props.model.currentMovie.formatted_budget}}
               </span>
             </div>
 
-            <div v-if="$props.model.currentMovie.revenue" class="info-card gap-quarter flex-col">
+            <div v-if="$props.model.currentMovie.revenue" class="info-card gap-half flex-col">
               <h1>Revenue</h1>
               <span :class="$props.model.currentMovie.revenue > $props.model.currentMovie.budget ? 'revenue-positive' : $props.model.currentMovie.revenue < $props.model.currentMovie.budget ? 'revenue-negative' : 'nothing'">
               {{ $props.model.currentMovie.formatted_revenue }}

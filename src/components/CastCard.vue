@@ -1,5 +1,5 @@
 <template>
-    <div class="gap-full flex-col">
+    <div class="gap-full flex-col cast-card">
       <h2 class="flex-row"> {{ $props.cast?.name }} </h2>
       <p class="flex-row"> {{ $props.cast?.character }}</p>
     </div>
