@@ -35,12 +35,6 @@ export default defineComponent({
       if (id) {
         const mediaID = JSON.parse(id as string);
         const mediaType = JSON.parse(type as string);
-        console.log(
-          "Media from query parameter- TYPE:",
-          mediaType,
-          "ID:",
-          mediaID
-        );
         props.model.setSearchID(mediaID);
 
         if (mediaType === MediaType.MOVIE) {
@@ -110,7 +104,6 @@ export default defineComponent({
       // Add your custom logic here
     }
     function goBackACB() {
-      console.log("Back button clicked");
       if (props.model.getSearchString() !== "") {
         router.push({
           name: "SearchResults",

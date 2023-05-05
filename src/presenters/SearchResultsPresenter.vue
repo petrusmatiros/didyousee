@@ -21,16 +21,24 @@ export default defineComponent({
       if (props.model.getSearchString()) {
         props.model.resetSearchContent();
         if (props.model.getSearchCategory() === SearchCategory.TITLE) {
-          props.model.fetchContent();
+          try {
+            props.model.fetchContent();
+          } catch (error) {
+            
+          }
         }
         else if (props.model.getSearchCategory() === SearchCategory.GENRE) {
-          props.model.fetchGenreContent();
+          try {
+            props.model.fetchGenreContent();
+          } catch (error) {
+            
+          }
+          
         }
       }
     }
     function checkForNextPage() {
       // const { isPageLoaded = ;
-      // console.log("NEXT PAGE", isPageLoaded)
       console.log("isloading", props.model.getIsPageLoading())
       if (!props.model.getIsPageLoading()) {
         console.log("NEXT PAGE (x/x)", props.model.getPage(), props.model.getTotalPages())
@@ -72,6 +80,10 @@ export default defineComponent({
     });
 
     addScrollListener();
+    // if (props.model.result_status.current === 'fulfilled') {
+    // } else {
+    //   removeScrollListener();
+    // }
 
     return {
       searchACB,

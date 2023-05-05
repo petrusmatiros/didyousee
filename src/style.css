@@ -290,6 +290,10 @@ img {
   margin: 0 !important;
 }
 
+.fw-regular {
+  font-weight: var(--font-weight-light) !important;
+}
+
 .nothing {
   background: none !important;
   appearance: none !important;
@@ -697,7 +701,7 @@ div[aria-hidden="true"] {
   width: 0.15rem;
   border-radius: var(--border-radius);
   height: 1.5rem;
-  background-color: var(--fg);
+  background-color: var(--fg-secondary);
   margin: 0 var(--margin-medium);
 }
 
@@ -816,6 +820,7 @@ div[aria-hidden="true"] {
   
 }
 .result-content-more-info--secondary button {
+  cursor: initial !important;
   background-color: var(--bg-lightest-2) !important;
   padding: var(--padding-medium);
   border-radius: var(--border-radius);
@@ -906,6 +911,7 @@ div[aria-hidden="true"] {
 .info-card p {
   font-size: var(--font-medium);
   margin: 0;
+  line-height: 1.35;
 }
 .info-card span {
   font-size: var(--font-large);
@@ -954,7 +960,7 @@ div[aria-hidden="true"] {
 
 .review-card {
   background-color: var(--bg-dark);
-  padding: var(--padding-large);
+  padding: var(--padding-large-2);
   border-radius: var(--border-radius);
 }
 
@@ -964,11 +970,11 @@ div[aria-hidden="true"] {
 }
 
 .review-card-date {
-  background-color: var(--bg-light);
+  color: var(--fg-secondary) !important;
+  font-size: var(--font-small-2) !important;
   border-radius: var(--border-radius);
   width: fit-content;
-  padding: var(--padding-medium) var(--padding-large-2);
-
+  padding: 0 !important;
 }
 
 .fixed-button {

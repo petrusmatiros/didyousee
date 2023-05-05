@@ -54,10 +54,6 @@ export default defineComponent({
   methods: {
     handleClickACB() {
       // Handle click event for the movie card
-      console.log("Clicked media:", this.media);
-      // console.log("Seasons:", this.media.last_episode_to_air);
-      // Navigate to the result page with movie information as a parameter
-      // window.location.href = `/result?id=${JSON.stringify(this.movie.id)}`;
       this.$router.push({
         name: "Content",
         query: { type: JSON.stringify(this.mediaType), id: JSON.stringify(this.media.id) },

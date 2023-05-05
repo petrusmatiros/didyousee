@@ -575,22 +575,42 @@ let model: Model = {
         this.getSearchString(),
         this.getPage()
       );
+      let resultStatusMovie = { current: "" };
+      let resultStatusSeries = { current: "" };
+      this.result_status.current = "pending";
       const returnedPromiseMovies = await promiseHandler(
         promiseMovie,
-        this.result_status
+        resultStatusMovie
       );
       const returnedPromiseSeries = await promiseHandler(
         promiseSeries,
-        this.result_status
+        resultStatusSeries
       );
-      const movies = await fetchHandler(returnedPromiseMovies, FetchType.QUERY);
 
-      const series = await fetchHandler(returnedPromiseSeries, FetchType.QUERY);
+      if (
+        resultStatusMovie.current === "fulfilled" ||
+        resultStatusSeries.current === "fulfilled"
+      ) {
+        this.result_status.current = "fulfilled";
+        this.movies = await fetchHandler(
+          returnedPromiseMovies,
+          FetchType.QUERY
+        );
 
-      console.log("API fetchGenreContent", this.getSearchString());
-      const genreContent = [...movies, ...series];
-      console.log("API fetchGenreContent", genreContent);
-      this.searchContent = [...this.searchContent, ...genreContent];
+        this.series = await fetchHandler(
+          returnedPromiseSeries,
+          FetchType.QUERY
+        );
+
+        const genreContent = [...this.movies, ...this.series];
+        this.searchContent = [...this.searchContent, ...genreContent];
+      } else if (
+        resultStatusMovie.current === "rejected" ||
+        resultStatusSeries.current === "rejected"
+      ) {
+        this.result_status.current = "rejected";
+        this.searchContent = [];
+      }
     } catch (error) {
       this.searchContent = [];
       throw error;
@@ -619,8 +639,6 @@ let model: Model = {
         promiseSeries,
         resultStatusSeries
       );
-      console.log("resultStatusMovie.current", resultStatusMovie.current);
-      console.log("resultStatusSeries.current", resultStatusSeries.current);
       if (
         resultStatusMovie.current === "fulfilled" ||
         resultStatusSeries.current === "fulfilled"
@@ -895,7 +913,6 @@ let model: Model = {
   notifyObservers: function (payload: any) {
     function invokeObserversCB(obs: (payload: any) => void) {
       try {
-        console.log("Notify observer");
         obs(payload);
       } catch (error) {
         console.error(error);
@@ -913,7 +930,6 @@ let model: Model = {
   },
   setSearchString: function (str: string) {
     this.searchString = str;
-    console.log("setSearchString", this.searchString);
     this.notifyObservers({ searchString: str });
   },
   getSearchString: function () {
@@ -921,7 +937,6 @@ let model: Model = {
   },
   setSearchID: function (str: string) {
     this.searchID = str;
-    console.log("setSearchID", this.searchID);
   },
   getSearchID: function () {
     return this.searchID;
@@ -1083,7 +1098,7 @@ async function discoverMedia(
     if (genreIDs.length > 0) {
       params.append("with_genres", genreIDs.join(","));
     } else {
-      params.append("with_genres", query);
+      throw Error;
     }
   }
 
@@ -1099,7 +1114,7 @@ async function genreIDfromName(media: MediaType, name: string) {
       const options = {
         keys: ["name"],
         includeScore: true,
-        threshold: 0.2, // adjust threshold as needed
+        threshold: 0.2,
       };
       const fuse = new Fuse(genres, options);
       const results = fuse.search(name);

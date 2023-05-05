@@ -11,7 +11,7 @@ function handleLoginACB(mail: string, password: string) {emit("handleLogin", mai
     <div class="top gap-full flex-col flex-center">
       <div class="credentials-container gap-half flex-col flex-center">
         <img
-          src="../src/assets/didyousee.svg"
+          src="../assets/didyousee.svg"
           alt="didyousee logo. an owl with a binocular, looking for the next movie/series"
           decoding="async"
           fetchpriority="high"

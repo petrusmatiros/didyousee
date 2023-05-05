@@ -133,12 +133,12 @@ function goToCastPageACB() { emit("goToCastPage") }
             </div>
           </div>
 
-          <div class="list-buttons gap-full flex-row flex-center">
+          <!-- <div class="list-buttons gap-full flex-row flex-center">
             <button class="button gap-quarter flex-row flex-center">
               <h1>Add to list</h1>
               <span class="material-symbols-rounded">library_add</span>
             </button>
-          </div>  
+          </div>   -->
           <div class="list-buttons gap-full flex-row flex-center">
             <button class="button gap-quarter" @click="handleLikedACB">
               <span class="material-symbols-rounded">favorite</span>
@@ -159,15 +159,15 @@ function goToCastPageACB() { emit("goToCastPage") }
             <iframe loading="lazy" :key="($props.model.currentMovie.video || $props.model.currentSeries.video) " class="contentVideoPlayer" :src="($props.model.currentMovie.video || $props.model.currentSeries.video) " title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
           </div>
     
-    
-        <div class="detailed-info gap-full flex-col">
-          <div v-if="($props.model.currentMovie.credits || $props.model.currentSeries.credits)" class="info-container gap-full flex-row flex-center">
-            <div v-if="$props.model.currentMovie.credits || $props.model.currentSeries.credits" class="info-card gap-half flex-col">
+          
+        <div v-if="(($props.model.currentMovie.credits.cast.length > 0 || $props.model.currentMovie.credits.crew.length > 0) || ($props.model.currentSeries.credits.cast.length > 0 || $props.model.currentSeries.credits.crew.length > 0)) || ($props.model.currentMovie.reviews.length > 0 || $props.model.currentSeries.reviews.length > 0) || ($props.model.currentMovie.budget || $props.model.currentMovie.revenue)" class="detailed-info gap-full flex-col">
+          <div v-if="($props.model.currentMovie.credits.cast.length > 0 || $props.model.currentMovie.credits.crew.length > 0) || ($props.model.currentSeries.credits.cast.length > 0 || $props.model.currentSeries.credits.crew.length > 0)" class="info-container gap-full flex-row flex-center">
+            <div v-if="($props.model.currentMovie.credits.cast.length > 0 || $props.model.currentMovie.credits.crew.length > 0) || ($props.model.currentSeries.credits.cast.length > 0 || $props.model.currentSeries.credits.crew.length > 0)" class="info-card gap-half flex-col">
               <div class="flex-row flex-start-center button button-secondary fixed-button"> 
                 <h1 class="fixed-button" @click="goToCastPageACB">Cast</h1>
                 <span class="material-symbols-rounded p-0">chevron_right</span>
               </div>
-              <CastCard :cast="$props.model.currentMovie.credits?.cast[0] || $props.model.currentSeries.credits?.cast[0]"/>
+              <CastCard :cast="$props.model.currentMovie?.credits?.cast[0] || $props.model.currentSeries.credits?.cast[0]"/>
             </div>
           </div>
 
@@ -177,7 +177,7 @@ function goToCastPageACB() { emit("goToCastPage") }
                 <h1 class="fixed-button" @click="goToReviewPageACB">Reviews</h1>
                 <span class="material-symbols-rounded p-0">chevron_right</span>
               </div>
-              <ReviewCard :review="$props.model.currentMovie.reviews[0] || $props.model.currentSeries.reviews[0]"/>
+              <ReviewCard :review="$props.model.currentMovie?.reviews[0] || $props.model.currentSeries?.reviews[0]"/>
             </div>
 
             <!-- <div class="info-card gap-quarter flex-col width-25">
@@ -209,7 +209,7 @@ function goToCastPageACB() { emit("goToCastPage") }
         </div>
       </div>
 
-      <div v-if="$props.model.recommendedMovies.length > 0 || $props.model.recommendedSeries.length > 0 || $props.model.similarMovies.length > 0 || $props.model.similarSeries.length > 0" class="similar-list-container gap-fullr flex-center flex-col">
+      <div v-if="$props.model.recommendedMovies.length > 0 || $props.model.recommendedSeries.length > 0 || $props.model.similarMovies.length > 0 || $props.model.similarSeries.length > 0" class="similar-list-container gap-full flex-center flex-col">
           <div v-if="$props.model.recommendedMovies.length > 0" class="carousel flex-col flex-center-start">
           <div class="carousel-title">
             <h1>Recommended Movies</h1>

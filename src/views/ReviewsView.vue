@@ -5,7 +5,11 @@ import './../style.css';
 
 <template>
     <div class="top gap-full flex-col flex-center">
-        <h1>REVIEWS</h1>
+        <h1>Reviews</h1>
+        <!-- TODO ReviewCard with v-for -->
+        <div class="flex-col flex-center-start">
+            
+        </div>
     </div>
 </template>
 

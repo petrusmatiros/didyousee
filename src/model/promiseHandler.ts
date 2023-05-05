@@ -18,10 +18,8 @@ async function promiseHandler(
       return response;
     })
     .catch((error) => {
-      console.log("Promise rejected: ", error);
       status.current = "rejected";
       isStatusPending = false;
-      console.error("Promise rejected: ", error)
     });
 }
 

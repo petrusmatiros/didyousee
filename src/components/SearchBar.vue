@@ -77,7 +77,6 @@ export default defineComponent({
           props.model.setSearchString("");
           return;
         }
-        console.log(`Searching: ${searchQuery}`);
         props.model.setSearchString(searchQuery);
         goToSearchResultsPage();
       },
@@ -115,7 +114,6 @@ export default defineComponent({
         }
       },
       onCategoryChange(category: SearchCategory) {
-        console.log("Category changed to: ", category)
         props.model.setSearchCategory(category);
       },
     };
