@@ -707,7 +707,7 @@ div[aria-hidden="true"] {
 .result {
   width: var(--desktop-max-width);
   max-width: var(--desktop-max-width);
-  margin: var(--margin-large);
+  margin: var(--margin-large-2);
 }
 
 .result-main-info {
@@ -952,6 +952,24 @@ div[aria-hidden="true"] {
 .similar-list {
   width: 100%;
   flex-wrap: wrap !important;
+}
+
+.review-card {
+  /* background-color: var(--bg-dark); */
+  padding: var(--padding-large) 0 var(--padding-large);
+  border-radius: var(--border-radius);
+}
+
+.review-card-date {
+  background-color: var(--bg-light);
+  border-radius: var(--border-radius);
+  width: fit-content;
+  padding: var(--padding-medium) var(--padding-large-2);
+
+}
+
+.review-button {
+  font-size: var(--font-small-2) !important;
 }
 /*  ================== Result ================== */
 

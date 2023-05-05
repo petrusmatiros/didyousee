@@ -1,11 +1,8 @@
 <template>
-    <div class="gap-full flex-col">
-      <h2> {{ review.author }} </h2>
-      <p class="flex-row"> {{ review.content }}</p>
-      <div class="flex-col flex-center gap-half">
-        <p class="flex-row">{{ review.created_at }}</p>
-        
-      </div>
+    <div class="gap-full flex-col review-card">
+      <h1> {{ $props.review?.author_details?.name }} </h1>
+      <p> {{ $props.review?.content }} </p>
+      <p class="flex-row flex-center review-card-date"> {{ new Date($props.review?.created_at).toLocaleDateString()}} </p>
     </div>
   </template>
   
@@ -25,8 +22,6 @@
     data() {
       return {
       };
-    },
-    methods: {
     },
   });
   </script>

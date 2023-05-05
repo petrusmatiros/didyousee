@@ -9,6 +9,7 @@ import {
   Content,
   Movie,
   Series,
+  WatchProvider,
 } from "../types/types";
 import {
   SortingOrder,
@@ -93,7 +94,15 @@ function backdrop(
 }
 
 function image(path: string, size: PosterSize | BackdropSize): any {
-  return path ? `https://image.tmdb.org/t/p/${size}${path}` : "/src/assets/no-poster.svg";
+  return path
+    ? `https://image.tmdb.org/t/p/${size}${path}`
+    : "/src/assets/no-poster.svg";
+}
+
+function provider(path: string, size: PosterSize): any {
+  return path
+    ? `https://image.tmdb.org/t/p/${size}${path}`
+    : "";
 }
 
 function setCreator(input: any, mediaType: MediaType): any {
@@ -191,6 +200,38 @@ async function fetchHandler(
       throw error;
     }
   }
+  else if (fetchType === FetchType.WATCH_PROVIDERS) {
+    function setLogoPath(path: string) {
+      return provider(path, PosterSize.W92);
+    }
+    const fetchedData: any | undefined = await axiosPromise;
+    const providers = ["US"];
+
+    for (let i = 0; i < providers.length; i++) {
+      if (Object.hasOwn(fetchedData.data.results, providers[i])) {
+        if (Object.hasOwn(fetchedData.data.results[providers[i]], "buy")) {
+          fetchedData.data.results[providers[i]].buy = fetchedData.data.results[providers[i]].buy.forEach((provider: any) => {
+              provider.logo_path = setLogoPath(provider.logo_path);
+            }
+          )
+        }
+        if (Object.hasOwn(fetchedData.data.results[providers[i]], "rent")) {
+          fetchedData.data.results[providers[i]].rent = fetchedData.data.results[providers[i]].rent.forEach((provider: any) => {
+              provider.logo_path = setLogoPath(provider.logo_path);
+            }
+          )
+        }
+        if (Object.hasOwn(fetchedData.data.results[providers[i]], "flatrate")) {
+          fetchedData.data.results[providers[i]].flatrate = fetchedData.data.results[providers[i]].flatrate.forEach((provider: any) => {
+              provider.logo_path = setLogoPath(provider.logo_path);
+            }
+          )
+        }
+      }
+    }
+
+    return fetchedData.data.results?.US
+  }
 }
 
 function contentFromQuery(input: Movie | Series): Movie | Series {
@@ -220,6 +261,12 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
     credits: {
       cast: [],
       crew: [],
+    },
+    watch_providers: {
+      link: "",
+      rent: [],
+      buy: [],
+      flatrate: [],
     },
   };
   if ("title" in input) {
@@ -257,10 +304,10 @@ interface Model {
   series: Series[];
   trivia: string;
   // Only for single content
-  recommendedMovies: Movie[],
-  recommendedSeries: Series[],
-  similarMovies: Movie[],
-  similarSeries: Series[],
+  recommendedMovies: Movie[];
+  recommendedSeries: Series[];
+  similarMovies: Movie[];
+  similarSeries: Series[];
 
   homeContent: {
     trendingMovies: [];
@@ -322,6 +369,7 @@ interface Model {
   fetchContentRecommendedSeries: () => Promise<void>;
   fetchContentSimilarMovie: () => Promise<void>;
   fetchContentSimilarSeries: () => Promise<void>;
+  fetchContentWatchProviders: (mediaType: MediaType) => Promise<void>;
 
   notifyObservers: (payload: any) => void;
   addObserver: (observer: (obs: any) => void) => void;
@@ -351,12 +399,12 @@ let model: Model = {
   movies: [],
   series: [],
   trivia: "",
-  
+
   recommendedMovies: [],
   recommendedSeries: [],
   similarMovies: [],
   similarSeries: [],
-  
+
   homeContent: {
     trendingMovies: [],
     nowPlayingMovies: [],
@@ -410,6 +458,12 @@ let model: Model = {
       cast: [],
       crew: [],
     },
+    watch_providers: {
+      link: "",
+      rent: [],
+      buy: [],
+      flatrate: [],
+    },
   },
   currentSeries: {
     id: 0,
@@ -446,6 +500,12 @@ let model: Model = {
     credits: {
       cast: [],
       crew: [],
+    },
+    watch_providers: {
+      link: "",
+      rent: [],
+      buy: [],
+      flatrate: [],
     },
   },
   observers: [],
@@ -772,7 +832,7 @@ let model: Model = {
       throw error;
     }
   },
-  fetchContentRecommendedMovie: async function() {
+  fetchContentRecommendedMovie: async function () {
     try {
       this.recommendedMovies = await fetchHandler(
         getRecommendedMedia(MediaType.MOVIE, this.getSearchID()),
@@ -785,7 +845,7 @@ let model: Model = {
   fetchContentRecommendedSeries: async function () {
     try {
       this.recommendedSeries = await fetchHandler(
-        getRecommendedMedia(MediaType.MOVIE, this.getSearchID()),
+        getRecommendedMedia(MediaType.SERIES, this.getSearchID()),
         FetchType.QUERY
       );
     } catch (error) {
@@ -805,9 +865,28 @@ let model: Model = {
   fetchContentSimilarSeries: async function () {
     try {
       this.similarSeries = await fetchHandler(
-        getSimilarMedia(MediaType.MOVIE, this.getSearchID()),
+        getSimilarMedia(MediaType.SERIES, this.getSearchID()),
         FetchType.QUERY
       );
+    } catch (error) {
+      throw error;
+    }
+  },
+  fetchContentWatchProviders: async function (mediaType: MediaType) {
+    try {
+      if (mediaType === MediaType.MOVIE) {
+         this.currentMovie.watch_providers = await fetchHandler(
+          getWatchProviders(mediaType, this.getSearchID()),
+          FetchType.WATCH_PROVIDERS
+        );
+      }
+      else if (mediaType === MediaType.SERIES) {
+        this.currentSeries.watch_providers = await fetchHandler(
+          getWatchProviders(mediaType, this.getSearchID()),
+          FetchType.WATCH_PROVIDERS
+        );
+      }
+
     } catch (error) {
       throw error;
     }
@@ -878,43 +957,53 @@ let model: Model = {
     return this.searchCategory;
   },
   resetCurrentContent: function () {
-    this.currentMovie = {
-      id: 0,
-      title: "",
-      release_date: "",
-      mediaType: MediaType.MOVIE,
-      overview: "",
-      created_by: [],
-      vote_average: 0,
-      vote_count: 0,
-      formatted_vote_count: "",
-      popularity: 0,
-      original_language: "",
-      spoken_languages: [],
-      backdrop_path: "",
-      poster_path: "",
-      genres: [],
-      genre_ids: [],
-      budget: 0,
-      formatted_budget: "",
-      revenue: 0,
-      formatted_revenue: "",
-      status: "",
-      runtime: 0,
-      belongs_to_collection: {},
-      video: "",
-      reviews: {
+    (this.recommendedMovies = []),
+      (this.recommendedSeries = []),
+      (this.similarMovies = []),
+      (this.similarSeries = []),
+      (this.currentMovie = {
         id: 0,
-        page: 0,
-        results: [],
-        total_pages: 0,
-        total_results: 0,
-      },
-      credits: {
-        cast: [],
-        crew: [],
-      },
-    };
+        title: "",
+        release_date: "",
+        mediaType: MediaType.MOVIE,
+        overview: "",
+        created_by: [],
+        vote_average: 0,
+        vote_count: 0,
+        formatted_vote_count: "",
+        popularity: 0,
+        original_language: "",
+        spoken_languages: [],
+        backdrop_path: "",
+        poster_path: "",
+        genres: [],
+        genre_ids: [],
+        budget: 0,
+        formatted_budget: "",
+        revenue: 0,
+        formatted_revenue: "",
+        status: "",
+        runtime: 0,
+        belongs_to_collection: {},
+        video: "",
+        reviews: {
+          id: 0,
+          page: 0,
+          results: [],
+          total_pages: 0,
+          total_results: 0,
+        },
+        credits: {
+          cast: [],
+          crew: [],
+        },
+        watch_providers: {
+          link: "",
+          rent: [],
+          buy: [],
+          flatrate: [],
+        },
+      });
     this.currentSeries = {
       id: 0,
       name: "",
@@ -950,6 +1039,12 @@ let model: Model = {
       credits: {
         cast: [],
         crew: [],
+      },
+      watch_providers: {
+        link: "",
+        rent: [],
+        buy: [],
+        flatrate: [],
       },
     };
   },

@@ -65,8 +65,6 @@ async function getWatchProviders(media: MediaType, id: string) {
   return wrap(`/${media}/${id}/watch/providers`, new URLSearchParams());
 }
 
-
-
 async function searchMedia(media: MediaType, query: string, page: number = 1) {
   return wrap(
     `/search/${media}`,

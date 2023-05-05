@@ -58,7 +58,7 @@ export default defineComponent({
       // console.log("Seasons:", this.media.last_episode_to_air);
       // Navigate to the result page with movie information as a parameter
       // window.location.href = `/result?id=${JSON.stringify(this.movie.id)}`;
-      this.$router.replace({
+      this.$router.push({
         name: "Content",
         query: { type: JSON.stringify(this.mediaType), id: JSON.stringify(this.media.id) },
       });
