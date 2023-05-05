@@ -12,6 +12,7 @@
   import "./../style.css";
   
   export default defineComponent({
+    name: "WatchProviders",
     props: {
       watch_providers: {
         type: Object,

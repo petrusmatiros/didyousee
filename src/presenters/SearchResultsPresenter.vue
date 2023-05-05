@@ -41,8 +41,8 @@ export default defineComponent({
       // const { isPageLoaded = ;
       console.log("isloading", props.model.getIsPageLoading())
       if (!props.model.getIsPageLoading()) {
-        console.log("NEXT PAGE (x/x)", props.model.getPage(), props.model.getTotalPages())
-        if (props.model.result_status.current === 'fulfilled' && props.model.getPage() < props.model.getTotalPages()) {
+        console.log("NEXT PAGE (x/x)", props.model.getPage(), props.model.total_pages)
+        if (props.model.result_status.current === 'fulfilled' && props.model.getPage() < props.model.total_pages) {
           
           // TODO! Total Pages for Series / Movies
           console.log("IncrementPage")

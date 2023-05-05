@@ -23,6 +23,7 @@ import { PosterSize, MediaType } from '../types/types';
 import { formToJSON } from "axios";
 
 export default defineComponent({
+  name: "MediaCard",
   props: {
     media: {
       type: Object,

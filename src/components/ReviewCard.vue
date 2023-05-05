@@ -13,6 +13,7 @@
   import "./../style.css";
   
   export default defineComponent({
+    name: "ReviewCard",
     props: {
       review: {
         type: Object,

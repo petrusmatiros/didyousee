@@ -499,7 +499,7 @@ a:active {
 
 .content-card:hover {
   background-color: var(--main-hover);
-  transform: scale(1.05);
+  transform: scale(1.025);
 }
 
 .content-card:active {
@@ -557,7 +557,7 @@ a:active {
 /* Container element / */
 
 .carousel {
-  gap: 1rem;
+
 }
 
 .carousel-title {
@@ -567,7 +567,7 @@ a:active {
 .splide {
   height: fit-content;
   width: var(--desktop-max-width);
-  gap: 1rem;
+  gap: 1rem !important;
 }
 
 /* / Slide element / */
@@ -578,19 +578,54 @@ a:active {
 
 }
 .splide__track {
-  display:block;
-  gap:0.25rem;
+  padding: var(--padding-large-2);
+}
+
+.splide__arrows {}
+.splide__arrow {
+  background: var(--main) !important;
+  border-radius: var(--border-radius) !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.splide__arrow:hover {
+  background: var(--main-hover) !important;
+}
+.splide__arrow:active {
+  background: var(--main-active) !important;
+}
+.splide__arrow:focus {
+  outline: var(--white) !important;
+  border: var(--white) !important;
+}
+.splide__arrow svg {
+  fill: white !important;
+}
+.splide__arrow--next {
+  
 }
 
 .splide__pagination {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  z-index: initial !important;
+  top: initial !important;
+  bottom: initial !important;
+  left: initial !important;
+  right: initial !important;
+  width: 100% !important;
   /* width: 5rem; */
+  position: relative;
   gap: 1rem !important;
+
 }
 .splide__pagination__page {
+  color: var(--fg-secondary) !important;
   display:inline !important;
   height: 0.5rem !important;
   width: 2rem !important;
   border-radius: var(--border-radius) !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 /* / Arrow buttons / */

@@ -10,6 +10,7 @@
   import "./../style.css";
   
   export default defineComponent({
+    name: "CastCard",
     props: {
       cast: {
         type: Object,

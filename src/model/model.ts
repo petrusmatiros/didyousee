@@ -382,8 +382,6 @@ interface Model {
   incrementPage: () => void;
   setPage: (page: number) => void;
   getPage: () => number;
-  setTotalPages: (page: number) => void;
-  getTotalPages: () => number;
   setSearchCategory: (category: SearchCategory) => void;
   getSearchCategory: () => SearchCategory;
 
@@ -942,8 +940,8 @@ let model: Model = {
     return this.searchID;
   },
   incrementPage: function () {
-    const totalPages = this.getTotalPages;
-    const currentPage = this.getPage;
+    const totalPages = this.total_pages;
+    const currentPage = this.getPage();
     if (totalPages > currentPage) {
       this.setPage(this.getPage() + 1);
     }
@@ -957,13 +955,6 @@ let model: Model = {
   },
   getPage: function () {
     return this.page;
-  },
-  setTotalPages: function (totalPages: number) {
-    this.total_pages = totalPages;
-    // this.notifyObservers({ totalPages: totalPages });
-  },
-  getTotalPages: function () {
-    return this.total_pages;
   },
   setSearchCategory: function (searchCategory: SearchCategory) {
     this.searchCategory = searchCategory;

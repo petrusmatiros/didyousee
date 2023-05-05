@@ -19,18 +19,17 @@
   </nav>
   <div class="margin">
     <RouterView v-slot="{ Component }">
-
           <Suspense>
             <!-- main content -->
-          <component :is="Component"></component>
-  
+            <div>
+              <component :is="Component"></component>
+            </div>
+
           <!-- loading state -->
           <template #fallback>
             Loading...
           </template>
           </Suspense>
-
-      
     </RouterView>
   </div>
   <footer class="flex-col flex-seperate gap-full" id="footer">

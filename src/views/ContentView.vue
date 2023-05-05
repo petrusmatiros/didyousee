@@ -1,13 +1,9 @@
 <script setup lang="ts">
 import './../style.css';
-import MediaCard from '../components/MediaCard.vue';
 import ReviewCard from '../components/ReviewCard.vue';
 import CastCard from '../components/CastCard.vue';
 import WatchProviders from '../components/WatchProviders.vue';
-import { Splide, SplideSlide } from '@splidejs/vue-splide';
-import '@splidejs/vue-splide/css';
-import { PosterSize } from '../types/types';
-import { useRouter } from "vue-router";
+import Carousel from '../components/Carousel.vue';
 
 
 const emit = defineEmits(["handleLiked", "handleWatchlist", "handleSeen", "handleDisliked", "goBack", "goToReviewPage", "goToCastPage"])
@@ -209,49 +205,33 @@ function goToCastPageACB() { emit("goToCastPage") }
         </div>
       </div>
 
-      <div v-if="$props.model.recommendedMovies.length > 0 || $props.model.recommendedSeries.length > 0 || $props.model.similarMovies.length > 0 || $props.model.similarSeries.length > 0" class="similar-list-container gap-full flex-center flex-col">
+      <div v-if="$props.model.recommendedMovies.length > 0 || $props.model.recommendedSeries.length > 0 || $props.model.similarMovies.length > 0 || $props.model.similarSeries.length > 0" class="similar-list-container gap-double flex-center flex-col">
           <div v-if="$props.model.recommendedMovies.length > 0" class="carousel flex-col flex-center-start">
           <div class="carousel-title">
             <h1>Recommended Movies</h1>
           </div>
-          <Splide data-splide='{"type":"loop","perPage":5}' :options="{ rewind: true, lazy: true}" aria-label="Recommended Movies">
-            <SplideSlide v-for="(movie, index) in $props.model.recommendedMovies" :key="index">
-              <MediaCard :media="movie" :media-type="'movie'" />
-            </SplideSlide>
-          </Splide>
+          <Carousel :media="$props.model.recommendedMovies" :media-type="'movie'" :label="'Recommended Movies'"></Carousel>
         </div>
 
         <div v-if="$props.model.recommendedSeries.length > 0" class="carousel flex-col flex-center-start">
           <div class="carousel-title">
             <h1>Recommended Series</h1>
           </div>
-          <Splide data-splide='{"type":"loop","perPage":5}' :options="{ rewind: true, lazy: true}" aria-label="Recommended Series">
-            <SplideSlide v-for="(series, index) in $props.model.recommendedSeries" :key="index">
-              <MediaCard :media="series" :media-type="'tv'" />
-            </SplideSlide>
-          </Splide>
+          <Carousel :media="$props.model.recommendedSeries" :media-type="'tv'" :label="'Recommended Series'"></Carousel>
         </div>
 
         <div v-if="$props.model.similarMovies.length > 0" class="carousel flex-col flex-center-start">
           <div class="carousel-title">
             <h1>Similar Movies</h1>
           </div>
-          <Splide data-splide='{"type":"loop","perPage":5}' :options="{ rewind: true, lazy: true}" aria-label="Similar Movies">
-            <SplideSlide v-for="(movie, index) in $props.model.similarMovies" :key="index">
-              <MediaCard :media="movie" :media-type="'movie'" />
-            </SplideSlide>
-          </Splide>
+          <Carousel :media="$props.model.similarMovies" :media-type="'movie'" :label="'Similar Movies'"></Carousel>
         </div>
 
         <div v-if="$props.model.similarSeries.length > 0" class="carousel flex-col flex-center-start">
           <div class="carousel-title">
             <h1>Similar Series</h1>
           </div>
-          <Splide data-splide='{"type":"loop","perPage":5}' :options="{ rewind: true, lazy: true}" aria-label="Similar Series">
-            <SplideSlide v-for="(series, index) in $props.model.similarSeries" :key="index">
-              <MediaCard :media="series" :media-type="'tv'" />
-            </SplideSlide>
-          </Splide>
+          <Carousel :media="$props.model.similarSeries" :media-type="'tv'" :label="'Similar Series'"></Carousel>
         </div>
       </div>
     </template>
@@ -262,10 +242,10 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'ContentView',
   components: {
-    MediaCard,
     ReviewCard,
     CastCard,
     WatchProviders,
+    Carousel,
   },
   props: {
     model: {
