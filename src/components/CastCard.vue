@@ -1,7 +1,7 @@
 <template>
     <div class="gap-full flex-col">
-      <h2 class="flex-row"> {{ cast.name }} </h2>
-      <p class="flex-row"> {{ cast.character }}</p>
+      <h2 class="flex-row"> {{ $props.cast?.name }} </h2>
+      <p class="flex-row"> {{ $props.cast?.character }}</p>
     </div>
   </template>
   

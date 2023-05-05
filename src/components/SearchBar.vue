@@ -3,6 +3,11 @@
     class="searchBar flex-row flex-center"
     :class="{ 'searchBar--focused': inputFocused }"
   >
+    <span
+      class="material-symbols-rounded"
+      @click="methods.searchClickACB(searchString)"
+      >search</span
+    >
     <input
       id="searchBar"
       type="text"
@@ -30,11 +35,6 @@
       <option value="title">Title</option>
       <option value="genre">Genre</option>
     </select>
-    <span
-      class="material-symbols-rounded"
-      @click="methods.searchClickACB(searchString)"
-      >search</span
-    >
   </div>
 </template>
 

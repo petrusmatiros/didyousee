@@ -968,7 +968,12 @@ div[aria-hidden="true"] {
 
 }
 
-.review-button {
+.fixed-button {
+  padding-left: var(--padding-medium) !important;
+  width: fit-content;
+}
+
+.button-secondary {
   font-size: var(--font-small-2) !important;
 }
 /*  ================== Result ================== */

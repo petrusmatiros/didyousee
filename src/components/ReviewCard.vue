@@ -1,6 +1,6 @@
 <template>
     <div class="gap-full flex-col review-card">
-      <h1> {{ $props.review?.author_details?.name }} </h1>
+      <h1> {{ $props.review?.author_details?.username }} </h1>
       <p> {{ $props.review?.content }} </p>
       <p class="flex-row flex-center review-card-date"> {{ new Date($props.review?.created_at).toLocaleDateString()}} </p>
     </div>

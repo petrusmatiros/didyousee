@@ -161,19 +161,21 @@ function goToCastPageACB() { emit("goToCastPage") }
     
     
         <div class="detailed-info gap-full flex-col">
-          <button class="button" @click="goToCastPageACB">View all</button>
-          <div class="info-container gap-full flex-row flex-center">
-            <div v-if="$props.model.currentMovie.credits.length > 0 || $props.model.currentSeries.credits.length > 0" class="info-card gap-quarter flex-col">
-              <h1>Cast</h1>
-              <CastCard v-for="(cast, index) in $props.model.currentMovie.credits.cast || $props.model.currentSeries.credits.cast" :key="index" :cast="cast"/>
+          <div v-if="($props.model.currentMovie.credits || $props.model.currentSeries.credits)" class="info-container gap-full flex-row flex-center">
+            <div v-if="$props.model.currentMovie.credits || $props.model.currentSeries.credits" class="info-card gap-quarter flex-col">
+              <div class="flex-row flex-start-center button button-secondary fixed-button"> 
+                <h1 class="fixed-button" @click="goToCastPageACB">Cast</h1>
+                <span class="material-symbols-rounded p-0">chevron_right</span>
+              </div>
+              <CastCard :cast="$props.model.currentMovie.credits?.cast[0] || $props.model.currentSeries.credits?.cast[0]"/>
             </div>
           </div>
 
-          <div class="info-container gap-full flex-row flex-center">
+          <div v-if="($props.model.currentMovie.reviews.length > 0 || $props.model.currentSeries.reviews.length > 0)" class="info-container gap-full flex-row flex-center">
             <div v-if="$props.model.currentMovie.reviews.length > 0 || $props.model.currentSeries.reviews.length > 0" class="info-card gap-quarter flex-col">
-              <div class="flex-row flex-start-center gap-half">
-                <h1>Reviews</h1>
-                <button class="button review-button" @click="goToReviewPageACB">View all</button>
+              <div class="flex-row flex-start-center button button-secondary fixed-button"> 
+                <h1 class="fixed-button" @click="goToReviewPageACB">Reviews</h1>
+                <span class="material-symbols-rounded p-0">chevron_right</span>
               </div>
               <ReviewCard :review="$props.model.currentMovie.reviews[0] || $props.model.currentSeries.reviews[0]"/>
             </div>
