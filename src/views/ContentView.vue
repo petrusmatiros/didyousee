@@ -40,11 +40,12 @@ function goToCastPageACB() {
 
 <template>
   <!-- <div class="overlay"></div> -->
-  <div
-    v-if="
+  <div class="backdrop loading-skeleton" v-if="!(
       $props.model.currentMovie.backdrop_path ||
       $props.model.currentSeries.backdrop_path
-    "
+    )"></div>
+  <div
+    v-else
     class="backdrop"
     :style="{
       backgroundImage: `linear-gradient(to bottom, rgba(48, 49, 53, 0.0), rgba(59, 60, 64, 1.0)), url(${
@@ -590,15 +591,16 @@ export default defineComponent({
       const backdrop = document.getElementsByClassName(
         "backdrop"
       )[0] as HTMLElement;
-      let blurAmount = (4 * scrollTop) / (scrollHeight - clientHeight);
-      console.log("blurAmount", blurAmount)
-
-      if (blurAmount > 3) {
-        blurAmount = 3;
+      if (backdrop) {
+        let blurAmount = (4 * scrollTop) / (scrollHeight - clientHeight);
+  
+        if (blurAmount > 3) {
+          blurAmount = 3;
+        }
+  
+        backdrop.style.filter = `blur(${blurAmount*0.95}rem)`;
+        backdrop.style.transition = "filter 0.3s ease";
       }
-
-      backdrop.style.filter = `blur(${blurAmount*0.95}rem)`;
-      backdrop.style.transition = "filter 0.3s ease";
     };
 
     const addScrollListener = () => {
