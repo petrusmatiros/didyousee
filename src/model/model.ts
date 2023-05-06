@@ -210,8 +210,7 @@ async function fetchHandler(
     } catch (error) {
       throw error;
     }
-  }
-  else if (fetchType === FetchType.WATCH_PROVIDERS) {
+  } else if (fetchType === FetchType.WATCH_PROVIDERS) {
     function setLogoPath(path: string) {
       return imageGeneric(path, PosterSize.W92);
     }
@@ -222,28 +221,36 @@ async function fetchHandler(
       for (let i = 0; i < providers.length; i++) {
         if (Object.hasOwn(fetchedData.data.results, providers[i])) {
           if (Object.hasOwn(fetchedData.data.results[providers[i]], "buy")) {
-            fetchedData.data.results[providers[i]].buy = fetchedData.data.results[providers[i]].buy.forEach((provider: any) => {
-                provider.logo_path = setLogoPath(provider.logo_path);
-              }
-            )
+            fetchedData.data.results[providers[i]].buy =
+              fetchedData.data.results[providers[i]].buy.forEach(
+                (provider: any) => {
+                  provider.logo_path = setLogoPath(provider.logo_path);
+                }
+              );
           }
           if (Object.hasOwn(fetchedData.data.results[providers[i]], "rent")) {
-            fetchedData.data.results[providers[i]].rent = fetchedData.data.results[providers[i]].rent.forEach((provider: any) => {
-                provider.logo_path = setLogoPath(provider.logo_path);
-              }
-            )
+            fetchedData.data.results[providers[i]].rent =
+              fetchedData.data.results[providers[i]].rent.forEach(
+                (provider: any) => {
+                  provider.logo_path = setLogoPath(provider.logo_path);
+                }
+              );
           }
-          if (Object.hasOwn(fetchedData.data.results[providers[i]], "flatrate")) {
-            fetchedData.data.results[providers[i]].flatrate = fetchedData.data.results[providers[i]].flatrate.forEach((provider: any) => {
-                provider.logo_path = setLogoPath(provider.logo_path);
-              }
-            )
+          if (
+            Object.hasOwn(fetchedData.data.results[providers[i]], "flatrate")
+          ) {
+            fetchedData.data.results[providers[i]].flatrate =
+              fetchedData.data.results[providers[i]].flatrate.forEach(
+                (provider: any) => {
+                  provider.logo_path = setLogoPath(provider.logo_path);
+                }
+              );
           }
         }
       }
     }
 
-    return fetchedData.data.results?.US
+    return fetchedData.data.results?.US;
   }
 }
 
@@ -667,6 +674,22 @@ let model: Model = {
 
         const data = [...this.movies, ...this.series];
         this.searchContent = [...this.searchContent, ...data];
+          console.log("BEFORE", this.searchContent)
+        this.searchContent = sort<Movie | Series>(
+          this.searchContent,
+          (a: Movie | Series, b: Movie | Series) => {
+            if (a.popularity > b.popularity) {
+              return 1;
+            }
+            if (a.popularity < b.popularity) {
+              return -1;
+            }
+            return 0;
+          },
+          SortingOrder.DSC
+        );
+        console.log("AFTER", this.searchContent)
+
       } else if (
         resultStatusMovie.current === "rejected" ||
         resultStatusSeries.current === "rejected"
@@ -904,18 +927,16 @@ let model: Model = {
   fetchContentWatchProviders: async function (mediaType: MediaType) {
     try {
       if (mediaType === MediaType.MOVIE) {
-         this.currentMovie.watch_providers = await fetchHandler(
+        this.currentMovie.watch_providers = await fetchHandler(
           getWatchProviders(mediaType, this.getSearchID()),
           FetchType.WATCH_PROVIDERS
         );
-      }
-      else if (mediaType === MediaType.SERIES) {
+      } else if (mediaType === MediaType.SERIES) {
         this.currentSeries.watch_providers = await fetchHandler(
           getWatchProviders(mediaType, this.getSearchID()),
           FetchType.WATCH_PROVIDERS
         );
       }
-
     } catch (error) {
       throw error;
     }

@@ -43,15 +43,15 @@ function random(min: number, max: number) {
  * **Returns a copy of the array**
  *
  * @param   {T[]}           arr        [the array to sort]
- * @param   {SortingOrder}  order      [the order to sort in]
  * @param   {T}             compareCB  [the callback to use for comparing]
+ * @param   {SortingOrder}  order      [the order to sort in]
  *
  * @return  {T[]}                      [the sorted array]
  */
 function sort<T>(
   arr: T[],
+  compareCB: (a: T, b: T) => number,
   order: SortingOrder,
-  compareCB: (a: T, b: T) => number
 ): T[] {
   const copy = [...arr];
   if (order === SortingOrder.ASC) {
