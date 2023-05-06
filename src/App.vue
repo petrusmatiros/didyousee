@@ -3,6 +3,7 @@
     <div class="nav-link-container gap-full flex-row flex-space-between-center">
       <div class="flex-row flex-center gap-full">
         <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="../src/assets/didyousee.svg"
+          onerror="this.src='/src/assets/no-content.svg';"
             alt="didyousee logo. an owl with a binocular, looking for the next movie/series" decoding="sync"
             fetchpriority="high" /></RouterLink>
         <RouterLink to="/profile" class="nav-link flex-row flex-center">Watchlist</RouterLink>
@@ -35,6 +36,7 @@
   <footer class="flex-col flex-seperate gap-full" id="footer">
     <div class="footer-top flex-row flex-center">
       <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="/src/assets/didyousee.svg"
+        onerror="this.src='/src/assets/no-content.svg';"
           alt="didyousee logo. an owl with a binocular, looking for the next movie/series" decoding="sync"
           fetchpriority="high" /></RouterLink>
       <RouterLink to="/profile" class="nav-link"></RouterLink>
@@ -47,7 +49,9 @@
     </div>
     <div class="flex-row flex-center gap-quarter">
       <p>This product uses the TMDb API but is not endorsed or certified by TMDb.</p>
-      <img src="./assets/tmdb_alt_short_blue.svg" alt="TMDB alt short logo" loading="lazy" decoding="async" />
+      <img src="./assets/tmdb_alt_short_blue.svg" 
+      onerror="this.src='/src/assets/no-content.svg';"
+      alt="TMDB alt short logo" loading="lazy" decoding="async" />
     </div>
   </footer>
 </template>

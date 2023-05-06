@@ -2,7 +2,8 @@
     <div class="review-card gap-double flex-col">
       <div class="flex-row flex-space-between-center gap-full">
         <div class="review-card-author flex-row flex-start-center gap-full">
-          <img :src="$props.review?.author_details?.avatar_path">
+          <div class="loading-skeleton" v-if="!$props.review?.author_details?.avatar_path"></div>
+          <img v-else :src="$props.review?.author_details?.avatar_path" onerror="this.src='/src/assets/no-content.svg';">
           <div class="flex-col flex-center-start gap-quarter">
             <h1> {{ $props.review?.author_details?.username }} </h1>
             <p class="review-card-date flex-row flex-center"> {{ new Date($props.review?.created_at).toLocaleDateString()}} </p>

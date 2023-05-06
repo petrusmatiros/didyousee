@@ -7,6 +7,7 @@ import Carousel from '../components/Carousel.vue';
   <div class="homepage gap-double flex-col flex-center">
     <div class="intro-container flex-col flex-center">
       <img src="../assets/didyousee.svg" alt="didyousee logo. an owl with a binocular, looking for the next movie/series"
+      onerror="this.src='/src/assets/no-content.svg';"
         decoding="async" fetchpriority="high" />
       <h1>Did You See</h1>
       <p :class="triviaClass">{{ $props.model.trivia }} </p>

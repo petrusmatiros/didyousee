@@ -103,7 +103,7 @@ function image(path: string, size: PosterSize | BackdropSize): any {
 function imageGeneric(path: string, size: PosterSize): any {
   return path
     ? `https://image.tmdb.org/t/p/${size}${path}`
-    : "";
+    : "/src/assets/no-content.svg";
 }
 
 function setCreator(input: any, mediaType: MediaType): any {

@@ -1,7 +1,7 @@
 <template>
   <div v-if="mediaType !== undefined" class="content-card gap-half flex-col" @click="handleClickACB">
     <div class="loading-skeleton content-poster" v-if="!$props.media.poster_path"></div>
-    <img :src="$props.media.poster_path" loading="lazy" decoding="async" fetchpriority="low" v-else class="content-poster" />
+    <img :src="$props.media.poster_path" onerror="this.src='/src/assets/no-poster.svg';" loading="lazy" decoding="async" fetchpriority="low" v-else class="content-poster" />
     <div class="flex-col flex-center gap-half p-small">
       <h2 class="flex-row">{{ media.title || media.name }}</h2>
       <div class="flex-row flex-center gap-half">
