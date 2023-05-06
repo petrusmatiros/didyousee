@@ -88,7 +88,7 @@ function poster(path: string, size: PosterSize = PosterSize.W500): string {
 }
 function backdrop(
   path: string,
-  size: BackdropSize = BackdropSize.W780
+  size: BackdropSize = BackdropSize.W1280
 ): string {
   return image(path, size);
 }
