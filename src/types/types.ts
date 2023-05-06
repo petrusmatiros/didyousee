@@ -46,6 +46,21 @@ export type WatchProvider = {
   display_priority: number;
 };
 
+export type Reviewer = {
+  author: string;
+  author_details: {
+    name: string;
+    username: string;
+    avatar_path: string;
+    rating: number;
+  };
+  content: string;
+  created_at: string;
+  id: string;
+  updated_at: string;
+  url: string;
+}
+
 export interface Content {
   id: number;
   overview: string;
@@ -76,7 +91,7 @@ export interface Content {
   reviews: {
     id: number;
     page: number;
-    results: any[];
+    results: Reviewer[];
     total_pages: number;
     total_results: number;
   };

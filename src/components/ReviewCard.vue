@@ -1,8 +1,17 @@
 <template>
-    <div class="gap-full flex-col review-card">
-      <div class="flex-col flex-center-start gap-half">
-        <h1> {{ $props.review?.author_details?.username }} </h1>
-        <p class="flex-row flex-center review-card-date"> {{ new Date($props.review?.created_at).toLocaleDateString()}} </p>
+    <div class="review-card gap-double flex-col">
+      <div class="flex-row flex-space-between-center gap-full">
+        <div class="review-card-author flex-row flex-start-center gap-full">
+          <img :src="$props.review?.author_details?.avatar_path">
+          <div class="flex-col flex-center-start gap-quarter">
+            <h1> {{ $props.review?.author_details?.username }} </h1>
+            <p class="review-card-date flex-row flex-center"> {{ new Date($props.review?.created_at).toLocaleDateString()}} </p>
+          </div>
+        </div>
+        <div class="review-card-rating flex-row flex-start-center gap-quarter">
+          <span class="material-symbols-rounded p-0">star</span>
+          <p> {{ $props.review?.author_details?.rating }}/10 </p>
+        </div>
       </div>
       <p class="fw-regular"> {{ $props.review?.content }} </p>
     </div>

@@ -10,6 +10,7 @@ import {
   Movie,
   Series,
   WatchProvider,
+  Reviewer,
 } from "../types/types";
 import {
   SortingOrder,
@@ -99,7 +100,7 @@ function image(path: string, size: PosterSize | BackdropSize): any {
     : "/src/assets/no-poster.svg";
 }
 
-function provider(path: string, size: PosterSize): any {
+function imageGeneric(path: string, size: PosterSize): any {
   return path
     ? `https://image.tmdb.org/t/p/${size}${path}`
     : "";
@@ -194,7 +195,17 @@ async function fetchHandler(
     }
   } else if (fetchType === FetchType.REVIEWS) {
     try {
+      function setLogoPath(path: string) {
+        return imageGeneric(path, PosterSize.W92);
+      }
       const fetchedData: any | undefined = await axiosPromise;
+      if (fetchedData) {
+        fetchedData.data.results.forEach((review: any) => {
+          review.author_details.avatar_path = setLogoPath(
+            review.author_details.avatar_path
+          );
+        });
+      }
       return fetchedData.data.results;
     } catch (error) {
       throw error;
@@ -202,30 +213,32 @@ async function fetchHandler(
   }
   else if (fetchType === FetchType.WATCH_PROVIDERS) {
     function setLogoPath(path: string) {
-      return provider(path, PosterSize.W92);
+      return imageGeneric(path, PosterSize.W92);
     }
     const fetchedData: any | undefined = await axiosPromise;
     const providers = ["US"];
 
-    for (let i = 0; i < providers.length; i++) {
-      if (Object.hasOwn(fetchedData.data.results, providers[i])) {
-        if (Object.hasOwn(fetchedData.data.results[providers[i]], "buy")) {
-          fetchedData.data.results[providers[i]].buy = fetchedData.data.results[providers[i]].buy.forEach((provider: any) => {
-              provider.logo_path = setLogoPath(provider.logo_path);
-            }
-          )
-        }
-        if (Object.hasOwn(fetchedData.data.results[providers[i]], "rent")) {
-          fetchedData.data.results[providers[i]].rent = fetchedData.data.results[providers[i]].rent.forEach((provider: any) => {
-              provider.logo_path = setLogoPath(provider.logo_path);
-            }
-          )
-        }
-        if (Object.hasOwn(fetchedData.data.results[providers[i]], "flatrate")) {
-          fetchedData.data.results[providers[i]].flatrate = fetchedData.data.results[providers[i]].flatrate.forEach((provider: any) => {
-              provider.logo_path = setLogoPath(provider.logo_path);
-            }
-          )
+    if (fetchedData) {
+      for (let i = 0; i < providers.length; i++) {
+        if (Object.hasOwn(fetchedData.data.results, providers[i])) {
+          if (Object.hasOwn(fetchedData.data.results[providers[i]], "buy")) {
+            fetchedData.data.results[providers[i]].buy = fetchedData.data.results[providers[i]].buy.forEach((provider: any) => {
+                provider.logo_path = setLogoPath(provider.logo_path);
+              }
+            )
+          }
+          if (Object.hasOwn(fetchedData.data.results[providers[i]], "rent")) {
+            fetchedData.data.results[providers[i]].rent = fetchedData.data.results[providers[i]].rent.forEach((provider: any) => {
+                provider.logo_path = setLogoPath(provider.logo_path);
+              }
+            )
+          }
+          if (Object.hasOwn(fetchedData.data.results[providers[i]], "flatrate")) {
+            fetchedData.data.results[providers[i]].flatrate = fetchedData.data.results[providers[i]].flatrate.forEach((provider: any) => {
+                provider.logo_path = setLogoPath(provider.logo_path);
+              }
+            )
+          }
         }
       }
     }

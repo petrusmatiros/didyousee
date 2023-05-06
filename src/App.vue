@@ -2,7 +2,7 @@
   <nav class="flex-row flex-center" id="nav">
     <div class="nav-link-container gap-full flex-row flex-space-between-center">
       <div class="flex-row flex-center gap-full">
-        <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="/src/assets/didyousee.svg"
+        <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="../src/assets/didyousee.svg"
             alt="didyousee logo. an owl with a binocular, looking for the next movie/series" decoding="sync"
             fetchpriority="high" /></RouterLink>
         <RouterLink to="/profile" class="nav-link flex-row flex-center">Watchlist</RouterLink>

@@ -166,11 +166,13 @@ iframe {
 h1, h2, h3 {
   margin: 0 !important;
   word-wrap: break-word;
+  text-align: justify;
 }
 p {
   font-size: var(--font-small-2);
   margin: 0 !important;
   word-wrap: break-word;
+  text-align: justify;
 }
 
 img {
@@ -1007,8 +1009,33 @@ div[aria-hidden="true"] {
 
 .review-card {
   background-color: var(--bg-dark);
-  padding: var(--padding-large-2);
+  padding: var(--padding-large-3);
   border-radius: var(--border-radius);
+}
+.review-card p {
+  text-align: justify;
+}
+.review-card img {
+  width: 3rem;
+  aspect-ratio: 1/1;
+  border-radius: var(--border-radius);
+}
+.review-card-author {
+  padding-top: var(--padding-medium);
+  padding-bottom: var(--padding-medium);
+}
+.review-card-rating {
+  vertical-align: middle;
+}
+.review-card-rating p {
+  line-height: 0;
+  vertical-align: middle;
+  font-size: var(--font-large);
+}
+.review-card-rating span {
+  line-height: 0;
+  vertical-align: middle;
+  font-size: var(--font-large);
 }
 
 .cast-card {
