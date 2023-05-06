@@ -674,21 +674,6 @@ let model: Model = {
 
         const data = [...this.movies, ...this.series];
         this.searchContent = [...this.searchContent, ...data];
-          console.log("BEFORE", this.searchContent)
-        this.searchContent = sort<Movie | Series>(
-          this.searchContent,
-          (a: Movie | Series, b: Movie | Series) => {
-            if (a.popularity > b.popularity) {
-              return 1;
-            }
-            if (a.popularity < b.popularity) {
-              return -1;
-            }
-            return 0;
-          },
-          SortingOrder.DSC
-        );
-        console.log("AFTER", this.searchContent)
 
       } else if (
         resultStatusMovie.current === "rejected" ||
