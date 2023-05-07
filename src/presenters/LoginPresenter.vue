@@ -1,9 +1,11 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import LoginView from "../views/LoginView.vue";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, AuthErrorCodes } from "firebase/auth";
 import { auth, app } from "../firebaseConfig";
 import { useRouter } from 'vue-router'
+import { ErrorMessage } from "../types/types";
+
 
 export default defineComponent({
     name: "LoginPresenter",
@@ -18,6 +20,7 @@ export default defineComponent({
     },
     setup(props: any) {
         const router = useRouter()
+        const credentialsError:ErrorMessage = reactive({ errorMessage: undefined, errors: [] });
 
         function handleLoginACB(mail: string, password: string) {
             console.log("Login clicked!");
@@ -36,14 +39,21 @@ export default defineComponent({
                     console.log("Wrong Email/Password!");
                     // const errorCode = error.code;
                     // const errorMessage = error.message;
+                    credentialsError.errorMessage = "Wrong Email/Password!";
+                    console.log("Error:", credentialsError)
+
                 });
         }
         return {
             handleLoginACB,
+            credentialsError
         };
     },
 });
 </script>
 <template>
-    <LoginView @handleLogin="handleLoginACB" />
+    <LoginView 
+    @handleLogin="handleLoginACB"
+    v-bind:credentialsError="credentialsError"
+    />
 </template>

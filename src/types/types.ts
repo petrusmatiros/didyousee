@@ -7,6 +7,16 @@ export enum FetchType {
   WATCH_PROVIDERS = "watch_providers",
 }
 
+export type ErrorType = {
+  type : string,
+  message : string
+}
+
+export type ErrorMessage = {
+  errorMessage : string | undefined,
+  errors : ErrorType[]
+}
+
 export enum TriviaCategory {
   MOVIE = "11",
   SERIES = "14",

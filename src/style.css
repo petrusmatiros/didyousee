@@ -89,7 +89,7 @@
 transform: translateX(0); */
   word-break: break-word;
   overflow-wrap: break-word;
-} 
+}
 
 body {
   text-rendering: optimizeLegibility;
@@ -107,9 +107,9 @@ body {
   color: var(--fg);
   background: linear-gradient(var(--bg-dark), var(--bg));
   background-attachment: fixed;
-  display:flex;
+  display: flex;
   justify-content: center;
-  align-items:  center;
+  align-items: center;
 }
 
 iframe {
@@ -163,7 +163,9 @@ iframe {
   }
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   margin: 0 !important;
   word-wrap: break-word;
 }
@@ -223,6 +225,10 @@ img {
 
 .button:hover {
   background-color: var(--bg-lightest);
+}
+
+.button:active {
+  background-color: var(--bg-lightest-2);
 }
 
 .back {
@@ -287,9 +293,20 @@ img {
   padding: 0 !important;
 }
 
-.margin-0 {
+.m-0 {
   margin: 0 !important;
 }
+
+.m-small {
+  margin: var(--margin-) !important;
+}
+
+.m-medium {
+  margin: var(--margin-medium) !important;
+}
+
+
+
 
 .fw-regular {
   font-weight: var(--font-weight-light) !important;
@@ -559,11 +576,9 @@ a:active {
 /* Container element / */
 
 .carousel {
-
 }
 
 .carousel-title {
-
 }
 
 .splide {
@@ -577,13 +592,13 @@ a:active {
   height: 100%;
   /* width: fit-content; */
   /* gap: 1rem; */
-
 }
 .splide__track {
   padding: var(--padding-large-2);
 }
 
-.splide__arrows {}
+.splide__arrows {
+}
 .splide__arrow {
   background: var(--main) !important;
   border-radius: var(--border-radius) !important;
@@ -603,7 +618,6 @@ a:active {
   fill: white !important;
 }
 .splide__arrow--next {
-  
 }
 
 .splide__pagination {
@@ -619,11 +633,10 @@ a:active {
   /* width: 5rem; */
   position: relative;
   gap: 1rem !important;
-
 }
 .splide__pagination__page {
   color: var(--fg-secondary) !important;
-  display:inline !important;
+  display: inline !important;
   height: 0.5rem !important;
   width: 2rem !important;
   border-radius: var(--border-radius) !important;
@@ -664,7 +677,7 @@ a:active {
 }
 
 .searchBar--focused {
-  outline: 2px solid var(--white);
+  box-shadow: 0 0 0 2px var(--white);
 }
 
 .material-symbols-rounded {
@@ -801,7 +814,6 @@ div[aria-hidden="true"] {
   margin: 0 !important;
 }
 .result-content-info--top {
-
 }
 
 .result-content-info--top button {
@@ -812,7 +824,7 @@ div[aria-hidden="true"] {
   background-color: var(--bg-lightest) !important;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.result-content-info--top h1{
+.result-content-info--top h1 {
   font-weight: var(--font-weight-bold);
   font-size: var(--font-large-4);
   line-height: 1.25;
@@ -841,7 +853,6 @@ div[aria-hidden="true"] {
 }
 
 .result-content-more-info--primary {
-
 }
 .result-content-more-info--primary div {
   background-color: var(--bg-light) !important;
@@ -857,16 +868,14 @@ div[aria-hidden="true"] {
 
 .rating-count {
   color: var(--fg-secondary);
-  font-size: var(--font-small)
+  font-size: var(--font-small);
 }
 
 .result-content-more-info--secondary {
   flex-wrap: wrap;
-  
 }
 .result-content-more-info--secondary div {
   flex-wrap: wrap;
-  
 }
 .result-content-more-info--secondary button {
   cursor: initial !important;
@@ -954,7 +963,7 @@ div[aria-hidden="true"] {
 }
 
 .info-card h1 {
-  font-size: var(--font-large)
+  font-size: var(--font-large);
 }
 
 .info-card p {
@@ -1066,6 +1075,10 @@ div[aria-hidden="true"] {
   margin-top: var(--margin-large-2);
 }
 
+.credentials-error-message {
+  color: var(--accent-bad);
+}
+
 .credentials-container {
   justify-content: center;
   align-items: center;
@@ -1115,9 +1128,15 @@ input[name="credentials"] {
   outline: none;
   border: none;
   background-color: var(--input);
+  transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 input[name="credentials"]:hover {
   background-color: var(--input-text);
+}
+
+input[name="credentials"]:focus {
+  background-color: var(--input-text);
+  box-shadow: 0 0 0 2px var(--white);
 }
 
 .credentials-submit-button {
@@ -1129,5 +1148,13 @@ input[name="credentials"]:hover {
   cursor: pointer;
   margin-bottom: var(--margin-large);
   border-radius: var(--border-radius);
+}
+
+.credentials-submit-button:hover {
+  background-color: var(--main-hover) !important;
+}
+
+.credentials-submit-button:active {
+  background-color: var(--main-active) !important;
 }
 /*  ================== Credentials END ================== */

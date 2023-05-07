@@ -20,7 +20,6 @@ export default defineComponent({
   setup(props: any) {
     // Go back to home if there is no search string
     const router = useRouter();
-    console.log("searchString", props.model.searchString);
     if (props.model.searchString === "" || !props.model.searchString) {
       router.push({
         name: "Home",

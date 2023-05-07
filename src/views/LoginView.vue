@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import './../style.css';
+import "./../style.css";
 
-const emit = defineEmits(["handleLogin"])
+const emit = defineEmits(["handleLogin"]);
 
-function handleLoginACB(mail: string, password: string) {emit("handleLogin", mail, password);}
-
+function handleLoginACB(mail: string, password: string) {
+  emit("handleLogin", mail, password);
+}
 </script>
 
 <template>
-    <div class="top gap-full flex-col flex-center">
-      <div class="credentials-container gap-half flex-col flex-center">
+  <div class="top gap-full flex-col flex-center">
+    <div class="credentials-container gap-double flex-col flex-center">
+      <div class="flex-col flex-center gap-quarter m-medium">
         <img
           src="../assets/didyousee.svg"
           onerror="this.src='/src/assets/no-content.svg';"
@@ -17,46 +19,72 @@ function handleLoginACB(mail: string, password: string) {emit("handleLogin", mai
           decoding="async"
           fetchpriority="high"
         />
-        <h1 class="credentials-title">Login</h1>
-        <p class="credentials-subtitle">Welcome back!</p>
-        <form class="credentials-form flex-col flex-center-start">
-          <label for="mail">Email</label>
-          <input
-            type="text"
-            id="mail"
-            name="credentials"
-            required
-            v-model="mail"
-          />
-          <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="credentials"
-            required
-            v-model="password"
-          />
-          <div class="credentials-button-container flex-col flex-center">
-            <button class="credentials-submit-button" @click.prevent="handleLoginACB(mail, password)">
-              Login
-            </button>
-            <p class="credentials-link">
-              <router-link to="/register">Register a new account?</router-link>
+        <div class="flex-col flex-center gap-half">
+          <h1 class="credentials-title">Login</h1>
+          <p class="credentials-subtitle">Welcome back!</p>
+        </div>
+      </div>
+      <form class="credentials-form flex-col flex-center gap-double">
+        <div class="flex-col flex-center gap-half">
+          <div class="flex-col flex-center-start">
+            <label for="mail">Email</label>
+            <input
+              type="text"
+              id="mail"
+              name="credentials"
+              required
+              v-model="mail"
+            />
+          </div>
+          <div class="flex-col flex-center-start">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="credentials"
+              required
+              v-model="password"
+            />
+          </div>
+          <div class="flex-row flex-center-start">
+            <p
+              id="credentials-error-message"
+              class="credentials-error-message"
+              v-if="credentialsError?.errorMessage"
+            >
+              {{ credentialsError?.errorMessage }}
             </p>
           </div>
-        </form>
-      </div>
+        </div>
+        <div class="credentials-button-container flex-col flex-center">
+          <button
+            class="button credentials-submit-button"
+            @click.prevent="handleLoginACB(mail, password)"
+          >
+            Login
+          </button>
+          <p class="credentials-link">
+            <router-link to="/register">Register a new account?</router-link>
+          </p>
+        </div>
+      </form>
     </div>
-  </template>
+  </div>
+</template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 let mail = "";
 let password = "";
 
-
 export default defineComponent({
-    name: 'LoginView',
+  name: "LoginView",
+  props: {
+    credentialsError: {
+      type: Object,
+      required: false,
+    },
+  },
 });
 </script>
