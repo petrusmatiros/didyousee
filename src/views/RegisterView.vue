@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import './../style.css';
-import { defineEmits } from 'vue';
 
 const emit = defineEmits(["handleCreateAccount"])
 
@@ -9,10 +8,11 @@ function handleCreateAccountACB(username: string, mail: string, password: string
 </script>
 
 <template>
-    <div class="top flex-col flex-center">
-      <div class="credentials-container flex-col flex-center">
+    <div class="top gap-full flex-col flex-center">
+      <div class="credentials-container gap-half flex-col flex-center">
         <img
-          src="../assets/didyousee.svg"
+          src="../src/assets/didyousee.svg"
+          onerror="this.src='/src/assets/no-content.svg';"
           alt="didyousee logo. an owl with a binocular, looking for the next movie/series"
           decoding="async"
           fetchpriority="high"

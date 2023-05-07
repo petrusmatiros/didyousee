@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, onBeforeUnmount } from 'vue'
+import { defineComponent, onBeforeUnmount, reactive } from 'vue'
 import SearchResultsView from "../views/SearchResultsView.vue";
 import { model } from '../model/model';
 import { SearchCategory } from "../types/types";
@@ -20,25 +20,42 @@ export default defineComponent({
     function searchACB() {
       if (props.model.getSearchString()) {
         props.model.resetSearchContent();
-        if (props.model.getSearchCategory() == SearchCategory.TITLE) {
-          props.model.fetchContent();
+        if (props.model.getSearchCategory() === SearchCategory.TITLE) {
+          try {
+            props.model.fetchContent();
+          } catch (error) {
+            
+          }
         }
-        else if (props.model.getSearchCategory() == SearchCategory.GENRE) {
-          props.model.fetchGenreContent();
+        else if (props.model.getSearchCategory() === SearchCategory.GENRE) {
+          try {
+            props.model.fetchGenreContent();
+          } catch (error) {
+            
+          }
+          
         }
       }
     }
     function checkForNextPage() {
-      //TODO: Total Pages for Series / Movies
-      console.log("IncrementPage")
-      props.model.incrementPage();
-      if (props.model.getSearchCategory() == SearchCategory.TITLE) {
-        props.model.fetchContent();
+      // const { isPageLoaded = ;
+      console.log("isloading", props.model.getIsPageLoading())
+      if (!props.model.getIsPageLoading()) {
+        console.log("NEXT PAGE (x/x)", props.model.getPage(), props.model.total_pages)
+        if (props.model.result_status.current === 'fulfilled' && props.model.getPage() < props.model.total_pages) {
+          
+          // TODO! Total Pages for Series / Movies
+          console.log("IncrementPage")
+          props.model.incrementPage();
+          if (props.model.getSearchCategory() === SearchCategory.TITLE) {
+            props.model.fetchContent();
+          }
+          else if (props.model.getSearchCategory() === SearchCategory.GENRE) {
+            props.model.fetchGenreContent();
+          }
+          props.model.setIsPageLoading(false);
+        }
       }
-      else if (props.model.getSearchCategory()== SearchCategory.GENRE) {
-        props.model.fetchGenreContent();
-      }
-
     }
     searchACB();
     props.model.addObserver(searchACB);
@@ -63,6 +80,10 @@ export default defineComponent({
     });
 
     addScrollListener();
+    // if (props.model.result_status.current === 'fulfilled') {
+    // } else {
+    //   removeScrollListener();
+    // }
 
     return {
       searchACB,

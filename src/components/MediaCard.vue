@@ -1,8 +1,18 @@
 <template>
-  <div class="content-card flex-col" @click="handleClickACB">
-    <div class="loading-skeleton content-poster" v-if="!imagePath"></div>
-    <img :src="imagePath" loading="lazy" decoding="async" fetchpriority="low" v-else class="content-poster" />
-    <h2 class="flex-row">{{ media.title || media.name }}</h2>
+  <div v-if="mediaType !== undefined" class="content-card gap-half flex-col" @click="handleClickACB">
+    <div class="loading-skeleton content-poster" v-if="!$props.media.poster_path"></div>
+    <img :src="$props.media.poster_path" onerror="this.src='/src/assets/no-poster.svg';" loading="lazy" decoding="async" fetchpriority="low" v-else class="content-poster" />
+    <div class="flex-col flex-center gap-half p-small">
+      <h2 class="flex-row">{{ media.title || media.name }}</h2>
+      <div class="flex-row flex-center gap-half">
+        <button class="content-card-button button">{{ capitalizedMediaType
+        }}</button>
+        <button v-if="media.release_date || media.first_air_date" class="content-card-button button">{{ (media.release_date || media.first_air_date)?.split('-')[0]
+        }}</button>
+
+        <button v-if="parseFloat(media.vote_average.toFixed(1)) > 0" class="content-card-button button">{{ parseFloat(media.vote_average.toFixed(1)) }}/10</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -10,9 +20,14 @@
 import { defineComponent } from "vue";
 import "./../style.css";
 import { PosterSize, MediaType } from '../types/types';
+<<<<<<< HEAD
+import { formToJSON } from "axios";
+=======
 import noPoster from "../assets/no_poster.svg"
+>>>>>>> main
 
 export default defineComponent({
+  name: "MediaCard",
   props: {
     media: {
       type: Object,
@@ -20,15 +35,26 @@ export default defineComponent({
     },
     mediaType: {
       type: String,
-      required: true,
+      required: false,
       validator: (value: string) => {
-      return [MediaType.SERIES.toString(), MediaType.MOVIE.toString()].includes(value)
-    }
+        return [MediaType.SERIES.toString(), MediaType.MOVIE.toString(), undefined].includes(value)
+      }
     },
   },
   computed: {
+<<<<<<< HEAD
+    capitalizedMediaType(): string | undefined {
+      if (this.mediaType === MediaType.MOVIE.toString()) {
+        return "Movie";
+      } else if (this.mediaType === MediaType.SERIES.toString()) {
+        return "Series";
+      } else {
+        return this.mediaType;
+      }
+=======
     imagePath(): any {
       return this.media.poster_path ? `https://image.tmdb.org/t/p/${PosterSize.W342}/${this.media.poster_path}` : noPoster;
+>>>>>>> main
     },
   },
   data() {
@@ -38,9 +64,6 @@ export default defineComponent({
   methods: {
     handleClickACB() {
       // Handle click event for the movie card
-      console.log("Clicked media:", this.media);
-      // Navigate to the result page with movie information as a parameter
-      // window.location.href = `/result?id=${JSON.stringify(this.movie.id)}`;
       this.$router.push({
         name: "Content",
         query: { type: JSON.stringify(this.mediaType), id: JSON.stringify(this.media.id) },

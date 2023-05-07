@@ -1,34 +1,90 @@
 <script setup lang="ts">
 import './../style.css';
-import { defineEmits, mergeProps } from 'vue';
-import MediaCard from '../components/MediaCard.vue';
-
-const emit = defineEmits(["searchClick"])
-
-function searchClickACB() { emit("searchClick") }
-
+import Carousel from '../components/Carousel.vue';
 </script>
 
 <template>
-  <div class="homepage flex-col flex-center">
-  <div class="intro-container flex-col flex-center">
-    <img src="../assets/didyousee.svg" alt="didyousee logo. an owl with a binocular, looking for the next movie/series"
-      decoding="async" fetchpriority="high" />
-    <h1>Did You See</h1>
-      <p :class="triviaClass">{{ $props.model.trivia }}</p>
+  <div class="homepage gap-double flex-col flex-center">
+    <div class="intro-container flex-col flex-center">
+      <img src="../assets/didyousee.svg" alt="didyousee logo. an owl with a binocular, looking for the next movie/series"
+      onerror="this.src='/src/assets/no-content.svg';"
+        decoding="async" fetchpriority="high" />
+      <h1>Did You See</h1>
+      <p :class="triviaClass">{{ $props.model.trivia }} </p>
     </div>
-    <div>
-      <h1>Movies</h1>
+
+    <div v-if="$props.model.homeContent.trendingMovies.length > 0" class="carousel flex-col flex-center-start">
+      <div class="carousel-title">
+        <h1>Trending Movies</h1>
+      </div>
+      <Carousel :media="$props.model.homeContent.trendingMovies" :media-type="'movie'" :label="'Trending Movies'"></Carousel>
     </div>
-    <div class="trending-list flex-row flex-center">
-      <MediaCard v-for="(movie, index) in $props.model.movies" :key="index" :media="movie" :media-type="'movie'"/>
+
+    <div v-if="$props.model.homeContent.trendingSeries.length > 0" class="carousel flex-col flex-center-start">
+      <div class="carousel-title">
+        <h1>Trending Series</h1>
+      </div>
+      <Carousel :media="$props.model.homeContent.trendingSeries" :media-type="'tv'" :label="'Trending Series'"></Carousel>
     </div>
-    <div>
-      <h1>Series</h1>
+
+    <div v-if="$props.model.homeContent.popularMovies.length > 0" class="carousel flex-col flex-center-start">
+      <div class="carousel-title">
+        <h1>Popular Movies</h1>
+      </div>
+      <Carousel :media="$props.model.homeContent.popularMovies" :media-type="'movie'" :label="'Popular Movies'"></Carousel>
     </div>
-    <div class="trending-list flex-row flex-center">
-      <MediaCard v-for="(series, index) in $props.model.series" :key="index" :media="series" :media-type="'tv'"/>
+
+    <div v-if="$props.model.homeContent.popularSeries.length > 0" class="carousel flex-col flex-center-start">
+      <div class="carousel-title">
+        <h1>Popular Series</h1>
+      </div>
+      <Carousel :media="$props.model.homeContent.popularSeries" :media-type="'tv'" :label="'Popular Series'"></Carousel>
     </div>
+
+    <div v-if="$props.model.homeContent.topRatedMovies.length > 0" class="carousel flex-col flex-center-start">
+      <div class="carousel-title">
+        <h1>Top Rated Movies</h1>
+      </div>
+      <Carousel :media="$props.model.homeContent.topRatedMovies" :media-type="'movie'" :label="'Top Rated Movies'"></Carousel>
+    </div>
+
+    <div v-if="$props.model.homeContent.topRatedSeries.length > 0" class="carousel flex-col flex-center-start">
+      <div class="carousel-title">
+        <h1>Top Rated Series</h1>
+      </div>
+      <Carousel :media="$props.model.homeContent.topRatedSeries" :media-type="'tv'" :label="'Top Rated Series'"></Carousel>
+    </div>
+
+    <div v-if="$props.model.homeContent.upcomingMovies.length > 0" class="carousel flex-col flex-center-start">
+      <div class="carousel-title">
+        <h1>Upcoming Movies</h1>
+      </div>
+      <Carousel :media="$props.model.homeContent.upcomingMovies" :media-type="'movie'" :label="'Upcoming Movies'"></Carousel>
+    </div>
+
+    <!-- TODO! ÄR INTE DENNA SAMMA SOM POPULAR SERIES? -->
+    <div v-if="$props.model.homeContent.onTheAirSeries.length > 0" class="carousel flex-col flex-center-start">
+      <div class="carousel-title">
+        <h1>On The Air Series</h1>
+      </div>
+      <Carousel :media="$props.model.homeContent.onTheAirSeries" :media-type="'tv'" :label="'On The Air Series'"></Carousel>
+    </div>
+
+    <div v-if="$props.model.homeContent.nowPlayingMovies.length > 0" class="carousel flex-col flex-center-start">
+      <div class="carousel-title">
+        <h1>Now Playing Movies</h1>
+      </div>
+      <Carousel :media="$props.model.homeContent.nowPlayingMovies" :media-type="'movie'" :label="'Now Playing Movies'"></Carousel>
+    </div>
+
+    <!-- TODO! ÄR INTE DENNA OCKSÅ SAMMA SOM POPULAR SERIES? -->    
+    <div v-if="$props.model.homeContent.airingTodaySeries.length > 0" class="carousel flex-col flex-center-start">
+      <div class="carousel-title">
+        <h1>Airing Today Series</h1>
+      </div>
+      <Carousel :media="$props.model.homeContent.airingTodaySeries" :media-type="'tv'" :label="'Airing Today Series'"></Carousel>
+    </div>
+
   </div>
 </template>
 
@@ -38,7 +94,7 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'HomeView',
   components: {
-    MediaCard,
+    Carousel,
   },
   computed: {
     triviaClass(): string {

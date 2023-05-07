@@ -1,25 +1,42 @@
 <template>
   <nav class="flex-row flex-center" id="nav">
-    <div class="nav-link-container flex-row flex-center">
-      <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="/src/assets/didyousee.svg"
-          alt="didyousee logo. an owl with a binocular, looking for the next movie/series" decoding="sync"
-          fetchpriority="high" /></RouterLink>
-      <RouterLink to="/profile" class="nav-link flex-row flex-center">Watchlist</RouterLink>
-      <RouterLink to="/profile" class="nav-link flex-row flex-center">Seen</RouterLink>
-      <RouterLink to="/profile" class="nav-link flex-row flex-center">Liked</RouterLink>
-      <RouterLink to="/profile" class="nav-link flex-row flex-center">Disliked</RouterLink>
-      <div class="nav-link-right flex-row flex-center">
+    <div class="nav-link-container gap-full flex-row flex-space-between-center">
+      <div class="flex-row flex-center gap-full">
+        <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="../src/assets/didyousee.svg"
+          onerror="this.src='/src/assets/no-content.svg';"
+            alt="didyousee logo. an owl with a binocular, looking for the next movie/series" decoding="sync"
+            fetchpriority="high" /></RouterLink>
+        <RouterLink to="/profile" class="nav-link flex-row flex-center">Watchlist</RouterLink>
+        <RouterLink to="/profile" class="nav-link flex-row flex-center">Seen</RouterLink>
+        <RouterLink to="/profile" class="nav-link flex-row flex-center">Liked</RouterLink>
+        <RouterLink to="/profile" class="nav-link flex-row flex-center">Disliked</RouterLink>
+
+      </div>
+      <div class="nav-link-right gap-full flex-row flex-center">
         <SearchBar :model="model"></SearchBar>
         <RouterLink to="/profile" class="nav-link flex-row flex-center" id="profile">Profile</RouterLink>
       </div>
     </div>
   </nav>
   <div class="margin">
-    <RouterView></RouterView>
+    <RouterView v-slot="{ Component }">
+          <Suspense>
+            <!-- main content -->
+            <div>
+              <component :is="Component"></component>
+            </div>
+
+          <!-- loading state -->
+          <template #fallback>
+            Loading...
+          </template>
+          </Suspense>
+    </RouterView>
   </div>
-  <footer class="flex-col flex-seperate" id="footer">
+  <footer class="flex-col flex-seperate gap-full" id="footer">
     <div class="footer-top flex-row flex-center">
       <RouterLink to="/" class="nav-link flex-row" id="logo"><img src="/src/assets/didyousee.svg"
+        onerror="this.src='/src/assets/no-content.svg';"
           alt="didyousee logo. an owl with a binocular, looking for the next movie/series" decoding="sync"
           fetchpriority="high" /></RouterLink>
       <RouterLink to="/profile" class="nav-link"></RouterLink>
@@ -30,9 +47,11 @@
     <div class="flex-row flex-center">
       <p>Copyright © 2023 didyousee. All rights reserved</p>
     </div>
-    <div class="flex-row flex-center">
+    <div class="flex-row flex-center gap-quarter">
       <p>This product uses the TMDb API but is not endorsed or certified by TMDb.</p>
-      <img src="./assets/tmdb_alt_short_blue.svg" alt="TMDB alt short logo" loading="lazy" decoding="async" />
+      <img src="./assets/tmdb_alt_short_blue.svg" 
+      onerror="this.src='/src/assets/no-content.svg';"
+      alt="TMDB alt short logo" loading="lazy" decoding="async" />
     </div>
   </footer>
 </template>

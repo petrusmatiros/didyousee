@@ -4,7 +4,7 @@ import './../style.css';
 </script>
 
 <template>
-    <div class="top flex-col flex-center">
+    <div class="top gap-full flex-col flex-center">
         <h1>About</h1>
     </div>
 </template>

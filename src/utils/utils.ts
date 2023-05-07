@@ -1,10 +1,31 @@
+import numeral from "numeral";
+
+function escapeChars(str: string): string {
+  return str?.replace(/&quot;/g, '"')?.replace(/&#039;/g, "'");
+}
+
+function average(array: number[]): number[] {
+  if (!array) return [0];
+  if (array.length === 0) return [0];
+  return [Math.round(array.reduce((a, b) => a + b, 0) / array.length)];
+}
+
+function formatMoney(amount: number): string {
+  return numeral(amount).format("$0,0 a").toUpperCase();
+}
+
+function formatVoteCount(amount: number): string {
+  return numeral(amount).format("0,0 a").toUpperCase();
+}
+
 export enum SortingOrder {
   ASC = "ASC",
   DSC = "DSC",
 }
+
 /**
  * [random - generates a random number between min and max]
- * 
+ *
  * **Both the min and max are inclusive**
  *
  * @param   {number}  min  [the lower bound]
@@ -22,15 +43,15 @@ function random(min: number, max: number) {
  * **Returns a copy of the array**
  *
  * @param   {T[]}           arr        [the array to sort]
- * @param   {SortingOrder}  order      [the order to sort in]
  * @param   {T}             compareCB  [the callback to use for comparing]
+ * @param   {SortingOrder}  order      [the order to sort in]
  *
  * @return  {T[]}                      [the sorted array]
  */
 function sort<T>(
   arr: T[],
+  compareCB: (a: T, b: T) => number,
   order: SortingOrder,
-  compareCB: (a: T, b: T) => number
 ): T[] {
   const copy = [...arr];
   if (order === SortingOrder.ASC) {
@@ -73,4 +94,13 @@ function find<T>(
   return arr.find(findCB);
 }
 
-export { random, sort, filter, find };
+export {
+  random,
+  sort,
+  filter,
+  find,
+  escapeChars,
+  average,
+  formatMoney,
+  formatVoteCount,
+};
