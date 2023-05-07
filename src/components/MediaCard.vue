@@ -20,7 +20,11 @@
 import { defineComponent } from "vue";
 import "./../style.css";
 import { PosterSize, MediaType } from '../types/types';
+<<<<<<< HEAD
 import { formToJSON } from "axios";
+=======
+import noPoster from "../assets/no_poster.svg"
+>>>>>>> main
 
 export default defineComponent({
   name: "MediaCard",
@@ -38,6 +42,7 @@ export default defineComponent({
     },
   },
   computed: {
+<<<<<<< HEAD
     capitalizedMediaType(): string | undefined {
       if (this.mediaType === MediaType.MOVIE.toString()) {
         return "Movie";
@@ -46,6 +51,10 @@ export default defineComponent({
       } else {
         return this.mediaType;
       }
+=======
+    imagePath(): any {
+      return this.media.poster_path ? `https://image.tmdb.org/t/p/${PosterSize.W342}/${this.media.poster_path}` : noPoster;
+>>>>>>> main
     },
   },
   data() {

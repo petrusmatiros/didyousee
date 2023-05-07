@@ -63,6 +63,9 @@ function handleCreateAccountACB(username: string, mail: string, password: string
               <router-link to="/login">Already have an account?</router-link>
             </p>
           </div>
+          <p v-if="errorMessage">
+            {{ errorMessage }}
+          </p>
         </form>
       </div>
     </div>
@@ -77,6 +80,12 @@ let password = "";
 let confirm_password = "";
 
 export default defineComponent({
-    name: 'LoginView',
+    name: 'RegisterView',
+    props: {
+        errorMessage: {
+            type: String,
+            required: false,
+        }
+    }
 });
 </script>
