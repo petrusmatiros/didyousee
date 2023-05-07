@@ -4,7 +4,7 @@ import './../style.css';
 </script>
 
 <template>
-    <div class="top gap-full flex-col flex-center">
+    <div class="mt-large2 gap-full flex-col flex-center">
         <h1>Reviews</h1>
         <!-- TODO ReviewCard with v-for -->
         <div class="flex-col flex-center-start">

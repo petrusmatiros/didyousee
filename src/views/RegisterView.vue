@@ -14,7 +14,7 @@ function handleCreateAccountACB(
 </script>
 
 <template>
-  <div class="top gap-full flex-col flex-center">
+  <div class="mt-large2 gap-full flex-col flex-center">
     <div class="credentials-container gap-double flex-col flex-center">
       <div class="flex-col flex-center gap-quarter m-medium">
         <img

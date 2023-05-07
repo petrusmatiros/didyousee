@@ -1,46 +1,72 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 import ProfileView from "../views/ProfileView.vue";
 import { auth, app } from "../firebaseConfig";
 import { signOut } from "firebase/auth";
-import { useRouter } from 'vue-router'
+import { useRouter } from "vue-router";
 
 export default defineComponent({
-    name: "AboutPresenter",
-    components: {
-        ProfileView,
+  name: "ProfilePresenter",
+  components: {
+    ProfileView,
+  },
+  props: {
+    model: {
+      type: Object,
+      required: true,
     },
-    props: {
-        model: {
-            type: Object,
-            required: true,
-        },
-    },
-    setup(props: any) {
-        const router = useRouter()
-        const user = auth.currentUser; // Kollar ifall användaren är inloggad!
+  },
+  setup(props: any) {
+    const router = useRouter();
+    const user = auth.currentUser; // Kollar ifall användaren är inloggad!
 
-        function logoutClickACB() {
-            signOut(auth).then(() => {
-                // Sign-out successful.
-                console.log("Signed-out!")
-            }).catch((error) => {
-                // An error happened.
-                console.warn("Error Sign-out!")
-            });
-            router.push('/login');
-        }
+    function logoutClickACB() {
+      signOut(auth)
+        .then(() => {
+          // Sign-out successful.
+          console.log("Signed-out!");
+        })
+        .catch((error) => {
+          // An error happened.
+          console.warn("Error Sign-out!");
+        });
+      router.push("/login");
+    }
 
-        if (!user) {
-            // Omdirigera till inloggningssidan
-            router.push('/login');
+    function goToListACB(listType: string) {
+      console.log("listType", listType);
+      if (listType) {
+        if (listType === "watch") {
+          router.push({
+            name: "List",
+          });
+        } else if (listType === "seen") {
+          router.push({
+            name: "List",
+          });
+        } else if (listType === "liked") {
+          router.push({
+            name: "List",
+          });
+        } else if (listType === "disliked") {
+          router.push({
+            name: "List",
+          });
         }
-        return {
-            logoutClickACB,
-        };
-    },
+      }
+    }
+
+    if (!user) {
+      // Omdirigera till inloggningssidan
+      router.push("/login");
+    }
+    return {
+      logoutClickACB,
+      goToListACB,
+    };
+  },
 });
 </script>
 <template>
-    <ProfileView @logoutClick="logoutClickACB" />
+  <ProfileView @logoutClick="logoutClickACB" @goToList="goToListACB" />
 </template>

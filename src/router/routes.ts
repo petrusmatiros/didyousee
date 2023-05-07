@@ -6,6 +6,7 @@ import Content from '../presenters/ContentPresenter.vue'
 import Reviews from '../presenters/ReviewsPresenter.vue'
 import Cast from '../presenters/CastPresenter.vue'
 import Profile from '../presenters/ProfilePresenter.vue'
+import List from '../presenters/ListPresenter.vue'
 import Login from '../presenters/LoginPresenter.vue'
 import Register from '../presenters/RegisterPresenter.vue'
 import PageNotFound from '../presenters/PageNotFoundPresenter.vue'
@@ -56,6 +57,12 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: Profile,
+    props: {model: promiseModel},
+  },
+  {
+    path: '/profile/list',
+    name: 'List',
+    component: List,
     props: {model: promiseModel},
   },
   {

@@ -305,6 +305,9 @@ img {
   margin: var(--margin-medium) !important;
 }
 
+.mt-large2 {
+  margin-top: var(--margin-large-2);
+}
 
 
 
@@ -449,6 +452,51 @@ a:active {
   border-radius: 0 !important;
 }
 /*  ================== Footer END ================== */
+
+
+/*  ================== Profile page ================== */
+.profile-container {
+  
+}
+.profile-lists {
+  width: 30rem;
+}
+.profile-list-card-container {
+  width: 100%;
+}
+.profile-list-card {
+  user-select: none;
+  cursor: pointer;
+  background-color: var(--bg-light);
+  border-radius: var(--border-radius);
+  padding: var(--padding-large-4);
+  width: 100%;
+  text-align: center;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-large);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.profile-list-card:hover {
+  background-color: var(--bg-lighter);
+}
+
+.profile-list-card:active {
+  background-color: var(--bg-lightest);
+}
+
+/*  ================== Profile page END ================== */
+
+/*  ================== List page ================== */
+
+.list-container {
+  width: inherit;
+  align-items: stretch !important;
+  flex-wrap: wrap;
+}
+/*  ================== List page EMD ================== */
+
+
 
 /*  ================== Home page ================== */
 .homepage {
@@ -1071,10 +1119,6 @@ div[aria-hidden="true"] {
 /*  ================== Result ================== */
 
 /*  ================== Credentials ================== */
-.top {
-  margin-top: var(--margin-large-2);
-}
-
 .credentials-error-message {
   color: var(--accent-bad);
 }

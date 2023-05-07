@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import './../style.css';
+import ListCard from './../components/ListCard.vue';
 
 </script>
 
 <template>
-    <div class="top gap-full flex-col flex-center">
-        <h1>Reviews</h1>
+    <div class="mt-large2 gap-full flex-col flex-center">
+        <h1>List</h1>
         <!-- TODO ListCard with v-for -->
-        <div class="flex-col flex-center-start">
-            
+        <div class="list-container flex-col flex-center-start">
+            <ListCard>Card</ListCard>
         </div>
     </div>
 </template>
@@ -18,5 +19,8 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
     name: 'ListView',
+    components: {
+        ListCard,
+    },
 });
 </script>

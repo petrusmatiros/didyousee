@@ -4,7 +4,7 @@ import './../style.css';
 </script>
 
 <template>
-    <div class="top gap-full flex-col flex-center">
+    <div class="mt-large2 gap-full flex-col flex-center">
         <h1>Cast</h1>
         <!-- TODO CastCard with v-for -->
         <!-- One for cast, one for crew? -->
