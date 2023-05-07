@@ -90,6 +90,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  
   // const publicPages = ['/login', '/register']
   // const authRequired = !publicPages.includes(to.path)
   next();

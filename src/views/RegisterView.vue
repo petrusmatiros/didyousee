@@ -11,7 +11,7 @@ function handleCreateAccountACB(username: string, mail: string, password: string
     <div class="top gap-full flex-col flex-center">
       <div class="credentials-container gap-half flex-col flex-center">
         <img
-          src="../src/assets/didyousee.svg"
+          src="/src/assets/didyousee.svg"
           onerror="this.src='/src/assets/no-content.svg';"
           alt="didyousee logo. an owl with a binocular, looking for the next movie/series"
           decoding="async"

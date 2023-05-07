@@ -24,6 +24,7 @@ import {
   formatVoteCount,
 } from "../utils/utils";
 import noPoster from "../assets/no-poster.svg"
+import noContent from "../assets/no-content.svg"
 import { db } from "../firebaseConfig"
 import { ref, set, get, onValue } from "firebase/database";
 
@@ -100,13 +101,13 @@ function backdrop(
 function image(path: string, size: PosterSize | BackdropSize): any {
   return path
     ? `https://image.tmdb.org/t/p/${size}${path}`
-    : "/src/assets/no-poster.svg";
+    : noPoster;
 }
 
 function imageGeneric(path: string, size: PosterSize): any {
   return path
     ? `https://image.tmdb.org/t/p/${size}${path}`
-    : "/src/assets/no-content.svg";
+    : noContent;
 }
 
 function setCreator(input: any, mediaType: MediaType): any {

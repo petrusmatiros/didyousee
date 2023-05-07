@@ -1,7 +1,9 @@
 <script lang="ts">
-import { defineComponent, onBeforeUnmount, reactive } from 'vue'
+import { defineComponent, onBeforeUnmount, reactive } from "vue";
+import { useRouter } from "vue-router";
+
 import SearchResultsView from "../views/SearchResultsView.vue";
-import { model } from '../model/model';
+import { model } from "../model/model";
 import { SearchCategory } from "../types/types";
 
 export default defineComponent({
@@ -16,6 +18,14 @@ export default defineComponent({
     },
   },
   setup(props: any) {
+    // Go back to home if there is no search string
+    const router = useRouter();
+    console.log("searchString", props.model.searchString);
+    if (props.model.searchString === "" || !props.model.searchString) {
+      router.push({
+        name: "Home",
+      });
+    }
 
     function searchACB() {
       if (props.model.getSearchString()) {
@@ -23,34 +33,33 @@ export default defineComponent({
         if (props.model.getSearchCategory() === SearchCategory.TITLE) {
           try {
             props.model.fetchContent();
-          } catch (error) {
-            
-          }
-        }
-        else if (props.model.getSearchCategory() === SearchCategory.GENRE) {
+          } catch (error) {}
+        } else if (props.model.getSearchCategory() === SearchCategory.GENRE) {
           try {
             props.model.fetchGenreContent();
-          } catch (error) {
-            
-          }
-          
+          } catch (error) {}
         }
       }
     }
     function checkForNextPage() {
       // const { isPageLoaded = ;
-      console.log("isloading", props.model.getIsPageLoading())
+      console.log("isloading", props.model.getIsPageLoading());
       if (!props.model.getIsPageLoading()) {
-        console.log("NEXT PAGE (x/x)", props.model.getPage(), props.model.total_pages)
-        if (props.model.result_status.current === 'fulfilled' && props.model.getPage() < props.model.total_pages) {
-          
+        console.log(
+          "NEXT PAGE (x/x)",
+          props.model.getPage(),
+          props.model.total_pages
+        );
+        if (
+          props.model.result_status.current === "fulfilled" &&
+          props.model.getPage() < props.model.total_pages
+        ) {
           // TODO! Total Pages for Series / Movies
-          console.log("IncrementPage")
+          console.log("IncrementPage");
           props.model.incrementPage();
           if (props.model.getSearchCategory() === SearchCategory.TITLE) {
             props.model.fetchContent();
-          }
-          else if (props.model.getSearchCategory() === SearchCategory.GENRE) {
+          } else if (props.model.getSearchCategory() === SearchCategory.GENRE) {
             props.model.fetchGenreContent();
           }
           props.model.setIsPageLoading(false);
@@ -61,7 +70,8 @@ export default defineComponent({
     props.model.addObserver(searchACB);
 
     const handleScroll = () => {
-      const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+      const { scrollTop, scrollHeight, clientHeight } =
+        document.documentElement;
       if (scrollTop + clientHeight >= scrollHeight) {
         checkForNextPage();
       }
