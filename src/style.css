@@ -166,7 +166,6 @@ iframe {
 h1, h2, h3 {
   margin: 0 !important;
   word-wrap: break-word;
-  text-align: justify;
 }
 p {
   font-size: var(--font-small-2);

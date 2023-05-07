@@ -23,7 +23,7 @@ import {
   formatMoney,
   formatVoteCount,
 } from "../utils/utils";
-import noPoster from "../assets/no_poster.svg"
+import noPoster from "../assets/no-poster.svg"
 import { db } from "../firebaseConfig"
 import { ref, set, get, onValue } from "firebase/database";
 
