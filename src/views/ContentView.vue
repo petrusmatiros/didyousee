@@ -598,7 +598,8 @@ export default defineComponent({
           blurAmount = 3;
         }
   
-        backdrop.style.filter = `blur(${blurAmount*0.95}rem)`;
+        backdrop.style.filter = `blur(${blurAmount*0.95}rem) brightness(0.75)`;
+
         backdrop.style.transition = "filter 0.3s ease";
       }
     };

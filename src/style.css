@@ -765,6 +765,7 @@ div[aria-hidden="true"] {
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
+  filter: brightness(0.75);
   /* filter: blur(2rem) !important; */
   background-size: cover;
   background-repeat: no-repeat;
