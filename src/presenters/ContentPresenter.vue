@@ -48,10 +48,11 @@ export default defineComponent({
     // }
 
     async function updateDataACB() {
-      props.model.resetCurrentContent();
+
       const id = route.query.id;
       const type = route.query.type;
-      if (id) {
+      if (id && type) {
+        props.model.resetCurrentContent();
         const mediaID = JSON.parse(id as string);
         const mediaType = JSON.parse(type as string);
         props.model.setSearchID(mediaID);
@@ -89,6 +90,7 @@ export default defineComponent({
     // props.model.addObserver(updateDataACB);
 
     function addToList(list: string) {
+      console.log("list:", list)
       addMovie(userID, list, mediaID);
     }
 

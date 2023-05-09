@@ -81,6 +81,8 @@
 
 * {
   font-family: "Inter", sans-serif;
+  box-sizing: border-box;
+
   /* will-change: transform;
 -webkit-transform: translateX(0);
 -moz-transform: translateX(0);
@@ -1068,6 +1070,7 @@ div[aria-hidden="true"] {
   background-color: var(--bg-dark);
   padding: var(--padding-large-3);
   border-radius: var(--border-radius);
+  width: 100%;
 }
 .review-card p {
   text-align: justify;

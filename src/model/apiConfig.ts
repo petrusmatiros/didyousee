@@ -10,16 +10,6 @@ const tmdbApi = axios.create({
   },
 });
 
-const tmdbImageApi = axios.create({
-  baseURL: "https://image.tmdb.org/t/p/",
-  headers: {
-    common: {
-      Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
-      "Content-Type": "application/json;charset=utf-8",
-    },
-  },
-});
-
 const opentdbApi = axios.create({
   baseURL: "https://opentdb.com/api.php",
   headers: {
@@ -29,4 +19,4 @@ const opentdbApi = axios.create({
   },
 });
 
-export { tmdbApi, tmdbImageApi, opentdbApi };
+export { tmdbApi, opentdbApi };

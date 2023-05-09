@@ -1,4 +1,4 @@
-import { tmdbApi, tmdbImageApi, opentdbApi } from "./apiConfig";
+import { tmdbApi, opentdbApi } from "./apiConfig";
 import { MediaType } from "../types/types";
 
 async function getTrending(type: string, timeWindow: string, page: number) {

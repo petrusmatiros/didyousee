@@ -1,19 +1,23 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 import ReviewsView from "../views/ReviewsView.vue";
 
 export default defineComponent({
-    name: "ReviewsPresenter",
-    components: {
-        ReviewsView,
+  name: "ReviewsPresenter",
+  components: {
+    ReviewsView,
+  },
+  props: {
+    model: {
+      type: Object,
+      required: true,
     },
-    setup(props: any) {
-
-        return {
-        };
-    },
+  },
+  setup(props:any) {
+    console.log("REVIEW:", props.model.currentMovie?.reviews)
+  }
 });
 </script>
 <template>
-    <ReviewsView/>
+  <ReviewsView :model="model" />
 </template>

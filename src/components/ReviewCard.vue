@@ -1,5 +1,5 @@
 <template>
-    <div v.if="props.review?.author_details?.avatar_path || props.review?.author_details?.username || $props.review?.created_at || $props.review?.author_details?.rating || $props.review?.content" class="review-card gap-double flex-col">
+    <div v-if="$props.review?.author_details?.avatar_path || $props.review?.author_details?.username || $props.review?.created_at || $props.review?.author_details?.rating || $props.review?.content" class="review-card gap-double flex-col">
       <div class="flex-row flex-space-between-center gap-full">
         <div class="review-card-author flex-row flex-start-center gap-full">
           <div class="loading-skeleton" v-if="!$props.review?.author_details?.avatar_path"></div>

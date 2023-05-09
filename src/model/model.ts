@@ -1,4 +1,4 @@
-import { tmdbApi, tmdbImageApi, opentdbApi } from "./apiConfig";
+import { tmdbApi, opentdbApi } from "./apiConfig";
 import {
   FetchType,
   TriviaCategory,
@@ -163,14 +163,18 @@ async function fetchHandler(
   if (fetchType === FetchType.SINGLE) {
     try {
       const fetchedData: any | undefined = await axiosPromise;
-      return contentFromQuery(fetchedData.data);
+      if (fetchedData) {
+        return contentFromQuery(fetchedData.data);
+      }
     } catch (error) {
       throw error;
     }
   } else if (fetchType === FetchType.QUERY) {
     try {
       const fetchedData: any | undefined = await axiosPromise;
-      return fetchedData.data.results.map(contentFromQuery);
+      if (fetchedData) {
+        return fetchedData.data.results.map(contentFromQuery);
+      }
     } catch (error) {
       throw error;
     }
@@ -193,14 +197,17 @@ async function fetchHandler(
   } else if (fetchType === FetchType.CREDITS) {
     try {
       const fetchedData: any | undefined = await axiosPromise;
-      return fetchedData.data;
+      if (fetchedData) {
+        return fetchedData.data;
+      }
     } catch (error) {
       throw error;
     }
   } else if (fetchType === FetchType.REVIEWS) {
     try {
       function setLogoPath(path: string) {
-        return imageGeneric(path, PosterSize.W92);
+        // return imageGeneric(path, PosterSize.W92);
+        return "/src/assets/no-content.svg";
       }
       const fetchedData: any | undefined = await axiosPromise;
       if (fetchedData) {
@@ -210,7 +217,7 @@ async function fetchHandler(
           );
         });
       }
-      return fetchedData.data.results;
+      return fetchedData.data;
     } catch (error) {
       throw error;
     }
@@ -628,7 +635,12 @@ let model: Model = {
           returnedPromiseSeries,
           FetchType.QUERY
         );
-
+        if (!this.movies) {
+          this.movies = [];
+        }
+        if (!this.series) {
+          this.series = [];
+        }
         const genreContent = [...this.movies, ...this.series];
         this.searchContent = [...this.searchContent, ...genreContent];
       } else if (
@@ -681,6 +693,12 @@ let model: Model = {
           FetchType.QUERY
         );
 
+        if (!this.movies) {
+          this.movies = [];
+        }
+        if (!this.series) {
+          this.series = [];
+        }
         const data = [...this.movies, ...this.series];
         this.searchContent = [...this.searchContent, ...data];
 
@@ -1127,7 +1145,6 @@ async function discoverMedia(
 async function genreIDfromName(media: MediaType, name: string) {
   try {
     let genresResponse = await getGenreList(media);
-
     if (genresResponse) {
       const genres = genresResponse.data.genres;
       const options = {

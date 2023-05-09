@@ -41,16 +41,16 @@ function goToCastPageACB() {
 <template>
   <!-- <div class="overlay"></div> -->
   <div class="backdrop loading-skeleton" v-if="!(
-      $props.model.currentMovie.backdrop_path ||
-      $props.model.currentSeries.backdrop_path
+      $props.model.currentMovie?.backdrop_path ||
+      $props.model.currentSeries?.backdrop_path
     )"></div>
   <div
     v-else
     class="backdrop"
     :style="{
       backgroundImage: `linear-gradient(to bottom, rgba(48, 49, 53, 0.0), rgba(59, 60, 64, 1.0)), url(${
-        $props.model.currentMovie.backdrop_path ||
-        $props.model.currentSeries.backdrop_path
+        $props.model.currentMovie?.backdrop_path ||
+        $props.model.currentSeries?.backdrop_path
       })`,
     }"
   ></div>
@@ -61,8 +61,8 @@ function goToCastPageACB() {
           class="loading-skeleton result-content-poster"
           v-if="
             !(
-              $props.model.currentMovie.poster_path ||
-              $props.model.currentSeries.poster_path
+              $props.model.currentMovie?.poster_path ||
+              $props.model.currentSeries?.poster_path
             )
           "
         ></div>
@@ -70,9 +70,10 @@ function goToCastPageACB() {
           class="result-content-poster"
           v-else
           loading="lazy"
+          onerror="this.src='/src/assets/no-poster.svg';"
           :src="
-            $props.model.currentMovie.poster_path ||
-            $props.model.currentSeries.poster_path
+            $props.model.currentMovie?.poster_path ||
+            $props.model.currentSeries?.poster_path
           "
         />
         <div
@@ -427,15 +428,15 @@ function goToCastPageACB() {
 
       <div
         v-if="
-          $props.model.currentMovie.reviews.length > 0 ||
-          $props.model.currentSeries.reviews.length > 0
+          $props.model.currentMovie.reviews.results.length > 0 ||
+          $props.model.currentSeries.reviews.results.length > 0
         "
         class="info-container gap-full flex-row flex-center"
       >
         <div
           v-if="
-            $props.model.currentMovie.reviews.length > 0 ||
-            $props.model.currentSeries.reviews.length > 0
+            $props.model.currentMovie.reviews.results.length > 0 ||
+            $props.model.currentSeries.reviews.results.length > 0
           "
           class="info-card gap-half flex-col"
         >
@@ -447,8 +448,8 @@ function goToCastPageACB() {
           </div>
           <ReviewCard
             :review="
-              $props.model.currentMovie?.reviews[0] ||
-              $props.model.currentSeries?.reviews[0]
+              $props.model.currentMovie?.reviews.results[0] ||
+              $props.model.currentSeries?.reviews.results[0]
             "
           />
         </div>
