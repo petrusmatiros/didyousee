@@ -17,7 +17,7 @@
         </div>
         <div class="review-card-rating flex-row flex-start-center gap-quarter" v-else>No rating</div>
       </div>
-      <p v-if="$props.review?.content" class="fw-regular"> {{ $props.review?.content }} </p>
+      <p v-if="$props.review?.content" class="fw-regular review-card-content"> {{ $props.review?.content }} </p>
     </div>
   </template>
   
@@ -33,7 +33,11 @@
         required: true,
       },
     },
+    methods: {
+
+    },
     computed: {
+
     },
     data() {
       return {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import './../style.css';
-import Carousel from '../components/Carousel.vue';
+import CarouselMedia from '../components/CarouselMedia.vue';
 </script>
 
 <template>
@@ -17,49 +17,49 @@ import Carousel from '../components/Carousel.vue';
       <div class="carousel-title">
         <h1>Trending Movies</h1>
       </div>
-      <Carousel :media="$props.model.homeContent.trendingMovies" :media-type="'movie'" :label="'Trending Movies'"></Carousel>
+      <CarouselMedia :media="$props.model.homeContent.trendingMovies" :media-type="'movie'" :label="'Trending Movies'"></CarouselMedia>
     </div>
 
     <div v-if="$props.model.homeContent.trendingSeries.length > 0" class="carousel flex-col flex-center-start">
       <div class="carousel-title">
         <h1>Trending Series</h1>
       </div>
-      <Carousel :media="$props.model.homeContent.trendingSeries" :media-type="'tv'" :label="'Trending Series'"></Carousel>
+      <CarouselMedia :media="$props.model.homeContent.trendingSeries" :media-type="'tv'" :label="'Trending Series'"></CarouselMedia>
     </div>
 
     <div v-if="$props.model.homeContent.popularMovies.length > 0" class="carousel flex-col flex-center-start">
       <div class="carousel-title">
         <h1>Popular Movies</h1>
       </div>
-      <Carousel :media="$props.model.homeContent.popularMovies" :media-type="'movie'" :label="'Popular Movies'"></Carousel>
+      <CarouselMedia :media="$props.model.homeContent.popularMovies" :media-type="'movie'" :label="'Popular Movies'"></CarouselMedia>
     </div>
 
     <div v-if="$props.model.homeContent.popularSeries.length > 0" class="carousel flex-col flex-center-start">
       <div class="carousel-title">
         <h1>Popular Series</h1>
       </div>
-      <Carousel :media="$props.model.homeContent.popularSeries" :media-type="'tv'" :label="'Popular Series'"></Carousel>
+      <CarouselMedia :media="$props.model.homeContent.popularSeries" :media-type="'tv'" :label="'Popular Series'"></CarouselMedia>
     </div>
 
     <div v-if="$props.model.homeContent.topRatedMovies.length > 0" class="carousel flex-col flex-center-start">
       <div class="carousel-title">
         <h1>Top Rated Movies</h1>
       </div>
-      <Carousel :media="$props.model.homeContent.topRatedMovies" :media-type="'movie'" :label="'Top Rated Movies'"></Carousel>
+      <CarouselMedia :media="$props.model.homeContent.topRatedMovies" :media-type="'movie'" :label="'Top Rated Movies'"></CarouselMedia>
     </div>
 
     <div v-if="$props.model.homeContent.topRatedSeries.length > 0" class="carousel flex-col flex-center-start">
       <div class="carousel-title">
         <h1>Top Rated Series</h1>
       </div>
-      <Carousel :media="$props.model.homeContent.topRatedSeries" :media-type="'tv'" :label="'Top Rated Series'"></Carousel>
+      <CarouselMedia :media="$props.model.homeContent.topRatedSeries" :media-type="'tv'" :label="'Top Rated Series'"></CarouselMedia>
     </div>
 
     <div v-if="$props.model.homeContent.upcomingMovies.length > 0" class="carousel flex-col flex-center-start">
       <div class="carousel-title">
         <h1>Upcoming Movies</h1>
       </div>
-      <Carousel :media="$props.model.homeContent.upcomingMovies" :media-type="'movie'" :label="'Upcoming Movies'"></Carousel>
+      <CarouselMedia :media="$props.model.homeContent.upcomingMovies" :media-type="'movie'" :label="'Upcoming Movies'"></CarouselMedia>
     </div>
 
     <!-- TODO! ÄR INTE DENNA SAMMA SOM POPULAR SERIES? -->
@@ -67,14 +67,14 @@ import Carousel from '../components/Carousel.vue';
       <div class="carousel-title">
         <h1>On The Air Series</h1>
       </div>
-      <Carousel :media="$props.model.homeContent.onTheAirSeries" :media-type="'tv'" :label="'On The Air Series'"></Carousel>
+      <CarouselMedia :media="$props.model.homeContent.onTheAirSeries" :media-type="'tv'" :label="'On The Air Series'"></CarouselMedia>
     </div>
 
     <div v-if="$props.model.homeContent.nowPlayingMovies.length > 0" class="carousel flex-col flex-center-start">
       <div class="carousel-title">
         <h1>Now Playing Movies</h1>
       </div>
-      <Carousel :media="$props.model.homeContent.nowPlayingMovies" :media-type="'movie'" :label="'Now Playing Movies'"></Carousel>
+      <CarouselMedia :media="$props.model.homeContent.nowPlayingMovies" :media-type="'movie'" :label="'Now Playing Movies'"></CarouselMedia>
     </div>
 
     <!-- TODO! ÄR INTE DENNA OCKSÅ SAMMA SOM POPULAR SERIES? -->    
@@ -82,7 +82,7 @@ import Carousel from '../components/Carousel.vue';
       <div class="carousel-title">
         <h1>Airing Today Series</h1>
       </div>
-      <Carousel :media="$props.model.homeContent.airingTodaySeries" :media-type="'tv'" :label="'Airing Today Series'"></Carousel>
+      <CarouselMedia :media="$props.model.homeContent.airingTodaySeries" :media-type="'tv'" :label="'Airing Today Series'"></CarouselMedia>
     </div>
 
   </div>
@@ -94,7 +94,7 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'HomeView',
   components: {
-    Carousel,
+    CarouselMedia,
   },
   computed: {
     triviaClass(): string {

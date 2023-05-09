@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import MediaCard from "../components/MediaCard.vue";
-import { PosterSize, MediaType } from "../types/types";
+import CastCard from "../components/CastCard.vue";
+import { PosterSize } from "../types/types";
 import { Splide, SplideSlide, SplideTrack } from "@splidejs/vue-splide";
 import "@splidejs/vue-splide/css";
 </script>
@@ -24,13 +24,14 @@ import "@splidejs/vue-splide/css";
       drag: true,
       snap: true,
       waitForTransition: true,
-      gap: '8rem',
+      gap: '1rem',
       rewind: true,
+      clones: false,
     }"
     :aria-label="label"
   >
-    <SplideSlide v-for="(media, index) in $props.media" :key="index">
-      <MediaCard :media="media" :media-type="mediaType" />
+    <SplideSlide v-for="(cast, index) in $props.cast" :key="index">
+      <CastCard :cast="cast"/>
     </SplideSlide>
   </Splide>
 </template>
@@ -42,23 +43,12 @@ import "./../style.css";
 export default defineComponent({
   name: "Carousel",
   components: {
-    MediaCard,
+    CastCard,
   },
   props: {
-    media: {
+    cast: {
       type: Object,
       required: true,
-    },
-    mediaType: {
-      type: String,
-      required: false,
-      validator: (value: string) => {
-        return [
-          MediaType.SERIES.toString(),
-          MediaType.MOVIE.toString(),
-          undefined,
-        ].includes(value);
-      },
     },
     label: {
       type: String,

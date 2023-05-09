@@ -196,8 +196,17 @@ async function fetchHandler(
     }
   } else if (fetchType === FetchType.CREDITS) {
     try {
+      function setLogoPath(path: string) {
+        return imageGeneric(path, PosterSize.W92);
+      }
       const fetchedData: any | undefined = await axiosPromise;
       if (fetchedData) {
+        console.log(fetchedData.data);
+        fetchedData.data.cast.forEach((cast: any) => {
+          cast.profile_path = setLogoPath(
+            cast.profile_path
+          );
+        });
         return fetchedData.data;
       }
     } catch (error) {
@@ -206,8 +215,8 @@ async function fetchHandler(
   } else if (fetchType === FetchType.REVIEWS) {
     try {
       function setLogoPath(path: string) {
-        // return imageGeneric(path, PosterSize.W92);
-        return "/src/assets/no-content.svg";
+        return imageGeneric(path, PosterSize.W92);
+        // return "/src/assets/no-content.svg";
       }
       const fetchedData: any | undefined = await axiosPromise;
       if (fetchedData) {

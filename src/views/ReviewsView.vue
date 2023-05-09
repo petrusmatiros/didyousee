@@ -4,7 +4,7 @@ import ReviewCard from "../components/ReviewCard.vue";
 </script>
 
 <template>
-  <div class="mt-large2 gap-full flex-col flex-center">
+  <div class="reviews mt-large2 gap-full flex-col flex-center">
     <div class="flex-col flex-center-start gap-full">
       <h1>
         {{ $props.model.currentMovie.title || $props.model.currentSeries.name }}

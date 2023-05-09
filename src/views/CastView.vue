@@ -5,11 +5,11 @@ import CastCard from "../components/CastCard.vue";
 
 <template>
   <div class="mt-large2 gap-full flex-col flex-center">
-    <div class="flex-col flex-center-start gap-full">
-      <h1>
-        {{ $props.model.currentMovie.title || $props.model.currentSeries.name }}
-      </h1>
-      <h2>Cast</h2>
+    <h1>
+      {{ $props.model.currentMovie.title || $props.model.currentSeries.name }}
+    </h1>
+    <h2>Cast</h2>
+    <div class="credits flex-row flex-center-start gap-full">
       <CastCard
         v-if="$props.model.currentMovie?.credits?.cast"
         v-for="(cast, index) in $props.model.currentMovie?.credits?.cast"

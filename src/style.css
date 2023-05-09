@@ -82,7 +82,6 @@
 * {
   font-family: "Inter", sans-serif;
   box-sizing: border-box;
-
   /* will-change: transform;
 -webkit-transform: translateX(0);
 -moz-transform: translateX(0);
@@ -176,6 +175,7 @@ p {
   margin: 0 !important;
   word-wrap: break-word;
   text-align: justify;
+  /* white-space: break-spaces !important; */
 }
 
 img {
@@ -310,8 +310,6 @@ img {
 .mt-large2 {
   margin-top: var(--margin-large-2);
 }
-
-
 
 .fw-regular {
   font-weight: var(--font-weight-light) !important;
@@ -455,10 +453,8 @@ a:active {
 }
 /*  ================== Footer END ================== */
 
-
 /*  ================== Profile page ================== */
 .profile-container {
-  
 }
 .profile-lists {
   width: 30rem;
@@ -497,8 +493,6 @@ a:active {
   flex-wrap: wrap;
 }
 /*  ================== List page EMD ================== */
-
-
 
 /*  ================== Home page ================== */
 .homepage {
@@ -544,7 +538,8 @@ a:active {
   user-select: none;
   justify-content: start;
   align-items: center;
-  width: var(--content-card-width);
+  width: fit-content;
+  max-width: var(--content-card-width) !important;
   height: auto;
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
@@ -557,7 +552,7 @@ a:active {
   user-select: none;
   justify-content: start;
   align-items: center;
-  width: var(--content-card-width);
+  width: fit-content;
   height: auto;
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
@@ -581,6 +576,7 @@ a:active {
   justify-content: center;
   align-items: center;
   font-size: var(--font-small-2);
+  max-width: var(--content-card-width) !important;
   min-height: 2rem;
   max-height: fit-content;
   font-weight: var(--font-weight-regular);
@@ -619,8 +615,7 @@ a:active {
   min-height: auto;
   height: auto;
   aspect-ratio: 2/3;
-  border-radius: var(--border-radius);
-  background-color: var(--bg-lighter);
+  border-radius: var(--border-radius) !important;
 }
 
 /* Container element / */
@@ -633,7 +628,8 @@ a:active {
 
 .splide {
   height: fit-content;
-  width: var(--desktop-max-width);
+  width: inherit !important;
+  max-width: var(--desktop-max-width);
   gap: 1rem !important;
 }
 
@@ -644,7 +640,11 @@ a:active {
   /* gap: 1rem; */
 }
 .splide__track {
+  align-items: stretch !important;
   padding: var(--padding-large-2);
+}
+.splide__list {
+  /* align-items: stretch !important; */
 }
 
 .splide__arrows {
@@ -680,15 +680,13 @@ a:active {
   left: initial !important;
   right: initial !important;
   width: 100% !important;
-  /* width: 5rem; */
-  position: relative;
-  gap: 1rem !important;
+  gap: 0.25rem !important;
 }
 .splide__pagination__page {
   color: var(--fg-secondary) !important;
   display: inline !important;
   height: 0.5rem !important;
-  width: 2rem !important;
+  width: 1rem !important;
   border-radius: var(--border-radius) !important;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
@@ -1066,6 +1064,10 @@ div[aria-hidden="true"] {
   flex-wrap: wrap !important;
 }
 
+.reviews {
+  align-items: stretch !important;
+}
+
 .review-card {
   background-color: var(--bg-dark);
   padding: var(--padding-large-3);
@@ -1074,6 +1076,10 @@ div[aria-hidden="true"] {
 }
 .review-card p {
   text-align: justify;
+}
+
+.review-card-content {
+  white-space: break-spaces !important;
 }
 .review-card img {
   width: 3rem;
@@ -1098,11 +1104,6 @@ div[aria-hidden="true"] {
   font-size: var(--font-large);
 }
 
-.cast-card {
-  padding: var(--padding-large);
-  border-radius: var(--border-radius);
-}
-
 .review-card-date {
   color: var(--fg-secondary) !important;
   font-size: var(--font-small-2) !important;
@@ -1119,6 +1120,38 @@ div[aria-hidden="true"] {
 .button-secondary {
   font-size: var(--font-small-2) !important;
 }
+
+.credits {
+  width: 100%;
+  align-items: stretch !important;
+  flex-wrap: wrap !important;
+}
+
+.cast-card {
+  min-width: 14rem;
+  width: min-content;
+  padding: var(--padding-large);
+  border-radius: var(--border-radius);
+  background-color: var(--bg-dark);
+}
+
+.cast-card img {
+  height: 8rem;
+  aspect-ratio: 2/3;
+  border-radius: var(--border-radius);
+}
+
+.cast-card h1 {
+  text-align: center;
+  font-size: var(--font-small-3) !important;
+}
+
+.cast-card p {
+  text-align: center;
+  font-size: var(--font-small) !important;
+  color: var(--fg-secondary) !important;
+}
+
 /*  ================== Result ================== */
 
 /*  ================== Credentials ================== */
