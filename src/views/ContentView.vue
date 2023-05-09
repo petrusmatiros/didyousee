@@ -414,7 +414,7 @@ function goToCastPageACB() {
           <div
             class="flex-row flex-start-center button button-secondary fixed-button"
           >
-            <h1 class="fixed-button" @click="goToCastPageACB">Cast</h1>
+            <h1 class="fixed-button" @click="goToCastPageACB">Credits</h1>
             <span class="material-symbols-rounded p-0">chevron_right</span>
           </div>
           <CastCard
