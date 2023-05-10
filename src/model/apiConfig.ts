@@ -10,6 +10,15 @@ const tmdbApi = axios.create({
   },
 });
 
+const imageFetch = axios.create({
+  baseURL: "https://image.tmdb.org/t/p/",
+  headers: {
+    common: {
+      "Content-Type": "application/json;charset=utf-8",
+    },
+  },
+});
+
 const opentdbApi = axios.create({
   baseURL: "https://opentdb.com/api.php",
   headers: {
@@ -19,4 +28,4 @@ const opentdbApi = axios.create({
   },
 });
 
-export { tmdbApi, opentdbApi };
+export { tmdbApi, opentdbApi, imageFetch };

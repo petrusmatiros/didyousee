@@ -1,4 +1,4 @@
-import { tmdbApi, opentdbApi } from "./apiConfig";
+import { tmdbApi, opentdbApi, imageFetch } from "./apiConfig";
 import {
   FetchType,
   TriviaCategory,
@@ -104,6 +104,12 @@ function image(path: string, size: PosterSize | BackdropSize): any {
     : noPoster;
 }
 
+function imageGravatar(path: string, size: PosterSize): any {
+  return path
+    ? `${path}`
+    : noContent
+}
+
 function imageGeneric(path: string, size: PosterSize): any {
   return path
     ? `https://image.tmdb.org/t/p/${size}${path}`
@@ -167,7 +173,7 @@ async function fetchHandler(
         return contentFromQuery(fetchedData.data);
       }
     } catch (error) {
-      throw error;
+      console.log(error);
     }
   } else if (fetchType === FetchType.QUERY) {
     try {
@@ -176,7 +182,7 @@ async function fetchHandler(
         return fetchedData.data.results.map(contentFromQuery);
       }
     } catch (error) {
-      throw error;
+      console.log(error);
     }
   } else if (fetchType === FetchType.VIDEO) {
     try {
@@ -192,7 +198,7 @@ async function fetchHandler(
         ? `https://www.youtube-nocookie.com/embed/${filteredVideos[0].key}`
         : "";
     } catch (error) {
-      throw error;
+      console.log(error);
     }
   } else if (fetchType === FetchType.CREDITS) {
     try {
@@ -201,7 +207,6 @@ async function fetchHandler(
       }
       const fetchedData: any | undefined = await axiosPromise;
       if (fetchedData) {
-        console.log(fetchedData.data);
         fetchedData.data.cast.forEach((cast: any) => {
           cast.profile_path = setLogoPath(
             cast.profile_path
@@ -210,13 +215,18 @@ async function fetchHandler(
         return fetchedData.data;
       }
     } catch (error) {
-      throw error;
+      console.log(error);
     }
   } else if (fetchType === FetchType.REVIEWS) {
     try {
       function setLogoPath(path: string) {
-        return imageGeneric(path, PosterSize.W92);
-        // return "/src/assets/no-content.svg";
+        if (path.indexOf("gravatar.com") === -1) {
+          return imageGeneric(path, PosterSize.W92);
+        }
+        else {
+          path = path.substring(1);
+          return imageGravatar(path, PosterSize.W92);
+        }
       }
       const fetchedData: any | undefined = await axiosPromise;
       if (fetchedData) {
@@ -228,7 +238,7 @@ async function fetchHandler(
       }
       return fetchedData.data;
     } catch (error) {
-      throw error;
+      console.log(error);
     }
   } else if (fetchType === FetchType.WATCH_PROVIDERS) {
     function setLogoPath(path: string) {
@@ -269,7 +279,6 @@ async function fetchHandler(
         }
       }
     }
-
     return fetchedData.data.results?.US;
   }
 }
@@ -340,10 +349,13 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
 
 interface UserData {
   uid: string;
-  movieLists: Record<string, string[]>;
+  movieLists: Record<string, {mediaID:string, mediaType:string}[]>;
 }
 
 interface Model {
+  state: any;
+  currentState: any;
+  currentList: (Movie | Series)[];
   // Only for Home
   movies: Movie[];
   series: Series[];
@@ -416,6 +428,9 @@ interface Model {
   fetchContentSimilarSeries: () => Promise<void>;
   fetchContentWatchProviders: (mediaType: MediaType) => Promise<void>;
 
+  fetchCurrentList: (list: []) => Promise<void>;
+  fetchPersistance: (userID:string) => Promise<void>;
+
   notifyObservers: (payload: any) => void;
   addObserver: (observer: (obs: any) => void) => void;
   removeObserver: (observer: (obs: any) => void) => void;
@@ -438,6 +453,9 @@ interface Model {
 
 // Everything that should persist
 let model: Model = {
+  state: {},
+  currentState: {},
+  currentList: generateDummyContent(10),
   // Home
   movies: [],
   series: [],
@@ -963,6 +981,59 @@ let model: Model = {
     }
   },
 
+  fetchCurrentList: async function (list: []) {
+    // this.currentList = [];
+    this.currentList = generateDummyContent(10);
+    try {
+      if (!list) {
+        return;
+      }
+      var tempList = [];
+      for (let i = 0; i < list.length; i++) {
+        let media: {mediaID:string, mediaType:string} = list[i];
+        if (media.mediaType === MediaType.MOVIE) {
+          try {
+            let movie = (await fetchHandler(
+              getMedia(MediaType.MOVIE, media.mediaID),
+              FetchType.SINGLE
+            )) as Movie;
+            tempList.push(movie);
+          } catch (error) {
+            throw error;
+          }
+        } else if (media.mediaType === MediaType.SERIES) {
+          try {
+            let series = (await fetchHandler(
+              getMedia(MediaType.SERIES, media.mediaID),
+              FetchType.SINGLE
+            )) as Series;
+            tempList.push(series);
+          } catch (error) {
+            throw error;
+          }
+        }
+      }
+    this.currentList = tempList;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  fetchPersistance: async function (userID: string) {
+    if (userID === "" || !userID) {
+      console.log("ERROR: No userID given");
+      return;
+    }
+    if(!persistent.userData) {
+      await subscribeDB(userID);
+    }
+    if(persistent.userData) {
+      if(persistent.userData.movieLists) {
+        this.state = persistent.userData.movieLists;
+      }
+    }
+  },
+
   notifyObservers: function (payload: any) {
     function invokeObserversCB(obs: (payload: any) => void) {
       try {
@@ -1203,7 +1274,24 @@ function persistUserData() {
     set(ref(db, 'users/' + persistent.userData.uid), persistent.userData);
 }
 
-async function addMovie(userID: string, list: string, mediaID: string) {
+async function toggleContentToList(userID:string, list:string, mediaID:string, mediaType:string) {
+  if (userID === "" || !userID) {
+    console.log("ERROR: No userID given");
+    return;
+  }
+  let a = await addContentToList(userID, list, mediaID, mediaType);
+  if(!a) {
+    await removeContentFromList(userID, list, mediaID, mediaType);
+  }
+  persistUserData();
+
+}
+
+async function addContentToList(userID: string, list: string, mediaID: string, mediaType: string) {
+  if (userID === "" || !userID) {
+    console.log("ERROR: No userID given");
+    return;
+  }
   if(!persistent.userData) {
     await subscribeDB(userID);
   }
@@ -1211,12 +1299,57 @@ async function addMovie(userID: string, list: string, mediaID: string) {
     if(!persistent.userData.movieLists[list]) {
       persistent.userData.movieLists[list] = [];
     }
-    persistent.userData.movieLists[list].push(mediaID);
+
+    let unique = true;
+    let entries = persistent.userData.movieLists[list];
+    entries.forEach((entry) => {
+      if (entry.mediaID === mediaID && entry.mediaType === mediaType) {
+        console.log("ERROR: Movie already in list");
+        unique = false;
+      }
+    });
+    if (unique) {
+      persistent.userData.movieLists[list].push( {mediaID: mediaID, mediaType: mediaType} );
+      return true;
+    } else {
+      return false;
+    }
+    
   } else {
     console.log("ERROR: Despite fetching from DB still no userdata.");
   }
   persistUserData();
 }
+
+async function removeContentFromList(userID: string, list: string, mediaID: string, mediaType: string) {
+  if (userID === "" || !userID) {
+    console.log("ERROR: No userID given");
+    return;
+  }
+  if(!persistent.userData) {
+    await subscribeDB(userID);
+  }
+  if(persistent.userData) {
+    let entries = persistent.userData.movieLists[list];
+    let index = -1;
+    entries.forEach((entry, i) => {
+      if(entry.mediaID === mediaID && entry.mediaType === mediaType) {
+        index = i;
+      } 
+    });
+    if (index > -1) {
+      persistent.userData.movieLists[list].splice(index, 1);
+      console.log("Removed content from list");
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    console.log("ERROR: Despite fetching from DB still no userdata.");
+  }
+  persistUserData();
+}
+
 
 async function getUserData(uid : string) : Promise<UserData | null> {
   if(persistent.userData === null) {
@@ -1239,6 +1372,8 @@ export {
   getRecommendedMedia,
 
   subscribeDB,
-  addMovie,
+  addContentToList,
+  removeContentFromList,
+  toggleContentToList,
   getUserData,
 };

@@ -14,7 +14,6 @@ export default defineComponent({
     },
   },
   setup(props: any) {
-    console.log("CAST:", props.model.currentMovie?.credits?.cast)
   }
 });
 </script>

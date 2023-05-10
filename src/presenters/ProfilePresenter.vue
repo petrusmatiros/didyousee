@@ -16,10 +16,17 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props: any) {
+  mounted() {
     const router = useRouter();
     const user = auth.currentUser; // Kollar ifall användaren är inloggad!
 
+    if (!user) {
+      // Omdirigera till inloggningssidan
+      router.push("/login");
+    }
+  },
+  setup(props: any) {
+    const router = useRouter();
     function logoutClickACB() {
       signOut(auth)
         .then(() => {
@@ -34,31 +41,37 @@ export default defineComponent({
     }
 
     function goToListACB(listType: string) {
-      console.log("listType", listType);
       if (listType) {
         if (listType === "watch") {
           router.push({
             name: "List",
+            query: {
+              name: "watch",
+            },
           });
         } else if (listType === "seen") {
           router.push({
             name: "List",
+            query: {
+              name: "seen",
+            },
           });
         } else if (listType === "liked") {
           router.push({
             name: "List",
+            query: {
+              name: "liked",
+            },
           });
         } else if (listType === "disliked") {
           router.push({
             name: "List",
+            query: {
+              name: "disliked",
+            },
           });
         }
       }
-    }
-
-    if (!user) {
-      // Omdirigera till inloggningssidan
-      router.push("/login");
     }
     return {
       logoutClickACB,

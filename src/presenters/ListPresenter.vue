@@ -1,19 +1,64 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 import ListView from "../views/ListView.vue";
+import { useRouter, useRoute } from "vue-router";
+import { auth } from "../firebaseConfig";
 
 export default defineComponent({
-    name: "ListPresenter",
-    components: {
-        ListView,
+  name: "ListPresenter",
+  components: {
+    ListView,
+  },
+  props: {
+    model: {
+      type: Object,
+      required: true,
     },
-    setup(props: any) {
+  },
+  watch: {
+    "$route.params": {
+      handler() {
+        this.updateList();
+      },
+      immediate: false,
+    },
+  },
+  mounted() {
+    const router = useRouter();
+    const user = auth.currentUser; // Kollar ifall användaren är inloggad!
 
-        return {
-        };
-    },
+    if (!user) {
+      // Omdirigera till inloggningssidan
+      router.push("/login");
+    }
+  },
+  setup(props: any) {
+    const route = useRoute();
+
+
+    const userID = auth.currentUser?.uid || "";
+
+    async function updateList() {
+      var listName = route.query.name as string;
+      await props.model.fetchPersistance(userID);
+      console.log(props.model.state, listName)
+      
+      const list = props.model.state[listName]
+      console.log("list", list)
+      await props.model.fetchCurrentList(list);
+      console.log(props.model.currentList)
+    }
+    updateList();
+
+
+    var listName = route.query.name as string;
+    return {
+        listName,
+        updateList,
+    };
+  },
 });
 </script>
 <template>
-    <ListView/>
+  <ListView :model="model" :listName="listName" />
 </template>

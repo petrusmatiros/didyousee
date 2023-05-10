@@ -63,7 +63,7 @@ function goToCastPageACB() {
           $props.model.currentSeries?.poster_path
           " />
         <div class="loading-skeleton result-content-info gap-double flex-col flex-start" v-if="!(
-            $props.model.currentMovie.title || $props.model.currentSeries.name
+            $props.model.currentMovie?.title || $props.model.currentSeries?.name
           )
           "></div>
         <div v-else class="result-content-info gap-double flex-col flex-start">
@@ -71,8 +71,8 @@ function goToCastPageACB() {
             <div class="result-content-info--top flex-row flex-start-center gap-half">
               <h1 class="flex-row">
                 {{
-                  $props.model.currentMovie.title ||
-                  $props.model.currentSeries.name
+                  $props.model.currentMovie?.title ||
+                  $props.model.currentSeries?.name
                 }}
               </h1>
 
@@ -88,161 +88,161 @@ function goToCastPageACB() {
               <!-- <span v-if="$props.model.currentMovie.release_date?.split('-')[0]">●</span> -->
               <p>
                 {{
-                  $props.model.currentMovie.release_date?.split("-")[0] ||
-                  $props.model.currentSeries.first_air_date?.split("-")[0]
+                  $props.model.currentMovie?.release_date?.split("-")[0] ||
+                  $props.model.currentSeries?.first_air_date?.split("-")[0]
                 }}
               </p>
 
               <!-- Created by -->
-              <span v-if="$props.model.currentMovie.created_by &&
-                  $props.model.currentMovie.created_by[0]?.name
+              <span v-if="$props.model.currentMovie?.created_by &&
+                  $props.model.currentMovie?.created_by[0]?.name
                   ">●</span>
 
-              <p v-if="$props.model.currentMovie.created_by &&
-                $props.model.currentMovie.created_by[0]?.name
+              <p v-if="$props.model.currentMovie?.created_by &&
+                $props.model.currentMovie?.created_by[0]?.name
                 ">
                 {{
-                  $props.model.currentMovie.created_by &&
-                  $props.model.currentMovie.created_by[0]?.name
+                  $props.model.currentMovie?.created_by &&
+                  $props.model.currentMovie?.created_by[0]?.name
                 }}
               </p>
 
-              <span v-if="$props.model.currentSeries.created_by[0]?.name">●</span>
-              <p v-if="$props.model.currentSeries.created_by[0]?.name">
-                {{ $props.model.currentSeries.created_by[0]?.name }}
+              <span v-if="$props.model.currentSeries?.created_by[0]?.name">●</span>
+              <p v-if="$props.model.currentSeries?.created_by[0]?.name">
+                {{ $props.model.currentSeries?.created_by[0]?.name }}
               </p>
 
               <!-- Runtime or Average episode runtime -->
-              <span v-if="$props.model.currentMovie.runtime">●</span>
-              <span v-if="$props.model.currentSeries.episode_run_time[0]">●</span>
+              <span v-if="$props.model.currentMovie?.runtime">●</span>
+              <span v-if="$props.model.currentSeries?.episode_run_time[0]">●</span>
 
-              <p v-if="$props.model.currentMovie.runtime">
+              <p v-if="$props.model.currentMovie?.runtime">
                 {{
-                  Math.floor($props.model.currentMovie.runtime / 60)
+                  Math.floor($props.model.currentMovie?.runtime / 60)
                     .toString()
                     .padEnd(2, "h")
                 }}
                 {{
-                  ($props.model.currentMovie.runtime % 60)
+                  ($props.model.currentMovie?.runtime % 60)
                     .toString()
                     .padEnd(3, "m")
                 }}
               </p>
 
-              <p v-if="$props.model.currentSeries.episode_run_time[0]">
+              <p v-if="$props.model.currentSeries?.episode_run_time[0]">
                 {{
                   Math.floor(
-                    $props.model.currentSeries.episode_run_time[0] / 60
+                    $props.model.currentSeries?.episode_run_time[0] / 60
                   )
                     .toString()
                     .padEnd(2, "h")
                 }}
                 {{
-                  ($props.model.currentSeries.episode_run_time[0] % 60)
+                  ($props.model.currentSeries?.episode_run_time[0] % 60)
                     .toString()
                     .padEnd(3, "m")
                 }}
               </p>
 
               <!-- Status -->
-              <span v-if="$props.model.currentMovie.status">●</span>
-              <span v-if="$props.model.currentSeries.status">●</span>
-              <p v-if="$props.model.currentMovie.status">
-                {{ $props.model.currentMovie.status }}
+              <span v-if="$props.model.currentMovie?.status">●</span>
+              <span v-if="$props.model.currentSeries?.status">●</span>
+              <p v-if="$props.model.currentMovie?.status">
+                {{ $props.model.currentMovie?.status }}
               </p>
-              <p v-if="$props.model.currentSeries.status">
-                {{ $props.model.currentSeries.status }}
+              <p v-if="$props.model.currentSeries?.status">
+                {{ $props.model.currentSeries?.status }}
               </p>
 
               <!-- Series -->
               <!-- Episodes -->
-              <span v-if="$props.model.currentSeries.number_of_episodes">●</span>
-              <p v-if="$props.model.currentSeries.number_of_episodes">
+              <span v-if="$props.model.currentSeries?.number_of_episodes">●</span>
+              <p v-if="$props.model.currentSeries?.number_of_episodes">
                 {{
-                  $props.model.currentSeries.number_of_episodes + " episodes"
+                  $props.model.currentSeries?.number_of_episodes + " episodes"
                 }}
               </p>
 
               <!-- Seasons -->
-              <span v-if="$props.model.currentSeries.number_of_seasons">●</span>
-              <p v-if="$props.model.currentSeries.number_of_seasons">
-                {{ $props.model.currentSeries.number_of_seasons + " seasons" }}
+              <span v-if="$props.model.currentSeries?.number_of_seasons">●</span>
+              <p v-if="$props.model.currentSeries?.number_of_seasons">
+                {{ $props.model.currentSeries?.number_of_seasons + " seasons" }}
               </p>
             </div>
           </div>
 
-          <p v-if="$props.model.currentMovie.overview ||
-            $props.model.currentSeries.overview
+          <p v-if="$props.model.currentMovie?.overview ||
+            $props.model.currentSeries?.overview
             " class="result-content-info--overview">
             {{
-              $props.model.currentMovie.overview ||
-              $props.model.currentSeries.overview
+              $props.model.currentMovie?.overview ||
+              $props.model.currentSeries?.overview
             }}
           </p>
 
           <div class="result-content-more-info gap-double flex-col flex-center-start">
-            <div v-if="($props.model.currentMovie.vote_average &&
-                  $props.model.currentMovie.formatted_vote_count) ||
-                ($props.model.currentSeries.vote_average &&
-                  $props.model.currentSeries.formatted_vote_count) ||
-                $props.model.currentSeries.last_episode_to_air?.air_date ||
-                $props.model.currentSeries.next_episode_to_air?.air_date
+            <div v-if="($props.model.currentMovie?.vote_average &&
+                  $props.model.currentMovie?.formatted_vote_count) ||
+                ($props.model.currentSeries?.vote_average &&
+                  $props.model.currentSeries?.formatted_vote_count) ||
+                $props.model.currentSeries?.last_episode_to_air?.air_date ||
+                $props.model.currentSeries?.next_episode_to_air?.air_date
                 " class="result-content-more-info--primary gap-half flex-row flex-center-start">
-              <div class="flex-row flex-center-start gap-quarter" v-if="($props.model.currentMovie.vote_average &&
-                  $props.model.currentMovie.formatted_vote_count) ||
-                ($props.model.currentSeries.vote_average &&
-                  $props.model.currentSeries.formatted_vote_count)
+              <div class="flex-row flex-center-start gap-quarter" v-if="($props.model.currentMovie?.vote_average &&
+                  $props.model.currentMovie?.formatted_vote_count) ||
+                ($props.model.currentSeries?.vote_average &&
+                  $props.model.currentSeries?.formatted_vote_count)
                 ">
                 <span class="material-symbols-rounded">star</span>
                 <div class="flex-col gap-quarter p-0 rating">
                   <p>
                     Rating:
                     {{
-                      $props.model.currentMovie.vote_average ||
-                      $props.model.currentSeries.vote_average
+                      $props.model.currentMovie?.vote_average ||
+                      $props.model.currentSeries?.vote_average
                     }}/10
                   </p>
                   <p class="rating-count">
                     {{
-                      $props.model.currentMovie.formatted_vote_count ||
-                      $props.model.currentSeries.formatted_vote_count
+                      $props.model.currentMovie?.formatted_vote_count ||
+                      $props.model.currentSeries?.formatted_vote_count
                     }}
                   </p>
                 </div>
               </div>
-              <div v-if="$props.model.currentSeries.last_episode_to_air?.air_date">
+              <div v-if="$props.model.currentSeries?.last_episode_to_air?.air_date">
                 Latest episode:
-                {{ $props.model.currentSeries.last_episode_to_air?.air_date }}
+                {{ $props.model.currentSeries?.last_episode_to_air?.air_date }}
               </div>
-              <div v-if="$props.model.currentSeries.next_episode_to_air?.air_date">
+              <div v-if="$props.model.currentSeries?.next_episode_to_air?.air_date">
                 Next episode:
-                {{ $props.model.currentSeries.next_episode_to_air?.air_date }}
+                {{ $props.model.currentSeries?.next_episode_to_air?.air_date }}
               </div>
             </div>
             <div class="result-content-more-info--secondary gap-half flex-row flex-start-center">
-              <div v-if="$props.model.currentMovie.genres.length !== 0" class="gap-half flex-row flex-start-center">
-                <button class="button" v-for="(genre, index) in $props.model.currentMovie.genres" :key="index"
+              <div v-if="$props.model.currentMovie?.genres?.length !== 0" class="gap-half flex-row flex-start-center">
+                <button class="button" v-for="(genre, index) in $props.model.currentMovie?.genres" :key="index"
                   :genre="genre">
                   {{ genre.name }}
                 </button>
               </div>
-              <div v-if="$props.model.currentSeries.genres.length !== 0" class="gap-half flex-row flex-start-center">
-                <button class="button" v-for="(genre, index) in $props.model.currentSeries.genres" :key="index"
+              <div v-if="$props.model.currentSeries?.genres?.length !== 0" class="gap-half flex-row flex-start-center">
+                <button class="button" v-for="(genre, index) in $props.model.currentSeries?.genres" :key="index"
                   :genre="genre">
                   {{ genre.name }}
                 </button>
               </div>
-              <div v-if="$props.model.currentMovie.spoken_languages.length !== 0"
+              <div v-if="$props.model.currentMovie?.spoken_languages?.length !== 0"
                 class="gap-half flex-row flex-start-center">
                 <button class="button" v-for="(language, index) in $props.model.currentMovie
-                  .spoken_languages" :key="index" :language="language">
+                  ?.spoken_languages" :key="index" :language="language">
                   {{ language.english_name }}
                 </button>
               </div>
-              <div v-if="$props.model.currentSeries.spoken_languages.length !== 0"
+              <div v-if="$props.model.currentSeries?.spoken_languages?.length !== 0"
                 class="gap-half flex-row flex-start-center">
                 <button class="button" v-for="(language, index) in $props.model.currentSeries
-                  .spoken_languages" :key="index" :language="language">
+                  ?.spoken_languages" :key="index" :language="language">
                   {{ language.english_name }}
                 </button>
               </div>
@@ -259,51 +259,55 @@ function goToCastPageACB() {
           </div>   -->
       <div class="list-buttons gap-full flex-row flex-center">
         <button class="button gap-quarter" @click="handleLikedACB">
-          <span class="material-symbols-rounded">favorite</span>
+          <span v-if="$props.model.currentState.liked" id="liked" class="material-symbols-rounded material-symbols-rounded-fill">favorite</span>
+          <span v-else id="liked" class="material-symbols-rounded">favorite</span>
         </button>
         <button class="button gap-quarter" @click="handleWatchlistACB">
-          <span class="material-symbols-rounded">bookmark</span>
+          <span v-if="$props.model.currentState.watch" id="watch" class="material-symbols-rounded material-symbols-rounded-fill">bookmark</span>
+          <span v-else id="watch" class="material-symbols-rounded">bookmark</span>
         </button>
         <button class="button gap-quarter" @click="handleSeenACB">
-          <span class="material-symbols-rounded">task_alt</span>
+          <span v-if="$props.model.currentState.seen" id="seen" class="material-symbols-rounded material-symbols-rounded-fill">check_circle</span>
+          <span v-else id="seen" class="material-symbols-rounded">check_circle</span>
         </button>
         <button class="button gap-quarter" @click="handleDislikedACB">
-          <span class="material-symbols-rounded">block</span>
+          <span v-if="$props.model.currentState.disliked" id="disliked" class="material-symbols-rounded material-symbols-rounded-fill">thumb_down</span>
+          <span v-else id="disliked" class="material-symbols-rounded">thumb_down</span>
         </button>
       </div>
     </div>
 
-    <div v-if="($props.model.currentMovie.video ||
-        $props.model.currentSeries.video) !== ''
+    <div v-if="($props.model.currentMovie?.video ||
+        $props.model.currentSeries?.video) !== ''
       " class="video-player-container" id="video-player-container">
-      <iframe loading="lazy" :key="$props.model.currentMovie.video || $props.model.currentSeries.video
-        " class="contentVideoPlayer" :src="$props.model.currentMovie.video || $props.model.currentSeries.video
+      <iframe loading="lazy" :key="$props.model.currentMovie?.video || $props.model.currentSeries?.video
+        " class="contentVideoPlayer" :src="$props.model.currentMovie?.video || $props.model.currentSeries?.video
     " title="YouTube video player" frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowfullscreen></iframe>
     </div>
 
-    <div v-if="$props.model.currentMovie.credits.cast.length > 0 ||
-      $props.model.currentMovie.credits.crew.length > 0 ||
-      $props.model.currentSeries.credits.cast.length > 0 ||
-      $props.model.currentSeries.credits.crew.length > 0 ||
-      $props.model.currentMovie.reviews.length > 0 ||
-      $props.model.currentSeries.reviews.length > 0 ||
-      $props.model.currentMovie.budget ||
-      $props.model.currentMovie.revenue
+    <div v-if="$props.model.currentMovie?.credits?.cast?.length > 0 ||
+      $props.model.currentMovie?.credits?.crew?.length > 0 ||
+      $props.model.currentSeries?.credits?.cast?.length > 0 ||
+      $props.model.currentSeries?.credits?.crew?.length > 0 ||
+      $props.model.currentMovie?.reviews?.length > 0 ||
+      $props.model.currentSeries?.reviews?.length > 0 ||
+      $props.model.currentMovie?.budget ||
+      $props.model.currentMovie?.revenue
       " class="detailed-info gap-full flex-col">
-      <div v-if="$props.model.currentMovie.credits.cast.length > 0 ||
-        $props.model.currentMovie.credits.crew.length > 0 ||
-        $props.model.currentSeries.credits.cast.length > 0 ||
-        $props.model.currentSeries.credits.crew.length > 0
+      <div v-if="$props.model.currentMovie?.credits?.cast?.length > 0 ||
+        $props.model.currentMovie?.credits?.crew?.length > 0 ||
+        $props.model.currentSeries?.credits?.cast?.length > 0 ||
+        $props.model.currentSeries?.credits?.crew?.length > 0
         " class="info-container gap-full flex-row flex-center">
-        <div v-if="$props.model.currentMovie.credits.cast.length > 0 ||
-          $props.model.currentMovie.credits.crew.length > 0 ||
-          $props.model.currentSeries.credits.cast.length > 0 ||
-          $props.model.currentSeries.credits.crew.length > 0
+        <div v-if="$props.model.currentMovie?.credits?.cast?.length > 0 ||
+          $props.model.currentMovie?.credits?.crew?.length > 0 ||
+          $props.model.currentSeries?.credits?.cast?.length > 0 ||
+          $props.model.currentSeries?.credits?.crew?.length > 0
           " class="info-card gap-half flex-col">
-          <div v-if="$props.model.currentMovie.credits.cast.length > 0 ||
-            $props.model.currentMovie.credits.crew.length > 0
+          <div v-if="$props.model.currentMovie?.credits?.cast?.length > 0 ||
+            $props.model.currentMovie?.credits?.crew?.length > 0
             " class="flex-col">
             <div class="flex-row flex-start-center button button-secondary fixed-button">
               <h1 class="fixed-button" @click="goToCastPageACB">Cast</h1>
@@ -311,30 +315,30 @@ function goToCastPageACB() {
             </div>
             <CarouselCast :cast="$props.model.currentMovie?.credits?.cast" :label="'Cast Movie'" />
           </div>
-          <div v-if="$props.model.currentSeries.credits.cast.length > 0 ||
-            $props.model.currentSeries.credits.crew.length > 0
+          <div v-if="$props.model.currentSeries?.credits?.cast?.length > 0 ||
+            $props.model.currentSeries?.credits?.crew?.length > 0
             " class="flex-col">
             <div class="flex-row flex-start-center button button-secondary fixed-button">
               <h1 class="fixed-button" @click="goToCastPageACB">Cast</h1>
               <span class="material-symbols-rounded p-0">chevron_right</span>
             </div>
-            <CarouselCast :cast="$props.model.currentSeries?.credits?.cast" :label="'Cast Movie'" />
+            <CarouselCast :cast="$props.model?.currentSeries?.credits?.cast" :label="'Cast Movie'" />
           </div>
         </div>
       </div>
 
-      <div v-if="$props.model.currentMovie.reviews.results.length > 0 ||
-        $props.model.currentSeries.reviews.results.length > 0
+      <div v-if="$props.model.currentMovie?.reviews?.results?.length > 0 ||
+        $props.model.currentSeries?.reviews?.results?.length > 0
         " class="info-container gap-full flex-row flex-center">
-        <div v-if="$props.model.currentMovie.reviews.results.length > 0 ||
-          $props.model.currentSeries.reviews.results.length > 0
+        <div v-if="$props.model.currentMovie?.reviews?.results?.length > 0 ||
+          $props.model.currentSeries?.reviews?.results?.length > 0
           " class="info-card gap-half flex-col">
           <div class="flex-row flex-start-center button button-secondary fixed-button">
             <h1 class="fixed-button" @click="goToReviewPageACB">Reviews</h1>
             <span class="material-symbols-rounded p-0">chevron_right</span>
           </div>
-          <ReviewCard :review="$props.model.currentMovie?.reviews.results[0] ||
-            $props.model.currentSeries?.reviews.results[0]
+          <ReviewCard :review="$props.model.currentMovie?.reviews?.results[0] ||
+            $props.model.currentSeries?.reviews?.results[0]
             " />
         </div>
 
@@ -346,38 +350,38 @@ function goToCastPageACB() {
       </div>
 
       <!-- ONLY FOR MOVIE -->
-      <div v-if="$props.model.currentMovie.budget || $props.model.currentMovie.revenue
+      <div v-if="$props.model.currentMovie?.budget || $props.model.currentMovie?.revenue
         " class="info-container gap-full flex-row flex-center">
-        <div v-if="$props.model.currentMovie.budget" class="info-card gap-half flex-col">
+        <div v-if="$props.model.currentMovie?.budget" class="info-card gap-half flex-col">
           <h1>Budget</h1>
           <span>
-            {{ $props.model.currentMovie.formatted_budget }}
+            {{ $props.model.currentMovie?.formatted_budget }}
           </span>
         </div>
 
-        <div v-if="$props.model.currentMovie.revenue" class="info-card gap-half flex-col">
+        <div v-if="$props.model.currentMovie?.revenue" class="info-card gap-half flex-col">
           <h1>Revenue</h1>
-          <span :class="$props.model.currentMovie.revenue >
-              $props.model.currentMovie.budget
+          <span :class="$props.model.currentMovie?.revenue >
+              $props.model.currentMovie?.budget
               ? 'revenue-positive'
-              : $props.model.currentMovie.revenue <
-                $props.model.currentMovie.budget
+              : $props.model.currentMovie?.revenue <
+                $props.model.currentMovie?.budget
                 ? 'revenue-negative'
                 : 'nothing'
             ">
-            {{ $props.model.currentMovie.formatted_revenue }}
+            {{ $props.model.currentMovie?.formatted_revenue }}
           </span>
         </div>
       </div>
     </div>
   </div>
 
-  <div v-if="$props.model.recommendedMovies.length > 0 ||
-    $props.model.recommendedSeries.length > 0 ||
-    $props.model.similarMovies.length > 0 ||
-    $props.model.similarSeries.length > 0
+  <div v-if="$props.model.recommendedMovies?.length > 0 ||
+    $props.model.recommendedSeries?.length > 0 ||
+    $props.model.similarMovies?.length > 0 ||
+    $props.model.similarSeries?.length > 0
     " class="similar-list-container gap-double flex-center flex-col">
-    <div v-if="$props.model.recommendedMovies.length > 0" class="carousel flex-col flex-center-start">
+    <div v-if="$props.model.recommendedMovies?.length > 0" class="carousel flex-col flex-center-start">
       <div class="carousel-title">
         <h1>Recommended Movies</h1>
       </div>
@@ -385,7 +389,7 @@ function goToCastPageACB() {
       </CarouselMedia>
     </div>
 
-    <div v-if="$props.model.recommendedSeries.length > 0" class="carousel flex-col flex-center-start">
+    <div v-if="$props.model.recommendedSeries?.length > 0" class="carousel flex-col flex-center-start">
       <div class="carousel-title">
         <h1>Recommended Series</h1>
       </div>
@@ -393,14 +397,14 @@ function goToCastPageACB() {
       </CarouselMedia>
     </div>
 
-    <div v-if="$props.model.similarMovies.length > 0" class="carousel flex-col flex-center-start">
+    <div v-if="$props.model.similarMovies?.length > 0" class="carousel flex-col flex-center-start">
       <div class="carousel-title">
         <h1>Similar Movies</h1>
       </div>
       <CarouselMedia :media="$props.model.similarMovies" :media-type="'movie'" :label="'Similar Movies'"></CarouselMedia>
     </div>
 
-    <div v-if="$props.model.similarSeries.length > 0" class="carousel flex-col flex-center-start">
+    <div v-if="$props.model.similarSeries?.length > 0" class="carousel flex-col flex-center-start">
       <div class="carousel-title">
         <h1>Similar Series</h1>
       </div>

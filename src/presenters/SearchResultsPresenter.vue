@@ -42,7 +42,6 @@ export default defineComponent({
     }
     function checkForNextPage() {
       // const { isPageLoaded = ;
-      console.log("isloading", props.model.getIsPageLoading());
       if (!props.model.getIsPageLoading()) {
         console.log(
           "NEXT PAGE (x/x)",

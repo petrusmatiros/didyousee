@@ -1,10 +1,10 @@
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import ContentView from "../views/ContentView.vue";
 import { useRouter, useRoute } from "vue-router";
 import { MediaType } from "../types/types";
 import { auth } from "../firebaseConfig";
-import { addMovie, getUserData } from "../model/model";
+import { addContentToList, removeContentFromList, toggleContentToList, getUserData } from "../model/model";
 
 export default defineComponent({
   name: "ContentPresenter",
@@ -26,12 +26,18 @@ export default defineComponent({
       immediate: false,
     },
   },
+  computed: {
+    UserID(): string {
+      return auth.currentUser?.uid || "";
+    }
+  },
   setup(props: any) {
     const router = useRouter();
     const route = useRoute();
     // Typescript is not smart enough to realise that the check in the if is enough to avoid undefined.
     // So we replace undefined with "" and check for "" explicitly
     const userID = auth.currentUser?.uid || "";
+
     const mediaID_raw = route.query.id;
     const mediaType_raw = route.query.type;
     const mediaID = JSON.parse(mediaID_raw as string);
@@ -56,6 +62,9 @@ export default defineComponent({
         const mediaID = JSON.parse(id as string);
         const mediaType = JSON.parse(type as string);
         props.model.setSearchID(mediaID);
+
+
+        checkIfAdded();
 
         if (mediaType === MediaType.MOVIE) {
           try {
@@ -89,20 +98,84 @@ export default defineComponent({
     updateDataACB();
     // props.model.addObserver(updateDataACB);
 
-    function addToList(list: string) {
-      console.log("list:", list)
-      addMovie(userID, list, mediaID);
+    // function addToList(list: string) {
+      
+    //   console.log("list:", list)
+    //   addContentToList(userID, list, mediaID, mediaType);
+    // }
+
+    // function removeFromList(list: string) {
+    //   removeContentFromList(userID, list, mediaID, mediaType);
+    // }
+
+    async function checkIfAdded() {
+      await props.model.fetchPersistance(userID);
+      const state = props.model.state;
+      const likeButton = document.getElementById("liked") as HTMLElement;
+      const watchlistButton = document.getElementById("watch") as HTMLElement;
+      const seenButton = document.getElementById("seen") as HTMLElement;
+      const dislikeButton = document.getElementById("disliked") as HTMLElement;
+      let addedLike = false;
+      let addedWatch = false;
+      let addedSeen = false;
+      let addedDisliked = false;
+      state.liked?.forEach((element:any) => {
+        if (element.mediaID === mediaID && element.mediaType === mediaType) {
+          addedLike = true;
+        }
+      });
+      state.watch?.forEach((element:any) => {
+        if (element.mediaID === mediaID && element.mediaType === mediaType) {
+          addedWatch = true;
+        }
+      });
+      state.seen?.forEach((element:any) => {
+        if (element.mediaID === mediaID && element.mediaType === mediaType) {
+          addedSeen = true;
+        }
+      });
+      state.disliked?.forEach((element:any) => {
+        if (element.mediaID === mediaID && element.mediaType === mediaType) {
+          addedDisliked = true;
+        }
+      });
+      if (addedLike) {
+        props.model.currentState.liked = true;
+      } else {
+        props.model.currentState.liked = false;
+      }
+
+      if (addedWatch) {
+        props.model.currentState.watch = true;
+      } else {
+        props.model.currentState.watch = false;
+      }
+
+      if (addedSeen) {
+        props.model.currentState.seen = true;
+      } else {
+        props.model.currentState.seen = false;
+      }
+
+      if (addedDisliked) {
+        props.model.currentState.disliked = true;
+      } else {
+        props.model.currentState.disliked = false;
+      }
+    }
+
+    function toggleContent(list: string) {
+      toggleContentToList(userID, list, mediaID, mediaType);
+      checkIfAdded();
     }
 
     function goToReviewPageACB() {
-      console.log("Reviews page!");
       router.push({
         name: "Reviews",
       });
     }
 
     function goToCastPageACB() {
-      console.log("Cast page!");
       router.push({
         name: "Cast",
       });
@@ -110,30 +183,27 @@ export default defineComponent({
 
     function handleLikedACB() {
       // Handle click event for the "liked" button
-      console.log("Liked button clicked");
       // Add your custom logic here
-      addToList("liked");
+      toggleContent("liked");
     }
 
     function handleWatchlistACB() {
       // Handle click event for the "watchlist" button
-      console.log("Watchlist button clicked");
       // Add your custom logic here
-      addToList("watch");
+      toggleContent("watch");
     }
 
     function handleSeenACB() {
       // Handle click event for the "seen" button
-      console.log("Seen button clicked");
       // Add your custom logic here
-      addToList("seen");
+      toggleContent("seen");
+      
     }
 
     function handleDislikedACB() {
       // Handle click event for the "disliked" button
-      console.log("Disliked button clicked");
       // Add your custom logic here
-      addToList("disliked");
+      toggleContent("disliked");
     }
 
     function goBackACB() {

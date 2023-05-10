@@ -14,7 +14,6 @@ export default defineComponent({
     },
   },
   setup(props:any) {
-    console.log("REVIEW:", props.model.currentMovie?.reviews)
   }
 });
 </script>

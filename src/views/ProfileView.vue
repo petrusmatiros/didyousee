@@ -21,6 +21,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { auth } from "../firebaseConfig";
+
 
 export default defineComponent({
     name: 'ProfileView',
@@ -50,7 +52,7 @@ export default defineComponent({
     },
     data() {
       return {
-
+        user: auth.currentUser,
       };
     },
 });

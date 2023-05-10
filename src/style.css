@@ -223,6 +223,7 @@ img {
   border: none;
   background-color: var(--bg-lighter);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
 }
 
 .button:hover {
@@ -308,7 +309,19 @@ img {
 }
 
 .mt-large2 {
-  margin-top: var(--margin-large-2);
+  margin-top: var(--margin-large-2) !important;
+}
+
+.w-full {
+  width: 100% !important;
+}
+
+.pr-medium {
+  padding-right: var(--padding-medium) !important;
+}
+
+.pl-medium {
+  padding-left: var(--padding-medium) !important;
 }
 
 .fw-regular {
@@ -492,6 +505,29 @@ a:active {
   align-items: stretch !important;
   flex-wrap: wrap;
 }
+
+.list-card {
+  position: relative;
+  min-width: 100%;
+  min-height: 25rem;
+ background-color: var(--bg-dark);
+ border-radius: var(--border-radius);
+ padding: var(--padding-large-3);
+}
+
+.list-card img {
+  width: 7rem;
+}
+.list-card h1 {
+  font-size: var(--font-small-2);
+}
+.list-card span {
+  position: absolute;
+  top: 1rem;
+  right: 0.5rem;
+  padding: var(--padding-medium);
+}
+
 /*  ================== List page EMD ================== */
 
 /*  ================== Home page ================== */
@@ -641,7 +677,7 @@ a:active {
 }
 .splide__track {
   align-items: stretch !important;
-  padding: var(--padding-large-2);
+  padding: var(--padding-medium);
 }
 .splide__list {
   /* align-items: stretch !important; */
@@ -735,6 +771,9 @@ a:active {
   color: var(--fg);
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
   border-radius: var(--border-radius);
+}
+.material-symbols-rounded-fill {
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 48 !important;
 }
 
 input[name="inputSearchBar"] {

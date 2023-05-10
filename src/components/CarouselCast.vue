@@ -26,7 +26,7 @@ import "@splidejs/vue-splide/css";
       waitForTransition: true,
       gap: '1rem',
       rewind: true,
-      clones: false,
+      clones: 0,
     }"
     :aria-label="label"
   >
