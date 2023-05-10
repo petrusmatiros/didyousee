@@ -509,10 +509,11 @@ a:active {
 .list-card {
   position: relative;
   min-width: 100%;
-  min-height: 25rem;
- background-color: var(--bg-dark);
- border-radius: var(--border-radius);
- padding: var(--padding-large-3);
+  min-height: 10rem;
+  height: fit-content;
+  background-color: var(--bg-dark);
+  border-radius: var(--border-radius);
+  padding: var(--padding-large-3);
 }
 
 .list-card img {
