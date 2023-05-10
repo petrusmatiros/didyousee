@@ -713,6 +713,7 @@ let model: Model = {
         resultStatusSeries.current === "fulfilled"
       ) {
         this.result_status.current = "fulfilled";
+
         this.movies = await fetchHandler(
           returnedPromiseMovies,
           FetchType.QUERY
@@ -722,6 +723,16 @@ let model: Model = {
           returnedPromiseSeries,
           FetchType.QUERY
         );
+        
+        const moviePages = returnedPromiseMovies.data.total_pages;
+        const seriesPages = returnedPromiseSeries.data.total_pages;
+        
+        if (moviePages >= seriesPages) {
+          this.total_pages = moviePages;
+        }
+        else {
+          this.total_pages = seriesPages;
+        }
 
         if (!this.movies) {
           this.movies = [];

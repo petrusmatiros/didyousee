@@ -59,7 +59,6 @@ export default defineComponent({
           props.model.getPage() < props.model.total_pages
         ) {
           // TODO! Total Pages for Series / Movies
-          console.log("IncrementPage");
           props.model.incrementPage();
           if (props.model.getSearchCategory() === SearchCategory.TITLE) {
             props.model.fetchContent();
