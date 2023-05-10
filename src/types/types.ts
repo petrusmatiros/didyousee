@@ -29,11 +29,11 @@ export enum SearchCategory {
 
 export enum SortBy {
   POPULARITY_ASC = "popularity_asc",
-  POPULARITY_DESC = "popularity_dsc",
+  POPULARITY_DSC = "popularity_dsc",
   RATING_ASC = "rating_asc",
-  RATING_DESC = "rating_dsc",
+  RATING_DSC = "rating_dsc",
   TITLE_ASC = "title_asc",
-  TITLE_DESC = "title_dsc",
+  TITLE_DSC = "title_dsc",
   LATEST = "year_dsc",
   OLDEST = "year_asc",
 }

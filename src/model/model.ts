@@ -485,6 +485,7 @@ let model: Model = {
   searchContent: [],
   dummyContent: generateDummyContent(20),
   searchCategory: SearchCategory.TITLE,
+  sortBy: SortBy.POPULARITY_DSC,
   currentMovie: {
     id: 0,
     title: "",
