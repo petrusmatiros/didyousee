@@ -65,6 +65,10 @@ export default defineComponent({
         }
       }
     }
+    function onFilterChangeACB(value: string) {
+      console.log(value);
+    }
+
     searchACB();
     props.model.addObserver(searchACB);
 
@@ -96,10 +100,11 @@ export default defineComponent({
 
     return {
       searchACB,
+      onFilterChangeACB,
     };
   },
 });
 </script>
 <template>
-  <SearchResultsView :model="model" />
+  <SearchResultsView :model="model" @onFilterChange="onFilterChangeACB"/>
 </template>

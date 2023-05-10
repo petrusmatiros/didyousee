@@ -3,9 +3,30 @@ import './../style.css';
 import MediaCard from '../components/MediaCard.vue';
 import { Suspense } from 'vue';
 
+const emit = defineEmits(["onFilterChange"]);
+
+function onFilterChange(value: string) {
+  emit("onFilterChange", value);
+}
 </script>
 
 <template>
+      <select
+      v-model="selectedFilter"
+      class="selectButton" 
+      name="searchCategory"
+      id="searchCategorySelect"
+      @change="onFilterChange(selectedFilter)"
+    >
+      <option value="Popularity_ASC">Popularity ASC</option>
+      <option value="Popularity_DSC">Popularity DSC</option>
+      <option value="Rating_ASC">Rating ASC</option>
+      <option value="Rating_DSC">Rating DSC</option>
+      <option value="Title_ASC">Title ASC</option>
+      <option value="Title_DSC">Title DSC</option>
+      <option value="Year_ASC">Year ASC</option>
+      <option value="Year_DSC">Year DSC</option>
+    </select>
   <!-- <button @click="searchClickACB()">X</button> -->
   <div  class="search-results flex-col flex-center gap-half">
 
@@ -61,6 +82,7 @@ export default defineComponent({
   data() {
     return {
       result_status: '',
+      selectedFilter: '',
     };
   },
   watch: {

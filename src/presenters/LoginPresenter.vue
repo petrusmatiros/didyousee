@@ -41,7 +41,6 @@ export default defineComponent({
                     // const errorMessage = error.message;
                     credentialsError.errorMessage = "Wrong Email/Password!";
                     console.log("Error:", credentialsError)
-
                 });
         }
         return {
