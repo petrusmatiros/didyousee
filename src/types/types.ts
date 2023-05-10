@@ -27,6 +27,24 @@ export enum SearchCategory {
   GENRE = "genre",
 }
 
+export enum SortBy {
+  POPULARITY_ASC = "popularity_asc",
+  POPULARITY_DESC = "popularity_dsc",
+  RATING_ASC = "rating_asc",
+  RATING_DESC = "rating_dsc",
+  TITLE_ASC = "title_asc",
+  TITLE_DESC = "title_dsc",
+  LATEST = "year_dsc",
+  OLDEST = "year_asc",
+}
+
+export enum ListType {
+  LIKED = "liked",
+  WATCH = "watch",
+  SEEN = "seen",
+  DISLIKED = "disliked",
+}
+
 export enum PosterSize {
   W92 = "w92",
   W154 = "w154",

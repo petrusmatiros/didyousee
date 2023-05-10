@@ -4,6 +4,7 @@ import ProfileView from "../views/ProfileView.vue";
 import { auth, app } from "../firebaseConfig";
 import { signOut } from "firebase/auth";
 import { useRouter } from "vue-router";
+import { ListType } from "../types/types";
 
 export default defineComponent({
   name: "ProfilePresenter",
@@ -42,32 +43,32 @@ export default defineComponent({
 
     function goToListACB(listType: string) {
       if (listType) {
-        if (listType === "watch") {
+        if (listType === ListType.WATCH) {
           router.push({
             name: "List",
             query: {
-              name: "watch",
+              name: ListType.WATCH.toString(),
             },
           });
-        } else if (listType === "seen") {
+        } else if (listType === ListType.SEEN) {
           router.push({
             name: "List",
             query: {
-              name: "seen",
+              name: ListType.SEEN.toString(),
             },
           });
-        } else if (listType === "liked") {
+        } else if (listType === ListType.LIKED) {
           router.push({
             name: "List",
             query: {
-              name: "liked",
+              name: ListType.LIKED.toString(),
             },
           });
-        } else if (listType === "disliked") {
+        } else if (listType === ListType.DISLIKED) {
           router.push({
             name: "List",
             query: {
-              name: "disliked",
+              name: ListType.DISLIKED.toString(),
             },
           });
         }

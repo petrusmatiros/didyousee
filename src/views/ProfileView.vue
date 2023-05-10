@@ -22,25 +22,26 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { auth } from "../firebaseConfig";
+import { ListType } from '../types/types';
 
 
 export default defineComponent({
     name: 'ProfileView',
     methods: {
         goToWatchListACB() {
-            this.goToListACB("watch");
+            this.goToListACB(ListType.WATCH.toString());
         },
 
         goToSeenListACB() {
-            this.goToListACB("seen");
+            this.goToListACB(ListType.SEEN.toString());
         },
 
         goToLikedListACB() {
-            this.goToListACB("liked");
+            this.goToListACB(ListType.LIKED.toString());
         },
 
         goToDislikedListACB() {
-            this.goToListACB("disliked");
+            this.goToListACB(ListType.DISLIKED.toString());
         },
         goToListACB(listType: string) {
             this.$emit("goToList", listType);

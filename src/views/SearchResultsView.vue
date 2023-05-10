@@ -20,15 +20,15 @@ function onFilterChange(value: string) {
         name="searchCategory"
         id="searchCategorySelect"
         @change="onFilterChange(selectedFilter)"
-      >
-        <option value="popularity_asc">Highest Popularity</option>
-        <option selected value="popularity_dsc">Lowest Popularity</option>
+        >
+        <option value="popularity_asc" selected>Highest Popularity</option>
+        <option value="popularity_dsc">Lowest Popularity</option>
         <option value="rating_asc">Highest Rating</option>
         <option value="rating_dsc">Lowest Rating</option>
         <option value="title_asc">Highest Title</option>
         <option value="title_dsc">Lowest Title</option>
-        <option value="year_asc">Latest</option>
-        <option value="year_dsc">Oldest</option>
+        <option value="year_dsc">Latest</option>
+        <option value="year_asc">Oldest</option>
       </select>
     <!-- <button @click="searchClickACB()">X</button> -->
     <div  class="search-results flex-col flex-center gap-half">

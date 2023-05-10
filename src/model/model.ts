@@ -3,6 +3,7 @@ import {
   FetchType,
   TriviaCategory,
   SearchCategory,
+  SortBy,
   PosterSize,
   BackdropSize,
   MediaType,
@@ -384,6 +385,7 @@ interface Model {
   currentMovie: Movie;
   currentSeries: Series;
   searchCategory: SearchCategory;
+  sortBy: SortBy;
   searchString: string;
   result_status: { current: string };
   searchID: string;

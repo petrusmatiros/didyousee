@@ -2,7 +2,7 @@
 import { defineComponent, ref } from "vue";
 import ContentView from "../views/ContentView.vue";
 import { useRouter, useRoute } from "vue-router";
-import { MediaType } from "../types/types";
+import { MediaType, ListType } from "../types/types";
 import { auth } from "../firebaseConfig";
 import { addContentToList, removeContentFromList, toggleContentToList, getUserData } from "../model/model";
 
@@ -111,10 +111,10 @@ export default defineComponent({
     async function checkIfAdded() {
       await props.model.fetchPersistance(userID);
       const state = props.model.state;
-      const likeButton = document.getElementById("liked") as HTMLElement;
-      const watchlistButton = document.getElementById("watch") as HTMLElement;
-      const seenButton = document.getElementById("seen") as HTMLElement;
-      const dislikeButton = document.getElementById("disliked") as HTMLElement;
+      const likeButton = document.getElementById(ListType.LIKED.toString()) as HTMLElement;
+      const watchlistButton = document.getElementById(ListType.WATCH.toString()) as HTMLElement;
+      const seenButton = document.getElementById(ListType.SEEN.toString()) as HTMLElement;
+      const dislikeButton = document.getElementById(ListType.DISLIKED.toString()) as HTMLElement;
       let addedLike = false;
       let addedWatch = false;
       let addedSeen = false;
@@ -184,26 +184,26 @@ export default defineComponent({
     function handleLikedACB() {
       // Handle click event for the "liked" button
       // Add your custom logic here
-      toggleContent("liked");
+      toggleContent(ListType.LIKED.toString());
     }
 
     function handleWatchlistACB() {
       // Handle click event for the "watchlist" button
       // Add your custom logic here
-      toggleContent("watch");
+      toggleContent(ListType.WATCH.toString());
     }
 
     function handleSeenACB() {
       // Handle click event for the "seen" button
       // Add your custom logic here
-      toggleContent("seen");
+      toggleContent(ListType.SEEN.toString());
       
     }
 
     function handleDislikedACB() {
       // Handle click event for the "disliked" button
       // Add your custom logic here
-      toggleContent("disliked");
+      toggleContent(ListType.DISLIKED.toString());
     }
 
     function goBackACB() {
