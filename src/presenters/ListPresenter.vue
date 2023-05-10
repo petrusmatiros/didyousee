@@ -54,6 +54,7 @@ export default defineComponent({
     var listName = route.query.name as string;
     return {
         listName,
+        userID,
         updateList,
     };
   },
