@@ -1,5 +1,11 @@
 <script lang="ts">
-import { defineComponent, onBeforeUnmount, reactive } from "vue";
+import {
+  defineComponent,
+  onBeforeUnmount,
+  reactive,
+  onMounted,
+  onUnmounted,
+} from "vue";
 import { useRouter } from "vue-router";
 
 import SearchResultsView from "../views/SearchResultsView.vue";
@@ -68,9 +74,6 @@ export default defineComponent({
       console.log(value);
     }
 
-    searchACB();
-    props.model.addObserver(searchACB);
-
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } =
         document.documentElement;
@@ -87,15 +90,17 @@ export default defineComponent({
       window.removeEventListener("scroll", handleScroll);
     };
 
-    onBeforeUnmount(() => {
+    onMounted(() => {
+      searchACB();
+      props.model.addObserver(searchACB);
+      addScrollListener();
+    });
+
+    onUnmounted(() => {
+      props.model.removeObserver(searchACB);
       removeScrollListener();
     });
 
-    addScrollListener();
-    // if (props.model.result_status.current === 'fulfilled') {
-    // } else {
-    //   removeScrollListener();
-    // }
 
     return {
       searchACB,
@@ -105,5 +110,5 @@ export default defineComponent({
 });
 </script>
 <template>
-  <SearchResultsView :model="model" @onFilterChange="onFilterChangeACB"/>
+  <SearchResultsView :model="model" @onFilterChange="onFilterChangeACB" />
 </template>

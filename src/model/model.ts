@@ -1045,9 +1045,7 @@ let model: Model = {
     this.observers.forEach(invokeObserversCB);
   },
   addObserver: function (obs: (payload: any) => void) {
-    if (!this.observers.includes(obs)) {
-      this.observers.push(obs);
-    }
+    this.observers.push(obs);
   },
   removeObserver: function (obs: (payload: any) => void) {
     this.observers = this.observers.filter((o) => o !== obs);
