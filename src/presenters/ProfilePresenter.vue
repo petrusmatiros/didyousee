@@ -43,7 +43,7 @@ export default defineComponent({
 
     function goToListACB(listType: string) {
       if (listType) {
-        router.push("/profile/" + auth.currentUser.uid + "/list/" + listType.toString());
+        router.push("/profile/" + auth.currentUser?.uid + "/list/" + listType.toString());
       }
     }
     return {
