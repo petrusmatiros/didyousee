@@ -48,14 +48,16 @@ export default defineComponent({
       await props.model.fetchCurrentList(list);
     }
     updateList();
+    const authenticated = route.params?.uid === auth.currentUser?.uid;
 
     return {
         userID,
         updateList,
+        authenticated,
     };
   },
 });
 </script>
 <template>
-  <ListView :model="model" />
+  <ListView :model="model" :authenticated="authenticated" />
 </template>

@@ -57,6 +57,10 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    authenticated: {
+      type: true, // boolean/bool is not valid?
+      required: true,
+    },
   },
   computed: {
     
@@ -76,6 +80,7 @@ export default defineComponent({
       }
     },
     async deleteClickACB() {
+      console.log(this.authenticated);
       const userID = auth.currentUser?.uid || "";
 
       removeContentFromList(userID, this.$props.model.currentState.name || this.$props.list?.name, this.$props.list.id, this.$props.list.mediaType)
