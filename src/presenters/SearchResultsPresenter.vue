@@ -72,6 +72,7 @@ export default defineComponent({
     function onSortChangeACB(sortType: SortBy) {
       console.log("newSortBy", sortType)
       props.model.sortBy = sortType;
+      onRefreshACB();
     }
     function onRefreshACB() {
       searchACB();

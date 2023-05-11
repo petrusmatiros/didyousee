@@ -148,6 +148,18 @@ function sortContent(
     }
     return sort(content, sortCB, SortingOrder.ASC);
   }
+  else if (sortBy === SortBy.RATING_DSC) {
+  }
+  else if (sortBy === SortBy.RATING_ASC) {
+  }
+  else if (sortBy === SortBy.TITLE_DSC) {
+  }
+  else if (sortBy === SortBy.TITLE_ASC) {
+  }
+  else if (sortBy === SortBy.LATEST) {
+  }
+  else if (sortBy === SortBy.OLDEST) {
+  }
   return [];
 }
 
