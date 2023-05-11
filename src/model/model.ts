@@ -128,9 +128,9 @@ function sortContent(
   console.log("INSIDE sortContent", sortBy)
   if (sortBy === SortBy.POPULARITY_DSC) {
     function sortCB(a: (Movie | Series), b: (Movie | Series)) {
-      if (a.popularity < b.popularity) {
+      if (a.vote_average < b.vote_average) {
         return 1;
-      } else if (a.popularity > b.popularity) {
+      } else if (a.vote_average >= b.vote_average) {
         return -1;
       }
       return 0;
@@ -139,9 +139,10 @@ function sortContent(
   }
   else if (sortBy === SortBy.POPULARITY_ASC) {
     function sortCB(a: (Movie | Series), b: (Movie | Series)) {
-      if (a.popularity < b.popularity) {
+      console.log(a)
+      if (a.vote_average < b.vote_average) {
         return -1;
-      } else if (a.popularity > b.popularity) {
+      } else if (a.vote_average >= b.vote_average) {
         return 1;
       }
       return 0;
@@ -149,16 +150,40 @@ function sortContent(
     return sort(content, sortCB, SortingOrder.ASC);
   }
   else if (sortBy === SortBy.RATING_DSC) {
+    function sortCB(a: (Movie | Series), b: (Movie | Series)) {
+      return 0;
+    }
+    return sort(content, sortCB, SortingOrder.ASC);
   }
   else if (sortBy === SortBy.RATING_ASC) {
+    function sortCB(a: (Movie | Series), b: (Movie | Series)) {
+      return 0;
+    }
+    return sort(content, sortCB, SortingOrder.ASC);
   }
   else if (sortBy === SortBy.TITLE_DSC) {
+    function sortCB(a: (Movie | Series), b: (Movie | Series)) {
+      return 0;
+    }
+    return sort(content, sortCB, SortingOrder.ASC);
   }
   else if (sortBy === SortBy.TITLE_ASC) {
+    function sortCB(a: (Movie | Series), b: (Movie | Series)) {
+      return 0;
+    }
+    return sort(content, sortCB, SortingOrder.ASC);
   }
   else if (sortBy === SortBy.LATEST) {
+    function sortCB(a: (Movie | Series), b: (Movie | Series)) {
+      return 0;
+    }
+    return sort(content, sortCB, SortingOrder.ASC);
   }
   else if (sortBy === SortBy.OLDEST) {
+    function sortCB(a: (Movie | Series), b: (Movie | Series)) {
+      return 0;
+    }
+    return sort(content, sortCB, SortingOrder.ASC);
   }
   return [];
 }
