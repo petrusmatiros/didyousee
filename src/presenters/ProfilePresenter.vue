@@ -32,11 +32,11 @@ export default defineComponent({
       signOut(auth)
         .then(() => {
           // Sign-out successful.
-          console.log("Signed-out!");
+          // console.log("Signed-out!");
         })
         .catch((error) => {
           // An error happened.
-          console.warn("Error Sign-out!");
+          // console.warn("Error Sign-out!");
         });
       router.push("/login");
     }

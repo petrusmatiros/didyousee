@@ -10,7 +10,7 @@ import "@splidejs/vue-splide/css";
     :options="{
       type: 'loop',
       perPage: 4,
-      perMove: 4,
+      perMove: 1,
       mediaQuery: 'max',
       breakpoints: {
         767: {

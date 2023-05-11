@@ -313,7 +313,7 @@ function goToCastPageACB() {
               <h1 class="fixed-button" @click="goToCastPageACB">Cast</h1>
               <span class="material-symbols-rounded p-0">chevron_right</span>
             </div>
-            <CarouselCast :cast="$props.model.currentMovie?.credits?.cast" :label="'Cast Movie'" />
+            <CarouselCast :cast="limitCastView($props.model?.currentMovie?.credits?.cast)" :label="'Cast Movie'" />
           </div>
           <div v-if="$props.model.currentSeries?.credits?.cast?.length > 0 ||
             $props.model.currentSeries?.credits?.crew?.length > 0
@@ -322,7 +322,7 @@ function goToCastPageACB() {
               <h1 class="fixed-button" @click="goToCastPageACB">Cast</h1>
               <span class="material-symbols-rounded p-0">chevron_right</span>
             </div>
-            <CarouselCast :cast="$props.model?.currentSeries?.credits?.cast" :label="'Cast Movie'" />
+            <CarouselCast :cast="limitCastView($props.model?.currentSeries?.credits?.cast)" :label="'Cast Movie'" />
           </div>
         </div>
       </div>
@@ -414,7 +414,8 @@ function goToCastPageACB() {
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, onMounted, onUnmounted } from "vue";
+import { SignInMethod } from "firebase/auth";
 
 export default defineComponent({
   name: "ContentView",
@@ -456,11 +457,21 @@ export default defineComponent({
       window.addEventListener("scroll", handleScroll);
     };
 
-    const removeScrollListener = () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-
     addScrollListener();
   },
+  methods: {
+    limitCastView(cast: any[]): any {
+      if (cast.length > 8) {
+        cast = cast.slice(0, 8);
+      }
+      return cast;
+    }
+  },
+  data() {
+    return {
+     
+    };
+  },
+
 });
 </script>

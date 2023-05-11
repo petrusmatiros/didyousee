@@ -125,7 +125,6 @@ function sortContent(
   content: any[],
   sortBy: SortBy,
 ): any[] {
-  console.log("INSIDE sortContent", sortBy);
   if (sortBy === SortBy.POPULARITY_DSC) {
     function sortCB(a: any, b: any) {
       if (a.popularity > b.popularity) {
@@ -1137,7 +1136,7 @@ let model: Model = {
 
   fetchPersistance: async function (userID: string) {
     if (userID === "" || !userID) {
-      console.log("ERROR: No userID given");
+      // console.log("ERROR: No userID given");
       return;
     }
     if (!persistent.userData) {
@@ -1391,7 +1390,7 @@ async function toggleContentToList(
   mediaType: string
 ) {
   if (userID === "" || !userID) {
-    console.log("ERROR: No userID given");
+    // console.log("ERROR: No userID given");
     return;
   }
   let a = await addContentToList(userID, list, mediaID, mediaType);
@@ -1408,7 +1407,7 @@ async function addContentToList(
   mediaType: string
 ) {
   if (userID === "" || !userID) {
-    console.log("ERROR: No userID given");
+    // console.log("ERROR: No userID given");
     return;
   }
   if (!persistent.userData) {
@@ -1423,7 +1422,7 @@ async function addContentToList(
     let entries = persistent.userData.movieLists[list];
     entries.forEach((entry) => {
       if (entry.mediaID === mediaID && entry.mediaType === mediaType) {
-        console.log("ERROR: Movie already in list");
+        // console.log("ERROR: Movie already in list");
         unique = false;
       }
     });
@@ -1439,7 +1438,7 @@ async function addContentToList(
       return false;
     }
   } else {
-    console.log("ERROR: Despite fetching from DB still no userdata.");
+    // console.log("ERROR: Despite fetching from DB still no userdata.");
   }
 }
 
@@ -1451,7 +1450,7 @@ async function removeContentFromList(
 ) {
 
   if (userID === "" || !userID) {
-    console.log("ERROR: No userID given");
+    // console.log("ERROR: No userID given");
     return;
   }
   if (!persistent.userData) {
@@ -1474,7 +1473,7 @@ async function removeContentFromList(
       return false;
     }
   } else {
-    console.log("ERROR: Despite fetching from DB still no userdata.");
+    // console.log("ERROR: Despite fetching from DB still no userdata.");
   }
 }
 
@@ -1482,7 +1481,7 @@ async function getUserData(uid: string): Promise<UserData | null> {
   if (persistent.userData === null) {
     await subscribeDB(uid);
   } else if (persistent.userData.uid !== uid) {
-    console.log("ERROR: Fetching another users data");
+    // console.log("ERROR: Fetching another users data");
     return null;
   }
   return persistent.userData;

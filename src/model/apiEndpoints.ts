@@ -99,8 +99,7 @@ async function wrap(query: string, params: URLSearchParams) {
     });
     return res;
   } catch (error:any) {
-    
-    // console.clear();
+    console.clear();
   }
 }
 

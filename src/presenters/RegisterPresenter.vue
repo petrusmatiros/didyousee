@@ -27,16 +27,16 @@ export default defineComponent({
       password: string,
       confirm_password: string
     ) {
-      console.log("Register clicked!");
-      console.log("Username:", username);
-      console.log("Mail:", mail);
+      // console.log("Register clicked!");
+      // console.log("Username:", username);
+      // console.log("Mail:", mail);
 
       createUserWithEmailAndPassword(auth, mail, password)
         .then((userCredential) => {
           // Signed in :: https://firebase.google.com/docs/auth/web/password-auth
           const user = userCredential.user;
-          console.log("User", user);
-          console.log("Created account!", userCredential);
+          // console.log("User", user);
+          // console.log("Created account!", userCredential);
           router.push("/profile");
         })
         .catch((error) => {

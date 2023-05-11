@@ -189,8 +189,14 @@ export default defineComponent({
 
     async function toggleContent(list: string) {
       const userID = await getUid();
-      toggleContentToList(userID, list, getMediaID(), getMediaType());
-      checkIfAdded();
+      if (userID === "") {
+        router.push({
+          name: "Login",
+        });
+      } else {
+        toggleContentToList(userID, list, getMediaID(), getMediaType());
+        checkIfAdded();
+      }
     }
 
     function goToReviewPageACB() {

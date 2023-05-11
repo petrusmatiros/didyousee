@@ -47,13 +47,7 @@ export default defineComponent({
       }
     }
     function checkForNextPage() {
-      // const { isPageLoaded = ;
       if (!props.model.getIsPageLoading()) {
-        console.log(
-          "NEXT PAGE (x/x)",
-          props.model.getPage(),
-          props.model.total_pages
-        );
         if (
           props.model.result_status.current === "fulfilled" &&
           props.model.getPage() < props.model.total_pages
@@ -70,7 +64,6 @@ export default defineComponent({
       }
     }
     function onSortChangeACB(sortType: SortBy) {
-      console.log("newSortBy", sortType)
       props.model.sortBy = sortType;
       onRefreshACB();
     }
