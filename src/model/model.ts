@@ -1112,6 +1112,7 @@ let model: Model = {
     return this.searchCategory;
   },
   resetCurrentContent: function () {
+    (this.currentState.liked = false),
     (this.recommendedMovies = []),
       (this.recommendedSeries = []),
       (this.similarMovies = []),

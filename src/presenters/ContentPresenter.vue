@@ -38,10 +38,18 @@ export default defineComponent({
     // So we replace undefined with "" and check for "" explicitly
     const userID = auth.currentUser?.uid || "";
 
-    const mediaID_raw = route.query.id;
-    const mediaType_raw = route.query.type;
-    const mediaID = JSON.parse(mediaID_raw as string);
-    const mediaType = JSON.parse(mediaType_raw as string);
+    function getMediaID() {
+      const mediaID_raw = route.query.id;
+      return JSON.parse(mediaID_raw as string);
+    }
+    function getMediaType() {
+      const mediaType_raw = route.query.type;
+      return JSON.parse(mediaType_raw as string);
+    }
+    // const mediaID_raw = route.query.id;
+    // const mediaType_raw = route.query.type;
+    // const mediaID = JSON.parse(mediaID_raw as string);
+    // const mediaType = JSON.parse(mediaType_raw as string);
 
 
     // if (!mediaID_raw || userID === "") {
@@ -118,6 +126,7 @@ export default defineComponent({
     // }
 
     async function checkIfAdded() {
+      console.log("checkIfAdded")
       await props.model.fetchPersistance(userID);
       const state = props.model.state;
       const likeButton = document.getElementById(ListType.LIKED.toString()) as HTMLElement;
@@ -128,6 +137,10 @@ export default defineComponent({
       let addedWatch = false;
       let addedSeen = false;
       let addedDisliked = false;
+
+      const mediaID = getMediaID();
+      const mediaType = getMediaType();
+
       state.liked?.forEach((element:any) => {
         if (element.mediaID === mediaID && element.mediaType === mediaType) {
           addedLike = true;
@@ -174,7 +187,7 @@ export default defineComponent({
     }
 
     function toggleContent(list: string) {
-      toggleContentToList(userID, list, mediaID, mediaType);
+      toggleContentToList(userID, list, getMediaID(), getMediaType());
       checkIfAdded();
     }
 
