@@ -55,7 +55,7 @@ export default defineComponent({
   methods: {
     async deleteClickACB() {
       // console.log("Delete!", this.$props.list);
-      // const userID = auth.currentUser?.uid || "";
+      const userID = auth.currentUser?.uid || "";
       // console.log("USERID", userID)
       // console.log("LIST", this.$props.list?.title || this.$props.list?.name)
       // console.log("mediaid", this.$props.list.id)
