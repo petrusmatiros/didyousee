@@ -18,7 +18,7 @@ function onRefresh() {
   <div class="flex-col flex-center gap-full mt-large2">
 
     <!-- TODO FIX SORTING -->
-        <select
+        <select v-if="result_status === 'fulfilled'"
         v-model="selectedFilter"
         class="button flex-center pr-medium pl-medium" 
         name="searchCategory"

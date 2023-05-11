@@ -58,6 +58,7 @@ import { defineComponent, reactive } from 'vue'
 import SearchBar from "../src/components/SearchBar.vue";
 import { model } from "../src/model/model";
 import noPoster from "../assets/no-poster.svg"
+import noBackdrop from "../assets/no-backdrop.svg"
 import noContent from "../assets/no-content.svg"
 
 const promiseModel = reactive(model);

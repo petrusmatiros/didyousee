@@ -25,6 +25,7 @@ import {
   formatVoteCount,
 } from "../utils/utils";
 import noPoster from "../assets/no-poster.svg";
+import noBackdrop from "../assets/no-backdrop.svg";
 import noContent from "../assets/no-content.svg";
 import { db } from "../firebaseConfig";
 import { ref, set, get, onValue } from "firebase/database";
@@ -90,17 +91,20 @@ function trivia(category: TriviaCategory, amount: number = 10): any {
 }
 
 function poster(path: string, size: PosterSize = PosterSize.W500): string {
-  return image(path, size);
+  return imagePoster(path, size);
 }
 function backdrop(
   path: string,
   size: BackdropSize = BackdropSize.W1280
 ): string {
-  return image(path, size);
+  return imageBackdrop(path, size);
 }
 
-function image(path: string, size: PosterSize | BackdropSize): any {
+function imagePoster(path: string, size: PosterSize | BackdropSize): any {
   return path ? `https://image.tmdb.org/t/p/${size}${path}` : noPoster;
+}
+function imageBackdrop(path: string, size: PosterSize | BackdropSize): any {
+  return path ? `https://image.tmdb.org/t/p/${size}${path}` : noBackdrop;
 }
 
 function imageGravatar(path: string, size: PosterSize): any {
