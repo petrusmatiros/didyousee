@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import "./../style.css";
 
-const emit = defineEmits(["handleLogin"]);
+const emit = defineEmits(["handleLogin", "handleGoogleLogin"])
 
-function handleLoginACB(mail: string, password: string) {
-  emit("handleLogin", mail, password);
-}
+function handleLoginACB(mail: string, password: string) {emit("handleLogin", mail, password);}
+function handleGoogleLoginACB() {emit("handleGoogleLogin");}
 </script>
 
 <template>
@@ -62,6 +61,9 @@ function handleLoginACB(mail: string, password: string) {
             @click.prevent="handleLoginACB(mail, password)"
           >
             Login
+          </button>
+          <button class="credentials-submit-button" @click.prevent="handleGoogleLoginACB()">
+            Login with Google
           </button>
           <p class="credentials-link">
             <router-link to="/register">Register a new account?</router-link>
