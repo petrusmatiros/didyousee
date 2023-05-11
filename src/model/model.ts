@@ -125,66 +125,105 @@ function sortContent(
   content: any[],
   sortBy: SortBy,
 ): any[] {
-  console.log("INSIDE sortContent", sortBy)
+  console.log("INSIDE sortContent", sortBy);
   if (sortBy === SortBy.POPULARITY_DSC) {
-    function sortCB(a: (Movie | Series), b: (Movie | Series)) {
-      if (a.vote_average >= b.vote_average) {
-        return -1;
-      } else if (a.vote_average < b.vote_average) {
+    function sortCB(a: any, b: any) {
+      if (a.popularity > b.popularity) {
         return 1;
+      } else if (a.popularity < b.popularity) {
+        return -1;
       }
       return 0;
     }
     return sort(content, sortCB, SortingOrder.DSC);
   }
   else if (sortBy === SortBy.POPULARITY_ASC) {
-    function sortCB(a: (Movie | Series), b: (Movie | Series)) {
-      if (a.vote_average <= b.vote_average) {
-        return 1;
-      } else if (a.vote_average > b.vote_average) {
+    function sortCB(a: any, b: any) {
+      if (a.popularity < b.popularity) {
         return -1;
+      } else if (a.popularity > b.popularity) {
+        return 1;
       }
       return 0;
     }
     return sort(content, sortCB, SortingOrder.ASC);
   }
   else if (sortBy === SortBy.RATING_DSC) {
-    function sortCB(a: (Movie | Series), b: (Movie | Series)) {
+    function sortCB(a: any, b: any) {
+      if (a.vote_average > b.vote_average) {
+        return 1;
+      } else if (a.vote_average < b.vote_average) {
+        return -1;
+      }
       return 0;
     }
     return sort(content, sortCB, SortingOrder.DSC);
   }
   else if (sortBy === SortBy.RATING_ASC) {
-    function sortCB(a: (Movie | Series), b: (Movie | Series)) {
+    function sortCB(a: any, b: any) {
+      if (a.vote_average < b.vote_average) {
+        return -1;
+      } else if (a.vote_average > b.vote_average) {
+        return 1;
+      }
       return 0;
     }
     return sort(content, sortCB, SortingOrder.ASC);
   }
   else if (sortBy === SortBy.TITLE_DSC) {
-    function sortCB(a: (Movie | Series), b: (Movie | Series)) {
+    function sortCB(a: any, b: any) {
+      const aName = a.name ? a.name : a.title;
+      const bName = b.name ? b.name : b.title;
+      if (aName > bName) {
+        return 1;
+      } else if (aName < bName) {
+        return -1;
+      }
       return 0;
     }
     return sort(content, sortCB, SortingOrder.DSC);
   }
   else if (sortBy === SortBy.TITLE_ASC) {
-    function sortCB(a: (Movie | Series), b: (Movie | Series)) {
+    function sortCB(a: any, b: any) {
+      const aName = a.name ? a.name : a.title;
+      const bName = b.name ? b.name : b.title;
+      if (aName < bName) {
+        return -1;
+      } else if (aName > bName) {
+        return 1;
+      }
       return 0;
     }
     return sort(content, sortCB, SortingOrder.ASC);
   }
   else if (sortBy === SortBy.LATEST) {
-    function sortCB(a: (Movie | Series), b: (Movie | Series)) {
+    function sortCB(a: any, b: any) {
+      const aYear = a.first_air_date ? a.first_air_date : a.release_date;
+      const bYear = b.first_air_date ? b.first_air_date : b.release_date;
+      if (aYear > bYear) {
+        return 1;
+      } else if (aYear < bYear) {
+        return -1;
+      }
       return 0;
     }
     return sort(content, sortCB, SortingOrder.DSC);
   }
   else if (sortBy === SortBy.OLDEST) {
-    function sortCB(a: (Movie | Series), b: (Movie | Series)) {
+    function sortCB(a: any, b: any) {
+      const aYear = a.first_air_date ? a.first_air_date : a.release_date;
+      const bYear = b.first_air_date ? b.first_air_date : b.release_date;
+      if (aYear < bYear) {
+        return -1;
+      } else if (aYear > bYear) {
+        return 1;
+      }
       return 0;
     }
     return sort(content, sortCB, SortingOrder.ASC);
+  } else {
+    return [];
   }
-  return [];
 }
 
 function generateDummyContent(amount: number): any[] {
@@ -729,7 +768,9 @@ let model: Model = {
           this.series = [];
         }
         const genreContent = [...this.movies, ...this.series];
-        this.searchContent = [...this.searchContent, ...genreContent];
+        const completedData = [...this.searchContent, ...genreContent];
+        const sortedData = sortContent(completedData, this.sortBy);
+        this.searchContent = sortedData;
       } else if (
         resultStatusMovie.current === "rejected" ||
         resultStatusSeries.current === "rejected"
@@ -798,10 +839,8 @@ let model: Model = {
         }
         const currentData = [...this.movies, ...this.series];
         const completedData = [...this.searchContent, ...currentData];
-        console.log("completedDATA", completedData)
         const sortedData = sortContent(completedData, this.sortBy);
-        console.log("sortedDATA", completedData)
-        this.searchContent = sortedData
+        this.searchContent = sortedData;
       } else if (
         resultStatusMovie.current === "rejected" ||
         resultStatusSeries.current === "rejected"
@@ -1341,7 +1380,6 @@ async function subscribeDB(uid: string) {
 
 function persistUserData() {
   if (persistent.userData) {
-    console.log("persistUserData");
     set(ref(db, "users/" + persistent.userData.uid), persistent.userData);
   }
 }
@@ -1429,7 +1467,6 @@ async function removeContentFromList(
     });
     if (index > -1) {
       persistent.userData.movieLists[list].splice(index, 1);
-      console.log("Removed content from list");
       persistUserData();
       return true;
     } else {

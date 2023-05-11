@@ -39,13 +39,11 @@ export default defineComponent({
     const route = useRoute();
     let userID = "";
     onMounted(async function () {
-      console.log("onMounted");
       userID = await getUid();
       updateDataACB();
     });
 
     function getMediaID() {
-      console.log("getMediaID");
       const mediaID_raw = route.query.id;
       try {
         return JSON.parse(mediaID_raw as string);
@@ -54,7 +52,6 @@ export default defineComponent({
       }
     }
     function getMediaType() {
-      console.log("getMediaType");
       const mediaType_raw = route.query.type;
       try {
         if (mediaType_raw === '"movie"' || mediaType_raw === '"tv"') {
@@ -68,7 +65,6 @@ export default defineComponent({
     }
 
     async function getUid() {
-      console.log("Fetching USERID")
       let uid = await auth.currentUser?.uid;
       return uid || "";
     }
@@ -99,7 +95,6 @@ export default defineComponent({
             await props.model.fetchContentRecommendedMovie();
             await props.model.fetchContentSimilarMovie();
             // await props.model.fetchContentWatchProviders(MediaType.MOVIE);
-            console.log("currentMovie:", props.model.currentMovie);
           } catch (e) {
             goPageNotFoundACB();
           }
@@ -116,7 +111,6 @@ export default defineComponent({
             await props.model.fetchContentRecommendedSeries();
             await props.model.fetchContentSimilarSeries();
             // await props.model.fetchContentWatchProviders(MediaType.SERIES);
-            console.log("currentSeries:", props.model.currentSeries);
           } catch (e) {
             goPageNotFoundACB();
           }
@@ -125,7 +119,6 @@ export default defineComponent({
     }
 
     async function checkIfAdded() {
-      console.log("checkIfAdded");
       const userID = await getUid();
       await props.model.fetchPersistance(userID);
       const state = props.model.state;

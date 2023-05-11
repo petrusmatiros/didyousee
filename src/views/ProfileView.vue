@@ -3,13 +3,13 @@
     <h1>Profile</h1>
     <div class="profile-lists flex-col flex-center gap-full">
       <div class="profile-list-card-container flex-row flex-center gap-full">
+        <div @click="goToLikedListACB()" class="profile-list-card">Liked</div>
         <div @click="goToWatchListACB()" class="profile-list-card">
           Watchlist
         </div>
-        <div @click="goToSeenListACB()" class="profile-list-card">Seen</div>
       </div>
       <div class="profile-list-card-container flex-row flex-center gap-full">
-        <div @click="goToLikedListACB()" class="profile-list-card">Liked</div>
+        <div @click="goToSeenListACB()" class="profile-list-card">Seen</div>
         <div @click="goToDislikedListACB()" class="profile-list-card">
           Disliked
         </div>

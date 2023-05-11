@@ -24,7 +24,6 @@ import ListCard from "./../components/ListCard.vue";
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import ListPresenter from "../presenters/ListPresenter.vue";
 
 export default defineComponent({
   name: "ListView",

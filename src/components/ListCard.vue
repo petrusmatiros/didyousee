@@ -1,5 +1,5 @@
 <template>
-  <div class="list-card flex-row flex-start-center gap-full">
+  <div class="list-card-container flex-row flex-start-center gap-full">
     <div
       v-if="!($props.list?.title || $props.list?.name)"
       class="loading-skeleton list-card flex-row flex-start-center gap-full"
@@ -16,10 +16,10 @@
         <h1 v-if="$props.list?.title || $props.list?.name">
           {{ $props.list?.title || $props.list?.name }}
         </h1>
-        <span class="material-symbols-rounded" @click="deleteClickACB()"
+        <span class="material-symbols-rounded list-card-delete" @click="deleteClickACB()"
           >delete</span
         >
-        <button @click="handleClickACB()"> View</button>
+        <button class="button" @click="handleClickACB()"> View</button>
       </div>
     </div>
   </div>

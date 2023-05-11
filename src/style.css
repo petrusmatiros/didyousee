@@ -514,27 +514,45 @@ a:active {
   font-size: var(--font-small-2);
 }
 
-.list-card {
-  position: relative;
+.list-card-container {
   min-width: 45rem;
   min-height: 10rem;
+}
+
+.list-card {
+  position: relative;
+  min-width: inherit;
+  min-height: inherit;
   height: fit-content;
-  background-color: var(--bg-dark);
+  background-color: var(--main);
   border-radius: var(--border-radius);
   padding: var(--padding-medium);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.list-card:hover {
+  background-color: var(--main-hover)
+}
+
+.list-card:active {
+  background-color: var(--main-active);
 }
 
 .list-card img {
   width: 7rem;
 }
 .list-card h1 {
-  font-size: var(--font-small-2);
+  font-size: var(--font-large);
 }
 .list-card span {
   position: absolute;
   top: 1rem;
   right: 0.5rem;
   padding: var(--padding-medium);
+}
+.list-card-delete {
+  cursor: pointer;
+  user-select: none;
 }
 
 /*  ================== List page EMD ================== */

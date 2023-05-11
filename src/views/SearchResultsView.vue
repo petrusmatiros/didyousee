@@ -29,8 +29,8 @@ function onRefresh() {
         <option :value="SortBy.POPULARITY_ASC.toString()">Lowest Popularity</option>
         <option :value="SortBy.RATING_DSC.toString()">Highest Rating</option>
         <option :value="SortBy.RATING_ASC.toString()">Lowest Rating</option>
-        <option :value="SortBy.TITLE_DSC.toString()">Title A-Z</option>
-        <option :value="SortBy.TITLE_ASC.toString()">Title Z-A</option>
+        <option :value="SortBy.TITLE_ASC.toString()">Title A-Z</option>
+        <option :value="SortBy.TITLE_DSC.toString()">Title Z-A</option>
         <option :value="SortBy.LATEST.toString()">Latest</option>
         <option :value="SortBy.OLDEST.toString()">Oldest</option>
       </select>
