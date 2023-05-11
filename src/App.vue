@@ -6,11 +6,6 @@
           onerror="this.src='/src/assets/no-content.svg';"
             alt="didyousee logo. an owl with a binocular, looking for the next movie/series" decoding="sync"
             fetchpriority="high" /></RouterLink>
-            <RouterLink to="/profile/list?name=liked" class="nav-link flex-row flex-center">Liked</RouterLink>
-        <RouterLink to="/profile/list?name=watch" class="nav-link flex-row flex-center">Watchlist</RouterLink>
-        <RouterLink to="/profile/list?name=seen" class="nav-link flex-row flex-center">Seen</RouterLink>
-        <RouterLink to="/profile/list?name=disliked" class="nav-link flex-row flex-center">Disliked</RouterLink>
-
       </div>
       <div class="nav-link-right gap-full flex-row flex-center">
         <SearchBar :model="model"></SearchBar>

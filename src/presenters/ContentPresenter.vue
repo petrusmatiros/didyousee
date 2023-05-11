@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, onMounted } from "vue";
 import ContentView from "../views/ContentView.vue";
 import { useRouter, useRoute } from "vue-router";
 import { MediaType, ListType } from "../types/types";
@@ -32,16 +32,17 @@ export default defineComponent({
     },
   },
   computed: {
-    UserID(): string {
-      return auth.currentUser?.uid || "";
-    },
+    
   },
   setup(props: any) {
     const router = useRouter();
     const route = useRoute();
-    // Typescript is not smart enough to realise that the check in the if is enough to avoid undefined.
-    // So we replace undefined with "" and check for "" explicitly
-    const userID = auth.currentUser?.uid || "";
+    let userID = "";
+    onMounted(async function () {
+      console.log("onMounted");
+      userID = await getUid();
+      updateDataACB();
+    });
 
     function getMediaID() {
       console.log("getMediaID");
@@ -65,19 +66,12 @@ export default defineComponent({
         goPageNotFoundACB();
       }
     }
-    // const mediaID_raw = route.query.id;
-    // const mediaType_raw = route.query.type;
-    // const mediaID = JSON.parse(mediaID_raw as string);
-    // const mediaType = JSON.parse(mediaType_raw as string);
 
-    // if (!mediaID_raw || userID === "") {
-    //   router.push("404");
-    //   throw new Error("404: Movie ID not found");
-    // } else {
-    //   const mediaID = JSON.parse(mediaID_raw as string);
-    //   const mediaType = JSON.parse(mediaType_raw as string);
-
-    // }
+    async function getUid() {
+      console.log("Fetching USERID")
+      let uid = await auth.currentUser?.uid;
+      return uid || "";
+    }
 
     async function updateDataACB() {
       const mediaID_raw = route.query.id;
@@ -129,21 +123,10 @@ export default defineComponent({
         }
       }
     }
-    updateDataACB();
-    // props.model.addObserver(updateDataACB);
-
-    // function addToList(list: string) {
-
-    //   console.log("list:", list)
-    //   addContentToList(userID, list, mediaID, mediaType);
-    // }
-
-    // function removeFromList(list: string) {
-    //   removeContentFromList(userID, list, mediaID, mediaType);
-    // }
 
     async function checkIfAdded() {
       console.log("checkIfAdded");
+      const userID = await getUid();
       await props.model.fetchPersistance(userID);
       const state = props.model.state;
       const likeButton = document.getElementById(
@@ -211,7 +194,8 @@ export default defineComponent({
       }
     }
 
-    function toggleContent(list: string) {
+    async function toggleContent(list: string) {
+      const userID = await getUid();
       toggleContentToList(userID, list, getMediaID(), getMediaType());
       checkIfAdded();
     }

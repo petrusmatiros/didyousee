@@ -10,7 +10,7 @@ import { useRouter } from "vue-router";
 
 import SearchResultsView from "../views/SearchResultsView.vue";
 import { model } from "../model/model";
-import { SearchCategory } from "../types/types";
+import { SearchCategory, SortBy } from "../types/types";
 
 export default defineComponent({
   name: "SearchResultsPresenter",
@@ -69,8 +69,12 @@ export default defineComponent({
         }
       }
     }
-    function onFilterChangeACB(value: string) {
-      console.log(value);
+    function onSortChangeACB(sortType: SortBy) {
+      console.log("newSortBy", sortType)
+      props.model.sortBy = sortType;
+    }
+    function onRefreshACB() {
+      searchACB();
     }
 
     const handleScroll = () => {
@@ -103,11 +107,12 @@ export default defineComponent({
 
     return {
       searchACB,
-      onFilterChangeACB,
+      onSortChangeACB,
+      onRefreshACB,
     };
   },
 });
 </script>
 <template>
-  <SearchResultsView :model="model" @onFilterChange="onFilterChangeACB" />
+  <SearchResultsView :model="model" @onSortChange="onSortChangeACB" @onRefresh="onRefreshACB"/>
 </template>

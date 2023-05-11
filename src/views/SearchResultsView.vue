@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import './../style.css';
 import MediaCard from '../components/MediaCard.vue';
-import { Suspense } from 'vue';
+import { SortBy } from '../types/types';
 
-const emit = defineEmits(["onFilterChange"]);
+const emit = defineEmits(["onSortChange","onRefresh"]);
 
-function onFilterChange(value: string) {
-  emit("onFilterChange", value);
+function onSortChange(sortType: string) {
+  emit("onSortChange", sortType);
+}
+
+function onRefresh() {
+  emit("onRefresh");
 }
 </script>
 
@@ -19,18 +23,18 @@ function onFilterChange(value: string) {
         class="button flex-center pr-medium pl-medium" 
         name="searchCategory"
         id="searchCategorySelect"
-        @change="onFilterChange(selectedFilter)"
+        @change="onSortChange(selectedFilter)"
         >
-        <option value="popularity_asc" selected>Highest Popularity</option>
-        <option value="popularity_dsc">Lowest Popularity</option>
-        <option value="rating_asc">Highest Rating</option>
-        <option value="rating_dsc">Lowest Rating</option>
-        <option value="title_asc">Highest Title</option>
-        <option value="title_dsc">Lowest Title</option>
-        <option value="year_dsc">Latest</option>
-        <option value="year_asc">Oldest</option>
+        <option :value="SortBy.POPULARITY_DSC.toString()" selected>Highest Popularity</option>
+        <option :value="SortBy.POPULARITY_ASC.toString()">Lowest Popularity</option>
+        <option :value="SortBy.RATING_DSC.toString()">Highest Rating</option>
+        <option :value="SortBy.RATING_ASC.toString()">Lowest Rating</option>
+        <option :value="SortBy.TITLE_DSC.toString()">Title A-Z</option>
+        <option :value="SortBy.TITLE_ASC.toString()">Title Z-A</option>
+        <option :value="SortBy.LATEST.toString()">Latest</option>
+        <option :value="SortBy.OLDEST.toString()">Oldest</option>
       </select>
-    <!-- <button @click="searchClickACB()">X</button> -->
+     <button @click="onRefresh()">#</button>
     <div  class="search-results flex-col flex-center gap-half">
   
       <!-- Result -->
@@ -86,7 +90,7 @@ export default defineComponent({
   data() {
     return {
       result_status: '',
-      selectedFilter: '',
+      selectedFilter: this.$props.model.sortBy,
     };
   },
   watch: {

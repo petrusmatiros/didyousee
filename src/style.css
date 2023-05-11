@@ -516,12 +516,12 @@ a:active {
 
 .list-card {
   position: relative;
-  min-width: 100%;
+  min-width: 45rem;
   min-height: 10rem;
   height: fit-content;
   background-color: var(--bg-dark);
   border-radius: var(--border-radius);
-  padding: var(--padding-large-3);
+  padding: var(--padding-medium);
 }
 
 .list-card img {
@@ -637,17 +637,17 @@ a:active {
   font-size: var(--font-small) !important;
 }
 .loading-skeleton {
-  min-width: fit-content;
+  min-width: inherit;
   max-width: inherit;
   min-height: inherit;
   height: inherit;
   border-radius: var(--border-radius);
-  background-color: var(--bg-lighter);
+  background-color: inherit;
   animation: loading 0.7s infinite alternate ease-in-out;
 }
 @keyframes loading {
   0% {
-    background-color: var(--bg-lighter);
+    background-color: inherit;
   }
   100% {
     background-color: var(--bg);
@@ -757,7 +757,7 @@ a:active {
 
 /*  ================== SearchBar END ================== */
 .searchBar {
-  width: 25rem;
+  width: 35rem;
   border-radius: var(--border-radius);
   background-color: var(--input);
   transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
@@ -886,7 +886,9 @@ div[aria-hidden="true"] {
 
 .result-content-poster {
   user-select: none;
-  width: clamp(17.125rem, 5vw, 30rem);
+  max-width: 30rem;
+  min-width: 17.125rem;
+  width: 20rem;
   aspect-ratio: 2/3;
   border-radius: var(--border-radius);
   background-color: var(--bg-lighter);

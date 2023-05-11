@@ -24,9 +24,9 @@ import {
   formatMoney,
   formatVoteCount,
 } from "../utils/utils";
-import noPoster from "../assets/no-poster.svg"
-import noContent from "../assets/no-content.svg"
-import { db } from "../firebaseConfig"
+import noPoster from "../assets/no-poster.svg";
+import noContent from "../assets/no-content.svg";
+import { db } from "../firebaseConfig";
 import { ref, set, get, onValue } from "firebase/database";
 
 import {
@@ -100,21 +100,15 @@ function backdrop(
 }
 
 function image(path: string, size: PosterSize | BackdropSize): any {
-  return path
-    ? `https://image.tmdb.org/t/p/${size}${path}`
-    : noPoster;
+  return path ? `https://image.tmdb.org/t/p/${size}${path}` : noPoster;
 }
 
 function imageGravatar(path: string, size: PosterSize): any {
-  return path
-    ? `${path}`
-    : noContent
+  return path ? `${path}` : noContent;
 }
 
 function imageGeneric(path: string, size: PosterSize): any {
-  return path
-    ? `https://image.tmdb.org/t/p/${size}${path}`
-    : noContent;
+  return path ? `https://image.tmdb.org/t/p/${size}${path}` : noContent;
 }
 
 function setCreator(input: any, mediaType: MediaType): any {
@@ -125,6 +119,36 @@ function setCreator(input: any, mediaType: MediaType): any {
   } else if (mediaType === MediaType.SERIES) {
     return input;
   }
+}
+
+function sortContent(
+  content: any[],
+  sortBy: SortBy,
+): any[] {
+  console.log("INSIDE sortContent", sortBy)
+  if (sortBy === SortBy.POPULARITY_DSC) {
+    function sortCB(a: (Movie | Series), b: (Movie | Series)) {
+      if (a.popularity < b.popularity) {
+        return 1;
+      } else if (a.popularity > b.popularity) {
+        return -1;
+      }
+      return 0;
+    }
+    return sort(content, sortCB, SortingOrder.DSC);
+  }
+  else if (sortBy === SortBy.POPULARITY_ASC) {
+    function sortCB(a: (Movie | Series), b: (Movie | Series)) {
+      if (a.popularity < b.popularity) {
+        return -1;
+      } else if (a.popularity > b.popularity) {
+        return 1;
+      }
+      return 0;
+    }
+    return sort(content, sortCB, SortingOrder.ASC);
+  }
+  return [];
 }
 
 function generateDummyContent(amount: number): any[] {
@@ -173,18 +197,14 @@ async function fetchHandler(
       if (fetchedData) {
         return contentFromQuery(fetchedData.data);
       }
-    } catch (error) {
-
-    }
+    } catch (error) {}
   } else if (fetchType === FetchType.QUERY) {
     try {
       const fetchedData: any | undefined = await axiosPromise;
       if (fetchedData) {
         return fetchedData.data.results.map(contentFromQuery);
       }
-    } catch (error) {
-
-    }
+    } catch (error) {}
   } else if (fetchType === FetchType.VIDEO) {
     try {
       const fetchedData: any | undefined = await axiosPromise;
@@ -198,9 +218,7 @@ async function fetchHandler(
       return filteredVideos && filteredVideos.length > 0
         ? `https://www.youtube-nocookie.com/embed/${filteredVideos[0].key}`
         : "";
-    } catch (error) {
-
-    }
+    } catch (error) {}
   } else if (fetchType === FetchType.CREDITS) {
     try {
       function setLogoPath(path: string) {
@@ -209,22 +227,17 @@ async function fetchHandler(
       const fetchedData: any | undefined = await axiosPromise;
       if (fetchedData) {
         fetchedData.data.cast.forEach((cast: any) => {
-          cast.profile_path = setLogoPath(
-            cast.profile_path
-          );
+          cast.profile_path = setLogoPath(cast.profile_path);
         });
         return fetchedData.data;
       }
-    } catch (error) {
-   
-    }
+    } catch (error) {}
   } else if (fetchType === FetchType.REVIEWS) {
     try {
       function setLogoPath(path: string) {
         if (path.indexOf("gravatar.com") === -1) {
           return imageGeneric(path, PosterSize.W92);
-        }
-        else {
+        } else {
           path = path.substring(1);
           return imageGravatar(path, PosterSize.W92);
         }
@@ -238,8 +251,7 @@ async function fetchHandler(
         });
       }
       return fetchedData.data;
-    } catch (error) {
-    }
+    } catch (error) {}
   } else if (fetchType === FetchType.WATCH_PROVIDERS) {
     function setLogoPath(path: string) {
       return imageGeneric(path, PosterSize.W92);
@@ -349,7 +361,7 @@ function contentFromQuery(input: Movie | Series): Movie | Series {
 
 interface UserData {
   uid: string;
-  movieLists: Record<string, {mediaID:string, mediaType:string}[]>;
+  movieLists: Record<string, { mediaID: string; mediaType: string }[]>;
 }
 
 interface Model {
@@ -430,7 +442,7 @@ interface Model {
   fetchContentWatchProviders: (mediaType: MediaType) => Promise<void>;
 
   fetchCurrentList: (list: []) => Promise<void>;
-  fetchPersistance: (userID:string) => Promise<void>;
+  fetchPersistance: (userID: string) => Promise<void>;
 
   notifyObservers: (payload: any) => void;
   addObserver: (observer: (obs: any) => void) => void;
@@ -667,11 +679,10 @@ let model: Model = {
 
         const moviePages = returnedPromiseMovies.data.total_pages;
         const seriesPages = returnedPromiseSeries.data.total_pages;
-        
+
         if (moviePages >= seriesPages) {
           this.total_pages = moviePages;
-        }
-        else {
+        } else {
           this.total_pages = seriesPages;
         }
 
@@ -733,14 +744,13 @@ let model: Model = {
           returnedPromiseSeries,
           FetchType.QUERY
         );
-        
+
         const moviePages = returnedPromiseMovies.data.total_pages;
         const seriesPages = returnedPromiseSeries.data.total_pages;
 
         if (moviePages >= seriesPages) {
           this.total_pages = moviePages;
-        }
-        else {
+        } else {
           this.total_pages = seriesPages;
         }
 
@@ -750,9 +760,12 @@ let model: Model = {
         if (!this.series) {
           this.series = [];
         }
-        const data = [...this.movies, ...this.series];
-        this.searchContent = [...this.searchContent, ...data];
-
+        const currentData = [...this.movies, ...this.series];
+        const completedData = [...this.searchContent, ...currentData];
+        console.log("completedDATA", completedData)
+        const sortedData = sortContent(completedData, this.sortBy);
+        console.log("sortedDATA", completedData)
+        this.searchContent = sortedData
       } else if (
         resultStatusMovie.current === "rejected" ||
         resultStatusSeries.current === "rejected"
@@ -1014,7 +1027,7 @@ let model: Model = {
       }
       var tempList = [];
       for (let i = 0; i < list.length; i++) {
-        let media: {mediaID:string, mediaType:string} = list[i];
+        let media: { mediaID: string; mediaType: string } = list[i];
         if (media.mediaType === MediaType.MOVIE) {
           try {
             let movie = (await fetchHandler(
@@ -1052,11 +1065,11 @@ let model: Model = {
       console.log("ERROR: No userID given");
       return;
     }
-    if(!persistent.userData) {
+    if (!persistent.userData) {
       await subscribeDB(userID);
     }
-    if(persistent.userData) {
-      if(persistent.userData.movieLists) {
+    if (persistent.userData) {
+      if (persistent.userData.movieLists) {
         this.state = persistent.userData.movieLists;
       }
     }
@@ -1066,9 +1079,7 @@ let model: Model = {
     function invokeObserversCB(obs: (payload: any) => void) {
       try {
         obs(payload);
-      } catch (error) {
-
-      }
+      } catch (error) {}
     }
     this.observers.forEach(invokeObserversCB);
   },
@@ -1115,8 +1126,8 @@ let model: Model = {
     return this.searchCategory;
   },
   resetCurrentContent: function () {
-    (this.currentState = [] ),
-    (this.recommendedMovies = []),
+    (this.currentState = []),
+      (this.recommendedMovies = []),
       (this.recommendedSeries = []),
       (this.similarMovies = []),
       (this.similarSeries = []),
@@ -1235,9 +1246,7 @@ async function discoverMedia(
         if (genreID) {
           genreIDs.push(genreID);
         }
-      } catch (error) {
-
-      }
+      } catch (error) {}
     }
     if (genreIDs.length > 0) {
       params.append("with_genres", genreIDs.join(","));
@@ -1268,9 +1277,7 @@ async function genreIDfromName(media: MediaType, name: string) {
     } else {
       throw Error;
     }
-  } catch (error) {
-
-  }
+  } catch (error) {}
 }
 
 // This is NOT exported, access only using functions that automatically persist any change.
@@ -1278,17 +1285,17 @@ interface Persistent {
   userData: UserData | null;
 }
 
-let persistent : Persistent = {
+let persistent: Persistent = {
   userData: null,
-}
+};
 
 // Initially, we do not have an observer
 let unsubscriber = () => {};
 
-async function subscribeDB(uid : string) {
+async function subscribeDB(uid: string) {
   // Unsubscribe the previous observer first
   unsubscriber();
-  let refer = ref(db, 'users/' + uid);
+  let refer = ref(db, "users/" + uid);
   let value = await get(refer).then((snapshot) => snapshot.val());
   persistent.userData = value || { uid, movieLists: {} };
   unsubscriber = onValue(refer, (snapshot) => {
@@ -1297,33 +1304,44 @@ async function subscribeDB(uid : string) {
 }
 
 function persistUserData() {
-  if(persistent.userData)
-    set(ref(db, 'users/' + persistent.userData.uid), persistent.userData);
+  if (persistent.userData) {
+    console.log("persistUserData");
+    set(ref(db, "users/" + persistent.userData.uid), persistent.userData);
+  }
 }
 
-async function toggleContentToList(userID:string, list:string, mediaID:string, mediaType:string) {
+async function toggleContentToList(
+  userID: string,
+  list: string,
+  mediaID: string,
+  mediaType: string
+) {
   if (userID === "" || !userID) {
     console.log("ERROR: No userID given");
     return;
   }
   let a = await addContentToList(userID, list, mediaID, mediaType);
-  if(!a) {
+  if (!a) {
     await removeContentFromList(userID, list, mediaID, mediaType);
   }
   persistUserData();
-
 }
 
-async function addContentToList(userID: string, list: string, mediaID: string, mediaType: string) {
+async function addContentToList(
+  userID: string,
+  list: string,
+  mediaID: string,
+  mediaType: string
+) {
   if (userID === "" || !userID) {
     console.log("ERROR: No userID given");
     return;
   }
-  if(!persistent.userData) {
+  if (!persistent.userData) {
     await subscribeDB(userID);
   }
-  if(persistent.userData) {
-    if(!persistent.userData.movieLists[list]) {
+  if (persistent.userData) {
+    if (!persistent.userData.movieLists[list]) {
       persistent.userData.movieLists[list] = [];
     }
 
@@ -1336,52 +1354,61 @@ async function addContentToList(userID: string, list: string, mediaID: string, m
       }
     });
     if (unique) {
-      persistent.userData.movieLists[list].push( {mediaID: mediaID, mediaType: mediaType} );
+      persistent.userData.movieLists[list].push({
+        mediaID: mediaID,
+        mediaType: mediaType,
+      });
+      persistUserData();
       return true;
     } else {
+      persistUserData();
       return false;
     }
-    
   } else {
     console.log("ERROR: Despite fetching from DB still no userdata.");
   }
-  persistUserData();
 }
 
-async function removeContentFromList(userID: string, list: string, mediaID: string, mediaType: string) {
+async function removeContentFromList(
+  userID: string,
+  list: string,
+  mediaID: string,
+  mediaType: string
+) {
+
   if (userID === "" || !userID) {
     console.log("ERROR: No userID given");
     return;
   }
-  if(!persistent.userData) {
+  if (!persistent.userData) {
     await subscribeDB(userID);
   }
-  if(persistent.userData) {
+  if (persistent.userData) {
     let entries = persistent.userData.movieLists[list];
     let index = -1;
     entries.forEach((entry, i) => {
-      if(entry.mediaID === mediaID && entry.mediaType === mediaType) {
+      if (entry.mediaID === mediaID && entry.mediaType === mediaType) {
         index = i;
-      } 
+      }
     });
     if (index > -1) {
       persistent.userData.movieLists[list].splice(index, 1);
       console.log("Removed content from list");
+      persistUserData();
       return true;
     } else {
+      persistUserData();
       return false;
     }
   } else {
     console.log("ERROR: Despite fetching from DB still no userdata.");
   }
-  persistUserData();
 }
 
-
-async function getUserData(uid : string) : Promise<UserData | null> {
-  if(persistent.userData === null) {
+async function getUserData(uid: string): Promise<UserData | null> {
+  if (persistent.userData === null) {
     await subscribeDB(uid);
-  } else if(persistent.userData.uid !== uid) {
+  } else if (persistent.userData.uid !== uid) {
     console.log("ERROR: Fetching another users data");
     return null;
   }
@@ -1397,10 +1424,10 @@ export {
   getMedia,
   getSimilarMedia,
   getRecommendedMedia,
-
   subscribeDB,
   addContentToList,
   removeContentFromList,
   toggleContentToList,
+  persistUserData,
   getUserData,
 };
