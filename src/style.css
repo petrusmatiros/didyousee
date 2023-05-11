@@ -506,6 +506,14 @@ a:active {
   flex-wrap: wrap;
 }
 
+.list-container h1 {
+  font-size: var(--font-medium);
+}
+
+.list-container p {
+  font-size: var(--font-small-2);
+}
+
 .list-card {
   position: relative;
   min-width: 100%;

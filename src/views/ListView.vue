@@ -1,17 +1,21 @@
-ListCard<script setup lang="ts">
+<script setup lang="ts">
 import "./../style.css";
 import ListCard from "./../components/ListCard.vue";
 </script>
 
 <template>
-  <div class="mt-large2 gap-full flex-col flex-center">
-    <h1>{{ formatName(listName) }}</h1>
-    <!-- TODO ListCard with v-for -->
+  <div class="mt-large2 gap-full flex-col flex-center gap-full">
+    <h1>{{ formatName($props.model.currentState.name) }}</h1>
     <div class="list-container flex-col flex-center-start gap-full">
-      <ListCard v-for="(list, index) in $props.model?.currentList" :key="index"
+      <div v-if="$props.model?.currentList.length === 0 || !$props.model?.currentList"
+      class="flex-col flex-center gap-half">
+        <h1>This list is empty (｢•-•)｢ ʷʱʸ?</h1>
+        <p>But do not fret - use thte searchbar above to find something awesome to watch (^-^)</p>
+      </div>
+      
+      <ListCard v-else v-for="(list, index) in $props.model?.currentList" :key="index"
       :list="list"
-      :model="model"
-      :listName="listName">Card
+      :model="model">
     </ListCard>
 
     </div>
@@ -30,10 +34,6 @@ export default defineComponent({
   props: {
     model: {
       type: Object,
-      required: true,
-    },
-    listName: {
-      type: String,
       required: true,
     },
   },

@@ -93,9 +93,13 @@ async function getGenreList(media: MediaType) {
 async function wrap(query: string, params: URLSearchParams) {
   params.append("api_key", import.meta.env.VITE_TMDB_API_KEY);
   try {
-    let res = await tmdbApi.get(`${query}?${params}`);
+    // let res = await 
+    let res = await tmdbApi.get(`${query}?${params}`).catch((err) => {
+      
+    });
     return res;
-  } catch (error) {
+  } catch (error:any) {
+    
     // console.clear();
   }
 }

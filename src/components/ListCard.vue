@@ -1,5 +1,5 @@
 <template>
-  <div class="list-card flex-row flex-start-center gap-full">
+  <div @click="handleClickACB()" class="list-card flex-row flex-start-center gap-full">
     <div
       v-if="!($props.list?.title || $props.list?.name)"
       class="loading-skeleton list-card flex-row flex-start-center gap-full"
@@ -16,7 +16,7 @@
         <h1 v-if="$props.list?.title || $props.list?.name">
           {{ $props.list?.title || $props.list?.name }}
         </h1>
-        <span class="material-symbols-rounded" @click="deleteClickACB"
+        <span class="material-symbols-rounded" @click="deleteClickACB()"
           >delete</span
         >
       </div>
@@ -36,10 +36,6 @@ export default defineComponent({
       type: Object,
       required: true,
     },
-    listName: {
-      type: String,
-      required: true,
-    },
     model: {
       type: Object,
       required: true,
@@ -54,10 +50,17 @@ export default defineComponent({
       console.log("Delete!", this.$props.list);
       const userID = auth.currentUser?.uid || "";
       console.log("USERID", userID)
-      console.log("LIST", this.$props.listName)
-      console.log("id", this.$props.list.id)
+      console.log("LIST", this.$props.list)
+      console.log("mediaid", this.$props.list.id)
       console.log("mediaType",this.$props.list.mediaType)
     },
+    handleClickACB() {
+      // Handle click event for the movie card
+      this.$router.push({
+        name: "Content",
+        query: { type: JSON.stringify(this.$props.list.mediaType), id: JSON.stringify(this.$props.list.id) },
+      });
+  },
   },
 });
 </script>

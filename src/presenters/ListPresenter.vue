@@ -35,25 +35,23 @@ export default defineComponent({
   setup(props: any) {
     const route = useRoute();
 
-
     const userID = auth.currentUser?.uid || "";
 
     async function updateList() {
-      var listName = route.query.name as string;
+      // reset list
+      const listName = route.query.name as string;
+      props.model.currentState.name = listName;
       await props.model.fetchPersistance(userID);
       console.log(props.model.state, listName)
       
       const list = props.model.state[listName]
-      console.log("list", list)
       await props.model.fetchCurrentList(list);
-      console.log(props.model.currentList)
+      console.log("currentList", props.model.currentList)
     }
     updateList();
 
 
-    var listName = route.query.name as string;
     return {
-        listName,
         userID,
         updateList,
     };
@@ -61,5 +59,5 @@ export default defineComponent({
 });
 </script>
 <template>
-  <ListView :model="model" :listName="listName" />
+  <ListView :model="model" />
 </template>

@@ -1037,7 +1037,12 @@ let model: Model = {
           }
         }
       }
-    this.currentList = tempList;
+      console.log("TEMPlIST",tempList)
+      if (tempList.length === 0 || !tempList) {
+        this.currentList = [];
+      } else {
+        this.currentList = tempList;
+      }
     } catch (error) {
       throw error;
     }

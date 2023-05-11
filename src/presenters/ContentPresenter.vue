@@ -4,7 +4,12 @@ import ContentView from "../views/ContentView.vue";
 import { useRouter, useRoute } from "vue-router";
 import { MediaType, ListType } from "../types/types";
 import { auth } from "../firebaseConfig";
-import { addContentToList, removeContentFromList, toggleContentToList, getUserData } from "../model/model";
+import {
+  addContentToList,
+  removeContentFromList,
+  toggleContentToList,
+  getUserData,
+} from "../model/model";
 
 export default defineComponent({
   name: "ContentPresenter",
@@ -29,7 +34,7 @@ export default defineComponent({
   computed: {
     UserID(): string {
       return auth.currentUser?.uid || "";
-    }
+    },
   },
   setup(props: any) {
     const router = useRouter();
@@ -39,6 +44,7 @@ export default defineComponent({
     const userID = auth.currentUser?.uid || "";
 
     function getMediaID() {
+      console.log("getMediaID");
       const mediaID_raw = route.query.id;
       try {
         return JSON.parse(mediaID_raw as string);
@@ -47,9 +53,10 @@ export default defineComponent({
       }
     }
     function getMediaType() {
+      console.log("getMediaType");
       const mediaType_raw = route.query.type;
       try {
-        if (mediaType_raw === "\"movie\"" || mediaType_raw === "\"tv\"") {
+        if (mediaType_raw === '"movie"' || mediaType_raw === '"tv"') {
           return JSON.parse(mediaType_raw as string);
         } else {
           goPageNotFoundACB();
@@ -63,7 +70,6 @@ export default defineComponent({
     // const mediaID = JSON.parse(mediaID_raw as string);
     // const mediaType = JSON.parse(mediaType_raw as string);
 
-
     // if (!mediaID_raw || userID === "") {
     //   router.push("404");
     //   throw new Error("404: Movie ID not found");
@@ -74,13 +80,14 @@ export default defineComponent({
     // }
 
     async function updateDataACB() {
+      const mediaID_raw = route.query.id;
+      const mediaType_raw = route.query.type;
 
-      const mediaID = getMediaID();
-      const mediaType = getMediaType();
-      if (mediaID && mediaType) {
+      if (mediaID_raw && mediaType_raw) {
+        const mediaID = getMediaID();
+        const mediaType = getMediaType();
         props.model.resetCurrentContent();
         props.model.setSearchID(mediaID);
-
 
         checkIfAdded();
 
@@ -126,7 +133,7 @@ export default defineComponent({
     // props.model.addObserver(updateDataACB);
 
     // function addToList(list: string) {
-      
+
     //   console.log("list:", list)
     //   addContentToList(userID, list, mediaID, mediaType);
     // }
@@ -136,13 +143,21 @@ export default defineComponent({
     // }
 
     async function checkIfAdded() {
-      console.log("checkIfAdded")
+      console.log("checkIfAdded");
       await props.model.fetchPersistance(userID);
       const state = props.model.state;
-      const likeButton = document.getElementById(ListType.LIKED.toString()) as HTMLElement;
-      const watchlistButton = document.getElementById(ListType.WATCH.toString()) as HTMLElement;
-      const seenButton = document.getElementById(ListType.SEEN.toString()) as HTMLElement;
-      const dislikeButton = document.getElementById(ListType.DISLIKED.toString()) as HTMLElement;
+      const likeButton = document.getElementById(
+        ListType.LIKED.toString()
+      ) as HTMLElement;
+      const watchlistButton = document.getElementById(
+        ListType.WATCH.toString()
+      ) as HTMLElement;
+      const seenButton = document.getElementById(
+        ListType.SEEN.toString()
+      ) as HTMLElement;
+      const dislikeButton = document.getElementById(
+        ListType.DISLIKED.toString()
+      ) as HTMLElement;
       let addedLike = false;
       let addedWatch = false;
       let addedSeen = false;
@@ -151,22 +166,22 @@ export default defineComponent({
       const mediaID = getMediaID();
       const mediaType = getMediaType();
 
-      state.liked?.forEach((element:any) => {
+      state.liked?.forEach((element: any) => {
         if (element.mediaID === mediaID && element.mediaType === mediaType) {
           addedLike = true;
         }
       });
-      state.watch?.forEach((element:any) => {
+      state.watch?.forEach((element: any) => {
         if (element.mediaID === mediaID && element.mediaType === mediaType) {
           addedWatch = true;
         }
       });
-      state.seen?.forEach((element:any) => {
+      state.seen?.forEach((element: any) => {
         if (element.mediaID === mediaID && element.mediaType === mediaType) {
           addedSeen = true;
         }
       });
-      state.disliked?.forEach((element:any) => {
+      state.disliked?.forEach((element: any) => {
         if (element.mediaID === mediaID && element.mediaType === mediaType) {
           addedDisliked = true;
         }
@@ -229,7 +244,6 @@ export default defineComponent({
       // Handle click event for the "seen" button
       // Add your custom logic here
       toggleContent(ListType.SEEN.toString());
-      
     }
 
     function handleDislikedACB() {
