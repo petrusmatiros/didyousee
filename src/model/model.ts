@@ -128,10 +128,10 @@ function sortContent(
   console.log("INSIDE sortContent", sortBy)
   if (sortBy === SortBy.POPULARITY_DSC) {
     function sortCB(a: (Movie | Series), b: (Movie | Series)) {
-      if (a.vote_average < b.vote_average) {
-        return 1;
-      } else if (a.vote_average >= b.vote_average) {
+      if (a.vote_average >= b.vote_average) {
         return -1;
+      } else if (a.vote_average < b.vote_average) {
+        return 1;
       }
       return 0;
     }
@@ -139,11 +139,10 @@ function sortContent(
   }
   else if (sortBy === SortBy.POPULARITY_ASC) {
     function sortCB(a: (Movie | Series), b: (Movie | Series)) {
-      console.log(a)
-      if (a.vote_average < b.vote_average) {
-        return -1;
-      } else if (a.vote_average >= b.vote_average) {
+      if (a.vote_average <= b.vote_average) {
         return 1;
+      } else if (a.vote_average > b.vote_average) {
+        return -1;
       }
       return 0;
     }
@@ -153,7 +152,7 @@ function sortContent(
     function sortCB(a: (Movie | Series), b: (Movie | Series)) {
       return 0;
     }
-    return sort(content, sortCB, SortingOrder.ASC);
+    return sort(content, sortCB, SortingOrder.DSC);
   }
   else if (sortBy === SortBy.RATING_ASC) {
     function sortCB(a: (Movie | Series), b: (Movie | Series)) {
@@ -165,7 +164,7 @@ function sortContent(
     function sortCB(a: (Movie | Series), b: (Movie | Series)) {
       return 0;
     }
-    return sort(content, sortCB, SortingOrder.ASC);
+    return sort(content, sortCB, SortingOrder.DSC);
   }
   else if (sortBy === SortBy.TITLE_ASC) {
     function sortCB(a: (Movie | Series), b: (Movie | Series)) {
@@ -177,7 +176,7 @@ function sortContent(
     function sortCB(a: (Movie | Series), b: (Movie | Series)) {
       return 0;
     }
-    return sort(content, sortCB, SortingOrder.ASC);
+    return sort(content, sortCB, SortingOrder.DSC);
   }
   else if (sortBy === SortBy.OLDEST) {
     function sortCB(a: (Movie | Series), b: (Movie | Series)) {
