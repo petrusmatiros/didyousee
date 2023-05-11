@@ -527,6 +527,8 @@ a:active {
 }
 
 .list-card {
+  user-select: none;
+  cursor: pointer;
   position: relative;
   min-width: inherit;
   min-height: inherit;
@@ -560,6 +562,15 @@ a:active {
 .list-card-delete {
   cursor: pointer;
   user-select: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.list-card-delete:hover {
+  background-color: var(--bg-lighter);
+}
+
+.list-card-delete:hover {
+  background-color: var(--bg-lightest);
 }
 
 /*  ================== List page EMD ================== */
@@ -657,10 +668,19 @@ a:active {
 }
 
 .content-card-button {
+  user-select: none;
+  cursor: initial;
   padding: var(--padding-small);
   background-color: var(--bg-light);
   font-size: var(--font-small) !important;
 }
+
+.content-card-button:hover,
+.content-card-button:active {
+  background-color: var(--bg-light);
+}
+
+
 .loading-skeleton {
   min-width: inherit;
   max-width: inherit;

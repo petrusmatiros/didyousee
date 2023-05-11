@@ -4,7 +4,7 @@
       v-if="!($props.list?.title || $props.list?.name)"
       class="loading-skeleton list-card flex-row flex-start-center gap-full"
     ></div>
-    <div v-else class="list-card flex-row flex-start-center gap-full">
+    <div v-else class="list-card flex-row flex-start-center gap-full" @click="handleClickACB()">
       <!-- {{ $props.list }} -->
       <div class="loading-skeleton" v-if="!$props.list?.poster_path"></div>
       <img
@@ -16,10 +16,18 @@
         <h1 v-if="$props.list?.title || $props.list?.name">
           {{ $props.list?.title || $props.list?.name }}
         </h1>
+        
+        <div class="flex-row flex-center gap-half">
+          <button class="content-card-button button">{{ capitalizedMediaType($props.list?.mediaType)
+          }}</button>
+          <button v-if="$props.list?.release_date || $props.list?.first_air_date" class="content-card-button button">{{ ($props.list?.release_date || $props.list?.first_air_date)?.split('-')[0]
+          }}</button>
+  
+          <button v-if="parseFloat($props.list?.vote_average.toFixed(1)) > 0" class="content-card-button button">{{ parseFloat($props.list?.vote_average.toFixed(1)) }}/10</button>
+        </div>
         <span class="material-symbols-rounded list-card-delete" @click="deleteClickACB()"
           >delete</span
         >
-        <button class="button" @click="handleClickACB()"> View</button>
       </div>
     </div>
   </div>
@@ -29,6 +37,7 @@
 import { defineComponent } from "vue";
 import { auth, app } from "../firebaseConfig";
 import "./../style.css";
+import { MediaType } from '../types/types';
 import {
   addContentToList,
   removeContentFromList,
@@ -49,11 +58,23 @@ export default defineComponent({
       required: true,
     },
   },
-  computed: {},
+  computed: {
+    
+  },
   data() {
-    return {};
+    return {
+    };
   },
   methods: {
+    capitalizedMediaType(mediaType: string): string {
+      if (mediaType === MediaType.MOVIE.toString()) {
+        return "Movie";
+      } else if (mediaType === MediaType.SERIES.toString()) {
+        return "Series";
+      } else {
+        return mediaType;
+      }
+    },
     async deleteClickACB() {
       const userID = auth.currentUser?.uid || "";
 
