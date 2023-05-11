@@ -34,7 +34,7 @@ function onRefresh() {
         <option :value="SortBy.LATEST.toString()">Latest</option>
         <option :value="SortBy.OLDEST.toString()">Oldest</option>
       </select>
-     <button @click="onRefresh()">#</button>
+     <!-- <button @click="onRefresh()">#</button> -->
     <div  class="search-results flex-col flex-center gap-half">
   
       <!-- Result -->
