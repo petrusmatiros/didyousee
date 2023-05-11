@@ -68,26 +68,35 @@ export default defineComponent({
 
         if (mediaType === MediaType.MOVIE) {
           try {
+            try {
+              await props.model.fetchSingleMovie();
+            } catch (e) {
+              goPageNotFoundACB();
+            }
             await props.model.fetchSingleMovie();
             await props.model.fetchContentVideosMovie();
             await props.model.fetchContentReviewsMovie();
             await props.model.fetchContentCreditsMovie();
             await props.model.fetchContentRecommendedMovie();
             await props.model.fetchContentSimilarMovie();
-            await props.model.fetchContentWatchProviders(MediaType.MOVIE);
+            // await props.model.fetchContentWatchProviders(MediaType.MOVIE);
             console.log("currentMovie:", props.model.currentMovie);
           } catch (e) {
             goPageNotFoundACB();
           }
         } else if (mediaType === MediaType.SERIES) {
           try {
-            await props.model.fetchSingleSeries();
+            try {
+              await props.model.fetchSingleSeries();
+            } catch (e) {
+              goPageNotFoundACB();
+            }
             await props.model.fetchContentVideosSeries();
             await props.model.fetchContentReviewsSeries();
             await props.model.fetchContentCreditsSeries();
             await props.model.fetchContentRecommendedSeries();
             await props.model.fetchContentSimilarSeries();
-            await props.model.fetchContentWatchProviders(MediaType.SERIES);
+            // await props.model.fetchContentWatchProviders(MediaType.SERIES);
             console.log("currentSeries:", props.model.currentSeries);
           } catch (e) {
             goPageNotFoundACB();
