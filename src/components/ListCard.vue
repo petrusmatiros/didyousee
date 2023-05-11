@@ -58,6 +58,10 @@ export default defineComponent({
       const userID = auth.currentUser?.uid || "";
 
       removeContentFromList(userID, this.$props.model.currentState.name || this.$props.list?.name, this.$props.list.id, this.$props.list.mediaType)
+      const index = this.$props.model.currentList.findIndex((list:any) => list.id === this.$props.list.id && list.mediaType === this.$props.list.mediaType);
+      if (index !== -1) {
+        this.$props.model.currentList.splice(index, 1);
+      }
     },
     handleClickACB() {
       // Handle click event for the movie card
