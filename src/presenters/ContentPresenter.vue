@@ -63,12 +63,10 @@ export default defineComponent({
 
     async function updateDataACB() {
 
-      const id = route.query.id;
-      const type = route.query.type;
-      if (id && type) {
+      const mediaID = getMediaID();
+      const mediaType = getMediaType();
+      if (mediaID && mediaType) {
         props.model.resetCurrentContent();
-        const mediaID = JSON.parse(id as string);
-        const mediaType = JSON.parse(type as string);
         props.model.setSearchID(mediaID);
 
 
