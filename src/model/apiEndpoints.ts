@@ -96,7 +96,7 @@ async function wrap(query: string, params: URLSearchParams) {
     let res = await tmdbApi.get(`${query}?${params}`);
     return res;
   } catch (error) {
-    console.clear();
+    // console.clear();
   }
 }
 

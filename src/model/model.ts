@@ -174,7 +174,7 @@ async function fetchHandler(
         return contentFromQuery(fetchedData.data);
       }
     } catch (error) {
-      console.log(error);
+
     }
   } else if (fetchType === FetchType.QUERY) {
     try {
@@ -183,7 +183,7 @@ async function fetchHandler(
         return fetchedData.data.results.map(contentFromQuery);
       }
     } catch (error) {
-      console.log(error);
+
     }
   } else if (fetchType === FetchType.VIDEO) {
     try {
@@ -199,7 +199,7 @@ async function fetchHandler(
         ? `https://www.youtube-nocookie.com/embed/${filteredVideos[0].key}`
         : "";
     } catch (error) {
-      console.log(error);
+
     }
   } else if (fetchType === FetchType.CREDITS) {
     try {
@@ -216,7 +216,7 @@ async function fetchHandler(
         return fetchedData.data;
       }
     } catch (error) {
-      console.log(error);
+   
     }
   } else if (fetchType === FetchType.REVIEWS) {
     try {
@@ -239,7 +239,6 @@ async function fetchHandler(
       }
       return fetchedData.data;
     } catch (error) {
-      console.log(error);
     }
   } else if (fetchType === FetchType.WATCH_PROVIDERS) {
     function setLogoPath(path: string) {
@@ -1064,7 +1063,7 @@ let model: Model = {
       try {
         obs(payload);
       } catch (error) {
-        console.error(error);
+
       }
     }
     this.observers.forEach(invokeObserversCB);
@@ -1233,7 +1232,7 @@ async function discoverMedia(
           genreIDs.push(genreID);
         }
       } catch (error) {
-        console.error(error);
+
       }
     }
     if (genreIDs.length > 0) {
@@ -1266,7 +1265,7 @@ async function genreIDfromName(media: MediaType, name: string) {
       throw Error;
     }
   } catch (error) {
-    console.error(error);
+
   }
 }
 

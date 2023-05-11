@@ -40,11 +40,23 @@ export default defineComponent({
 
     function getMediaID() {
       const mediaID_raw = route.query.id;
-      return JSON.parse(mediaID_raw as string);
+      try {
+        return JSON.parse(mediaID_raw as string);
+      } catch (e) {
+        goPageNotFoundACB();
+      }
     }
     function getMediaType() {
       const mediaType_raw = route.query.type;
-      return JSON.parse(mediaType_raw as string);
+      try {
+        if (mediaType_raw === "\"movie\"" || mediaType_raw === "\"tv\"") {
+          return JSON.parse(mediaType_raw as string);
+        } else {
+          goPageNotFoundACB();
+        }
+      } catch (e) {
+        goPageNotFoundACB();
+      }
     }
     // const mediaID_raw = route.query.id;
     // const mediaType_raw = route.query.type;
