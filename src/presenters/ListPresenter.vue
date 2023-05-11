@@ -25,7 +25,8 @@ export default defineComponent({
   },
   mounted() {
     const router = useRouter();
-    const user = auth.currentUser; // Kollar ifall användaren är inloggad!
+    const route = useRoute();
+    const user = route.params?.uid || auth.currentUser; // Kollar ifall användaren är inloggad!
 
     if (!user) {
       // Omdirigera till inloggningssidan
@@ -35,11 +36,11 @@ export default defineComponent({
   setup(props: any) {
     const route = useRoute();
 
-    const userID = auth.currentUser?.uid || "";
+    const userID = route.params?.uid || auth.currentUser?.uid || "";
 
     async function updateList() {
       // reset list
-      const listName = route.query.name as string;
+      const listName = route.params.name as string;
       props.model.currentState.name = listName;
       await props.model.fetchPersistance(userID);
       

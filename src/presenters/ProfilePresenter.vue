@@ -43,35 +43,7 @@ export default defineComponent({
 
     function goToListACB(listType: string) {
       if (listType) {
-        if (listType === ListType.WATCH) {
-          router.push({
-            name: "List",
-            query: {
-              name: ListType.WATCH.toString(),
-            },
-          });
-        } else if (listType === ListType.SEEN) {
-          router.push({
-            name: "List",
-            query: {
-              name: ListType.SEEN.toString(),
-            },
-          });
-        } else if (listType === ListType.LIKED) {
-          router.push({
-            name: "List",
-            query: {
-              name: ListType.LIKED.toString(),
-            },
-          });
-        } else if (listType === ListType.DISLIKED) {
-          router.push({
-            name: "List",
-            query: {
-              name: ListType.DISLIKED.toString(),
-            },
-          });
-        }
+        router.push("/profile/" + auth.currentUser.uid + "/list/" + listType.toString());
       }
     }
     return {
