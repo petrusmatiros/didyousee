@@ -42,11 +42,10 @@ export default defineComponent({
       const listName = route.query.name as string;
       props.model.currentState.name = listName;
       await props.model.fetchPersistance(userID);
-      console.log(props.model.state, listName)
+      // console.log(props.model.state, listName)
       
       const list = props.model.state[listName]
       await props.model.fetchCurrentList(list);
-      console.log("currentList", props.model.currentList)
     }
     updateList();
 

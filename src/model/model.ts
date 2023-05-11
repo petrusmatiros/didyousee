@@ -1006,10 +1006,10 @@ let model: Model = {
   },
 
   fetchCurrentList: async function (list: []) {
-    // this.currentList = [];
     this.currentList = generateDummyContent(10);
     try {
       if (!list) {
+        this.currentList = [];
         return;
       }
       var tempList = [];
@@ -1037,7 +1037,6 @@ let model: Model = {
           }
         }
       }
-      console.log("TEMPlIST",tempList)
       if (tempList.length === 0 || !tempList) {
         this.currentList = [];
       } else {
@@ -1116,7 +1115,7 @@ let model: Model = {
     return this.searchCategory;
   },
   resetCurrentContent: function () {
-    (this.currentState.liked = false),
+    (this.currentState = [] ),
     (this.recommendedMovies = []),
       (this.recommendedSeries = []),
       (this.similarMovies = []),
