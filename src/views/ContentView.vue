@@ -123,7 +123,7 @@ function goToCastPageACB() {
                     .padEnd(2, "h")
                 }}
                 {{
-                  ($props.model.currentMovie?.runtime % 60)
+                  Math.floor($props.model.currentMovie?.runtime % 60)
                     .toString()
                     .padEnd(3, "m")
                 }}
@@ -138,7 +138,7 @@ function goToCastPageACB() {
                     .padEnd(2, "h")
                 }}
                 {{
-                  ($props.model.currentSeries?.episode_run_time[0] % 60)
+                  Math.floor($props.model.currentSeries?.episode_run_time[0] % 60)
                     .toString()
                     .padEnd(3, "m")
                 }}

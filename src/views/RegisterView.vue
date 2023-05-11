@@ -14,7 +14,7 @@ function handleCreateAccountACB(
 </script>
 
 <template>
-  <div class="mt-large2 gap-full flex-col flex-center">
+  <div class="credentials mt-large2 gap-full flex-col flex-center">
     <div class="credentials-container gap-double flex-col flex-center">
       <div class="flex-col flex-center gap-quarter m-medium">
         <img
@@ -83,7 +83,7 @@ function handleCreateAccountACB(
             </p>
           </div>
         </div>
-        <div class="credentials-button-container flex-col flex-center">
+        <div class="credentials-button-container flex-col flex-center gap-full">
           <button
             class="button credentials-submit-button"
             @click.prevent="

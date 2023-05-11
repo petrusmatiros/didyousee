@@ -8,7 +8,7 @@ function handleGoogleLoginACB() {emit("handleGoogleLogin");}
 </script>
 
 <template>
-  <div class="mt-large2 gap-full flex-col flex-center">
+  <div class="credentials mt-large2 gap-full flex-col flex-center">
     <div class="credentials-container gap-double flex-col flex-center">
       <div class="flex-col flex-center gap-quarter m-medium">
         <img
@@ -55,16 +55,27 @@ function handleGoogleLoginACB() {emit("handleGoogleLogin");}
             </p>
           </div>
         </div>
-        <div class="credentials-button-container flex-col flex-center">
-          <button
-            class="button credentials-submit-button"
-            @click.prevent="handleLoginACB(mail, password)"
-          >
-            Login
-          </button>
-          <button class="credentials-submit-button" @click.prevent="handleGoogleLoginACB()">
-            Login with Google
-          </button>
+        <div class="credentials-button-container flex-col flex-center gap-full">
+          <div class="flex-col flex-center gap-full">
+            <button
+              class="button credentials-submit-button"
+              @click.prevent="handleLoginACB(mail, password)"
+            >
+              Login
+            </button>
+            <div class="seperator flex-row flex-center gap-quarter">
+              <div class="horizontal-bar"></div>
+              <p class="flex-row flex-center">OR</p>
+              <div class="horizontal-bar"></div>
+            </div>
+            <button class="credentials-submit-button credentials-login-google-button" @click.prevent="handleGoogleLoginACB()">
+              <img class="login-google" src="../assets/icons8-google.svg"
+              onerror="this.src='/src/assets/no-content.svg';"
+              alt="Google logo for login"
+              decoding="async"
+              fetchpriority="high"/>
+            </button>
+          </div>
           <p class="credentials-link">
             <router-link to="/register">Register a new account?</router-link>
           </p>

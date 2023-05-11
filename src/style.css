@@ -433,19 +433,20 @@ a:active {
 
 /*  ================== Footer END ================== */
 #footer {
-  height: 7rem;
-  /* background-color: var(--bg-light); */
   color: var(--fg);
   padding: var(--padding-large);
-  margin-top: var(--margin-large-2);
-  margin-bottom: var(--margin-large-2);
+  margin-top: var(--margin-large-3);
+  margin-bottom: var(--margin-large-3);
   width: var(--desktop-max-overlay-width);
 }
 
 .footer-top {
+  margin-top: var(--margin-large-3);
 }
 
 .footer-bottom {
+  margin-bottom: var(--margin-large-3);
+  
 }
 #footer div {
   width: 100%;
@@ -494,6 +495,12 @@ a:active {
 
 .profile-list-card:active {
   background-color: var(--bg-lightest);
+}
+
+.login-google {
+  width: 2rem !important;
+  height: 2rem !important;
+  vertical-align: middle;
 }
 
 /*  ================== Profile page END ================== */
@@ -665,10 +672,10 @@ a:active {
 }
 @keyframes loading {
   0% {
-    background-color: inherit;
+    background-color: var(--bg);
   }
   100% {
-    background-color: var(--bg);
+    background-color: var(--bg--lightest);
   }
 }
 
@@ -865,6 +872,24 @@ div[aria-hidden="true"] {
   width: 0.15rem;
   border-radius: var(--border-radius);
   height: 1.5rem;
+  background-color: var(--fg-secondary);
+  margin: 0 var(--margin-medium);
+}
+
+.seperator {
+  width: 100%;
+  padding: var(--padding-large);
+}
+
+.seperator p {
+  width: 100%;
+  text-align: center;
+}
+
+.horizontal-bar {
+  width: 100%;
+  border-radius: var(--border-radius);
+  height: 0.15rem;
   background-color: var(--fg-secondary);
   margin: 0 var(--margin-medium);
 }
@@ -1227,6 +1252,11 @@ div[aria-hidden="true"] {
   color: var(--accent-bad);
 }
 
+.credentials {
+  width: 100vw;
+  max-width: var(--desktop-max-width);
+}
+
 .credentials-container {
   justify-content: center;
   align-items: center;
@@ -1247,6 +1277,10 @@ div[aria-hidden="true"] {
   width: 100%;
 }
 
+.credentials-button-container div {
+  width: 100%;
+}
+
 .credentials-title {
   color: var(--fg);
   font-size: var(--font-large-3);
@@ -1260,6 +1294,7 @@ div[aria-hidden="true"] {
 }
 
 .credentials-form {
+  width: 100% !important;
 }
 
 .credentials-form label {
@@ -1294,8 +1329,12 @@ input[name="credentials"]:focus {
   color: var(--fg);
   padding: var(--padding-large) var(--padding-large-2);
   cursor: pointer;
-  margin-bottom: var(--margin-large);
   border-radius: var(--border-radius);
+}
+
+.credentials-login-google-button {
+  padding: var(--padding-medium-2) !important;
+
 }
 
 .credentials-submit-button:hover {
