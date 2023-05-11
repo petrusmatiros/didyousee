@@ -25,7 +25,7 @@
   
           <button v-if="parseFloat($props.list?.vote_average.toFixed(1)) > 0" class="content-card-button button">{{ parseFloat($props.list?.vote_average.toFixed(1)) }}/10</button>
         </div>
-        <span class="material-symbols-rounded list-card-delete" @click="deleteClickACB()"
+        <span class="material-symbols-rounded list-card-delete" @click="deleteClickACB()" v-if="authenticated"
           >delete</span
         >
       </div>
