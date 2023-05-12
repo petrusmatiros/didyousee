@@ -4,7 +4,7 @@
       v-if="!($props.list?.title || $props.list?.name)"
       class="loading-skeleton list-card flex-row flex-start-center gap-full"
     ></div>
-    <div v-else class="list-card flex-row flex-start-center gap-full" @click="handleClickACB()">
+    <div v-else id="list-card" class="list-card flex-row flex-start-center gap-full" @click="handleClickACB()">
       <!-- {{ $props.list }} -->
       <div class="loading-skeleton" v-if="!$props.list?.poster_path"></div>
       <img
@@ -25,7 +25,7 @@
   
           <button v-if="parseFloat($props.list?.vote_average.toFixed(1)) > 0" class="content-card-button button">{{ parseFloat($props.list?.vote_average.toFixed(1)) }}/10</button>
         </div>
-        <span class="material-symbols-rounded list-card-delete" @click="deleteClickACB()"
+        <span class="material-symbols-rounded list-card-delete" @click="deleteClickACB($event)"
           >delete</span
         >
       </div>
@@ -75,7 +75,9 @@ export default defineComponent({
         return mediaType;
       }
     },
-    async deleteClickACB() {
+    
+    async deleteClickACB(event: MouseEvent) {
+      event.stopPropagation();
       const userID = auth.currentUser?.uid || "";
 
       removeContentFromList(userID, this.$props.model.currentState.name || this.$props.list?.name, this.$props.list.id, this.$props.list.mediaType)
