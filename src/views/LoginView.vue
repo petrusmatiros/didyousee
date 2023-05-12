@@ -8,7 +8,7 @@ function handleGoogleLoginACB() {emit("handleGoogleLogin");}
 </script>
 
 <template>
-  <div class="credentials mt-large2 gap-full flex-col flex-center">
+  <div class="w100 mt-large2 gap-full flex-col flex-center">
     <div class="credentials-container gap-double flex-col flex-center">
       <div class="flex-col flex-center gap-quarter m-medium">
         <img

@@ -15,7 +15,7 @@ function onRefresh() {
 </script>
 
 <template>
-  <div class="flex-col flex-center gap-full mt-large2">
+  <div class="flex-col flex-center gap-full mt-large2 w100">
 
     <!-- TODO FIX SORTING -->
         <select v-if="result_status === 'fulfilled'"
