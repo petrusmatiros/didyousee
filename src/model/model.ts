@@ -457,16 +457,16 @@ interface Model {
   similarSeries: Series[];
 
   homeContent: {
-    trendingMovies: [];
-    nowPlayingMovies: [];
-    topRatedMovies: [];
-    popularMovies: [];
-    upcomingMovies: [];
-    trendingSeries: [];
-    onTheAirSeries: [];
-    popularSeries: [];
-    topRatedSeries: [];
-    airingTodaySeries: [];
+    trendingMovies: any[];
+    nowPlayingMovies: any[];
+    topRatedMovies: any[];
+    popularMovies: any[];
+    upcomingMovies: any[];
+    trendingSeries: any[];
+    onTheAirSeries: any[];
+    popularSeries: any[];
+    topRatedSeries: any[];
+    airingTodaySeries: any[];
   };
   // Search
   searchContent: (Movie | Series)[];
@@ -558,16 +558,16 @@ let model: Model = {
   similarSeries: [],
 
   homeContent: {
-    trendingMovies: [],
-    nowPlayingMovies: [],
-    topRatedMovies: [],
-    popularMovies: [],
-    upcomingMovies: [],
-    trendingSeries: [],
-    onTheAirSeries: [],
-    popularSeries: [],
-    topRatedSeries: [],
-    airingTodaySeries: [],
+    trendingMovies: generateDummyContent(20),
+    nowPlayingMovies: generateDummyContent(20),
+    topRatedMovies: generateDummyContent(20),
+    popularMovies: generateDummyContent(20),
+    upcomingMovies: generateDummyContent(20),
+    trendingSeries: generateDummyContent(20),
+    onTheAirSeries: generateDummyContent(20),
+    popularSeries: generateDummyContent(20),
+    topRatedSeries: generateDummyContent(20),
+    airingTodaySeries: generateDummyContent(20),
   },
 
   // Search
