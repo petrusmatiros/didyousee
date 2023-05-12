@@ -191,11 +191,16 @@ function goToCastPageACB() {
                 ">
                 <span class="material-symbols-rounded">star</span>
                 <div class="flex-col gap-quarter p-0 rating">
-                  <p>
+                  <p v-if="$props.model.currentMovie?.vote_average">
                     Rating:
                     {{
-                      parseFloat($props.model.currentMovie?.vote_average).toFixed(1) ||
-                      parseFloat($props.model.currentSeries?.vote_average).toFixed(1)
+                      $props.model.currentMovie?.vote_average.toFixed(1)
+                    }}/10
+                  </p>
+                  <p v-if="$props.model.currentSeries?.vote_average">
+                    Rating:
+                    {{
+                      $props.model.currentSeries?.vote_average.toFixed(1)
                     }}/10
                   </p>
                   <p class="rating-count">
