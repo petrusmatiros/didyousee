@@ -119,14 +119,12 @@ function goToCastPageACB() {
               <p v-if="$props.model.currentMovie?.runtime">
                 {{
                   Math.floor($props.model.currentMovie?.runtime / 60)
-                    .toString()
-                    .padEnd(2, "h")
-                }}
+                    .toString()   
+                }}h
                 {{
                   Math.floor($props.model.currentMovie?.runtime % 60)
-                    .toString()
-                    .padEnd(3, "m")
-                }}
+                    .toString()    
+                }}m
               </p>
 
               <p v-if="$props.model.currentSeries?.episode_run_time[0]">
@@ -135,13 +133,11 @@ function goToCastPageACB() {
                     $props.model.currentSeries?.episode_run_time[0] / 60
                   )
                     .toString()
-                    .padEnd(2, "h")
-                }}
+                }}h
                 {{
                   Math.floor($props.model.currentSeries?.episode_run_time[0] % 60)
                     .toString()
-                    .padEnd(3, "m")
-                }}
+                }}m
               </p>
 
               <!-- Status -->
@@ -198,8 +194,8 @@ function goToCastPageACB() {
                   <p>
                     Rating:
                     {{
-                      $props.model.currentMovie?.vote_average ||
-                      $props.model.currentSeries?.vote_average
+                      parseFloat($props.model.currentMovie?.vote_average).toFixed(1) ||
+                      parseFloat($props.model.currentSeries?.vote_average).toFixed(1)
                     }}/10
                   </p>
                   <p class="rating-count">
