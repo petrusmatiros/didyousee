@@ -1,6 +1,6 @@
 <template>
   <nav class="flex-row flex-center" id="nav">
-    <div class="nav-link-container gap-full flex-row flex-space-between-center">
+    <div class="nav-link-container w100 gap-full flex-row flex-space-between-center">
       <div class="flex-row flex-center gap-full">
         <RouterLink to="/" class="nav-link flex-row" id="logo"
           ><img
