@@ -38,6 +38,7 @@ import { defineComponent } from "vue";
 import { auth, app } from "../firebaseConfig";
 import "./../style.css";
 import { MediaType } from '../types/types';
+
 import {
   addContentToList,
   removeContentFromList,
@@ -59,7 +60,7 @@ export default defineComponent({
     },
   },
   computed: {
-    
+
   },
   data() {
     return {
@@ -67,7 +68,11 @@ export default defineComponent({
     };
   },
   methods: {
+    
     handleToast() {
+      if (!auth.currentUser) {
+        return;
+      }
       const toastNotification = document.getElementById("toast-notification") as HTMLElement;
   
       if (toastNotification) {

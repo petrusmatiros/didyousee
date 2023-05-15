@@ -5,6 +5,8 @@ import CastCard from "../components/CastCard.vue";
 import WatchProviders from "../components/WatchProviders.vue";
 import CarouselMedia from "../components/CarouselMedia.vue";
 import CarouselCast from "../components/CarouselCast.vue";
+import { auth } from "../firebaseConfig";
+
 
 const emit = defineEmits([
   "handleLiked",
@@ -17,6 +19,9 @@ const emit = defineEmits([
 ]);
 let cid:any;
 function handleToast(list:string) {
+  if (!auth.currentUser) {
+        return;
+  }
   if (cid) {
     clearTimeout(cid);
   }
