@@ -14,21 +14,22 @@
     - [File structure](#file-structure)
     - [File descriptions](#file-descriptions)
   - [Installation](#installation)
-  - [Dependencies](#dependencies)
+    - [API keys](#api-keys)
+    - [Dependencies](#dependencies)
   - [Developers](#developers)
 
 ## Website URL
-TBD (Firebase)
+https://didyousee-4b593.web.app/
+
 ## Project description
 An intuitive and modern web app where you can discover, share and organize your favourite movies and TV series. Personal lists (likes, watchlists, have watched, dislikes) with shareable links
 
 ## APIs
   - [TMDB](https://www.themoviedb.org/)
-  - [Trivia/Fun Fact API](https://opentdb.com/api_config.php)
+  - [Open Trivia Database](https://opentdb.com/api_config.php)
+
 ## Background
 This was a group project for the course DH2642 *Interaction Programming and the Dynamic Web* at **KTH Royal Institute of Technology**. The project duration was about ~3 months.
-
-
 
 ## Progress (what we have done so far)
 Currently, we've implemented the following:
@@ -36,16 +37,18 @@ Currently, we've implemented the following:
 - Basic routing (Vue router)
 - API call from TMDB
 - Firebase hosting and deployment
+- User authentication via Auth.js/Auth0/Firebase
+- Search functionality, with filters
+- Profile page with personal lists (liked, watchlist, have watched, dislikes)
+
 ## Planning (what we still plan to do)
 We plan to implement the following:
-- User authentication via Auth.js/Auth0/Firebase
 - Implement MVC architecture and use observers
-- Search functionality, with filters
-- More intuitive layout
-- Improved UX/UI, usability and accessibility
-- Profile page with personal lists (liked, watchlist, have watched, dislikes)
-- Shareable lists via URL and exportability of lists (CSV, JSON, etc.)
+- Improved UX/UI and usability
+- Improved accessibility
+- Shareable lists via URL and exportability of lists (CSV, JSON, etc.). Implemented partially in a PR.
 - Recommend movies/series
+
 ## Files 
 ### File structure
 ```css
@@ -175,8 +178,6 @@ We plan to implement the following:
 | tsconfig.node.json | Typescript configuration file for Node.js |
 | vite.config.ts | Configuration file for Vite |
 
-
-
 ## Installation
 To setup the site locally, install the packages and build the project.
 ```
@@ -264,4 +265,4 @@ export { app, auth, db }// Import the functions you need from the SDKs you need
 ## Developers
 - [Petrus Matiros](https://github.com/petrusmatiros)
 - Max Olof Isralesson ([Blezie](https://github.com/Blezie), [maxisr](https://github.com/maxisr))
-- [Sebastian Thomas Willenbrink](https://github.com/Willenbrink)
+- [Sebastian Willenbrink](https://github.com/Willenbrink)
