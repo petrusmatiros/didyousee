@@ -24,7 +24,7 @@ An intuitive and modern web app where you can discover, share and organize your 
 
 ## APIs
   - [TMDB](https://www.themoviedb.org/)
-  - Trivia/Fun Fact API (TBD)
+  - [Trivia/Fun Fact API](https://opentdb.com/api_config.php)
 ## Background
 This was a group project for the course DH2642 *Interaction Programming and the Dynamic Web* at **KTH Royal Institute of Technology**. The project duration was about ~3 months.
 
@@ -49,15 +49,13 @@ We plan to implement the following:
 ## Files 
 ### File structure
 ```css
+.
+├── 404.html
 ├── README.md
+├── firebase.json
 ├── index.html
 ├── package-lock.json
 ├── package.json
-├── public
-│   ├── images
-│   ├── index.css
-│   ├── index.html
-│   └── vite.svg
 ├── server
 │   ├── controllers
 │   │   └── models
@@ -70,28 +68,59 @@ We plan to implement the following:
 │   ├── App.vue
 │   ├── assets
 │   │   ├── didyousee.svg
+│   │   ├── icons8-google.svg
+│   │   ├── no-backdrop.svg
+│   │   ├── no-content.svg
 │   │   ├── no-poster.svg
 │   │   └── tmdb_alt_short_blue.svg
 │   ├── components
+│   │   ├── CarouselCast.vue
+│   │   ├── CarouselMedia.vue
+│   │   ├── CastCard.vue
 │   │   ├── Filter.vue
-│   │   └── MovieCard.vue
+│   │   ├── ListCard.vue
+│   │   ├── MediaCard.vue
+│   │   ├── ReviewCard.vue
+│   │   ├── SearchBar.vue
+│   │   └── WatchProviders.vue
+│   ├── firebaseConfig.ts
 │   ├── main.ts
 │   ├── model
 │   │   ├── apiConfig.ts
-│   │   └── model.ts
-│   ├── models
+│   │   ├── apiEndpoints.ts
+│   │   ├── model.ts
+│   │   └── promiseHandler.ts
+│   ├── presenters
+│   │   ├── AboutPresenter.vue
+│   │   ├── CastPresenter.vue
+│   │   ├── ContentPresenter.vue
+│   │   ├── HomePresenter.vue
+│   │   ├── ListPresenter.vue
+│   │   ├── LoginPresenter.vue
+│   │   ├── PageNotFoundPresenter.vue
+│   │   ├── ProfilePresenter.vue
+│   │   ├── RegisterPresenter.vue
+│   │   ├── ReviewsPresenter.vue
+│   │   └── SearchResultsPresenter.vue
 │   ├── router
-│   │   └── index.ts
+│   │   └── routes.ts
 │   ├── style.css
 │   ├── types
+│   │   └── types.ts
 │   ├── utils
-│   │   └── index.ts
+│   │   └── utils.ts
 │   ├── views
-│   │   ├── Home.vue
-│   │   ├── Login.vue
-│   │   ├── Profile.vue
-│   │   ├── Register.vue
-│   │   └── Result.vue
+│   │   ├── AboutView.vue
+│   │   ├── CastView.vue
+│   │   ├── ContentView.vue
+│   │   ├── HomeView.vue
+│   │   ├── ListView.vue
+│   │   ├── LoginView.vue
+│   │   ├── PageNotFoundView.vue
+│   │   ├── ProfileView.vue
+│   │   ├── RegisterView.vue
+│   │   ├── ReviewsView.vue
+│   │   └── SearchResultsView.vue
 │   └── vite-env.d.ts
 ├── tsconfig.json
 ├── tsconfig.node.json
