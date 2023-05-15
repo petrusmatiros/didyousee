@@ -149,14 +149,87 @@ We plan to implement the following:
 
 
 ## Installation
+To setup the site locally, install the packages and build the project.
 ```
 npm i
 npm run build
 ```
 
-## Dependencies
-```json
+To get a development build, run `npm run dev`. This will run the server and the typescript checker in parallel.
 
+### API Keys
+Not included in the repository are the private api keys. To run the code locally you will need to acquire a TMDB api key and set up your own firebase and provide its config. The TMDB api key is provided through the environment, e.g. through a `.env` file in the root of the directory. The key is named `VITE_TMDB_API_KEY`.
+
+The template of the firebase config file is. It is expected to reside at `src/firebaseConfig.ts`:
+
+``` javascript
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAuth } from 'firebase/auth'
+import { getDatabase } from "firebase/database";
+
+const firebaseConfig = {
+// Insert your config here
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+//initialize firebase auth
+const auth = getAuth()
+
+const db = getDatabase(app)
+
+export { app, auth, db }// Import the functions you need from the SDKs you need
+```
+
+### Dependencies
+```json
+{
+  "name": "didyousee",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"vue-tsc --watch\" \"vite\"",
+    "dev-no-tsc": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/numeral": "^2.0.2",
+    "@vitejs/plugin-vue": "^4.1.0",
+    "@vue/compiler-sfc": "^3.2.47",
+    "autoprefixer": "^10.4.14",
+    "concurrent": "^0.3.2",
+    "pinia": "^2.0.33",
+    "postcss": "^8.4.21",
+    "prettier": "^2.8.7",
+    "typescript": "^4.9.3",
+    "vite": "^4.2.1",
+    "vue": "^3.2.36",
+    "vue-tsc": "^1.2.0"
+  },
+  "dependencies": {
+    "@google-cloud/firestore": "^6.5.0",
+    "@splidejs/vue-splide": "^0.6.12",
+    "@types/express": "^4.17.17",
+    "auth-js": "^0.0.16",
+    "axios": "^1.3.5",
+    "better-logging": "^5.0.0",
+    "chart.js": "^4.2.1",
+    "concurrently": "^8.0.1",
+    "cors": "^2.8.5",
+    "dompurify": "^3.0.2",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "firebase": "^9.20.0",
+    "fuse.js": "^6.6.2",
+    "fuzzy": "^0.1.3",
+    "numeral": "^2.0.6",
+    "vue-router": "^4.1.6"
+  }
+}
 ```
 
 ## Developers
