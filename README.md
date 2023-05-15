@@ -43,11 +43,9 @@ Currently, we've implemented the following:
 
 ## Planning (what we still plan to do)
 We plan to implement the following:
-- Implement MVC architecture and use observers
 - Improved UX/UI and usability
 - Improved accessibility
 - Shareable lists via URL and exportability of lists (CSV, JSON, etc.). Implemented partially in a PR.
-- Recommend movies/series
 
 ## Files 
 ### File structure
@@ -130,53 +128,84 @@ We plan to implement the following:
 └── vite.config.ts
 ```
 ### File descriptions
-| File Name | Description |
-| --------- | ----------- |
-| README.md | Readme file containing project information |
-| index.html | Main HTML file for the project |
-| package-lock.json | Automatically generated file for npm dependencies |
-| package.json | Contains project information and dependencies |
-| public/ | Folder containing public assets |
-| public/images/ | Folder containing images used in the project |
-| public/index.css | Main CSS file for the project |
-| public/index.html | HTML template for the project |
-| public/vite.svg | Vite logo |
-| server/ | Server-side code for the project |
-| server/controllers/ | Controllers for the server |
-| server/models/ | Models for the server |
-| server/routes/ | Routes for the server |
-| server/firebase.ts | Firebase configuration file |
-| server/index.ts | Main server file |
-| server/middleware/ | Middleware for the server |
-| src/ | Client-side code for the project |
-| src/App.vue | Main Vue component for the project |
-| src/assets/ | Folder containing assets used in the project |
-| src/assets/didyousee.svg | Logo for the project |
-| src/assets/no-poster.svg | Placeholder image |
-| src/assets/tmdb_alt_short_blue.svg | TMDB logo |
-| src/components/ | Vue components used in the project |
-| src/components/Filter.vue | Component for filtering movies/series |
-| src/components/MovieCard.vue | Component for displaying movie/series information |
-| src/main.ts | Main entry point for the Vue app |
-| src/model/ | Configuration files for API |
+| File/Folder | Description |
+| --- | --- |
+| 404.html | Error page |
+| README.md | Readme file |
+| firebase.json | Firebase configuration file |
+| index.html | Main HTML file |
+| package-lock.json | Dependency file |
+| package.json | Package configuration file |
+| server/ | Server folder |
+| server/controllers/ | Controllers folder |
+| server/controllers/models/ | Models folder |
+| server/controllers/models/routes/ | Routes folder |
+| server/firebase.ts | Firebase setup file |
+| server/index.ts | Server entry point |
+| server/middleware/ | Middleware folder |
+| server/server.ts | Server configuration file |
+| src/ | Source folder |
+| src/App.vue | Main Vue component |
+| src/assets/ | Assets folder |
+| src/assets/didyousee.svg | Asset file |
+| src/assets/icons8-google.svg | Asset file |
+| src/assets/no-backdrop.svg | Asset file |
+| src/assets/no-content.svg | Asset file |
+| src/assets/no-poster.svg | Asset file |
+| src/assets/tmdb_alt_short_blue.svg | Asset file |
+| src/components/ | Vue components folder |
+| src/components/CarouselCast.vue | Vue component |
+| src/components/CarouselMedia.vue | Vue component |
+| src/components/CastCard.vue | Vue component |
+| src/components/Filter.vue | Vue component |
+| src/components/ListCard.vue | Vue component |
+| src/components/MediaCard.vue | Vue component |
+| src/components/ReviewCard.vue | Vue component |
+| src/components/SearchBar.vue | Vue component |
+| src/components/WatchProviders.vue | Vue component |
+| src/firebaseConfig.ts | Firebase configuration file |
+| src/main.ts | Main TypeScript file |
+| src/model/ | Model folder |
 | src/model/apiConfig.ts | API configuration file |
-| src/model/model.ts | Models for the project |
-| src/router/ | Vue router configuration |
-| src/router/index.ts | Vue router configuration file |
-| src/style.css | Main CSS file for the project |
-| src/types/ | Type definitions for the project |
-| src/utils/ | Utility functions for the project |
-| src/utils/index.ts | Utility functions file |
-| src/views/ | Vue views for the project |
-| src/views/Home.vue | Home page Vue component |
-| src/views/Login.vue | Login page Vue component |
-| src/views/Profile.vue | Profile page Vue component |
-| src/views/Register.vue | Register page Vue component |
-| src/views/Result.vue | Result page Vue component |
+| src/model/apiEndpoints.ts | API endpoints file |
+| src/model/model.ts | Model file |
+| src/model/promiseHandler.ts | Promise handler file |
+| src/presenters/ | Vue presenters folder |
+| src/presenters/AboutPresenter.vue | Vue presenter |
+| src/presenters/CastPresenter.vue | Vue presenter |
+| src/presenters/ContentPresenter.vue | Vue presenter |
+| src/presenters/HomePresenter.vue | Vue presenter |
+| src/presenters/ListPresenter.vue | Vue presenter |
+| src/presenters/LoginPresenter.vue | Vue presenter |
+| src/presenters/PageNotFoundPresenter.vue | Vue presenter |
+| src/presenters/ProfilePresenter.vue | Vue presenter |
+| src/presenters/RegisterPresenter.vue | Vue presenter |
+| src/presenters/ReviewsPresenter.vue | Vue presenter |
+| src/presenters/SearchResultsPresenter.vue | Vue presenter |
+| src/router/ | Vue router folder |
+| src/router/routes.ts | Router configuration file |
+| src/style.css | Main CSS file |
+| src/types/ | TypeScript types folder |
+| src/types/types.ts | TypeScript types file |
+| src/utils/ | Utility folder |
+| src/utils/utils.ts | Utility file |
+| src/views/ | Vue views folder |
+| src/views/AboutView.vue | Vue view |
+| src/views/CastView.vue | Vue view |
+| src/views/ContentView.vue | Vue view |
+| src/views/HomeView.vue | Vue view |
+| src/views/ListView.vue | Vue view |
+| src/views/LoginView.vue | Vue view |
+| src/views/PageNotFoundView.vue | Vue view |
+| src/views/ProfileView.vue | Vue view |
+| src/views/RegisterView.vue | Vue view |
+| src/views/ReviewsView.vue | Vue view |
+| src/views/SearchResultsView.vue | Vue view |
 | vite-env.d.ts | Typescript definition file for Vite |
 | tsconfig.json | Typescript configuration file for the project |
 | tsconfig.node.json | Typescript configuration file for Node.js |
 | vite.config.ts | Configuration file for Vite |
+
 
 ## Installation
 To setup the site locally, install the packages and build the project.
