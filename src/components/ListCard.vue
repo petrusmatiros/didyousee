@@ -63,9 +63,30 @@ export default defineComponent({
   },
   data() {
     return {
+      cid: undefined
     };
   },
   methods: {
+    handleToast() {
+      const toastNotification = document.getElementById("toast-notification") as HTMLElement;
+  
+      if (toastNotification) {
+        if (this.cid) {
+          clearTimeout(this.cid);
+        }
+        toastNotification.classList.remove("op-100");
+        toastNotification.classList.add("op-100");
+        const toastNotificationText = document.getElementById("toast-notification-text") as HTMLElement;
+        if (toastNotificationText) {
+          const listType = this.$props.model.currentState.name;
+          const toastMessage = `Removed content from your ${listType} list`
+          toastNotificationText.innerText = toastMessage;
+        }
+        this.cid = setTimeout(() => {
+          toastNotification.classList.remove("op-100");
+        }, 5000) as any;
+      }
+    },
     capitalizedMediaType(mediaType: string): string {
       if (mediaType === MediaType.MOVIE.toString()) {
         return "Movie";
@@ -85,6 +106,8 @@ export default defineComponent({
       if (index !== -1) {
         this.$props.model.currentList.splice(index, 1);
       }
+
+      this.handleToast();
     },
     handleClickACB() {
       // Handle click event for the movie card

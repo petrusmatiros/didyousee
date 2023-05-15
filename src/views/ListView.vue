@@ -9,8 +9,8 @@ import ListCard from "./../components/ListCard.vue";
     <div class="list-container flex-col flex-center gap-full">
       <div v-if="$props.model?.currentList.length === 0 || !$props.model?.currentList"
       class="flex-col flex-center gap-half">
-        <h1>This list is empty (｢•-•)｢</h1>
-        <p>But do not fret - use the searchbar above to find something awesome to watch (^-^)</p>
+        <h1>This list is empty</h1>
+        <p>But do not fret - use the search bar above to find something awesome to watch</p>
       </div>
       
       <ListCard v-else v-for="(list, index) in $props.model?.currentList" :key="index"

@@ -137,6 +137,52 @@ iframe {
   border-radius: var(--border-radius);
 }
 
+#toast-notification {
+  /* op-100 */
+  opacity: 0;
+  position: fixed;
+  background-color: var(--main);
+  min-width: 25rem;
+  padding: var(--padding-large-3);
+  bottom: 0;
+  right: 0;
+  margin: var(--margin-large);
+  z-index: 9999;
+  border-radius: var(--border-radius);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0.125rem 0.5rem var(--shadow);
+}
+
+.toast-notification-header {
+  font-size: var(--font-large);
+}
+.toast-notification-text {
+  font-size: var(--font-small-2);
+}
+
+.toast-notification-close {
+  position: absolute !important;
+  top: 1rem;
+  right: 0.75rem;
+  padding: var(--padding-medium);
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  -webkit-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  -o-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toast-notification-close:hover {
+  background-color: var(--bg-lighter);
+}
+
+.toast-notification-close:hover {
+  background-color: var(--bg-lightest);
+}
+
 /* Desktop styles */
 @media only screen and (min-width: 1024px) {
   /* Styles for screens larger than 1024px (Desktop) */
@@ -332,6 +378,11 @@ img {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+
+.op-100 {
+  opacity: 100 !important;
 }
 
 .gap-quarter {

@@ -22,6 +22,18 @@
       </div>
     </div>
   </nav>
+  <div id="toast-notification">
+    <div class="flex-row flex-start-center">
+      <div class="flex-row flex-start-center">
+        <h1 id="toast-noticication-header" class="toast-noticication-header"></h1>
+        <p id="toast-notification-text" class="toast-notification-text"></p>
+      </div>
+    </div>
+    <span class="material-symbols-rounded toast-notification-close" @click="closeToastNotification()"
+          >close</span
+        >
+  </div>
+
   <div class="margin">
     <RouterView v-slot="{ Component }">
       <Suspense>
@@ -90,6 +102,14 @@ export default defineComponent({
   name: "App",
   components: {
     SearchBar,
+  },
+  methods: {
+    closeToastNotification() {
+      const toastNotification = document.getElementById("toast-notification") as HTMLElement;
+      if (toastNotification) {
+        toastNotification.classList.remove("op-100");
+      }
+    },
   },
   data() {
     return {

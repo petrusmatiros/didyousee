@@ -15,18 +15,43 @@ const emit = defineEmits([
   "goToReviewPage",
   "goToCastPage",
 ]);
+let cid:any;
+function handleToast(list:string) {
+  if (cid) {
+    clearTimeout(cid);
+  }
+  const toastNotification = document.getElementById("toast-notification") as HTMLElement;
+  if (toastNotification) {
+    toastNotification.classList.add("op-100");
+    const toastNotificationText = document.getElementById("toast-notification-text") as HTMLElement;
+    if (toastNotificationText) {
+      const listType = list;
+      const toastMessage = `Updated your ${listType} list`
+      toastNotificationText.innerText = toastMessage;
+    }
+    cid = setTimeout(() => {
+      toastNotification.classList.remove("op-100");
+    }, 5000);
+  }
+}
 
 function handleLikedACB() {
   emit("handleLiked");
+  handleToast("liked");
 }
 function handleWatchlistACB() {
   emit("handleWatchlist");
+  handleToast("watch");
 }
 function handleSeenACB() {
   emit("handleSeen");
+  handleToast("seen");
+
 }
 function handleDislikedACB() {
   emit("handleDisliked");
+  handleToast("disliked");
+
 }
 function goBackACB() {
   emit("goBack");
