@@ -755,8 +755,8 @@ let model: Model = {
           FetchType.QUERY
         );
 
-        const moviePages = returnedPromiseMovies.data.total_pages;
-        const seriesPages = returnedPromiseSeries.data.total_pages;
+        const moviePages = returnedPromiseMovies?.data?.total_pages;
+        const seriesPages = returnedPromiseSeries?.data?.total_pages;
 
         if (moviePages >= seriesPages) {
           this.total_pages = moviePages;
@@ -825,8 +825,8 @@ let model: Model = {
           FetchType.QUERY
         );
 
-        const moviePages = returnedPromiseMovies.data.total_pages;
-        const seriesPages = returnedPromiseSeries.data.total_pages;
+        const moviePages = returnedPromiseMovies?.data?.total_pages;
+        const seriesPages = returnedPromiseSeries?.data?.total_pages;
 
         if (moviePages >= seriesPages) {
           this.total_pages = moviePages;
