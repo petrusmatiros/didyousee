@@ -1418,6 +1418,9 @@ async function addContentToList(
     await subscribeDB(userID);
   }
   if (persistent.userData) {
+    if (!persistent.userData.movieLists) {
+      persistent.userData.movieLists = {};
+    }
     if (!persistent.userData.movieLists[list]) {
       persistent.userData.movieLists[list] = [];
     }
