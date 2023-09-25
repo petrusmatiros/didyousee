@@ -300,7 +300,7 @@ async function fetchHandler(
   } else if (fetchType === FetchType.CREDITS) {
     try {
       function setLogoPath(path: string) {
-        return imageGeneric(path, PosterSize.W92);
+        return imageGeneric(path, PosterSize.W342);
       }
       const fetchedData: any | undefined = await axiosPromise;
       if (fetchedData) {
@@ -457,16 +457,16 @@ interface Model {
   similarSeries: Series[];
 
   homeContent: {
-    trendingMovies: [];
-    nowPlayingMovies: [];
-    topRatedMovies: [];
-    popularMovies: [];
-    upcomingMovies: [];
-    trendingSeries: [];
-    onTheAirSeries: [];
-    popularSeries: [];
-    topRatedSeries: [];
-    airingTodaySeries: [];
+    trendingMovies: any[];
+    nowPlayingMovies: any[];
+    topRatedMovies: any[];
+    popularMovies: any[];
+    upcomingMovies: any[];
+    trendingSeries: any[];
+    onTheAirSeries: any[];
+    popularSeries: any[];
+    topRatedSeries: any[];
+    airingTodaySeries: any[];
   };
   // Search
   searchContent: (Movie | Series)[];
@@ -558,16 +558,16 @@ let model: Model = {
   similarSeries: [],
 
   homeContent: {
-    trendingMovies: [],
-    nowPlayingMovies: [],
-    topRatedMovies: [],
-    popularMovies: [],
-    upcomingMovies: [],
-    trendingSeries: [],
-    onTheAirSeries: [],
-    popularSeries: [],
-    topRatedSeries: [],
-    airingTodaySeries: [],
+    trendingMovies: generateDummyContent(20),
+    nowPlayingMovies: generateDummyContent(20),
+    topRatedMovies: generateDummyContent(20),
+    popularMovies: generateDummyContent(20),
+    upcomingMovies: generateDummyContent(20),
+    trendingSeries: generateDummyContent(20),
+    onTheAirSeries: generateDummyContent(20),
+    popularSeries: generateDummyContent(20),
+    topRatedSeries: generateDummyContent(20),
+    airingTodaySeries: generateDummyContent(20),
   },
 
   // Search
@@ -755,8 +755,8 @@ let model: Model = {
           FetchType.QUERY
         );
 
-        const moviePages = returnedPromiseMovies.data.total_pages;
-        const seriesPages = returnedPromiseSeries.data.total_pages;
+        const moviePages = returnedPromiseMovies?.data?.total_pages;
+        const seriesPages = returnedPromiseSeries?.data?.total_pages;
 
         if (moviePages >= seriesPages) {
           this.total_pages = moviePages;
@@ -825,8 +825,8 @@ let model: Model = {
           FetchType.QUERY
         );
 
-        const moviePages = returnedPromiseMovies.data.total_pages;
-        const seriesPages = returnedPromiseSeries.data.total_pages;
+        const moviePages = returnedPromiseMovies?.data?.total_pages;
+        const seriesPages = returnedPromiseSeries?.data?.total_pages;
 
         if (moviePages >= seriesPages) {
           this.total_pages = moviePages;
@@ -1418,6 +1418,9 @@ async function addContentToList(
     await subscribeDB(userID);
   }
   if (persistent.userData) {
+    if (!persistent.userData.movieLists) {
+      persistent.userData.movieLists = {};
+    }
     if (!persistent.userData.movieLists[list]) {
       persistent.userData.movieLists[list] = [];
     }

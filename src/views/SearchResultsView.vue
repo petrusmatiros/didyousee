@@ -15,25 +15,28 @@ function onRefresh() {
 </script>
 
 <template>
-  <div class="flex-col flex-center gap-full mt-large2">
+  <div class="flex-col flex-center gap-full mt-large2 w100">
 
     <!-- TODO FIX SORTING -->
-        <select v-if="result_status === 'fulfilled'"
-        v-model="selectedFilter"
-        class="button flex-center pr-medium pl-medium" 
-        name="searchCategory"
-        id="searchCategorySelect"
-        @change="onSortChange(selectedFilter)"
-        >
-        <option :value="SortBy.POPULARITY_DSC.toString()" selected>Highest Popularity</option>
-        <option :value="SortBy.POPULARITY_ASC.toString()">Lowest Popularity</option>
-        <option :value="SortBy.RATING_DSC.toString()">Highest Rating</option>
-        <option :value="SortBy.RATING_ASC.toString()">Lowest Rating</option>
-        <option :value="SortBy.TITLE_ASC.toString()">Title A-Z</option>
-        <option :value="SortBy.TITLE_DSC.toString()">Title Z-A</option>
-        <option :value="SortBy.LATEST.toString()">Latest</option>
-        <option :value="SortBy.OLDEST.toString()">Oldest</option>
-      </select>
+    <div v-if="result_status === 'fulfilled'">
+    <label for="searchCategorySelect" class="pr-medium pl-medium">Sort by:</label>
+      <select v-if="result_status === 'fulfilled'"
+      v-model="selectedFilter"
+      class="button flex-center pr-medium pl-medium" 
+      name="searchCategory"
+      id="searchCategorySelect"
+      @change="onSortChange(selectedFilter)"
+      >
+      <option :value="SortBy.POPULARITY_DSC.toString()" selected>Highest Popularity</option>
+      <option :value="SortBy.POPULARITY_ASC.toString()">Lowest Popularity</option>
+      <option :value="SortBy.RATING_DSC.toString()">Highest Rating</option>
+      <option :value="SortBy.RATING_ASC.toString()">Lowest Rating</option>
+      <option :value="SortBy.TITLE_ASC.toString()">Title A-Z</option>
+      <option :value="SortBy.TITLE_DSC.toString()">Title Z-A</option>
+      <option :value="SortBy.LATEST.toString()">Latest</option>
+      <option :value="SortBy.OLDEST.toString()">Oldest</option>
+    </select>
+    </div>
      <!-- <button @click="onRefresh()">#</button> -->
     <div  class="search-results flex-col flex-center gap-half">
   

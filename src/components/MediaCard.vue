@@ -4,7 +4,7 @@
     <img :src="$props.media.poster_path" onerror="this.src='/src/assets/no-poster.svg';" loading="lazy" decoding="async" fetchpriority="low" v-else class="content-poster" />
     <div class="flex-col flex-center gap-half p-small">
       <h2 class="flex-row">{{ media.title || media.name }}</h2>
-      <div class="flex-row flex-center gap-half">
+      <div class="flex-row flex-center gap-quarter">
         <button class="content-card-button button">{{ capitalizedMediaType
         }}</button>
         <button v-if="media.release_date || media.first_air_date" class="content-card-button button">{{ (media.release_date || media.first_air_date)?.split('-')[0]

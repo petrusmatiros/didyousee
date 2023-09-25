@@ -4,7 +4,7 @@
       v-if="!($props.list?.title || $props.list?.name)"
       class="loading-skeleton list-card flex-row flex-start-center gap-full"
     ></div>
-    <div v-else class="list-card flex-row flex-start-center gap-full" @click="handleClickACB()">
+    <div v-else id="list-card" class="list-card flex-row flex-start-center gap-full" @click="handleClickACB()">
       <!-- {{ $props.list }} -->
       <div class="loading-skeleton" v-if="!$props.list?.poster_path"></div>
       <img
@@ -17,7 +17,7 @@
           {{ $props.list?.title || $props.list?.name }}
         </h1>
         
-        <div class="flex-row flex-center gap-half">
+        <div class="flex-row flex-center gap-quarter">
           <button class="content-card-button button">{{ capitalizedMediaType($props.list?.mediaType)
           }}</button>
           <button v-if="$props.list?.release_date || $props.list?.first_air_date" class="content-card-button button">{{ ($props.list?.release_date || $props.list?.first_air_date)?.split('-')[0]
@@ -25,7 +25,7 @@
   
           <button v-if="parseFloat($props.list?.vote_average.toFixed(1)) > 0" class="content-card-button button">{{ parseFloat($props.list?.vote_average.toFixed(1)) }}/10</button>
         </div>
-        <span class="material-symbols-rounded list-card-delete" @click="deleteClickACB()" v-if="authenticated"
+        <span class="material-symbols-rounded list-card-delete" @click="deleteClickACB($event)" v-if="authenticated"
           >delete</span
         >
       </div>
@@ -38,6 +38,7 @@ import { defineComponent } from "vue";
 import { auth, app } from "../firebaseConfig";
 import "./../style.css";
 import { MediaType } from '../types/types';
+
 import {
   addContentToList,
   removeContentFromList,
@@ -63,13 +64,38 @@ export default defineComponent({
     },
   },
   computed: {
-    
+
   },
   data() {
     return {
+      cid: undefined
     };
   },
   methods: {
+    
+    handleToast() {
+      if (!auth.currentUser) {
+        return;
+      }
+      const toastNotification = document.getElementById("toast-notification") as HTMLElement;
+  
+      if (toastNotification) {
+        if (this.cid) {
+          clearTimeout(this.cid);
+        }
+        toastNotification.classList.remove("op-100");
+        toastNotification.classList.add("op-100");
+        const toastNotificationText = document.getElementById("toast-notification-text") as HTMLElement;
+        if (toastNotificationText) {
+          const listType = this.$props.model.currentState.name;
+          const toastMessage = `Removed content from your ${listType} list`
+          toastNotificationText.innerText = toastMessage;
+        }
+        this.cid = setTimeout(() => {
+          toastNotification.classList.remove("op-100");
+        }, 5000) as any;
+      }
+    },
     capitalizedMediaType(mediaType: string): string {
       if (mediaType === MediaType.MOVIE.toString()) {
         return "Movie";
@@ -79,8 +105,9 @@ export default defineComponent({
         return mediaType;
       }
     },
-    async deleteClickACB() {
+    async deleteClickACB(event: MouseEvent) {
       console.log(this.authenticated);
+      event.stopPropagation();
       const userID = auth.currentUser?.uid || "";
 
       removeContentFromList(userID, this.$props.model.currentState.name || this.$props.list?.name, this.$props.list.id, this.$props.list.mediaType)
@@ -88,6 +115,8 @@ export default defineComponent({
       if (index !== -1) {
         this.$props.model.currentList.splice(index, 1);
       }
+
+      this.handleToast();
     },
     handleClickACB() {
       // Handle click event for the movie card

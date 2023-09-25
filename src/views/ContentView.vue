@@ -5,6 +5,8 @@ import CastCard from "../components/CastCard.vue";
 import WatchProviders from "../components/WatchProviders.vue";
 import CarouselMedia from "../components/CarouselMedia.vue";
 import CarouselCast from "../components/CarouselCast.vue";
+import { auth } from "../firebaseConfig";
+
 
 const emit = defineEmits([
   "handleLiked",
@@ -15,18 +17,46 @@ const emit = defineEmits([
   "goToReviewPage",
   "goToCastPage",
 ]);
+let cid:any;
+function handleToast(list:string) {
+  if (!auth.currentUser) {
+        return;
+  }
+  if (cid) {
+    clearTimeout(cid);
+  }
+  const toastNotification = document.getElementById("toast-notification") as HTMLElement;
+  if (toastNotification) {
+    toastNotification.classList.add("op-100");
+    const toastNotificationText = document.getElementById("toast-notification-text") as HTMLElement;
+    if (toastNotificationText) {
+      const listType = list;
+      const toastMessage = `Updated your ${listType} list`
+      toastNotificationText.innerText = toastMessage;
+    }
+    cid = setTimeout(() => {
+      toastNotification.classList.remove("op-100");
+    }, 5000);
+  }
+}
 
 function handleLikedACB() {
   emit("handleLiked");
+  handleToast("liked");
 }
 function handleWatchlistACB() {
   emit("handleWatchlist");
+  handleToast("watch");
 }
 function handleSeenACB() {
   emit("handleSeen");
+  handleToast("seen");
+
 }
 function handleDislikedACB() {
   emit("handleDisliked");
+  handleToast("disliked");
+
 }
 function goBackACB() {
   emit("goBack");
@@ -119,14 +149,12 @@ function goToCastPageACB() {
               <p v-if="$props.model.currentMovie?.runtime">
                 {{
                   Math.floor($props.model.currentMovie?.runtime / 60)
-                    .toString()
-                    .padEnd(2, "h")
-                }}
+                    .toString()   
+                }}h
                 {{
                   Math.floor($props.model.currentMovie?.runtime % 60)
-                    .toString()
-                    .padEnd(3, "m")
-                }}
+                    .toString()    
+                }}m
               </p>
 
               <p v-if="$props.model.currentSeries?.episode_run_time[0]">
@@ -135,13 +163,11 @@ function goToCastPageACB() {
                     $props.model.currentSeries?.episode_run_time[0] / 60
                   )
                     .toString()
-                    .padEnd(2, "h")
-                }}
+                }}h
                 {{
                   Math.floor($props.model.currentSeries?.episode_run_time[0] % 60)
                     .toString()
-                    .padEnd(3, "m")
-                }}
+                }}m
               </p>
 
               <!-- Status -->
@@ -195,11 +221,16 @@ function goToCastPageACB() {
                 ">
                 <span class="material-symbols-rounded">star</span>
                 <div class="flex-col gap-quarter p-0 rating">
-                  <p>
+                  <p v-if="$props.model.currentMovie?.vote_average">
                     Rating:
                     {{
-                      $props.model.currentMovie?.vote_average ||
-                      $props.model.currentSeries?.vote_average
+                      $props.model.currentMovie?.vote_average.toFixed(1)
+                    }}/10
+                  </p>
+                  <p v-if="$props.model.currentSeries?.vote_average">
+                    Rating:
+                    {{
+                      $props.model.currentSeries?.vote_average.toFixed(1)
                     }}/10
                   </p>
                   <p class="rating-count">
