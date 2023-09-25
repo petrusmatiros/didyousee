@@ -1374,11 +1374,16 @@ async function subscribeDB(uid: string) {
   // Unsubscribe the previous observer first
   unsubscriber();
   let refer = ref(db, "users/" + uid);
-  let value = await get(refer).then((snapshot) => snapshot.val());
-  persistent.userData = value || { uid, movieLists: {} };
-  unsubscriber = onValue(refer, (snapshot) => {
-    persistent.userData = snapshot.val();
-  });
+  try {
+    let value = await get(refer).then((snapshot) => snapshot.val());
+    persistent.userData = value || { uid, movieLists: {} };
+    unsubscriber = onValue(refer, (snapshot) => {
+      persistent.userData = snapshot.val();
+    });
+  } catch (error) {
+    // TODO, allow others to view list
+    // console.log("ERROR: Failed to fetch userdata from DB");
+  }
 }
 
 function persistUserData() {
