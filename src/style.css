@@ -7,16 +7,19 @@
 
 :root {
   /* For cards etc */
-  --main: hsl(230, 4%, 14%);
-  --main-hover: hsl(230, 4%, 10%);
-  --main-active: hsl(230, 4%, 6%);
+  --hue: 230;
+  --main: hsl(var(--hue), 4%, 15%);
+  --main-hover: hsl(var(--hue), 4%, 10%);
+  --main-active: hsl(var(--hue), 4%, 5%);
   /* BG, FG and nav + footer */
-  --bg-dark: hsl(230, 4%, 20%);
-  --bg: hsl(230, 4%, 24%);
-  --bg-light: hsl(230, 4%, 28%);
-  --bg-lighter: hsl(230, 4%, 32%);
-  --bg-lightest: hsl(230, 4%, 40%);
-  --bg-lightest-2: hsl(230, 4%, 44%);
+  --bg-darkest: hsl(var(--hue), 4%, 10%);
+  --bg-darker: hsl(var(--hue), 4%, 15%);
+  --bg-dark: hsl(var(--hue), 4%, 20%);
+  --bg: hsl(var(--hue), 4%, 25%);
+  --bg-light: hsl(var(--hue), 4%, 30%);
+  --bg-lighter: hsl(var(--hue), 4%, 35%);
+  --bg-lightest: hsl(var(--hue), 4%, 40%);
+  --bg-lightest-2: hsl(var(--hue), 4%, 45%);
   --fg: hsl(0, 0%, 100%);
   --fg-secondary: hsl(0, 0%, 84%);
   --black: hsl(0, 0%, 0%);
@@ -24,12 +27,12 @@
   --overlay: hsla(0, 0%, 0%, 0.5);
   /* Accent colors */
   --accent: hsl(39, 100%, 65%);
-  --accent-hover: hsl(39, 100%, 57%);
-  --accent-active: hsl(39, 100%, 47%);
+  --accent-hover: hsl(39, 100%, 55%);
+  --accent-active: hsl(39, 100%, 45%);
   --accent-logo: hsl(39, 100%, 50%);
-  --accent-logo-shadow: hsla(39, 100%, 46%, 0.3);
-  --accent-good: hsl(115, 100%, 78%);
-  --accent-bad: hsl(0, 100%, 78%);
+  --accent-logo-shadow: hsla(39, 100%, 45%, 0.3);
+  --accent-good: hsl(115, 100%, 75%);
+  --accent-bad: hsl(0, 100%, 75%);
   /* Input */
   --input: hsl(0, 0%, 10%);
   --input-text: hsl(0, 0%, 5%);
@@ -839,7 +842,7 @@ a:active {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  font-size: var(--font-small-2);
+  font-size: var(--font-medium);
   max-width: var(--content-card-width) !important;
   min-height: 2rem;
   max-height: -webkit-fit-content;
@@ -1144,7 +1147,7 @@ div[aria-hidden="true"] {
 .result-main-info {
   padding: var(--padding-large);
   max-width: var(--desktop-max-width);
-  background-color: var(--main);
+  background-color: var(--bg-darker);
   border-radius: var(--border-radius);
 }
 
@@ -1163,7 +1166,6 @@ div[aria-hidden="true"] {
 }
 .result-content {
   border-radius: var(--border-radius);
-  background-color: var(--main);
 }
 
 .result-content-poster {
@@ -1180,7 +1182,7 @@ div[aria-hidden="true"] {
 }
 
 .result-content-info {
-  background-color: var(--bg-lighter);
+  background-color: var(--bg-light);
   border-radius: var(--border-radius);
   padding: var(--padding-huge);
   width: 100%;
@@ -1242,7 +1244,7 @@ div[aria-hidden="true"] {
 .result-content-more-info--primary {
 }
 .result-content-more-info--primary div {
-  background-color: var(--bg-light) !important;
+  background-color: var(--bg) !important;
   padding: var(--padding-medium);
   border-radius: var(--border-radius);
   font-weight: var(--font-weight-medium);
@@ -1300,7 +1302,7 @@ div[aria-hidden="true"] {
   font-weight: var(--font-weight-medium);
   width: 100%;
   border: none;
-  background-color: var(--bg-lighter);
+  background-color: var(--bg-light);
 }
 
 .list-buttons button h1 {
@@ -1317,7 +1319,7 @@ div[aria-hidden="true"] {
 .video-player-container {
   max-width: var(--desktop-max-width) !important;
   padding: var(--padding-large);
-  background-color: var(--bg-lighter);
+  background-color: var(--bg-dark);
   border-radius: var(--border-radius);
 }
 
@@ -1330,7 +1332,7 @@ div[aria-hidden="true"] {
 
 .detailed-info {
   padding: var(--padding-large);
-  background-color: var(--bg-lighter);
+  background-color: var(--bg-dark);
   border-radius: var(--border-radius);
   height: -webkit-fit-content;
   height: -moz-fit-content;
@@ -1497,17 +1499,17 @@ div[aria-hidden="true"] {
 }
 
 .cast-card {
-  min-width: 14rem;
+  /* min-width: 14rem; */
   width: -webkit-min-content;
   width: -moz-min-content;
   width: min-content;
-  padding: var(--padding-large);
+  padding: var(--padding-medium);
   border-radius: var(--border-radius);
   background-color: var(--bg-dark);
 }
 
 .cast-card img {
-  height: 8rem;
+  height: 15rem;
   aspect-ratio: 2/3;
   border-radius: var(--border-radius);
 }

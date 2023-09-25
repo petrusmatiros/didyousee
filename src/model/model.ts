@@ -300,7 +300,7 @@ async function fetchHandler(
   } else if (fetchType === FetchType.CREDITS) {
     try {
       function setLogoPath(path: string) {
-        return imageGeneric(path, PosterSize.W92);
+        return imageGeneric(path, PosterSize.W342);
       }
       const fetchedData: any | undefined = await axiosPromise;
       if (fetchedData) {

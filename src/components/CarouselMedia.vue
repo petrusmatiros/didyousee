@@ -9,6 +9,7 @@ import "@splidejs/vue-splide/css";
   <Splide
     :options="{
       type: 'loop',
+      autoWidth: true,
       perPage: 4,
       perMove: 1,
       mediaQuery: 'max',
@@ -24,7 +25,7 @@ import "@splidejs/vue-splide/css";
       drag: true,
       snap: true,
       waitForTransition: true,
-      gap: '8rem',
+      gap: '1rem',
       rewind: true,
       clones: 0,
     }"

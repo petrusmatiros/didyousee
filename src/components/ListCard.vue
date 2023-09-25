@@ -17,7 +17,7 @@
           {{ $props.list?.title || $props.list?.name }}
         </h1>
         
-        <div class="flex-row flex-center gap-half">
+        <div class="flex-row flex-center gap-quarter">
           <button class="content-card-button button">{{ capitalizedMediaType($props.list?.mediaType)
           }}</button>
           <button v-if="$props.list?.release_date || $props.list?.first_air_date" class="content-card-button button">{{ ($props.list?.release_date || $props.list?.first_air_date)?.split('-')[0]

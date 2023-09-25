@@ -9,6 +9,7 @@ import "@splidejs/vue-splide/css";
   <Splide
     :options="{
       type: 'loop',
+      autoWidth: true,
       perPage: 4,
       perMove: 1,
       mediaQuery: 'max',
