@@ -25,7 +25,7 @@
   
           <button v-if="parseFloat($props.list?.vote_average.toFixed(1)) > 0" class="content-card-button button">{{ parseFloat($props.list?.vote_average.toFixed(1)) }}/10</button>
         </div>
-        <span class="material-symbols-rounded list-card-delete" @click="deleteClickACB($event)"
+        <span class="material-symbols-rounded list-card-delete" @click="deleteClickACB($event)" v-if="authenticated"
           >delete</span
         >
       </div>
@@ -56,6 +56,10 @@ export default defineComponent({
     },
     model: {
       type: Object,
+      required: true,
+    },
+    authenticated: {
+      type: true, // boolean/bool is not valid?
       required: true,
     },
   },
@@ -101,8 +105,8 @@ export default defineComponent({
         return mediaType;
       }
     },
-    
     async deleteClickACB(event: MouseEvent) {
+      console.log(this.authenticated);
       event.stopPropagation();
       const userID = auth.currentUser?.uid || "";
 

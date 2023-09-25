@@ -15,7 +15,8 @@ import ListCard from "./../components/ListCard.vue";
       
       <ListCard v-else v-for="(list, index) in $props.model?.currentList" :key="index"
       :list="list"
-      :model="model">
+      :model="model"
+      :authenticated="$props.authenticated">
     </ListCard>
 
     </div>
@@ -33,6 +34,10 @@ export default defineComponent({
   props: {
     model: {
       type: Object,
+      required: true,
+    },
+    authenticated: {
+      type: true, // boolean/bool is not valid?
       required: true,
     },
   },

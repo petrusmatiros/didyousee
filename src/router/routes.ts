@@ -60,7 +60,7 @@ const routes = [
     props: {model: promiseModel},
   },
   {
-    path: '/profile/list',
+    path: '/profile/:uid/list/:name',
     name: 'List',
     component: List,
     props: {model: promiseModel},
