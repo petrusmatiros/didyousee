@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-large2 w100 gap-full flex-col flex-center">
+  <div class="mt-large2 w100 gap-full flex-col flex-center p-medium-2">
     <h1>Profile</h1>
     <div class="profile-lists flex-col flex-center gap-full">
       <div class="profile-list-card-container flex-row flex-center gap-full">

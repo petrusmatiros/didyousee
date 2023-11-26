@@ -4,7 +4,7 @@ import ListCard from "./../components/ListCard.vue";
 </script>
 
 <template>
-  <div class="mt-large2 flex-col flex-center gap-full w100">
+  <div class="mt-large2 flex-col flex-center gap-full w100 p-medium-2">
     <h1>{{ formatName($props.model.currentState.name) }}</h1>
     <div class="list-container flex-col flex-center gap-full">
       <div v-if="$props.model?.currentList.length === 0 || !$props.model?.currentList"

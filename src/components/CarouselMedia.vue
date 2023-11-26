@@ -14,8 +14,8 @@ import "@splidejs/vue-splide/css";
       perMove: 1,
       mediaQuery: 'max',
       breakpoints: {
-        767: {
-          perPage: 1,
+        475: {
+          perPage: 3,
           perMove: 1,
         },
       },

@@ -49,7 +49,7 @@ export default defineComponent({
     }
     updateList();
     const authenticated = route.params?.uid === auth.currentUser?.uid;
-
+    
     return {
         userID,
         updateList,

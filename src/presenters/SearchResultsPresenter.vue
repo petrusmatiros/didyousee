@@ -72,9 +72,19 @@ export default defineComponent({
     }
 
     const handleScroll = () => {
-      const { scrollTop, scrollHeight, clientHeight } =
-        document.documentElement;
-      if (scrollTop + clientHeight >= scrollHeight) {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const windowHeight =
+        window.innerHeight || document.documentElement.clientHeight;
+      const documentHeight = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight,
+        document.body.offsetHeight,
+        document.documentElement.offsetHeight,
+        document.body.clientHeight,
+        document.documentElement.clientHeight
+      );
+      const heightBuffer = 10;
+      if (scrollTop + windowHeight >= documentHeight - heightBuffer) {
         checkForNextPage();
       }
     };
@@ -98,7 +108,6 @@ export default defineComponent({
       removeScrollListener();
     });
 
-
     return {
       searchACB,
       onSortChangeACB,
@@ -108,5 +117,9 @@ export default defineComponent({
 });
 </script>
 <template>
-  <SearchResultsView :model="model" @onSortChange="onSortChangeACB" @onRefresh="onRefreshACB"/>
+  <SearchResultsView
+    :model="model"
+    @onSortChange="onSortChangeACB"
+    @onRefresh="onRefreshACB"
+  />
 </template>
