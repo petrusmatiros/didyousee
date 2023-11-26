@@ -349,6 +349,10 @@ img {
   align-items: center;
 }
 
+.txt-center {
+  text-align: center;
+}
+
 .op-100 {
   opacity: 100 !important;
 }
@@ -1703,6 +1707,12 @@ input[name="credentials"]:focus {
     max-width: var(--max-width) !important;
     padding: var(--padding-medium-2) !important;
   }
+  #footer p {
+    font-size: 0.5rem !important;
+  }
+  .footer-top img {
+    width: 2rem !important;
+  }
   .footer-bottom {
     max-width: 75% !important;
   }
@@ -1752,6 +1762,15 @@ input[name="credentials"]:focus {
   }
   .result-content-more-info {
     gap: 1.5rem !important;
+  }
+  .result-content-more-info--primary {
+    justify-content: start;
+    flex-wrap: wrap !important;
+  }
+  .result-content-more-info p {
+    display: flex;
+    min-width: fit-content !important;
+    width: max-content !important;
   }
 
   .result-content-more-info--secondary button {
