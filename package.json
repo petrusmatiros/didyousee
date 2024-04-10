@@ -24,7 +24,7 @@
     "vue-tsc": "^1.2.0"
   },
   "dependencies": {
-    "@google-cloud/firestore": "^6.5.0",
+    "@google-cloud/firestore": "^7.6.0",
     "@splidejs/vue-splide": "^0.6.12",
     "@types/express": "^4.17.17",
     "auth-js": "^0.0.16",
