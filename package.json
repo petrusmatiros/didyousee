@@ -35,7 +35,7 @@
     "cors": "^2.8.5",
     "dompurify": "^3.0.2",
     "dotenv": "^16.0.3",
-    "express": "^4.19.2",
+    "express": "^4.21.0",
     "firebase": "^10.12.2",
     "fuse.js": "^6.6.2",
     "fuzzy": "^0.1.3",
