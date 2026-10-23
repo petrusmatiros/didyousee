@@ -33,7 +33,7 @@
     "chart.js": "^4.2.1",
     "concurrently": "^8.0.1",
     "cors": "^2.8.5",
-    "dompurify": "^3.4.16",
+    "dompurify": "^3.4.17",
     "dotenv": "^16.0.3",
     "express": "^4.22.1",
     "firebase": "^12.12.0",
